@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "HelloWorld",
+    "slug": "samplegraphqlapolloclient",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#fff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic",
+      "bundleIdentifier": "com.aush.aush"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "useNextNotificationsApi": true,
+      "userInterfaceStyle": "automatic",
+      "package": "com.aush.aush"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  }
+}
