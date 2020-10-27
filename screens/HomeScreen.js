@@ -22,6 +22,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 import { observer } from "mobx-react";
 import IconBadge from "react-native-icon-badge";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const HomeScreen = observer((props) => {
   const { navigation } = props;
@@ -51,6 +52,19 @@ const HomeScreen = observer((props) => {
       }
     });
   }, [navigation]);
+
+  useEffect(() => {
+    const retrieve_creds = async () => {
+      const auto_login_data = await AsyncStorage.getItem("auto_login_data");
+      if (auto_login_data) {
+        console.log("Auto_login_data = ", auto_login_data);
+        setTimeout(() => {
+          console.log("expired");
+        }, 10000);
+      }
+    };
+    retrieve_creds();
+  }, []);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -123,15 +137,19 @@ const HomeScreen = observer((props) => {
     });
   }, []);
 
-  useEffect(() => {
-    navigation.addListener("focus", () => {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-    });
+  // useEffect(() => {
+  //   navigation.addListener("focus", () => {
+  //     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+  //   });
 
-    navigation.addListener("blur", () => {
-      ScreenOrientation.unlockAsync();
-    });
-  }, [navigation]);
+  //   navigation.addListener("blur", () => {
+  //     ScreenOrientation.unlockAsync();
+  //   });
+  // }, [navigation]);
+
+  // useEffect(() => {
+  //   // console.log("Creds - ", DrugStore.userCredentials);
+  // }, []);
 
   return (
     <View style={{ flex: 1 }}>

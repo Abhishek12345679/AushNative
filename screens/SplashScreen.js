@@ -37,6 +37,10 @@ const SplashScreen = observer(({ navigation }) => {
     retrieveUserData();
   }, [DrugStore]);
 
+  useEffect(() => {
+    console.log("SPLASHSCREEN");
+  }, []);
+
   //login-logout buggy
 
   // useEffect(() => {

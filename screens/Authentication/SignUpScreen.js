@@ -49,6 +49,15 @@ const SignUpScreen = observer(({ navigation }) => {
     }
   };
 
+  const saveAutoLoginCredentials = async (user) => {
+    try {
+      const jsonValue = JSON.stringify(user);
+      await AsyncStorage.setItem("auto_login_data", jsonValue);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // create account
   const signup = async (name, email, password) => {
     console.log("USER", { name, email, password });
@@ -90,7 +99,18 @@ const SignUpScreen = observer(({ navigation }) => {
         password
       );
       const token = await Firebase.auth().currentUser.getIdToken(true);
+
+      // const cred = await Firebase.auth().currentUser;
+      // saveAutoLoginCredentials(cred);
+      // console.log("auto login creds saved ...");
+
+      Firebase.auth().onAuthStateChanged((user) => {
+        saveAutoLoginCredentials(user);
+        console.log("auto login creds saved ...");
+      });
+
       saveUserOnDevice(token, loginRes.user.uid, email);
+
       DrugStore.initializeUserCredentials(token, loginRes.user.uid, email);
       // startTimer();
     } catch (error) {

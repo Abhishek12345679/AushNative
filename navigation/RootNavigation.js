@@ -20,7 +20,8 @@ const AppContainer = observer((props) => {
       {!!DrugStore.userCredentials.token.length > 0 && <TabNavigator />}
       {!!!DrugStore.userCredentials.token.length > 0 &&
         !!DrugStore.didTryAutoLogin && <AuthNavigator />}
-      {!!!DrugStore.userCredentials.token.length > 0 &&
+      {(!!!DrugStore.userCredentials.token.length > 0 ||
+        !!!DrugStore.userCredentials.token) &&
         !!!DrugStore.didTryAutoLogin && <SplashScreen />}
       {/* <SplashScreen /> */}
       {/* <AuthNavigator /> */}
