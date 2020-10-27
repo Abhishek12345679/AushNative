@@ -69,7 +69,7 @@ const SplashScreen = observer(({ navigation }) => {
         });
         DrugStore.setDidTryAutoLogin();
 
-        // console.log("YO");
+        // console.log("YO")
       } catch (e) {
         console.log(e);
       }
