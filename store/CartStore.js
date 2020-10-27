@@ -1,6 +1,7 @@
 // FIXME: Add QuantitySelector to change quantity
 
 import { flow, types } from "mobx-state-tree";
+import { getEffectiveConstraintOfTypeParameter } from "typescript";
 
 // Drug Model
 const Drug = types.model("Drug", {
@@ -70,6 +71,12 @@ const DrugStore = types
   .views((self) => ({
     get readAddresses() {
       return self.addresses;
+    },
+  }))
+  // update auth token
+  .actions((self) => ({
+    updateAuthToken(newToken) {
+      self.userCredentials.token = newToken;
     },
   }))
   //settings action
@@ -218,18 +225,26 @@ const DrugStore = types
         const resData = yield response.json();
 
         let loadedData = [];
-        if (resData)
+        if (resData === "Auth token is expired") {
+          console.log("LOGOUT");
+          // return;
+        } else {
           for (const key in resData) {
             // console.log("Key", key);
             // console.log(orders[key].items);
             loadedData.push(resData[key]);
           }
+        }
         // console.log(loadedData);
         self.orders = loadedData;
 
         console.log(loadedData);
       } catch (e) {
         console.log(e);
+        // if (e === "Auth token is expired") {
+        //   console.log("LOGOUT");
+        // }
+        // console.log(e);
       }
     }),
   }))

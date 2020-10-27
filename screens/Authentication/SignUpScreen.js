@@ -49,9 +49,18 @@ const SignUpScreen = observer(({ navigation }) => {
     }
   };
 
-  const saveAutoLoginCredentials = async (user) => {
+  const saveUser = async (user) => {
     try {
       const jsonValue = JSON.stringify(user);
+      await AsyncStorage.setItem("user_data", jsonValue);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const saveAutoLoginCredentials = async (refToken, expirationTime, apiKey) => {
+    try {
+      const jsonValue = JSON.stringify({ refToken, expirationTime, apiKey });
       await AsyncStorage.setItem("auto_login_data", jsonValue);
     } catch (error) {
       console.log(error);
@@ -100,12 +109,20 @@ const SignUpScreen = observer(({ navigation }) => {
       );
       const token = await Firebase.auth().currentUser.getIdToken(true);
 
-      // const cred = await Firebase.auth().currentUser;
-      // saveAutoLoginCredentials(cred);
-      // console.log("auto login creds saved ...");
+      const loginProps = await Firebase.auth().currentUser.getIdTokenResult(
+        true
+      );
+      const refreshToken = Firebase.auth().currentUser.refreshToken;
+      console.log("expTime", loginProps.expirationTime);
+      saveAutoLoginCredentials(
+        refreshToken,
+        loginProps.expirationTime,
+        refreshToken
+      );
 
       Firebase.auth().onAuthStateChanged((user) => {
-        saveAutoLoginCredentials(user);
+        saveUser(user);
+        // saveAutoLoginCredentials(user.)
         console.log("auto login creds saved ...");
       });
 

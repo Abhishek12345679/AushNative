@@ -100,6 +100,8 @@ const SettingsScreen = observer((props) => {
                       `${DrugStore.userCredentials.uid} logged out successfully`
                     );
                     await AsyncStorage.removeItem("login_data");
+                    await AsyncStorage.removeItem("auto_login_data");
+                    await AsyncStorage.removeItem("user_data");
                     DrugStore.initializeUserCredentials("", "", "");
                     DrugStore.setPFP(" ");
                   } catch (e) {

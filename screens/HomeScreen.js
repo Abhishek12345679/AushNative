@@ -58,9 +58,9 @@ const HomeScreen = observer((props) => {
       const auto_login_data = await AsyncStorage.getItem("auto_login_data");
       if (auto_login_data) {
         console.log("Auto_login_data = ", auto_login_data);
-        setTimeout(() => {
-          console.log("expired");
-        }, 10000);
+        // setTimeout(() => {
+        //   console.log("expired");
+        // }, 10000);
       }
     };
     retrieve_creds();
