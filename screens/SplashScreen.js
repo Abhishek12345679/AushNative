@@ -5,8 +5,6 @@ import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
 import AsyncStorage from "@react-native-community/async-storage";
 
-import * as Firebase from "firebase";
-
 const SplashScreen = observer(({ navigation }) => {
   const requestNewAuthToken = async (refToken) => {
     var myHeaders = new Headers();
@@ -26,9 +24,28 @@ const SplashScreen = observer(({ navigation }) => {
     );
 
     const resData = await response.json();
-    console.log("IDTOKEN", resData.id_token);
+    console.log("new auth data", resData);
     // DrugStore.updateAuthToken(resData.id_token);
-    return resData.id_token;
+    return resData;
+  };
+
+  const updateAutoLoginData = (expTime) => {
+    AsyncStorage.getItem("auto_login_data")
+      .then((data) => {
+        // transform it back to an object
+        if (data) {
+          data = JSON.parse(data);
+          console.log(data);
+        }
+
+        // Decrement
+        data.expirationTime = expTime * 1000;
+        console.log("updated exp Time", data);
+
+        //save the value to AsyncStorage again
+        AsyncStorage.setItem("auto_login_data", JSON.stringify(data));
+      })
+      .done();
   };
 
   useEffect(() => {
@@ -37,37 +54,20 @@ const SplashScreen = observer(({ navigation }) => {
         const loginJSONValue = await AsyncStorage.getItem("login_data");
         const autoLoginCreds = await AsyncStorage.getItem("auto_login_data");
 
-        // if (autoLoginCreds) {
-        //   const autoLoginData = JSON.parse(autoLoginCreds);
-        //   console.log("AUTO LOGIN DATA \n", autoLoginData);
-        //   requestNewAuthToken(autoLoginData.refToken).then((token) => {
-        //     // DrugStore.updateAuthToken(token);
-        //     DrugStore.initializeUserCredentials(token);
-        //   });
-        //   console.log("token", DrugStore.userCredentials);
-        // }
-
-        // if (loginJSONValue) {
-        //   const loginData = JSON.parse(loginJSONValue);
-        //   console.log("LOGIN DATA \n", loginData);
-        //   const { email, uid, token } = loginData;
-        //   console.log(loginData);
-        //   DrugStore.setDidTryAutoLogin();
-        //   DrugStore.initializeUserCredentials(token, uid, email);
-        // }
-
         const autoLoginData = JSON.parse(autoLoginCreds);
         console.log("AUTO LOGIN DATA \n", autoLoginData);
 
         const loginData = JSON.parse(loginJSONValue);
         console.log("LOGIN DATA \n", loginData);
-        const { email, uid, token } = loginData;
 
-        requestNewAuthToken(autoLoginData.refToken).then((token) => {
+        const { email, uid } = loginData;
+
+        requestNewAuthToken(autoLoginData.refToken).then((data) => {
           // DrugStore.updateAuthToken(token);
-          DrugStore.initializeUserCredentials(token, uid, email);
+          DrugStore.setDidTryAutoLogin();
+          DrugStore.initializeUserCredentials(data.id_token, uid, email);
+          updateAutoLoginData(data.expires_in);
         });
-        DrugStore.setDidTryAutoLogin();
 
         // console.log("YO")
       } catch (e) {
@@ -76,10 +76,6 @@ const SplashScreen = observer(({ navigation }) => {
     };
 
     retrieveUserData();
-  }, []);
-
-  useEffect(() => {
-    console.log("SPLASHSCREEN");
   }, []);
 
   return (

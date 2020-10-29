@@ -35,6 +35,12 @@ const SignUpScreen = observer(({ navigation }) => {
   //   console.log(signInRef.current.values);
   // }
 
+  const UTCtoMS = (utc) => {
+    const timeInMS = utc.getTime() - new Date().getTime();
+    console.log("in ms", timeInMS);
+    return timeInMS;
+  };
+
   // for storing the user data on login on device
   const saveUserOnDevice = async (token, uid, email) => {
     try {
@@ -113,10 +119,10 @@ const SignUpScreen = observer(({ navigation }) => {
         true
       );
       const refreshToken = Firebase.auth().currentUser.refreshToken;
-      console.log("expTime", loginProps.expirationTime);
+      console.log("expTime", new Date(loginProps.expirationTime));
       saveAutoLoginCredentials(
         refreshToken,
-        loginProps.expirationTime,
+        UTCtoMS(new Date(loginProps.expirationTime)),
         refreshToken
       );
 

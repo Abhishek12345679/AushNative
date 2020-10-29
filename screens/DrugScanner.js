@@ -258,23 +258,7 @@ const DrugScanner = (props) => {
                   }
                 }
               }}
-            >
-              {/* <MaterialIcons name="camera" size={40} color="#fff" /> */}
-            </TouchableOpacity>
-            {/* <View
-            style={{
-              width: "100%",
-              height: 75,
-              backgroundColor: "#fff",
-              borderRadius: 10,
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 30,
-            }}
-          >
-            <Text>Align the name of the drug inside the box</Text>
-            <Text>बॉक्स के अंदर दवा का नाम संरेखित करें</Text>
-          </View> */}
+            ></TouchableOpacity>
           </View>
           <View
             style={{

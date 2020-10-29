@@ -27,7 +27,7 @@ const OrdersScreen = observer((props) => {
         <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
       }
       keyExtractor={(item) => item.datetimestamp.toString()}
-      data={DrugStore.orders}
+      data={DrugStore.orders.slice().reverse()}
       renderItem={(itemData) => (
         <OrderItem
           key={itemData.item.datetimestamp}

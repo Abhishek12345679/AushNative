@@ -1,6 +1,6 @@
 // TODO: upgrade to 0.63
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Platform,
+  AppState,
   // Image,
 } from "react-native";
 
@@ -30,6 +31,36 @@ const HomeScreen = observer((props) => {
     "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
   );
 
+  const appState = useRef(AppState.currentState);
+  // const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+  let timer;
+
+  const _handleAppStateChange = (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.log("App has come to the foreground!");
+      // start new timer
+      // refetch and assign auth token
+    } else {
+      console.log("Background");
+      // delete the existing timers
+    }
+
+    appState.current = nextAppState;
+    // // setAppStateVisible(appState.current);
+    // console.log("AppState", appState.current);
+  };
+
+  useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+
   useEffect(() => {
     DrugStore.fetchOrders();
     DrugStore.fetchAddresses();
@@ -47,8 +78,6 @@ const HomeScreen = observer((props) => {
             setHeaderImg(res.image);
           }
         });
-      } else {
-        console.log("PLEASE LOGOUT");
       }
     });
   }, [navigation]);
@@ -128,7 +157,7 @@ const HomeScreen = observer((props) => {
   useEffect(() => {
     showMessage({
       message: `Logged in as ${
-        !!!DrugStore.profile.name.length > 0
+        !DrugStore.profile.name.length > 0
           ? DrugStore.userCredentials.email
           : DrugStore.profile.name.trim()
       }`,

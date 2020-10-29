@@ -21,6 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { ImageManipulator } from "expo-image-crop";
 import CPButton from "../components/CPButton";
+import DrugStore from "../store/CartStore";
 
 const CameraPreviewScreen = (props) => {
   const { navigation } = props;
@@ -49,6 +50,8 @@ const CameraPreviewScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [image, setImage] = useState(baseUri + photoData.base64);
+
+  const uid = DrugStore.userCredentials.uid;
 
   let newImageFile = {
     uri: photoData.uri,
@@ -83,11 +86,13 @@ const CameraPreviewScreen = (props) => {
     console.log("uploading...");
     const data = new FormData();
     data.append("file", image);
+    data.append("folder", `OCR_Images/${uid}`);
     data.append("upload_preset", "drug_package_image");
     data.append("cloud_name", "abhisheksah69420");
 
     const response = await fetch(
       "https://api.cloudinary.com/v1_1/abhisheksah69420/image/upload",
+      //https://api.cloudinary.com/v1_1/<cloud name>/<resource_type>/upload
       {
         method: "POST",
         body: data,
