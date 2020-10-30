@@ -9,6 +9,7 @@ import {
   StatusBar,
   Platform,
   AppState,
+
   // Image,
 } from "react-native";
 
@@ -25,6 +26,11 @@ import { observer } from "mobx-react";
 import IconBadge from "react-native-icon-badge";
 import AsyncStorage from "@react-native-community/async-storage";
 
+import {
+  requestNewAuthToken,
+  updateAutoLoginData,
+} from "../helpers/requestNewAuthToken";
+
 const HomeScreen = observer((props) => {
   const { navigation } = props;
   const [headerImg, setHeaderImg] = useState(
@@ -34,7 +40,26 @@ const HomeScreen = observer((props) => {
   const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-  let timer;
+  const retrieveUserData = async () => {
+    try {
+      const loginJSONValue = await AsyncStorage.getItem("login_data");
+      const autoLoginCreds = await AsyncStorage.getItem("auto_login_data");
+
+      if (!loginJSONValue || !autoLoginCreds) {
+        DrugStore.setDidTryAutoLogin();
+      }
+
+      const autoLoginData = JSON.parse(autoLoginCreds);
+      const loginData = JSON.parse(loginJSONValue);
+
+      const { email, uid } = loginData;
+
+      const data = { email: email, uid: uid, refToken: autoLoginData.refToken };
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const _handleAppStateChange = (nextAppState) => {
     if (
@@ -44,9 +69,23 @@ const HomeScreen = observer((props) => {
       console.log("App has come to the foreground!");
       // start new timer
       // refetch and assign auth token
+
+      retrieveUserData().then((refreshedData) => {
+        console.log("userData", refreshedData);
+
+        requestNewAuthToken(refreshedData.refToken).then((data) => {
+          DrugStore.initializeUserCredentials(
+            data.id_token,
+            refreshedData.uid,
+            refreshedData.email
+          );
+          updateAutoLoginData(data.expires_in);
+        });
+      });
     } else {
       console.log("Background");
       // delete the existing timers
+      DrugStore.clearTimer();
     }
 
     appState.current = nextAppState;

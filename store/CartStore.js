@@ -1,7 +1,6 @@
 // FIXME: Add QuantitySelector to change quantity
 
 import { flow, types } from "mobx-state-tree";
-import { getEffectiveConstraintOfTypeParameter } from "typescript";
 
 // Drug Model
 const Drug = types.model("Drug", {
@@ -67,25 +66,32 @@ const DrugStore = types
     isAuthenticated: types.boolean,
     userCredentials: userCredentials,
     didTryAutoLogin: types.boolean,
+    timer: types.number,
   })
   .views((self) => ({
     get readAddresses() {
       return self.addresses;
     },
   }))
-  // update auth token
+  // Auth Actions
   .actions((self) => ({
     updateAuthToken(newToken) {
       self.userCredentials.token = newToken;
     },
+    startTimer(timer) {
+      clearTimeout(timer);
+      console.log("timer starts");
+      self.timer = timer;
+    },
+    clearTimer() {
+      console.log("timer set to null");
+      // self.timer = 0;
+      clearTimeout(self.timer);
+      // console.log("timer", self.timer);
+    },
   }))
   //settings action
   .actions((self) => ({
-    // setProfile(name, image, dob) {
-    //     self.profile.name = name;
-    //     self.profile.display_picture = image;
-    //     self.profile.dob = dob;
-    // },
     setName(name) {
       self.profile.name = name;
     },
@@ -358,6 +364,7 @@ const DrugStore = types
       token: "",
       email: "",
     },
+    timer: 0,
   });
 
 export default DrugStore;

@@ -104,6 +104,7 @@ const SettingsScreen = observer((props) => {
                     await AsyncStorage.removeItem("user_data");
                     DrugStore.initializeUserCredentials("", "", "");
                     DrugStore.setPFP(" ");
+                    DrugStore.clearTimer();
                   } catch (e) {
                     console.log(e);
                   }

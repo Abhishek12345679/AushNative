@@ -54,6 +54,10 @@ const SplashScreen = observer(({ navigation }) => {
         const loginJSONValue = await AsyncStorage.getItem("login_data");
         const autoLoginCreds = await AsyncStorage.getItem("auto_login_data");
 
+        if (!loginJSONValue || !autoLoginCreds) {
+          DrugStore.setDidTryAutoLogin();
+        }
+
         const autoLoginData = JSON.parse(autoLoginCreds);
         console.log("AUTO LOGIN DATA \n", autoLoginData);
 
