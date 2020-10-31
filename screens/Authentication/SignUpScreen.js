@@ -114,7 +114,8 @@ const SignUpScreen = observer(({ navigation }) => {
         true
       );
       const refreshToken = Firebase.auth().currentUser.refreshToken;
-      console.log("expTime", new Date(loginProps.expirationTime));
+      const expirationTime = UTCtoMS(new Date(loginProps.expirationTime));
+      console.log("expTime", expirationTime);
       saveAutoLoginCredentials(
         refreshToken,
         UTCtoMS(new Date(loginProps.expirationTime)),
@@ -138,12 +139,13 @@ const SignUpScreen = observer(({ navigation }) => {
           );
           updateAutoLoginData(data.expires_in);
         });
-        // DrugStore.clearTimer();
         // DrugStore.startTimer(timer);
 
         console.log("called requestNewToken");
-      }, UTCtoMS(new Date(loginProps.expirationTime)));
+        console.log("expires in ", expirationTime);
+      }, expirationTime);
 
+      DrugStore.clearTimer();
       DrugStore.startTimer(timer);
     } catch (error) {
       console.log(error);

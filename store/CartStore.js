@@ -79,7 +79,7 @@ const DrugStore = types
       self.userCredentials.token = newToken;
     },
     startTimer(timer) {
-      clearTimeout(timer);
+      // clearTimeout(timer);
       console.log("timer starts");
       self.timer = timer;
     },
@@ -318,6 +318,11 @@ const DrugStore = types
         self.HealthConditions.diabetes = resData.diabetes;
         self.HealthConditions.lungdiseases = resData.lungdiseases;
         self.HealthConditions.skindiseases = resData.skindiseases;
+      } else {
+        self.HealthConditions.allergies = false;
+        self.HealthConditions.diabetes = false;
+        self.HealthConditions.lungdiseases = false;
+        self.HealthConditions.skindiseases = false;
       }
     }),
   }))
