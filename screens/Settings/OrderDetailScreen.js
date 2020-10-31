@@ -16,28 +16,28 @@ const OrderDetailScreen = observer((props) => {
   };
 
   // for testing
-  const uuidgen = () => {
-    const S4 = function () {
-      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    };
-    const uuid =
-      S4() +
-      S4() +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      "-" +
-      S4() +
-      S4() +
-      S4();
+  // const uuidgen = () => {
+  //   const S4 = function () {
+  //     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  //   };
+  //   const uuid =
+  //     S4() +
+  //     S4() +
+  //     "-" +
+  //     S4() +
+  //     "-" +
+  //     S4() +
+  //     "-" +
+  //     S4() +
+  //     "-" +
+  //     S4() +
+  //     S4() +
+  //     S4();
 
-    console.log(uuid);
+  //   console.log(uuid);
 
-    return uuid;
-  };
+  //   return uuid;
+  // };
 
   return (
     <ScrollView style={styles.container}>
@@ -49,7 +49,7 @@ const OrderDetailScreen = observer((props) => {
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order #</Text>
 
-          <Text>{uuidgen()}</Text>
+          <Text>{"sample"}</Text>
         </View>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order Total</Text>
