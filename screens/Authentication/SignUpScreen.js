@@ -12,10 +12,13 @@ import {
   ActivityIndicator,
   TextInput,
 } from "react-native";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome5";
-import { Fumi } from "react-native-textinput-effects";
 
 import DrugStore from "../../store/CartStore";
+
+import {
+  requestNewAuthToken,
+  updateAutoLoginData,
+} from "../../helpers/requestNewAuthToken";
 
 import * as Firebase from "firebase";
 
@@ -23,17 +26,15 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { showMessage } from "react-native-flash-message";
 
 const SignUpScreen = observer(({ navigation }) => {
-  // const setAuthState = (status) => {
-  //   DrugStore.setAuthState(status);
-  // };
-
   const [loading, setLoading] = useState(false);
   const [signIn, setSignIn] = useState(true);
   const signInRef = useRef();
 
-  // function getUserData() {
-  //   console.log(signInRef.current.values);
-  // }
+  const UTCtoMS = (utc) => {
+    const timeInMS = utc.getTime() - new Date().getTime();
+    console.log("in ms", timeInMS);
+    return timeInMS;
+  };
 
   // for storing the user data on login on device
   const saveUserOnDevice = async (token, uid, email) => {
@@ -49,9 +50,18 @@ const SignUpScreen = observer(({ navigation }) => {
     }
   };
 
-  const saveAutoLoginCredentials = async (user) => {
+  const saveUser = async (user) => {
     try {
       const jsonValue = JSON.stringify(user);
+      await AsyncStorage.setItem("user_data", jsonValue);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const saveAutoLoginCredentials = async (refToken, expirationTime, apiKey) => {
+    try {
+      const jsonValue = JSON.stringify({ refToken, expirationTime, apiKey });
       await AsyncStorage.setItem("auto_login_data", jsonValue);
     } catch (error) {
       console.log(error);
@@ -100,38 +110,46 @@ const SignUpScreen = observer(({ navigation }) => {
       );
       const token = await Firebase.auth().currentUser.getIdToken(true);
 
-      // const cred = await Firebase.auth().currentUser;
-      // saveAutoLoginCredentials(cred);
-      // console.log("auto login creds saved ...");
+      const loginProps = await Firebase.auth().currentUser.getIdTokenResult(
+        true
+      );
+      const refreshToken = Firebase.auth().currentUser.refreshToken;
+      console.log("expTime", new Date(loginProps.expirationTime));
+      saveAutoLoginCredentials(
+        refreshToken,
+        UTCtoMS(new Date(loginProps.expirationTime)),
+        refreshToken
+      );
 
       Firebase.auth().onAuthStateChanged((user) => {
-        saveAutoLoginCredentials(user);
+        saveUser(user);
         console.log("auto login creds saved ...");
       });
 
       saveUserOnDevice(token, loginRes.user.uid, email);
-
       DrugStore.initializeUserCredentials(token, loginRes.user.uid, email);
-      // startTimer();
+
+      const timer = setInterval(() => {
+        requestNewAuthToken(refreshToken).then((data) => {
+          DrugStore.initializeUserCredentials(
+            data.id_token,
+            loginRes.user.uid,
+            email
+          );
+          updateAutoLoginData(data.expires_in);
+        });
+        // DrugStore.clearTimer();
+        // DrugStore.startTimer(timer);
+
+        console.log("called requestNewToken");
+      }, UTCtoMS(new Date(loginProps.expirationTime)));
+
+      DrugStore.startTimer(timer);
     } catch (error) {
       console.log(error);
       setLoading(false);
       return Alert.alert("Something Went Wrong");
     }
-  };
-
-  //login & logout buggy
-  const startTimer = () => {
-    setTimeout(() => {
-      Firebase.auth().onAuthStateChanged((user) => {
-        if (user != null) {
-          DrugStore.initializeUserCredentials("", "", "");
-          AsyncStorage.removeItem("login_data");
-        }
-      });
-      // DrugStore.initializeUserCredentials("", "", "");
-      // AsyncStorage.removeItem("login_data");
-    }, 3600 * 1000);
   };
 
   return (
@@ -163,34 +181,9 @@ const SignUpScreen = observer(({ navigation }) => {
             email: "",
             password: "",
           }}
-          // onSubmit={signIn ? () => signup() : () => login()}
-          // onSubmit={getUserData}
-          innerRef={signInRef}
         >
           {({ handleSubmit, handleChange, values }) => (
             <View>
-              {/* <Fumi
-                label={"Email"}
-                iconClass={FontAwesomeIcon}
-                iconName={"envelope"}
-                iconColor={"#000"}
-                iconSize={20}
-                iconWidth={40}
-                inputPadding={16}
-                onChangeText={handleChange("email")}
-              />
-              <Fumi
-                secureTextEntry
-                style={{ marginVertical: 10 }}
-                label={"Password"}
-                iconClass={FontAwesomeIcon}
-                iconName={"key"}
-                iconColor={"#000"}
-                iconSize={20}
-                iconWidth={40}
-                inputPadding={16}
-                onChangeText={handleChange("password")}
-              /> */}
               {signIn && (
                 <TextInput
                   placeholder="Name"
