@@ -12,6 +12,8 @@ import DrugStore from "../../store/CartStore";
 
 import { Ionicons } from "@expo/vector-icons";
 
+import Razorpay from "react-native-razorpay";
+
 const SelectAddressScreen = (props) => {
   const [selectedAddress, setSelectedAddress] = useState(0);
   const { navigation } = props;
@@ -20,6 +22,25 @@ const SelectAddressScreen = (props) => {
     DrugStore.fetchAddresses();
   }, [navigation]);
   console.log(DrugStore.addresses);
+
+  // const createOrder = () => {
+  //   //test
+  //   var instance = new Razorpay({
+  //     key_id: "rzp_test_JTQ6Nksjcb9tRj",
+  //     key_secret: "2fXQGvQKrEc9CuG9Xcvw1pOW",
+  //   });
+
+  //   var options = {
+  //     amount: 50000, // amount in the smallest currency unit
+  //     currency: "INR",
+  //     receipt: "order_rcptid_11",
+  //   };
+  //   instance.orders.create(options, function (err, order) {
+  //     console.log(order);
+  //     return order;
+  //   });
+  // };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -43,9 +64,10 @@ const SelectAddressScreen = (props) => {
               marginBottom: 40,
             }}
             onPress={() =>
-              props.navigation.navigate("SelectPayment", {
-                address: DrugStore.addresses[selectedAddress],
-              })
+              // props.navigation.navigate("SelectPayment", {
+              //   address: DrugStore.addresses[selectedAddress],
+              // })
+              createOrder()
             }
           >
             <Text style={{ color: "#fff", fontSize: 15, fontWeight: "500" }}>
