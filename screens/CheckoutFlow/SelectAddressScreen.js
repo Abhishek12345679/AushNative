@@ -6,13 +6,14 @@ import {
   StatusBar,
   FlatList,
   TouchableOpacity,
+  TouchableHighlight,
 } from "react-native";
 import Address from "../../components/Address";
 import DrugStore from "../../store/CartStore";
 
 import { Ionicons } from "@expo/vector-icons";
 
-import Razorpay from "react-native-razorpay";
+import RazorpayCheckout from "react-native-razorpay";
 
 const SelectAddressScreen = (props) => {
   const [selectedAddress, setSelectedAddress] = useState(0);
@@ -23,23 +24,15 @@ const SelectAddressScreen = (props) => {
   }, [navigation]);
   console.log(DrugStore.addresses);
 
-  // const createOrder = () => {
-  //   //test
-  //   var instance = new Razorpay({
-  //     key_id: "rzp_test_JTQ6Nksjcb9tRj",
-  //     key_secret: "2fXQGvQKrEc9CuG9Xcvw1pOW",
-  //   });
+  const createOrder = async () => {
+    //test
 
-  //   var options = {
-  //     amount: 50000, // amount in the smallest currency unit
-  //     currency: "INR",
-  //     receipt: "order_rcptid_11",
-  //   };
-  //   instance.orders.create(options, function (err, order) {
-  //     console.log(order);
-  //     return order;
-  //   });
-  // };
+    const response = await fetch("http://192.168.0.103:3000/orders");
+    const resData = await response.json();
+
+    console.log(resData);
+    return resData.id;
+  };
 
   return (
     <View style={styles.container}>
@@ -54,7 +47,7 @@ const SelectAddressScreen = (props) => {
         style={{ padding: 20 }}
         data={DrugStore.addresses}
         ListFooterComponent={
-          <TouchableOpacity
+          <TouchableHighlight
             style={{
               marginVertical: 20,
               height: 60,
@@ -67,13 +60,39 @@ const SelectAddressScreen = (props) => {
               // props.navigation.navigate("SelectPayment", {
               //   address: DrugStore.addresses[selectedAddress],
               // })
-              createOrder()
+              createOrder().then((id) => {
+                console.log("id", id);
+                const options = {
+                  description: "Credits towards consultation",
+                  image: "https://i.imgur.com/3g7nmJC.png",
+                  currency: "INR",
+                  key: "rzp_test_JTQ6Nksjcb9tRj",
+                  amount: "5000",
+                  name: "Acme Corp",
+                  order_id: id,
+                  prefill: {
+                    email: "gaurav.kumar@example.com",
+                    contact: "9191919191",
+                    name: "Gaurav Kumar",
+                  },
+                  theme: { color: "#53a20e" },
+                };
+                RazorpayCheckout.open(options)
+                  .then((data) => {
+                    // handle success
+                    console.log(`Success: ${data.razorpay_payment_id}`);
+                  })
+                  .catch((error) => {
+                    // handle failure
+                    console.log(`Error: ${error.code} | ${error.description}`);
+                  });
+              })
             }
           >
             <Text style={{ color: "#fff", fontSize: 15, fontWeight: "500" }}>
               Deliver to this address
             </Text>
-          </TouchableOpacity>
+          </TouchableHighlight>
         }
         renderItem={({ item, index }) => (
           <Address

@@ -1,0 +1,27 @@
+{
+    "name": "payments_server",
+    "version": "1.0.0",
+    "description": "Server for managing payments",
+    "main": "server.js",
+    "scripts": {
+        "start": "nodemon --exec babel-node server.js"
+    },
+    "author": "Abhishek",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/cli": "^7.10.4",
+        "@babel/core": "^7.10.4",
+        "@babel/node": "^7.10.4",
+        "@babel/preset-env": "^7.10.4",
+        "install": "^0.13.0",
+        "nodemon": "^2.0.4"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "https": "^1.0.0",
+        "paytmchecksum": "^1.5.0",
+        "razorpay": "^2.0.6"
+    }
+}

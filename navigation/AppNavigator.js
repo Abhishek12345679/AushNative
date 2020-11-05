@@ -380,7 +380,7 @@ export const RootNavigator = () => {
         name="CheckoutFlow"
         component={CheckoutNavigator}
         options={{
-          stackPresentation: "modal",
+          // stackPresentation: "modal",
           gestureEnabled: false,
         }}
       />
