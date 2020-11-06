@@ -80,7 +80,7 @@ const SelectAddressScreen = (props) => {
                 RazorpayCheckout.open(options)
                   .then((data) => {
                     // handle success
-                    console.log(`Success: ${data.razorpay_payment_id}`);
+                    console.log("Success:", data);
                   })
                   .catch((error) => {
                     // handle failure
@@ -147,3 +147,6 @@ export const screenOptions = (navData) => {
 };
 
 export default SelectAddressScreen;
+
+// curl -u rzp_test_JTQ6Nksjcb9tRj:2fXQGvQKrEc9CuG9Xcvw1pOW
+// -X GET https://api.razorpay.com/v1/orders/?expand[]=payments
