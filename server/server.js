@@ -1,15 +1,14 @@
-// import express from "express";
 const express = require("express");
-// const PaytmChecksum = require("paytmchecksum");
-// const https = require("https");
+require("dotenv").config();
+
 const Razorpay = require("razorpay");
+const bodyParser = require("body-parser");
+const crypto = require("crypto");
 
 const app = express();
 
-// const createOrder = () => {
-//     //test
-
-// };
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get("/", function(req, res) {
     res.send("Hello World");
@@ -23,8 +22,8 @@ app.get("/initiate", function(req, res) {
 
 app.get("/orders", function(req, res) {
     var instance = new Razorpay({
-        key_id: "rzp_test_JTQ6Nksjcb9tRj",
-        key_secret: "2fXQGvQKrEc9CuG9Xcvw1pOW",
+        key_id: process.env.KEY,
+        key_secret: process.env.SECRET,
     });
 
     var options = {
@@ -34,10 +33,27 @@ app.get("/orders", function(req, res) {
     };
     instance.orders.create(options, function(err, order) {
         console.log(order);
-        // return order;
         res.send(order);
     });
-    // res.send({ orders: createOrder() });
+});
+
+app.post("/verifysignature", function(req, res) {
+    // console.log("helllooo");
+    console.log(req.body);
+    // res.send(req.body);
+
+    const { order_id, razor_pid, signature } = req.body;
+
+    const hmac = crypto.createHmac("sha256", process.env.SECRET);
+
+    hmac.update(order_id + "|" + razor_pid);
+    let generatedSignature = hmac.digest("hex");
+
+    let isSignatureValid = generatedSignature == signature;
+
+    console.log(isSignatureValid);
+
+    // add order to firebase or mark order as successful in previously added order
 });
 
 app.listen(3000, () => {

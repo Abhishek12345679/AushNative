@@ -12,6 +12,8 @@ import { observer } from "mobx-react";
 
 import FlashMessage from "react-native-flash-message";
 
+// require("dotenv").config();
+
 const App = observer((props) => {
   return (
     <AppearanceProvider>

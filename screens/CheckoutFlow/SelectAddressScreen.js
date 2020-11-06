@@ -22,16 +22,38 @@ const SelectAddressScreen = (props) => {
     // console.log(selectedAddress);
     DrugStore.fetchAddresses();
   }, [navigation]);
-  console.log(DrugStore.addresses);
+  // console.log(DrugStore.addresses);
+
+  const email = DrugStore.userCredentials.email;
+  const name = DrugStore.profile.name;
+  const contact = DrugStore.addresses[selectedAddress].ph_no;
+  const ordername = DrugStore.drugs[0].name + "...";
+
+  console.log({ email, name, contact, ordername });
 
   const createOrder = async () => {
-    //test
-
     const response = await fetch("http://192.168.0.103:3000/orders");
     const resData = await response.json();
 
     console.log(resData);
     return resData.id;
+  };
+
+  const verifySignature = async (order_id, pid, signature) => {
+    console.log({ order_id, pid, signature });
+    const response = await fetch("http://192.168.0.103:3000/verifysignature", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order_id: order_id,
+        razor_pid: pid,
+        signature: signature,
+      }),
+    });
+    const resData = await response.json();
+    console.log(resData);
   };
 
   return (
@@ -63,24 +85,31 @@ const SelectAddressScreen = (props) => {
               createOrder().then((id) => {
                 console.log("id", id);
                 const options = {
-                  description: "Credits towards consultation",
-                  image: "https://i.imgur.com/3g7nmJC.png",
+                  description:
+                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere laudantium pariatur quas officia corporis?", //product description
+                  image: "https://i.imgur.com/3g7nmJC.png", // product image
                   currency: "INR",
                   key: "rzp_test_JTQ6Nksjcb9tRj",
                   amount: "5000",
-                  name: "Acme Corp",
-                  order_id: id,
+                  name: ordername,
+                  order_id: id, // order_id recieved after
                   prefill: {
-                    email: "gaurav.kumar@example.com",
-                    contact: "9191919191",
-                    name: "Gaurav Kumar",
+                    email: email,
+                    contact: contact,
+                    name: name,
+                    method: "card", //default payment method
                   },
-                  theme: { color: "#53a20e" },
+                  theme: { color: "#000" },
                 };
                 RazorpayCheckout.open(options)
                   .then((data) => {
                     // handle success
                     console.log("Success:", data);
+                    verifySignature(
+                      id,
+                      data.razorpay_payment_id,
+                      data.razorpay_signature
+                    );
                   })
                   .catch((error) => {
                     // handle failure
