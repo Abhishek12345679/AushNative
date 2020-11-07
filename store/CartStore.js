@@ -69,8 +69,8 @@ const DrugStore = types
     timer: types.number,
   })
   .views((self) => ({
-    get readAddresses() {
-      return self.addresses;
+    get getCount() {
+      return self.count;
     },
   }))
   // Auth Actions
@@ -201,6 +201,9 @@ const DrugStore = types
     clearCart() {
       self.drugs.splice(0);
       self.count = 0;
+    },
+    addone() {
+      self.count = self.count + 1;
     },
   }))
   // Order Actions

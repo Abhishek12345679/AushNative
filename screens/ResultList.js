@@ -24,6 +24,7 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import IconBadge from "react-native-icon-badge";
 import DrugStore from "../store/CartStore";
+import { observer } from "mobx-react";
 
 const GET_MEDICINE = gql`
   query getMedicine($name: String!) {
@@ -89,7 +90,7 @@ const GET_ALTERNATE_DRUG = gql`
   }
 `;
 
-const ResultList = (props) => {
+const ResultList = observer((props) => {
   // let imported_res = null;
   let ocr_data = "";
 
@@ -126,22 +127,48 @@ const ResultList = (props) => {
 
   useEffect(() => {
     props.navigation.setOptions({
+      //   headerRight: () => (
+      //     <View style={{ flexDirection: "row" }}>
+      //       <RoundButton
+      //         onPress={() => props.navigation.navigate("Home")}
+      //         style={{
+      //           width: 30,
+      //           height: 30,
+      //           borderRadius: 15,
+      //         }}
+      //       >
+      //         <AntDesign name="back" size={15} color="#fff" />
+      //       </RoundButton>
+      //     </View>
+      //   ),
       headerRight: () => (
-        <View style={{ flexDirection: "row" }}>
-          <RoundButton
-            onPress={() => props.navigation.navigate("Home")}
-            style={{
-              width: 30,
-              height: 30,
-              borderRadius: 15,
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate("Cart");
+          }}
+        >
+          <IconBadge
+            MainElement={
+              <Image
+                source={require("../assets/bag.png")}
+                style={{ height: 25, width: 25, marginTop: 0 }}
+              />
+            }
+            BadgeElement={
+              <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
+            }
+            IconBadgeStyle={{
+              width: 10,
+              height: 20,
+              backgroundColor: "purple",
+              marginTop: 5,
             }}
-          >
-            <AntDesign name="back" size={15} color="#fff" />
-          </RoundButton>
-        </View>
+            Hidden={DrugStore.count == 0}
+          />
+        </TouchableOpacity>
       ),
     });
-  }, [setIsVisible]);
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -163,10 +190,10 @@ const ResultList = (props) => {
       <View
         style={{
           flex: 1,
-          // justifyContent: "center",
+          justifyContent: "center",
           alignItems: "center",
-          height: "75%",
-          width: "100%",
+          // height: "75%",
+          // width: "100%",
           backgroundColor: "#fff",
         }}
       >
@@ -182,13 +209,13 @@ const ResultList = (props) => {
             </Text>{" "}
           </Text>
         )}
-        {/* <ActivityIndicator size="large" color="#000" /> */}
-        <Image
+        <ActivityIndicator size="large" color="#000" />
+        {/* <Image
           source={{
             uri: "https://media.giphy.com/media/l3nWhI38IWDofyDrW/giphy.gif",
           }}
           style={{ height: 400, width: 400 }}
-        />
+        /> */}
       </View>
     );
   }
@@ -248,7 +275,7 @@ const ResultList = (props) => {
               No Drugs Found in Chemy's Database, enter the drug as accuarate as
               possible in the search bar below
             </Text>
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -303,7 +330,13 @@ const ResultList = (props) => {
                   <ActivityIndicator size="small" color="#fff" />
                 </RoundButton>
               )}
-            </View>
+            </View> */}
+            <Button
+              title="return"
+              onPress={() => {
+                props.navigation.pop();
+              }}
+            />
             <View
               style={{
                 flex: 1,
@@ -360,7 +393,7 @@ const ResultList = (props) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -432,32 +465,6 @@ export const screenOptions = () => {
     headerHideBackButton: true,
     headerShown: true,
     // headerTranslucent: true,
-    headerRight: () => (
-      <TouchableOpacity
-        onPress={() => {
-          navData.navigation.navigate("Cart");
-        }}
-      >
-        <IconBadge
-          MainElement={
-            <Image
-              source={require("../assets/bag.png")}
-              style={{ height: 25, width: 25, marginTop: 0 }}
-            />
-          }
-          BadgeElement={
-            <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
-          }
-          IconBadgeStyle={{
-            width: 10,
-            height: 20,
-            backgroundColor: "purple",
-            marginTop: 5,
-          }}
-          Hidden={DrugStore.count == 0}
-        />
-      </TouchableOpacity>
-    ),
   };
 };
 

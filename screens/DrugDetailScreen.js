@@ -86,6 +86,9 @@ const DrugDetailScreen = observer((props) => {
   let [howToUseCollapsed, setHowToUseCollapsed] = useState(false);
   let [safetyAdviceCollapsed, setSafetyAdviceCollapsed] = useState(false);
 
+  //workaround
+  const [cartCount, setCartCount] = useState(0);
+
   const onIncrease = () => {
     setQuantity((initialValue + 1).toString());
     setInitialValue(initialValue + 1);
@@ -109,6 +112,9 @@ const DrugDetailScreen = observer((props) => {
 
   const addToCart = () => {
     DrugStore.addDrug(cartItem);
+    setCartCount(cartCount + 1);
+    // DrugStore.addone();
+    // DrugStore.getCount;
   };
 
   const item = props.route.params.item;
@@ -192,6 +198,38 @@ const DrugDetailScreen = observer((props) => {
   // }, []);
 
   useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        // <TouchableOpacity
+        //   onPress={() => {
+        //     navData.navigation.navigate("Cart");
+        //   }}
+        // >
+        //   <IconBadge
+        //     MainElement={
+        //       <Image
+        //         source={require("../assets/bag.png")}
+        //         style={{ height: 25, width: 25, marginTop: 0 }}
+        //       />
+        //     }
+        //     BadgeElement={
+        //       <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
+        //     }
+        //     IconBadgeStyle={{
+        //       width: 10,
+        //       height: 20,
+        //       backgroundColor: "purple",
+        //       marginTop: 5,
+        //     }}
+        //     Hidden={DrugStore.count == 0}
+        //   />
+        // </TouchableOpacity>
+        <Text style={{ color: "#000" }}>{DrugStore.count}</Text>
+      ),
+    });
+  }, [cartCount]);
+
+  useEffect(() => {
     setCartItem({
       id: item.id,
       name: item.name,
@@ -216,16 +254,16 @@ const DrugDetailScreen = observer((props) => {
           backgroundColor: "#fff",
         }}
       >
-        {/* <ActivityIndicator size="large" color="#000" /> */}
-
         <Text> Looking for similar medicines with </Text>
         <Text>same salt composition</Text>
-        <Image
+
+        <ActivityIndicator size="large" color="#000" />
+        {/* <Image
           source={{
             uri: "https://media.giphy.com/media/l3nWhI38IWDofyDrW/giphy.gif",
           }}
           style={{ height: 400, width: 400 }}
-        />
+        /> */}
       </View>
     );
   }
@@ -296,13 +334,13 @@ const DrugDetailScreen = observer((props) => {
               onPress={() => {
                 setAddingToCart(true);
                 setTimeout(() => {
-                  setAddingToCart(false);
+                  addToCart(cartItem);
                   showMessage({
                     message: `${quantity} ${item.name} added to Cart`,
                     type: "success",
                   });
-                }, 3000);
-                addToCart(cartItem);
+                  setAddingToCart(false);
+                }, 1000);
 
                 /* HERE WE GONE SHOW OUR FIRST MESSAGE */
               }}
@@ -575,40 +613,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export const screenOptions = (navData) => {
-  const title = navData.route.params.item.name;
-  // console.log(title);
-  return {
-    headerTitle: title,
-    headerLargeTitle: true,
-    headerShown: true,
-    headerRight: () => (
-      <TouchableOpacity
-        onPress={() => {
-          navData.navigation.navigate("Cart");
-        }}
-      >
-        <IconBadge
-          MainElement={
-            <Image
-              source={require("../assets/bag.png")}
-              style={{ height: 25, width: 25, marginTop: 0 }}
-            />
-          }
-          BadgeElement={
-            <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
-          }
-          IconBadgeStyle={{
-            width: 10,
-            height: 20,
-            backgroundColor: "purple",
-            marginTop: 5,
-          }}
-          Hidden={DrugStore.count == 0}
-        />
-      </TouchableOpacity>
-    ),
-  };
-};
+// export const screenOptions = (navData) => {
+//   const title = navData.route.params.item.name;
+//   // console.log(title);
+//   return {
+//     headerTitle: title,
+//     headerLargeTitle: true,
+//     headerShown: true,
+//   };
+// };
 
 export default DrugDetailScreen;

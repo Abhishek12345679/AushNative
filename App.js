@@ -8,22 +8,22 @@ import { client } from "./store/store";
 
 import RootNavigation from "./navigation/RootNavigation";
 
-import { observer } from "mobx-react";
+import { observer, Provider } from "mobx-react";
 
 import FlashMessage from "react-native-flash-message";
 
-// require("dotenv").config();
-
 const App = observer((props) => {
   return (
-    <AppearanceProvider>
-      <ApolloProvider client={client}>
-        <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-          <RootNavigation />
-          <FlashMessage position="bottom" />
-        </View>
-      </ApolloProvider>
-    </AppearanceProvider>
+    // <AppearanceProvider>
+    // <Provider store={}>
+    <ApolloProvider client={client}>
+      <View style={{ flex: 1, backgroundColor: "#FFF" }}>
+        <RootNavigation />
+        <FlashMessage position="bottom" />
+      </View>
+    </ApolloProvider>
+    // </Provider>
+    // </AppearanceProvider>
   );
 });
 
