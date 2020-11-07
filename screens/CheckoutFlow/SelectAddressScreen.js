@@ -32,7 +32,9 @@ const SelectAddressScreen = (props) => {
   console.log({ email, name, contact, ordername });
 
   const createOrder = async () => {
-    const response = await fetch("http://192.168.0.103:3000/orders");
+    const response = await fetch(
+      "https://razorpay-payments-api.herokuapp.com/orders"
+    );
     const resData = await response.json();
 
     console.log(resData);
@@ -41,17 +43,20 @@ const SelectAddressScreen = (props) => {
 
   const verifySignature = async (order_id, pid, signature) => {
     console.log({ order_id, pid, signature });
-    const response = await fetch("http://192.168.0.103:3000/verifysignature", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        order_id: order_id,
-        razor_pid: pid,
-        signature: signature,
-      }),
-    });
+    const response = await fetch(
+      "https://razorpay-payments-api.herokuapp.com/verifysignature",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          order_id: order_id,
+          razor_pid: pid,
+          signature: signature,
+        }),
+      }
+    );
     const resData = await response.json();
     console.log(resData);
   };

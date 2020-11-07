@@ -56,6 +56,6 @@ app.post("/verifysignature", function(req, res) {
     // add order to firebase or mark order as successful in previously added order
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log(`🚀 Server ready at http://localhost:3000`);
 });
