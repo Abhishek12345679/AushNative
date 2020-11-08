@@ -17,15 +17,15 @@ import Tag from "../../components/Tag";
 import DrugStore from "../../store/CartStore";
 
 const ProfileScreen = observer((props) => {
-  const { navigation } = props;
+  // const { navigation } = props;
   const [date, setDate] = useState();
   const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
 
-  const [image, setImage] = useState(
-    DrugStore.profile.display_picture.length === 1
-      ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-      : DrugStore.profile.display_picture
-  );
+  // const [image, setImage] = useState(
+  //   DrugStore.profile.display_picture.length === 1
+  //     ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+  //     : DrugStore.profile.display_picture
+  // );
 
   const UTCToIST = () => {
     const offset = new Date().getTimezoneOffset();

@@ -31,6 +31,10 @@ const EditProfileScreen = observer((props) => {
 
   const [image, setImage] = useState(DrugStore.profile.display_picture);
 
+  const uid = DrugStore.userCredentials.uid;
+
+  const baseUrl = "data:image/jpg;base64,";
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -50,14 +54,14 @@ const EditProfileScreen = observer((props) => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
-    console.log(result.uri);
-
     if (!result.cancelled) {
+      // console.log(result.base64);
       console.log("in...");
-      setImage(result.uri);
-      DrugStore.setPFP(result.uri);
+      setImage(baseUrl + result.base64);
+      DrugStore.setPFP(baseUrl + result.base64);
     }
   };
 
@@ -77,6 +81,27 @@ const EditProfileScreen = observer((props) => {
     const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
     setAge(age);
     hideDatePicker();
+  };
+
+  const uploadDP = async (image) => {
+    console.log("uploading...");
+    const data = new FormData();
+    data.append("file", image);
+    data.append("folder", `Profile_Pictures/${uid}`);
+    data.append("upload_preset", "drug_package_image");
+    data.append("cloud_name", "abhisheksah69420");
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/abhisheksah69420/image/upload",
+      //https://api.cloudinary.com/v1_1/<cloud name>/<resource_type>/upload
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    const resData = await response.json();
+    return resData;
   };
 
   return (
@@ -101,17 +126,22 @@ const EditProfileScreen = observer((props) => {
                 displayName: values.name,
                 photoURL: values.imageUrl,
               })
-              .then(function () {
+              .then(() => {
                 // Update successful.
-                console.log(chalk.green("Updated Profile Successfully! "));
+                console.log("Updated Profile Successfully! ");
                 DrugStore.setName(user.displayName);
               })
-              .catch(function (error) {
-                console.log(chalk.red("Updating Profile Failed! "));
+              .catch((error) => {
+                console.log("Updating Profile Failed! -  ", error);
               });
 
-            DrugStore.getExtra();
+            uploadDP(image)
+              .then((data) => {
+                console.log("Profile Picture changed successfully", data);
+              })
+              .catch(() => console.error("Could not update profile picture"));
 
+            DrugStore.getExtra();
             props.navigation.pop();
           }}
         >

@@ -37,8 +37,24 @@ const HomeScreen = observer((props) => {
     "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
   );
 
+  const uid = DrugStore.userCredentials.uid;
+
   const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+  const getDP = async () => {
+    const response = await fetch("http://192.168.0.106:3000/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uid: uid,
+      }),
+    });
+    const resData = await response.json();
+    console.log("DP - ", resData);
+  };
 
   const retrieveUserData = async () => {
     try {
@@ -104,6 +120,7 @@ const HomeScreen = observer((props) => {
     DrugStore.fetchOrders();
     DrugStore.fetchAddresses();
     DrugStore.getHealthConditions();
+    getDP();
   }, [DrugStore]);
 
   useEffect(() => {
@@ -111,12 +128,12 @@ const HomeScreen = observer((props) => {
       if (user) {
         console.log("IN");
         DrugStore.setName(user.displayName);
-        DrugStore.getExtra().then((res) => {
-          if (res != undefined) {
-            console.log("RESOURCE", res);
-            setHeaderImg(res.image);
-          }
-        });
+        // DrugStore.getExtra().then((res) => {
+        //   if (res != undefined) {
+        //     console.log("RESOURCE", res);
+        //     setHeaderImg(res.image);
+        //   }
+        // });
       }
     });
   }, [navigation]);
