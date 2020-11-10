@@ -115,7 +115,7 @@ const EditProfileScreen = observer((props) => {
           }}
           onSubmit={(values) => {
             // DrugStore.editProfile(values.name, values.imageUrl, dob);
-            DrugStore.setExtra(age, image);
+            DrugStore.setExtra(age);
             // DrugStore.setPFP(image);
 
             //firebase update()
@@ -124,25 +124,25 @@ const EditProfileScreen = observer((props) => {
             user
               .updateProfile({
                 displayName: values.name,
-                photoURL: values.imageUrl,
+                // photoURL: values.imageUrl,
               })
               .then(() => {
                 // Update successful.
                 console.log("Updated Profile Successfully! ");
                 DrugStore.setName(user.displayName);
+                uploadDP(image)
+                  .then((data) => {
+                    console.log("changing");
+                    DrugStore.getExtra();
+                    props.navigation.pop();
+                  })
+                  .catch(() =>
+                    console.error("Could not update profile picture")
+                  );
               })
               .catch((error) => {
-                console.log("Updating Profile Failed! -  ", error);
+                console.log("Updating Profile Failed! -  ");
               });
-
-            uploadDP(image)
-              .then((data) => {
-                console.log("Profile Picture changed successfully", data);
-              })
-              .catch(() => console.error("Could not update profile picture"));
-
-            DrugStore.getExtra();
-            props.navigation.pop();
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (

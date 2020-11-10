@@ -9,15 +9,14 @@ import {
   StatusBar,
   Platform,
   AppState,
-
-  // Image,
+  Image,
 } from "react-native";
 
 import * as Firebase from "firebase";
 
 import { showMessage } from "react-native-flash-message";
 
-import { Image } from "react-native-elements";
+// import { Image } from "react-native-elements";
 
 import DrugStore from "../store/CartStore";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -42,8 +41,9 @@ const HomeScreen = observer((props) => {
   const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
+  // cloudinary is super slow in fetching images or ma
   const getDP = async () => {
-    const response = await fetch("http://192.168.0.106:3000/search", {
+    const response = await fetch("https://images-api-v1.herokuapp.com/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,8 @@ const HomeScreen = observer((props) => {
       }),
     });
     const resData = await response.json();
-    console.log("DP - ", resData);
+    return resData;
+    // console.log("DP - ", resData);
   };
 
   const retrieveUserData = async () => {
@@ -120,8 +121,26 @@ const HomeScreen = observer((props) => {
     DrugStore.fetchOrders();
     DrugStore.fetchAddresses();
     DrugStore.getHealthConditions();
-    getDP();
+
+    getDP().then((data) => {
+      console.log(data);
+      if (data.total_count !== 0) {
+        // setHeaderImg(data.resources[0].url);
+        DrugStore.setPFP(data.resources[0].url);
+      }
+    });
   }, [DrugStore]);
+
+  // FIXME: change the dependencies to load on first launch
+  useEffect(() => {
+    getDP().then((data) => {
+      console.log(data);
+      if (data.total_count !== 0) {
+        // setHeaderImg(data.resources[0].url);
+        DrugStore.setPFP(data.resources[0].url);
+      }
+    });
+  }, [navigation]);
 
   useEffect(() => {
     Firebase.auth().onAuthStateChanged((user) => {
@@ -255,6 +274,13 @@ const HomeScreen = observer((props) => {
             {DrugStore.profile.name.trim()}
           </Text>
         </View>
+        {/* <Image
+          source={{
+            uri:
+              "https://res.cloudinary.com/abhisheksah69420/image/upload/v1604835496/Profile_Pictures/7WCAfGl2BiOB49OgOFxLycKFAsx2/vuusc0lg8wxfk77vl4js.jpg",
+          }}
+          style={{ height: 100, width: 100 }}
+        /> */}
       </View>
     </View>
   );

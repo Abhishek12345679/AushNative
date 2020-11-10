@@ -4,6 +4,8 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import DrugStore from "../store/CartStore";
 
+// import { Image } from "react-native-elements";
+
 const DP = observer((props) => {
   return (
     <LinearGradient
@@ -14,7 +16,7 @@ const DP = observer((props) => {
         style={{ ...styles.inner, ...props.inner }}
         source={{
           uri:
-            DrugStore.profile.display_picture.length === 1
+            DrugStore.profile.display_picture === " "
               ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
               : DrugStore.profile.display_picture,
         }}

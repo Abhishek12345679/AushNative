@@ -98,7 +98,7 @@ const DrugStore = types
     setPFP(imageUrl) {
       self.profile.display_picture = imageUrl;
     },
-    setExtra(age, image) {
+    setExtra(age) {
       const response = fetch(
         `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
         {
@@ -106,7 +106,7 @@ const DrugStore = types
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ age, image }),
+          body: JSON.stringify({ age }),
         }
       )
         .then((res) => res.json())
@@ -123,7 +123,7 @@ const DrugStore = types
         console.log(resData);
         // DrugStore.setPFP(resData.image);
         if (resData) {
-          self.profile.display_picture = resData.image;
+          // self.profile.display_picture = resData.image;
           self.profile.dob = resData.age * 365 * 24 * 3600;
           return resData;
         }

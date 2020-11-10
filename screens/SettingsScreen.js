@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert, Image } from "react-native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import DrugStore from "../store/CartStore";
@@ -10,8 +10,15 @@ import * as Firebase from "firebase";
 import ListItem from "../components/ListItem";
 
 const SettingsScreen = observer((props) => {
+  const { navigation } = props;
   const [date, setDate] = useState();
   const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
+
+  // const [headerImg, setHeaderImg] = useState(
+  //   "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+  // );
+
+  const uid = DrugStore.userCredentials.uid;
 
   const UTCToIST = () => {
     const offset = new Date().getTimezoneOffset();
@@ -22,9 +29,36 @@ const SettingsScreen = observer((props) => {
     setDate(newDate);
   };
 
+  const getDP = async () => {
+    const response = await fetch("https://images-api-v1.herokuapp.com/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uid: uid,
+      }),
+    });
+    const resData = await response.json();
+    return resData;
+    // console.log("DP - ", resData);
+  };
+
   useEffect(() => {
     UTCToIST();
+    console.log(DrugStore.profile.display_picture);
   }, [UTCToIST]);
+
+  useEffect(() => {
+    getDP().then((data) => {
+      console.log(data);
+      if (data.total_count !== 0) {
+        // setHeaderImg(data.resources[0].url);
+        DrugStore.setPFP(data.resources[0].url);
+      }
+    });
+  }, [navigation]);
+
   return (
     <ScrollView style={styles.container}>
       <ListItem
@@ -126,6 +160,12 @@ const SettingsScreen = observer((props) => {
         titleStyle={{ fontWeight: "400", fontSize: 18, color: "red" }}
         noArrow
       />
+      {/* <Image
+        source={{
+          uri: DrugStore.profile.display_picture,
+        }}
+        style={{ height: 100, width: 100 }}
+      /> */}
     </ScrollView>
   );
 });
