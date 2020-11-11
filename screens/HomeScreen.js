@@ -274,13 +274,6 @@ const HomeScreen = observer((props) => {
             {DrugStore.profile.name.trim()}
           </Text>
         </View>
-        {/* <Image
-          source={{
-            uri:
-              "https://res.cloudinary.com/abhisheksah69420/image/upload/v1604835496/Profile_Pictures/7WCAfGl2BiOB49OgOFxLycKFAsx2/vuusc0lg8wxfk77vl4js.jpg",
-          }}
-          style={{ height: 100, width: 100 }}
-        /> */}
       </View>
     </View>
   );

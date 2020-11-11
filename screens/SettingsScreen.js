@@ -131,7 +131,10 @@ const SettingsScreen = observer((props) => {
             name={item}
             onPress={() => {
               props.navigation.navigate("MyWebView", {
-                url: "https://aushadhalay.flycricket.io/privacy.html",
+                url:
+                  index === 0
+                    ? "https://aushadhalay.flycricket.io/privacy.html"
+                    : "https://aushadhalay.flycricket.io/terms.html",
               });
             }}
           />
