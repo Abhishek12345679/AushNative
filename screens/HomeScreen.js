@@ -125,7 +125,7 @@ const HomeScreen = observer((props) => {
     getDP().then((data) => {
       console.log(data);
       if (data.total_count !== 0) {
-        // setHeaderImg(data.resources[0].url);
+        setHeaderImg(data.resources[0].url);
         DrugStore.setPFP(data.resources[0].url);
       }
     });

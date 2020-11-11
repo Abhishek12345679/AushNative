@@ -13,7 +13,7 @@ import DrugStore from "../../store/CartStore";
 
 import { Ionicons } from "@expo/vector-icons";
 
-import RazorpayCheckout from "react-native-razorpay";
+// import RazorpayCheckout from "react-native-razorpay";
 
 const SelectAddressScreen = (props) => {
   const [selectedAddress, setSelectedAddress] = useState(0);
@@ -31,39 +31,39 @@ const SelectAddressScreen = (props) => {
 
   console.log({ email, name, contact, ordername });
 
-  const createOrder = async () => {
-    const response = await fetch(
-      "https://razorpay-payments-api.herokuapp.com/orders"
-    );
-    const resData = await response.json();
+  // const createOrder = async () => {
+  //   const response = await fetch(
+  //     "https://razorpay-payments-api.herokuapp.com/orders"
+  //   );
+  //   const resData = await response.json();
 
-    console.log(resData);
-    return resData.id;
-  };
+  //   console.log(resData);
+  //   return resData.id;
+  // };
 
-  const verifySignature = async (order_id, pid, signature) => {
-    console.log({ order_id, pid, signature });
-    const response = await fetch(
-      "https://razorpay-payments-api.herokuapp.com/verifysignature",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          order_id: order_id,
-          razor_pid: pid,
-          signature: signature,
-        }),
-      }
-    );
-    const resData = await response.json();
-    console.log(resData);
-  };
+  // const verifySignature = async (order_id, pid, signature) => {
+  //   console.log({ order_id, pid, signature });
+  //   const response = await fetch(
+  //     "https://razorpay-payments-api.herokuapp.com/verifysignature",
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         order_id: order_id,
+  //         razor_pid: pid,
+  //         signature: signature,
+  //       }),
+  //     }
+  //   );
+  //   const resData = await response.json();
+  //   console.log(resData);
+  // };
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="dark-content" />
       {/* <View style={{ padding: 20 }}>
         <Text style={{ fontSize: 30, fontWeight: "bold" }}>Select Address</Text>
         <Text>There are a few addresses available.</Text>
@@ -74,59 +74,80 @@ const SelectAddressScreen = (props) => {
         style={{ padding: 20 }}
         data={DrugStore.addresses}
         ListFooterComponent={
-          <TouchableHighlight
-            style={{
-              marginVertical: 20,
-              height: 60,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#000",
-              marginBottom: 40,
-            }}
-            onPress={() =>
-              // props.navigation.navigate("SelectPayment", {
-              //   address: DrugStore.addresses[selectedAddress],
-              // })
-              createOrder().then((id) => {
-                console.log("id", id);
-                const options = {
-                  description:
-                    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere laudantium pariatur quas officia corporis?", //product description
-                  image: "https://i.imgur.com/3g7nmJC.png", // product image
-                  currency: "INR",
-                  key: "rzp_test_JTQ6Nksjcb9tRj",
-                  amount: "5000",
-                  name: ordername,
-                  order_id: id, // order_id recieved after
-                  prefill: {
-                    email: email,
-                    contact: contact,
-                    name: name,
-                    method: "card", //default payment method
-                  },
-                  theme: { color: "#000" },
-                };
-                RazorpayCheckout.open(options)
-                  .then((data) => {
-                    // handle success
-                    console.log("Success:", data);
-                    verifySignature(
-                      id,
-                      data.razorpay_payment_id,
-                      data.razorpay_signature
-                    );
+          <View>
+            <TouchableOpacity
+              style={{
+                marginVertical: 20,
+                height: 60,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#000",
+                // marginBottom: 40,
+              }}
+              onPress={() => props.navigation.navigate("Add New Address")}
+            >
+              <Text style={{ color: "#fff", fontSize: 15, fontWeight: "500" }}>
+                Add New Address
+              </Text>
+            </TouchableOpacity>
+            <TouchableHighlight
+              style={{
+                // marginVertical: 20,
+                height: 60,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#000",
+                marginBottom: 40,
+              }}
+              onPress={
+                () =>
+                  props.navigation.navigate("OrderPreview", {
+                    address: DrugStore.addresses[selectedAddress],
+                    paymentMode: "sample",
                   })
-                  .catch((error) => {
-                    // handle failure
-                    console.log(`Error: ${error.code} | ${error.description}`);
-                  });
-              })
-            }
-          >
-            <Text style={{ color: "#fff", fontSize: 15, fontWeight: "500" }}>
-              Deliver to this address
-            </Text>
-          </TouchableHighlight>
+                // createOrder().then((id) => {
+                //   console.log("id", id);
+                //   const options = {
+                //     description:
+                //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere laudantium pariatur quas officia corporis?", //product description
+                //     image: "https://i.imgur.com/3g7nmJC.png", // product image
+                //     currency: "INR",
+                //     key: "rzp_test_JTQ6Nksjcb9tRj",
+                //     amount: "5000",
+                //     name: ordername,
+                //     order_id: id, // order_id recieved after
+                //     prefill: {
+                //       email: email,
+                //       contact: contact,
+                //       name: name,
+                //       method: "card", //default payment method
+                //     },
+                //     theme: { color: "#000" },
+                //   };
+                //   RazorpayCheckout.open(options)
+                //     .then((data) => {
+                //       // handle success
+                //       console.log("Success:", data);
+                //       verifySignature(
+                //         id,
+                //         data.razorpay_payment_id,
+                //         data.razorpay_signature
+                //       );
+                //     })
+                //     .catch((error) => {
+                //       // handle failure
+                //       console.log(
+                //         `Error: ${error.code} | ${error.description}`
+                //       );
+                //     });
+                // })
+              }
+            >
+              <Text style={{ color: "#fff", fontSize: 15, fontWeight: "500" }}>
+                Deliver to this address
+              </Text>
+            </TouchableHighlight>
+          </View>
         }
         renderItem={({ item, index }) => (
           <Address
@@ -167,16 +188,18 @@ const styles = StyleSheet.create({
 });
 export const screenOptions = (navData) => {
   return {
-    headerTitle: "Select Address",
-    headerLargeTitle: true,
+    headerTitle: "Select your Address",
+    headerLargeTitle: false,
     // stackPresentation: "modal",
-    headerLeft: () => (
-      <TouchableOpacity
-        onPress={() => navData.navigation.navigate("Add New Address")}
-      >
-        <Ionicons name="ios-add-circle-outline" size={24} color="blue" />
-      </TouchableOpacity>
-    ),
+
+    headerShown: true,
+    // headerLeft: () => (
+    //   <TouchableOpacity
+    //     onPress={() => navData.navigation.navigate("Add New Address")}
+    //   >
+    //     <Ionicons name="ios-add-circle-outline" size={24} color="blue" />
+    //   </TouchableOpacity>
+    // ),
   };
 };
 

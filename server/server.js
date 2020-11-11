@@ -52,6 +52,7 @@ app.post("/verifysignature", function(req, res) {
     let isSignatureValid = generatedSignature == signature;
 
     console.log(isSignatureValid);
+    res.json({ status: isSignatureValid });
 
     // add order to firebase or mark order as successful in previously added order
 });

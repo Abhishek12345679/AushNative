@@ -107,7 +107,7 @@ const SettingsScreen = observer((props) => {
               titleStyle={{ fontWeight: "400", fontSize: 18 }}
               keyProp={Math.random() * 10}
               key={Math.random() * 10}
-              name={item}
+              name={index == 1 ? "Saved Data" : item}
               onPress={() => props.navigation.navigate(item)}
             />
           )

@@ -57,6 +57,7 @@ import sampleshop from "../screens/shop/sampleshop";
 import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
 } from "../screens/Settings/OrderDetailScreen";
+import OrderConfirmationStatus from "../screens/CheckoutFlow/OrderConfirmationStatus";
 // import { SplashScreen } from "expo";
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
@@ -199,33 +200,41 @@ const CheckoutStackNavigator = createNativeStackNavigator();
 const CheckoutNavigator = () => {
   return (
     <CheckoutStackNavigator.Navigator
-      screenOptions={({ navigation }) => ({
-        headerRight: () => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Cart");
-              }}
-            >
-              <Text style={{ color: "blue" }}>Cancel</Text>
-            </TouchableOpacity>
-          );
-        },
-      })}
+    // screenOptions={({ navigation }) => ({
+    //   headerRight: () => {
+    //     return (
+    //       <TouchableOpacity
+    //         onPress={() => {
+    //           navigation.navigate("Cart");
+    //         }}
+    //       >
+    //         <Text style={{ color: "blue" }}>Cancel</Text>
+    //       </TouchableOpacity>
+    //     );
+    //   },
+    // })}
     >
       <CheckoutStackNavigator.Screen
         name="SelectAddress"
         component={SelectAddressScreen}
         options={SelectAddressScreenOptions}
       />
-      <CheckoutStackNavigator.Screen
+      {/* <CheckoutStackNavigator.Screen
         name="SelectPayment"
         component={SelectPaymentsScreen}
         options={SelectPaymentsScreenOptions}
-      />
+      /> */}
       <CheckoutStackNavigator.Screen
         name="OrderPreview"
         component={OrderPreviewScreen}
+        // options={{
+        //   stackPresentation: "modal",
+        // }}
+      />
+
+      <CheckoutStackNavigator.Screen
+        name="OrderConfirmation"
+        component={OrderConfirmationStatus}
         // options={{
         //   stackPresentation: "modal",
         // }}
@@ -382,6 +391,8 @@ export const RootNavigator = () => {
         options={{
           // stackPresentation: "modal",
           gestureEnabled: false,
+          headerShown: false,
+          // headerTitle:
         }}
       />
       <RootStackNavigator.Screen
