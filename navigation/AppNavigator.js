@@ -48,6 +48,8 @@ import HealthConditionsScreen, {
 
 import SplashScreen from "../screens/SplashScreen";
 
+import MyWebView from "../screens/Settings/MyWebView";
+
 import {
   MaterialCommunityIcons,
   AntDesign,
@@ -235,9 +237,10 @@ const CheckoutNavigator = () => {
       <CheckoutStackNavigator.Screen
         name="OrderConfirmation"
         component={OrderConfirmationStatus}
-        // options={{
-        //   stackPresentation: "modal",
-        // }}
+        options={{
+          stackPresentation: "fullScreenModal",
+          headerShown: true,
+        }}
       />
     </CheckoutStackNavigator.Navigator>
   );
@@ -303,6 +306,17 @@ export const RootNavigator = () => {
           headerTitle: "Settings",
         }}
       />
+      <RootStackNavigator.Screen
+        name="MyWebView"
+        component={MyWebView}
+        // options={{
+        //   // headerLargeTitle: true,
+        //   // stackPresentation: "modal",
+        //   headerShown: true,
+        //   headerTitle: "Settings",
+        // }}
+      />
+
       <RootStackNavigator.Screen
         name="Scan"
         component={DrugScanner}

@@ -113,6 +113,30 @@ const SettingsScreen = observer((props) => {
           )
         )}
       </View>
+
+      <View
+        style={{
+          borderRadius: 12,
+          width: "100%",
+          overflow: "hidden",
+          marginTop: 20,
+        }}
+      >
+        {["Privacy Policy", "Terms and Conditions"].map((item, index) => (
+          <ListItem
+            style={{ height: 70 }}
+            titleStyle={{ fontWeight: "400", fontSize: 18 }}
+            keyProp={Math.random() * 10}
+            key={Math.random() * 10}
+            name={item}
+            onPress={() => {
+              props.navigation.navigate("MyWebView", {
+                url: "https://aushadhalay.flycricket.io/privacy.html",
+              });
+            }}
+          />
+        ))}
+      </View>
       <ListItem
         name="Log Out"
         onPress={() =>

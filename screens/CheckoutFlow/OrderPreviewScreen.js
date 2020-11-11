@@ -125,9 +125,9 @@ const OrderPreviewScreen = (props) => {
           <Text>{toISTString(new Date())}</Text>
         </View>
         <View style={styles.textCont}>
-          <Text style={styles.BoldText}>Order #</Text>
+          {/* <Text style={styles.BoldText}>Order #</Text>
 
-          <Text>{"sample"}</Text>
+          <Text>{"sample"}</Text> */}
         </View>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order Total</Text>
@@ -234,9 +234,9 @@ const OrderPreviewScreen = (props) => {
                         status: data.status,
                       });
                       // remove cartItems
-                      if (data.status === true) {
-                        DrugStore.clearCart();
-                      }
+                      // if (data.status === true) {
+                      //   DrugStore.clearCart();
+                      // }
                     }
                   });
                 })
