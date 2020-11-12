@@ -11,7 +11,7 @@ const SplashScreen = observer(({ navigation }) => {
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     const response = await fetch(
-      "https://securetoken.googleapis.com/v1/token?key=AIzaSyBI3PnHGbtsukz2gQ9c2TbBEpQ-UBTFjtU&grant_type=refresh_token&refresh_token=AG8BCnd08egw-pP6cAn0gudt8pJA5DRQsStIWRh_3H2AT8OxHiUC9yW1AqUyZG7aD_ovjjKxnqvMnfaY2hJ5xOWU2lEg36ekHhPLM5M5LRqjPmBHxoVwdNxI95mej_USAHU0GSYAU765uRCNH4pM1NOmxBymeFoBvGrD-puZ-Nmkk52kcXHGl-HRcFAdZD7dcxPRFcgvwqjncNZnp8nqFaNDWYvzhrLfWQ",
+      `https://securetoken.googleapis.com/v1/token?key=AIzaSyBI3PnHGbtsukz2gQ9c2TbBEpQ-UBTFjtU&grant_type=refresh_token&refresh_token=${refToken}`,
       {
         method: "POST",
         headers: myHeaders,

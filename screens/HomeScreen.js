@@ -10,6 +10,7 @@ import {
   Platform,
   AppState,
   Image,
+  Button,
 } from "react-native";
 
 import * as Firebase from "firebase";
@@ -30,6 +31,9 @@ import {
   updateAutoLoginData,
 } from "../helpers/requestNewAuthToken";
 
+import Geolocation from "@react-native-community/geolocation";
+import LocationPicker from "../components/LocationPicker";
+
 const HomeScreen = observer((props) => {
   const { navigation } = props;
   const [headerImg, setHeaderImg] = useState(
@@ -39,9 +43,39 @@ const HomeScreen = observer((props) => {
   const uid = DrugStore.userCredentials.uid;
 
   const appState = useRef(AppState.currentState);
-  // const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-  // cloudinary is super slow in fetching images or ma
+  const [locName, setLocName] = useState("Select Location");
+
+  const geoSuccess = (position) => {
+    console.log("Success", position);
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        let locName = data.results[0].formatted_address.substring(
+          data.results[0].formatted_address.indexOf(",") + 1
+        );
+        console.log(locName);
+        setLocName(locName);
+      });
+  };
+
+  const geoFailure = () => {
+    console.log("Failure");
+  };
+
+  const geoOptions = {
+    enableHighAccuracy: true,
+    timeOut: 20000,
+    maximumAge: 60 * 60 * 24,
+  };
+
+  // useEffect(() => {
+  //   Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
+  // }, []);
+
+  // cloudinary is super slow in fetching images
   const getDP = async () => {
     const response = await fetch("https://images-api-v1.herokuapp.com/search", {
       method: "POST",
@@ -131,7 +165,6 @@ const HomeScreen = observer((props) => {
     });
   }, [DrugStore]);
 
-  // FIXME: change the dependencies to load on first launch
   useEffect(() => {
     getDP().then((data) => {
       console.log(data);
@@ -273,6 +306,16 @@ const HomeScreen = observer((props) => {
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "purple" }}>
             {DrugStore.profile.name.trim()}
           </Text>
+          <LocationPicker
+            location={locName}
+            onPress={() => {
+              Geolocation.getCurrentPosition(
+                geoSuccess,
+                geoFailure,
+                geoOptions
+              );
+            }}
+          />
         </View>
       </View>
     </View>
@@ -429,3 +472,5 @@ export const AndroidScreenOptions = (navData) => {
 };
 
 export default HomeScreen;
+
+// {"coords": {"accuracy": 5, "altitude": 0, "altitudeAccuracy": -1, "heading": -1, "latitude": 37.785834, "longitude": -122.406417, "speed": -1}, "timestamp": 1605103023554.0972}

@@ -54,8 +54,14 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Application requires user’s location for better user experience.</string>
+
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Application requires user’s location for better user experience.</string>
+
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string></string>
+		<string>Application requires user’s location for better user experience.</string>
 		<key>UILaunchStoryboardName</key>
 		<string>SplashScreen</string>
 		<key>UIRequiredDeviceCapabilities</key>

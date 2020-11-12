@@ -54,6 +54,13 @@ const healthConditions = types.model("healthConditions", {
   skindiseases: types.boolean,
 });
 
+const Location = types.model("Location", {
+  // locationObj: types.frozen,
+  locationShortName: types.string,
+  latitude: types.number,
+  longitude: types.number,
+});
+
 // Main Store
 const DrugStore = types
   .model("DrugStore", {
@@ -67,10 +74,19 @@ const DrugStore = types
     userCredentials: userCredentials,
     didTryAutoLogin: types.boolean,
     timer: types.number,
+    location: Location,
   })
   .views((self) => ({
     get getCount() {
       return self.count;
+    },
+  }))
+  // Location
+  .actions((self) => ({
+    saveLocation(name, lat, long) {
+      self.location.locationShortName = name;
+      self.location.latitude = lat;
+      self.location.longitude = long;
     },
   }))
   // Auth Actions
@@ -364,6 +380,11 @@ const DrugStore = types
       diabetes: false,
       lungdiseases: false,
       skindiseases: false,
+    },
+    location: {
+      locationShortName: "select current location",
+      latitude: 0,
+      longitude: 0,
     },
     isAuthenticated: false,
     didTryAutoLogin: false,
