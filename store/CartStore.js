@@ -36,6 +36,8 @@ const Order = types.model("Order", {
   datetimestamp: types.number,
   address: Address,
   total_amt: types.number,
+  order_id: types.string,
+  status: types.boolean,
 });
 
 // User Credentials for re-login auto.
@@ -236,10 +238,14 @@ const DrugStore = types
           body: JSON.stringify(order),
         }
       )
-        .then((res) => res.json())
+        .then((res) => res)
+        // .then((data) => {
+        //   if (data) data.name;
+        // })
         .catch((err) => console.log(err));
 
       // console.log(response);
+      return response;
     },
     fetchOrders: flow(function* fetchOrders() {
       try {

@@ -59,7 +59,25 @@ const OrderPreviewScreen = (props) => {
     const resData = await response.json();
 
     console.log(resData);
-    return resData.id;
+    const order_push_id = await DrugStore.addOrder({
+      items: DrugStore.drugs,
+      datetimestamp: new Date().getTime(),
+      address: address,
+      total_amt: total_checkout_amt,
+      order_id: resData.id,
+      status: false,
+    });
+
+    const data = await order_push_id.json();
+
+    console.log("pushid", data);
+
+    const ids = {
+      order_push_id: data.name,
+      order_id: resData.id,
+    };
+    return ids;
+    // return resData.id;
   };
 
   const verifySignature = async (order_id, pid, signature) => {
@@ -210,12 +228,12 @@ const OrderPreviewScreen = (props) => {
                 key: "rzp_test_JTQ6Nksjcb9tRj",
                 amount: "5000",
                 name: ordername,
-                order_id: id, // order_id recieved after
+                order_id: id.order_id, // order_id recieved after
                 prefill: {
                   email: email,
                   contact: contact,
                   name: name,
-                  method: "card", //default payment method
+                  // method: "card", //default payment method
                 },
                 theme: { color: "#000" },
               };
@@ -230,6 +248,11 @@ const OrderPreviewScreen = (props) => {
                     data.razorpay_signature
                   ).then((data) => {
                     if (data) {
+                      console.log(id.order_push_id);
+                      /* FIXME:
+                      update realtime firebase database to reflect the change in status
+                      and change the orderscreen to show only true orders or visually show an order was unsuccessful
+                        */
                       props.navigation.navigate("OrderConfirmation", {
                         status: data.status,
                       });

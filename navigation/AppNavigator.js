@@ -229,9 +229,10 @@ const CheckoutNavigator = () => {
       <CheckoutStackNavigator.Screen
         name="OrderPreview"
         component={OrderPreviewScreen}
-        // options={{
-        //   stackPresentation: "modal",
-        // }}
+        options={{
+          // stackPresentation: "modal",
+          headerTitle: "Order Summary",
+        }}
       />
 
       <CheckoutStackNavigator.Screen

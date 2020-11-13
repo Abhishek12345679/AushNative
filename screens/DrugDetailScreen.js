@@ -200,31 +200,31 @@ const DrugDetailScreen = observer((props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        // <TouchableOpacity
-        //   onPress={() => {
-        //     navData.navigation.navigate("Cart");
-        //   }}
-        // >
-        //   <IconBadge
-        //     MainElement={
-        //       <Image
-        //         source={require("../assets/bag.png")}
-        //         style={{ height: 25, width: 25, marginTop: 0 }}
-        //       />
-        //     }
-        //     BadgeElement={
-        //       <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
-        //     }
-        //     IconBadgeStyle={{
-        //       width: 10,
-        //       height: 20,
-        //       backgroundColor: "purple",
-        //       marginTop: 5,
-        //     }}
-        //     Hidden={DrugStore.count == 0}
-        //   />
-        // </TouchableOpacity>
-        <Text style={{ color: "#000" }}>{DrugStore.count}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate("Cart");
+          }}
+        >
+          <IconBadge
+            MainElement={
+              <Image
+                source={require("../assets/bag.png")}
+                style={{ height: 25, width: 25, marginTop: 0 }}
+              />
+            }
+            BadgeElement={
+              <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
+            }
+            IconBadgeStyle={{
+              width: 10,
+              height: 20,
+              backgroundColor: "purple",
+              marginTop: 5,
+            }}
+            Hidden={DrugStore.count == 0}
+          />
+        </TouchableOpacity>
+        // <Text style={{ color: "#000" }}>{DrugStore.count}</Text>
       ),
     });
   }, [cartCount]);
