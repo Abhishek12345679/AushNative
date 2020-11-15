@@ -48,8 +48,17 @@ const HomeScreen = observer((props) => {
 
   const geoSuccess = (position) => {
     console.log("Success", position);
+
+    /**
+     * revert this back in production,
+     * this is just to show me my home address
+     */
+
+    // fetch(
+    //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
+    // )
     fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=26.704669,89.087195&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
     )
       .then((response) => response.json())
       .then((data) => {

@@ -56,28 +56,28 @@ const OrderPreviewScreen = (props) => {
     const response = await fetch(
       "https://razorpay-payments-api.herokuapp.com/orders"
     );
+
     const resData = await response.json();
-
     console.log(resData);
-    const order_push_id = await DrugStore.addOrder({
-      items: DrugStore.drugs,
-      datetimestamp: new Date().getTime(),
-      address: address,
-      total_amt: total_checkout_amt,
-      order_id: resData.id,
-      status: false,
-    });
 
-    const data = await order_push_id.json();
+    // const order_push_id = await DrugStore.addOrder({
+    //   items: DrugStore.drugs,
+    //   datetimestamp: new Date().getTime(),
+    //   address: address,
+    //   total_amt: total_checkout_amt,
+    //   order_id: resData.id,
+    //   status: false,
+    // });
 
-    console.log("pushid", data);
+    // const data = await order_push_id.json();
+    // console.log("pushid", data);
 
-    const ids = {
-      order_push_id: data.name,
-      order_id: resData.id,
-    };
-    return ids;
-    // return resData.id;
+    // const ids = {
+    //   order_push_id: data.name,
+    //   order_id: resData.id,
+    // };
+    // return ids;
+    return resData.id;
   };
 
   const verifySignature = async (order_id, pid, signature) => {
@@ -102,40 +102,6 @@ const OrderPreviewScreen = (props) => {
   };
 
   return (
-    // <View>
-    //   {DrugStore.drugs.map((drug, index) => (
-    //     <View key={index}>
-    //       <Text> {drug.name} </Text>
-    //       <Text> {drug.salt} </Text>
-    //     </View>
-    //   ))}
-    //   <Text> {address["type"]} </Text>
-    //   <Text> {paymentMode} </Text>
-    //   <Button
-    //     title="buy"
-    //     onPress={() => {
-    //       // setCheckingOut(true);
-    //       setTimeout(() => {
-    //         // setCheckingOut(false);
-    //         showMessage({
-    //           message: `Order Successful`,
-    //           type: "success",
-    //           position: "top",
-    //         });
-    //       }, 3000);
-    //       DrugStore.addOrder({
-    //         items: DrugStore.drugs,
-    //         datetimestamp: new Date().getTime(),
-    //         address: address,
-    //         total_amt: total_checkout_amt,
-    //       });
-    //       DrugStore.clearCart();
-    //       // props.navigation.goToParent();
-    //       props.navigation.navigate({ name: "Home" });
-    //       props.navigation.pop();
-    //     }}
-    //   />
-    // </View>
     <ScrollView style={styles.container}>
       <View style={styles.item}>
         <View style={styles.textCont}>
@@ -228,7 +194,7 @@ const OrderPreviewScreen = (props) => {
                 key: "rzp_test_JTQ6Nksjcb9tRj",
                 amount: "5000",
                 name: ordername,
-                order_id: id.order_id, // order_id recieved after
+                order_id: id, // order_id recieved after
                 prefill: {
                   email: email,
                   contact: contact,
@@ -248,14 +214,24 @@ const OrderPreviewScreen = (props) => {
                     data.razorpay_signature
                   ).then((data) => {
                     if (data) {
-                      console.log(id.order_push_id);
                       /* FIXME:
                       update realtime firebase database to reflect the change in status
                       and change the orderscreen to show only true orders or visually show an order was unsuccessful
                         */
-                      props.navigation.navigate("OrderConfirmation", {
+
+                      DrugStore.addOrder({
+                        items: DrugStore.drugs,
+                        datetimestamp: new Date().getTime(),
+                        address: address,
+                        total_amt: total_checkout_amt,
+                        order_id: id,
                         status: data.status,
+                      }).then(() => {
+                        props.navigation.navigate("OrderConfirmation", {
+                          status: data.status,
+                        });
                       });
+
                       // remove cartItems
                       // if (data.status === true) {
                       //   DrugStore.clearCart();
@@ -312,3 +288,10 @@ const styles = StyleSheet.create({
 });
 
 export default OrderPreviewScreen;
+
+// curl -X PATCH -d '{
+//   "-MLx3JwO8xs6pvPOct6X":{
+//       "a":"abc"
+//   }
+// }' \
+//   'https://chemy-llc.firebaseio.com/orders/7WCAfGl2BiOB49OgOFxLycKFAsx2.json'

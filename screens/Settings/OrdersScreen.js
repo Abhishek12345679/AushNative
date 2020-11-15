@@ -33,6 +33,7 @@ const OrdersScreen = observer((props) => {
           data={DrugStore.orders.slice().reverse()}
           renderItem={(itemData) => (
             <OrderItem
+              status={itemData.item.status}
               key={itemData.item.datetimestamp}
               itemData={itemData.item}
               onPress={() => {

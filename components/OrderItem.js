@@ -16,7 +16,7 @@ const OrderItem = observer((props) => {
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: "#FFF",
+        backgroundColor: props.status === true ? "#FFF" : "red",
         padding: 20,
         borderRadius: 10,
         marginVertical: 10,

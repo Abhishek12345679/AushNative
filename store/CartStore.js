@@ -68,6 +68,7 @@ const DrugStore = types
   .model("DrugStore", {
     drugs: types.array(Drug),
     count: types.number,
+    // order: Order,
     orders: types.array(Order),
     profile: Profile,
     addresses: types.array(Address),
@@ -226,6 +227,12 @@ const DrugStore = types
   }))
   // Order Actions
   .actions((self) => ({
+    // addOrder(order) {
+    //   self.order = order;
+    // },
+    // updateStatus(status) {
+    //   self.order.status = status;
+    // },
     addOrder(order) {
       // console.log(self.userCredentials);
       const response = fetch(
