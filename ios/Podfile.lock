@@ -300,6 +300,8 @@ PODS:
     - React
   - react-native-geolocation (2.0.2):
     - React
+  - react-native-netinfo (5.9.7):
+    - React-Core
   - react-native-razorpay (2.2.1):
     - razorpay-pod
     - React
@@ -465,6 +467,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-appearance (from `../node_modules/react-native-appearance`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-razorpay (from `../node_modules/react-native-razorpay`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-community/segmented-control`)"
@@ -593,6 +596,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-appearance"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-razorpay:
     :path: "../node_modules/react-native-razorpay"
   react-native-safe-area-context:
@@ -717,6 +722,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-appearance: 0f0e5fc2fcef70e03d48c8fe6b00b9158c2ba8aa
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-netinfo: 250dc0ca126512f618a8a2ca6a936577e1f66586
   react-native-razorpay: 5c7216443173b90baa43871fdf565fd15f6108f3
   react-native-safe-area-context: ef6f16c66b0797ecae1bf86c103dfb3dc16fc33d
   react-native-segmented-control: d7c444e5cc5f526da766f8ff24346898b7ac7be5
@@ -756,6 +762,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: cabc1f6a5a30cfcd599607f8ebc36bdc1013b83b
+PODFILE CHECKSUM: 63d19107320bc271e9058a4866b617cde91baac0
 
 COCOAPODS: 1.9.3
