@@ -1,5 +1,9 @@
 // TODO: upgrade to 0.63
 
+/**
+ * Network status changes to disconnected on switching off system wifi on ios emulator but does not work vice versa
+ */
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
@@ -16,6 +20,8 @@ import {
 import * as Firebase from "firebase";
 
 import { showMessage } from "react-native-flash-message";
+
+import NetInfo from "@react-native-community/netinfo";
 
 // import { Image } from "react-native-elements";
 
@@ -84,6 +90,26 @@ const HomeScreen = observer((props) => {
   //   Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
   // }, []);
 
+  const [connStatus, setConnStatus] = useState(false);
+
+  useEffect(() => {
+    // Subscribe
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      // console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+      setConnStatus(state.isConnected);
+    });
+    return () => {
+      // Unsubscribe
+      unsubscribe();
+    };
+  }, []);
+
+  // NetInfo.fetch().then((state) => {
+  //   console.log("Connection type", state.type);
+  //   console.log("Is connected?", state.isConnected);
+  // });
+
   // cloudinary is super slow in fetching images
   const getDP = async () => {
     const response = await fetch("https://images-api-v1.herokuapp.com/search", {
@@ -130,18 +156,35 @@ const HomeScreen = observer((props) => {
       // start new timer
       // refetch and assign auth token
 
-      retrieveUserData().then((refreshedData) => {
-        console.log("userData", refreshedData);
+      // retrieveUserData().then((refreshedData) => {
+      //   console.log("userData", refreshedData);
 
-        requestNewAuthToken(refreshedData.refToken).then((data) => {
+      //   requestNewAuthToken(refreshedData.refToken).then((data) => {
+      //     DrugStore.initializeUserCredentials(
+      //       data.id_token,
+      //       refreshedData.uid,
+      //       refreshedData.email
+      //     );
+      //     updateAutoLoginData(data.expires_in);
+      //   });
+      // });
+      // retrieveUserData().then((refreshedData) => {
+      const timer = setInterval(() => {
+        requestNewAuthToken(refreshToken).then((data) => {
           DrugStore.initializeUserCredentials(
             data.id_token,
-            refreshedData.uid,
-            refreshedData.email
+            DrugStore.userCredentials.uid,
+            DrugStore.userCredentials.email
           );
           updateAutoLoginData(data.expires_in);
         });
-      });
+
+        console.log("called requestNewToken");
+        console.log("expires in ");
+      }, 3600 * 1000);
+      DrugStore.clearTimer();
+      DrugStore.startTimer(timer);
+      // });
     } else {
       console.log("Background");
       // delete the existing timers
@@ -314,6 +357,9 @@ const HomeScreen = observer((props) => {
           <Text style={{ fontSize: 30 }}>Welcome back, </Text>
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "purple" }}>
             {DrugStore.profile.name.trim()}
+          </Text>
+          <Text>
+            ConnStatus:{connStatus === true ? "connected" : "disconnected"}
           </Text>
           <LocationPicker
             location={locName}
