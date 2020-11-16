@@ -3,6 +3,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import Address from "../../components/Address";
 
 const OrderDetailScreen = observer((props) => {
   const item = props.route.params.item_;
@@ -15,30 +16,6 @@ const OrderDetailScreen = observer((props) => {
     return humanDateFormat.substring(0, humanDateFormat.indexOf(":") - 3);
   };
 
-  // for testing
-  // const uuidgen = () => {
-  //   const S4 = function () {
-  //     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  //   };
-  //   const uuid =
-  //     S4() +
-  //     S4() +
-  //     "-" +
-  //     S4() +
-  //     "-" +
-  //     S4() +
-  //     "-" +
-  //     S4() +
-  //     "-" +
-  //     S4() +
-  //     S4() +
-  //     S4();
-
-  //   console.log(uuid);
-
-  //   return uuid;
-  // };
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
@@ -49,7 +26,7 @@ const OrderDetailScreen = observer((props) => {
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order #</Text>
 
-          <Text>{"sample"}</Text>
+          <Text>{item.order_id}</Text>
         </View>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order Total</Text>
@@ -98,6 +75,18 @@ const OrderDetailScreen = observer((props) => {
             </View>
           </View>
         ))}
+      </View>
+      <Text style={{ padding: 25, fontSize: 30, fontWeight: "bold" }}>
+        Address
+      </Text>
+      <View style={{ paddingHorizontal: 25 }}>
+        <Address
+          type={item.address.type}
+          name={item.address.name}
+          ph_no={item.address.ph_no}
+          add_line_1={item.address.add_line_1}
+          add_line_2={item.address.add_line_2}
+        />
       </View>
     </ScrollView>
   );

@@ -90,20 +90,20 @@ const HomeScreen = observer((props) => {
   //   Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
   // }, []);
 
-  const [connStatus, setConnStatus] = useState(false);
+  // const [connStatus, setConnStatus] = useState(false);
 
-  useEffect(() => {
-    // Subscribe
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      // console.log("Connection type", state.type);
-      console.log("Is connected?", state.isConnected);
-      setConnStatus(state.isConnected);
-    });
-    return () => {
-      // Unsubscribe
-      unsubscribe();
-    };
-  }, []);
+  // useEffect(() => {
+  //   // Subscribe
+  //   const unsubscribe = NetInfo.addEventListener((state) => {
+  //     // console.log("Connection type", state.type);
+  //     console.log("Is connected?", state.isConnected);
+  //     setConnStatus(state.isConnected);
+  //   });
+  //   return () => {
+  //     // Unsubscribe
+  //     unsubscribe();
+  //   };
+  // }, []);
 
   // NetInfo.fetch().then((state) => {
   //   console.log("Connection type", state.type);
@@ -156,34 +156,34 @@ const HomeScreen = observer((props) => {
       // start new timer
       // refetch and assign auth token
 
-      // retrieveUserData().then((refreshedData) => {
-      //   console.log("userData", refreshedData);
+      retrieveUserData().then((refreshedData) => {
+        console.log("userData", refreshedData);
 
-      //   requestNewAuthToken(refreshedData.refToken).then((data) => {
-      //     DrugStore.initializeUserCredentials(
-      //       data.id_token,
-      //       refreshedData.uid,
-      //       refreshedData.email
-      //     );
-      //     updateAutoLoginData(data.expires_in);
-      //   });
-      // });
-      // retrieveUserData().then((refreshedData) => {
-      const timer = setInterval(() => {
-        requestNewAuthToken(refreshToken).then((data) => {
+        requestNewAuthToken(refreshedData.refToken).then((data) => {
           DrugStore.initializeUserCredentials(
             data.id_token,
-            DrugStore.userCredentials.uid,
-            DrugStore.userCredentials.email
+            refreshedData.uid,
+            refreshedData.email
           );
           updateAutoLoginData(data.expires_in);
         });
+      });
+      // retrieveUserData().then((refreshedData) => {
+      // const timer = setInterval(() => {
+      //   requestNewAuthToken(refreshToken).then((data) => {
+      //     DrugStore.initializeUserCredentials(
+      //       data.id_token,
+      //       DrugStore.userCredentials.uid,
+      //       DrugStore.userCredentials.email
+      //     );
+      //     updateAutoLoginData(data.expires_in);
+      //   });
 
-        console.log("called requestNewToken");
-        console.log("expires in ");
-      }, 3600 * 1000);
-      DrugStore.clearTimer();
-      DrugStore.startTimer(timer);
+      //   console.log("called requestNewToken");
+      //   console.log("expires in ");
+      // }, 3600 * 1000);
+      // DrugStore.clearTimer();
+      // DrugStore.startTimer(timer);
       // });
     } else {
       console.log("Background");
@@ -358,9 +358,9 @@ const HomeScreen = observer((props) => {
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "purple" }}>
             {DrugStore.profile.name.trim()}
           </Text>
-          <Text>
+          {/* <Text>
             ConnStatus:{connStatus === true ? "connected" : "disconnected"}
-          </Text>
+          </Text> */}
           <LocationPicker
             location={locName}
             onPress={() => {

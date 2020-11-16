@@ -73,19 +73,19 @@ const SplashScreen = observer(({ navigation }) => {
           updateAutoLoginData(autoLoginData.expirationTime);
         });
 
-        const timer = setInterval(() => {
-          requestNewAuthToken(refreshToken).then((data) => {
-            DrugStore.initializeUserCredentials(data.id_token, uid, email);
-            updateAutoLoginData(data.expires_in);
-          });
-          // DrugStore.startTimer(timer);
+        // const timer = setInterval(() => {
+        //   requestNewAuthToken(refreshToken).then((data) => {
+        //     DrugStore.initializeUserCredentials(data.id_token, uid, email);
+        //     updateAutoLoginData(data.expires_in);
+        //   });
+        //   // DrugStore.startTimer(timer);
 
-          console.log("called requestNewToken");
-          console.log("expires in ", autoLoginData.expirationTime);
-        }, autoLoginData.expirationTime);
+        //   console.log("called requestNewToken");
+        //   console.log("expires in ", autoLoginData.expirationTime);
+        // }, autoLoginData.expirationTime);
 
-        DrugStore.clearTimer();
-        DrugStore.startTimer(timer);
+        // DrugStore.clearTimer();
+        // DrugStore.startTimer(timer);
 
         // console.log("YO")
       } catch (e) {
