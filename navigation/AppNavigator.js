@@ -3,6 +3,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+
 import HomeScreen, {
   screenOptions as HomeScreenOptions,
 } from "../screens/HomeScreen";
@@ -27,6 +29,7 @@ import SignUpScreen from "../screens/Authentication/SignUpScreen";
 import LoginScreen from "../screens/Authentication/LoginScreen";
 
 import { enableScreens } from "react-native-screens";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createNativeStackNavigator } from "react-native-screens/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import OrdersScreen from "../screens/Settings/OrdersScreen";
@@ -72,11 +75,11 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
         justifyContent: "center",
         alignItems: "center",
         height: 65,
-        backgroundColor: "#1f1f1f",
+        backgroundColor: "#070d59",
         borderRadius: 15,
-        width: "80%",
-        marginLeft: 40,
-        marginRight: 40,
+        width: "50%",
+        marginLeft: 100,
+        marginRight: 100,
         shadowColor: "#000",
         shadowOffset: {
           width: 1,
@@ -89,9 +92,9 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
 
-        const IconNames = ["scan1", "shopping-basket"];
-        const tabNames = [" | scan", "shop"];
-        const routeNames = ["Scan", route.name];
+        const IconNames = ["scan1"];
+        const tabNames = ["| scan"];
+        const routeNames = ["Scan"];
 
         const isFocused = state.index === index;
         const onPress = () => {
@@ -142,13 +145,13 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <View
               style={{
                 alignItems: "center",
-                flexDirection: index === 0 ? "row" : "column",
-                justifyContent: "space-between",
+                flexDirection: "row",
+                justifyContent: "space-around",
                 // backgroundColor: "#ccc",
-                width: index === 0 ? "50%" : 60,
+                width: "50%",
               }}
             >
-              {index === 0 ? (
+              {/* {index === 0 ? (
                 <AntDesign
                   name={IconNames[index]}
                   size={25}
@@ -171,7 +174,21 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
                 >
                   {tabNames[index]}
                 </Text>
-              )}
+              )} */}
+              <AntDesign
+                name={IconNames[index]}
+                size={25}
+                color={!isFocused ? "#aaa" : "#fff"}
+              />
+              <Text
+                style={{
+                  color: !isFocused ? "#aaa" : "#fff",
+                  fontSize: 22,
+                  fontWeight: "bold",
+                }}
+              >
+                {tabNames[index]}
+              </Text>
             </View>
           </TouchableOpacity>
         );
@@ -215,6 +232,7 @@ const CheckoutNavigator = () => {
     //     );
     //   },
     // })}
+    // screenOptions={}
     >
       <CheckoutStackNavigator.Screen
         name="SelectAddress"
@@ -444,10 +462,10 @@ export const TabNavigator = () => {
     <BottomNavigationBar.Navigator tabBar={(props) => <MyTabBar {...props} />}>
       <BottomNavigationBar.Screen name="ScanScreen" component={RootNavigator} />
 
-      <BottomNavigationBar.Screen
+      {/* <BottomNavigationBar.Screen
         name="SplashScreen"
         component={ShopNavigator}
-      />
+      /> */}
     </BottomNavigationBar.Navigator>
   );
 };
