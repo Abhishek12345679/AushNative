@@ -310,7 +310,7 @@ const HomeScreen = observer((props) => {
         </TouchableOpacity>
       ),
       headerLargeTitle: false,
-      headerTitle: "Aushadalay",
+      headerTitle: "Aushadhalay",
     });
   }, [headerImg]);
 
@@ -395,69 +395,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export const IOSScreenOptions = (navData) => {
-  return {
-    // headerLeft: () => (
-    //   <TouchableOpacity
-    //     onPress={() => {
-    //       navData.navigation.navigate("Settings");
-    //     }}
-    //   >
-    //     <Image
-    //       source={{
-    //         uri:
-    //           // DrugStore.profile.display_picture.length === 1
-    //           //   ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-    //           // :
-    //           DrugStore.profile.display_picture,
-    //       }}
-    //       style={{
-    //         height: 35,
-    //         width: 35,
-    //         marginTop: 0,
-    //         borderRadius: 17.5,
-    //         // shadowOpacity: 0.75,
-    //       }}
-    //     />
-    //   </TouchableOpacity>
-    // ),
-    // headerRight: () => (
-    //   <TouchableOpacity
-    //     onPress={() => {
-    //       navData.navigation.navigate("Cart");
-    //     }}
-    //   >
-    //     <IconBadge
-    //       MainElement={
-    //         <Image
-    //           source={require("../assets/bag.png")}
-    //           style={{ height: 25, width: 25, marginTop: 0 }}
-    //         />
-    //       }
-    //       BadgeElement={
-    //         <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-    //       }
-    //       IconBadgeStyle={{
-    //         width: 10,
-    //         height: 20,
-    //         backgroundColor: "purple",
-    //         marginTop: 5,
-    //       }}
-    //       Hidden={DrugStore.count == 0}
-    //     />
-    //   </TouchableOpacity>
-    // ),
-    // headerLargeTitle: false,
-    // headerTitle: "Aushadalay",
-    // औषधालय,
-    // headerTitle: `Welcome back, \n ${DrugStore.userCredentials.email.substring(
-    //   0,
-    //   DrugStore.userCredentials.email.indexOf("@")
-    // )}`,
-    // headerTitleStyle: { textAlign: "center", flex: 1 },
-  };
-};
-
 export const AndroidScreenOptions = (navData) => {
   return {
     headerRight: () => (
@@ -516,7 +453,7 @@ export const AndroidScreenOptions = (navData) => {
       </View>
     ),
     headerLargeTitle: false,
-    headerTitle: "Aushadalay",
+    headerTitle: "Aushadhalay",
     // औषधालय,
     // headerTitle: `Welcome back, \n ${DrugStore.userCredentials.email.substring(
     //   0,
