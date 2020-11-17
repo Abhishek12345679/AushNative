@@ -9,8 +9,10 @@ import { observer } from "mobx-react";
 import * as Firebase from "firebase";
 import ListItem from "../components/ListItem";
 
+import { connectActionSheet } from "@expo/react-native-action-sheet";
+
 const SettingsScreen = observer((props) => {
-  const { navigation } = props;
+  const { navigation, showActionSheetWithOptions } = props;
   const [date, setDate] = useState();
   const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
 
@@ -58,6 +60,43 @@ const SettingsScreen = observer((props) => {
       }
     });
   }, [navigation]);
+
+  const onOpenActionSheet = () => {
+    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
+    const options = ["Log Out", "Cancel"];
+    const destructiveButtonIndex = 0;
+    const cancelButtonIndex = 1;
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        destructiveButtonIndex,
+      },
+      (buttonIndex) => {
+        // Do something here depending on the button index selected
+        if (buttonIndex === 0) {
+          const logout = async () => {
+            try {
+              await Firebase.auth().signOut();
+              console.log(
+                `${DrugStore.userCredentials.uid} logged out successfully`
+              );
+              await AsyncStorage.removeItem("login_data");
+              await AsyncStorage.removeItem("auto_login_data");
+              await AsyncStorage.removeItem("user_data");
+              DrugStore.initializeUserCredentials("", "", "");
+              DrugStore.setPFP(" ");
+              DrugStore.clearTimer();
+            } catch (e) {
+              console.log(e);
+            }
+          };
+          logout();
+        }
+      }
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -142,40 +181,7 @@ const SettingsScreen = observer((props) => {
       </View>
       <ListItem
         name="Log Out"
-        onPress={() =>
-          Alert.alert(
-            "Log out",
-            "This will make you re-enter your password",
-            [
-              {
-                text: "Cancel",
-                onPress: () => {},
-                style: "normal",
-              },
-              {
-                text: "Log out",
-                onPress: async () => {
-                  try {
-                    await Firebase.auth().signOut();
-                    console.log(
-                      `${DrugStore.userCredentials.uid} logged out successfully`
-                    );
-                    await AsyncStorage.removeItem("login_data");
-                    await AsyncStorage.removeItem("auto_login_data");
-                    await AsyncStorage.removeItem("user_data");
-                    DrugStore.initializeUserCredentials("", "", "");
-                    DrugStore.setPFP(" ");
-                    DrugStore.clearTimer();
-                  } catch (e) {
-                    console.log(e);
-                  }
-                },
-                style: "destructive",
-              },
-            ],
-            { cancelable: false }
-          )
-        }
+        onPress={onOpenActionSheet}
         style={{
           marginVertical: 30,
           borderRadius: 10,
@@ -226,4 +232,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsScreen;
+const connectedApp = connectActionSheet(SettingsScreen);
+
+export default connectedApp;

@@ -3,27 +3,25 @@ import { View } from "react-native";
 
 import { AppearanceProvider } from "react-native-appearance";
 
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./store/store";
-
 import RootNavigation from "./navigation/RootNavigation";
+import { client } from "./store/store";
+import { ApolloProvider } from "@apollo/client";
 
-import { observer, Provider } from "mobx-react";
+import { observer } from "mobx-react";
 
 import FlashMessage from "react-native-flash-message";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
 const App = observer((props) => {
   return (
-    // <AppearanceProvider>
-    // <Provider store={}>
-    <ApolloProvider client={client}>
-      <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-        <RootNavigation />
-        <FlashMessage position="bottom" />
-      </View>
-    </ApolloProvider>
-    // </Provider>
-    // </AppearanceProvider>
+    <ActionSheetProvider>
+      <ApolloProvider client={client}>
+        <View style={{ flex: 1, backgroundColor: "#FFF" }}>
+          <RootNavigation />
+          <FlashMessage position="bottom" />
+        </View>
+      </ApolloProvider>
+    </ActionSheetProvider>
   );
 });
 
