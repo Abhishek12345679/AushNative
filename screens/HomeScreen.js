@@ -15,6 +15,7 @@ import {
   AppState,
   Image,
   Modal,
+  ScrollView,
 } from "react-native";
 
 import * as Firebase from "firebase";
@@ -365,7 +366,10 @@ const HomeScreen = observer((props) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView
+      style={{ backgroundColor: "#fff" }}
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
       {Platform.OS === "ios" ? (
         <StatusBar barStyle="dark-content" />
       ) : (
@@ -394,7 +398,28 @@ const HomeScreen = observer((props) => {
           {/* change the UI of the actionsheet location */}
         </View>
       </View>
-    </View>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#fff",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          marginBottom: 30,
+        }}
+      >
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.scanButton}
+          onPress={() => {
+            props.navigation.navigate("Scan");
+          }}
+        >
+          <Text style={{ color: "#fff", fontWeight: "500", fontSize: 17 }}>
+            Scan
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 });
 
@@ -404,15 +429,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flexDirection: "column",
     // alignItems: "center",
+    // flexGrow: 1,
   },
   scanButton: {
-    height: 150,
-    width: "90%",
+    height: 50,
+    width: "35%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#000",
-    borderRadius: 15,
+    borderRadius: 25,
     marginTop: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 5,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
   },
 });
 

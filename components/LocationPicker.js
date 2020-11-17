@@ -16,7 +16,9 @@ const LocationPicker = (props) => {
       }}
     >
       <Text style={{ marginEnd: 10, fontWeight: "500", fontSize: 15 }}>
-        {props.location.substring(0, props.location.indexOf(","))}
+        {props.location.indexOf(",") === -1
+          ? props.location
+          : props.location.substring(0, props.location.indexOf(","))}
       </Text>
       <Ionicons name="ios-arrow-down" size={22} color="#000" />
     </TouchableOpacity>
