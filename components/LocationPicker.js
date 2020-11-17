@@ -6,15 +6,19 @@ import { Ionicons } from "@expo/vector-icons";
 const LocationPicker = (props) => {
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       onPress={props.onPress}
       style={{
         flexDirection: "row",
         alignItems: "center",
-        // justifyContent: "center",
+        justifyContent: "center",
+        marginTop: -5,
       }}
     >
-      <Text style={{ marginEnd: 10 }}>{props.location}</Text>
-      <Ionicons name="ios-arrow-down" size={24} color="#000" />
+      <Text style={{ marginEnd: 10, fontWeight: "500", fontSize: 15 }}>
+        {props.location.substring(0, props.location.indexOf(","))}
+      </Text>
+      <Ionicons name="ios-arrow-down" size={22} color="#000" />
     </TouchableOpacity>
   );
 };

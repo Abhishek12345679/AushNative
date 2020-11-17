@@ -377,6 +377,12 @@ const HomeScreen = observer((props) => {
           backgroundColor: "#fff",
         }}
       >
+        <LocationPicker
+          location={locName}
+          onPress={() => {
+            onOpenActionSheet();
+          }}
+        />
         <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
           <Text style={{ fontSize: 30 }}>Welcome back, </Text>
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "purple" }}>
@@ -386,12 +392,6 @@ const HomeScreen = observer((props) => {
             ConnStatus:{connStatus === true ? "connected" : "disconnected"}
           </Text> */}
           {/* change the UI of the actionsheet location */}
-          <LocationPicker
-            location={locName}
-            onPress={() => {
-              onOpenActionSheet();
-            }}
-          />
         </View>
       </View>
     </View>
