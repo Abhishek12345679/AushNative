@@ -14,7 +14,7 @@ import {
   Platform,
   AppState,
   Image,
-  Button,
+  Modal,
 } from "react-native";
 
 import * as Firebase from "firebase";
@@ -40,8 +40,12 @@ import {
 import Geolocation from "@react-native-community/geolocation";
 import LocationPicker from "../components/LocationPicker";
 
+import DropDownPicker from "react-native-dropdown-picker";
+import Icon from "react-native-vector-icons/Feather";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
+
 const HomeScreen = observer((props) => {
-  const { navigation } = props;
+  const { navigation, showActionSheetWithOptions } = props;
   const [headerImg, setHeaderImg] = useState(
     "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
   );
@@ -51,6 +55,8 @@ const HomeScreen = observer((props) => {
   const appState = useRef(AppState.currentState);
 
   const [locName, setLocName] = useState("Select Location");
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const [options, setOptions] = useState("select location");
 
   const geoSuccess = (position) => {
     console.log("Success", position);
@@ -73,6 +79,7 @@ const HomeScreen = observer((props) => {
         );
         console.log(locName);
         setLocName(locName);
+        // setModalVisible(true);
       });
   };
 
@@ -85,10 +92,6 @@ const HomeScreen = observer((props) => {
     timeOut: 20000,
     maximumAge: 60 * 60 * 24,
   };
-
-  // useEffect(() => {
-  //   Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
-  // }, []);
 
   // const [connStatus, setConnStatus] = useState(false);
 
@@ -340,6 +343,27 @@ const HomeScreen = observer((props) => {
   //   // console.log("Creds - ", DrugStore.userCredentials);
   // }, []);
 
+  const onOpenActionSheet = () => {
+    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
+    const options = ["Detect Current Location", "Select Manually", "Cancel"];
+    // const destructiveButtonIndex = 2;
+    const cancelButtonIndex = 2;
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        // destructiveButtonIndex,
+      },
+      (buttonIndex) => {
+        // Do something here depending on the button index selected
+        if (buttonIndex === 0) {
+          Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
+        }
+      }
+    );
+  };
+
   return (
     <View style={{ flex: 1 }}>
       {Platform.OS === "ios" ? (
@@ -361,14 +385,11 @@ const HomeScreen = observer((props) => {
           {/* <Text>
             ConnStatus:{connStatus === true ? "connected" : "disconnected"}
           </Text> */}
+          {/* change the UI of the actionsheet location */}
           <LocationPicker
             location={locName}
             onPress={() => {
-              Geolocation.getCurrentPosition(
-                geoSuccess,
-                geoFailure,
-                geoOptions
-              );
+              onOpenActionSheet();
             }}
           />
         </View>
@@ -463,6 +484,8 @@ export const AndroidScreenOptions = (navData) => {
   };
 };
 
-export default HomeScreen;
+const connectedApp = connectActionSheet(HomeScreen);
+
+export default connectedApp;
 
 // {"coords": {"accuracy": 5, "altitude": 0, "altitudeAccuracy": -1, "heading": -1, "latitude": 37.785834, "longitude": -122.406417, "speed": -1}, "timestamp": 1605103023554.0972}
