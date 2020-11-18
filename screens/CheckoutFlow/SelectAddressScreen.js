@@ -116,9 +116,19 @@ const styles = StyleSheet.create({
 });
 export const screenOptions = (navData) => {
   return {
-    headerTitle: "Select your Address",
+    headerTitle: "Addresses",
     headerLargeTitle: false,
     headerShown: true,
+    headerRight: () => (
+      <Text
+        style={{ color: "rgb(36,61,138)", fontWeight: "500", fontSize: 17 }}
+        onPress={() => {
+          navData.navigation.pop();
+        }}
+      >
+        cancel
+      </Text>
+    ),
   };
 };
 

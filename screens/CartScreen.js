@@ -43,24 +43,25 @@ const CartScreen = observer((props) => {
   };
 
   const submitOrder = () => {
-    Alert.alert(
-      "Confirm",
-      "Do you want to continue to the payment options ?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "yes",
-          onPress: () => {
-            props.navigation.navigate("CheckoutFlow");
-          },
-        },
-      ],
-      { cancelable: true }
-    );
+    // Alert.alert(
+    //   "Confirm",
+    //   "Do you want to continue to the payment options ?",
+    //   [
+    //     {
+    //       text: "Cancel",
+    //       onPress: () => console.log("Cancel Pressed"),
+    //       style: "cancel",
+    //     },
+    //     {
+    //       text: "yes",
+    //       onPress: () => {
+    //         props.navigation.navigate("CheckoutFlow");
+    //       },
+    //     },
+    //   ],
+    //   { cancelable: true }
+    // );
+    props.navigation.navigate("CheckoutFlow");
   };
 
   return (
