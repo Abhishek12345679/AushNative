@@ -45,6 +45,8 @@ const OrderPreviewScreen = (props) => {
     total_checkout_amt = total_checkout_amt + drugs[i].total_amt;
   }
 
+  console.log(total_checkout_amt);
+
   const toISTString = (unixtime) => {
     const dateObject = new Date(unixtime);
     const humanDateFormat = dateObject.toString();
@@ -187,12 +189,12 @@ const OrderPreviewScreen = (props) => {
             createOrder().then((id) => {
               console.log("id", id);
               const options = {
-                description:
-                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere laudantium pariatur quas officia corporis?", //product description
-                image: "https://i.imgur.com/3g7nmJC.png", // product image
+                description: `${drugs.length} Medicines you ordered.`, //product description
+                image:
+                  "https://media.npr.org/assets/img/2020/03/09/gettyimages-88160320_wide-27e22851a1aaf72f2e66e280f55d0c28c81ec7bb.jpg?s=1400", // product image
                 currency: "INR",
-                key: "rzp_test_JTQ6Nksjcb9tRj",
-                amount: "5000",
+                key: "rzp_test_JTQ6Nksjcb9tRj", // secure this key
+                amount: total_checkout_amt * 100,
                 name: ordername,
                 order_id: id, // order_id recieved after
                 prefill: {
@@ -214,11 +216,6 @@ const OrderPreviewScreen = (props) => {
                     data.razorpay_signature
                   ).then((data) => {
                     if (data) {
-                      /* FIXME:
-                      update realtime firebase database to reflect the change in status
-                      and change the orderscreen to show only true orders or visually show an order was unsuccessful
-                        */
-
                       DrugStore.addOrder({
                         items: DrugStore.drugs,
                         datetimestamp: new Date().getTime(),
@@ -233,9 +230,9 @@ const OrderPreviewScreen = (props) => {
                       });
 
                       // remove cartItems
-                      // if (data.status === true) {
-                      //   DrugStore.clearCart();
-                      // }
+                      if (data.status === true) {
+                        DrugStore.clearCart();
+                      }
                     }
                   });
                 })
@@ -263,7 +260,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
     // flex: 1,
-    marginBottom: 40,
+    // marginBottom: 40,
   },
   item: {
     marginHorizontal: 25,

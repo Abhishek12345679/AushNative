@@ -350,10 +350,10 @@ const DrugDetailScreen = observer((props) => {
                   style={{
                     alignItems: "center",
                     flexDirection: "column",
-                    justifyContent: "space-around",
+                    justifyContent: "center",
                   }}
                 >
-                  <View style={{ width: 170 }}>
+                  <View>
                     <Text
                       style={{
                         fontSize: 35,
