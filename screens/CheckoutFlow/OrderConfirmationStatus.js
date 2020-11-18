@@ -5,7 +5,7 @@ import OrderSuccess from "../../components/OrderSuccess";
 
 const OrderConfirmationStatus = (props) => {
   const status = props.status;
-  //   console.log(status);
+  console.log(status); //showing undefined
   return (
     <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
       {status ? (

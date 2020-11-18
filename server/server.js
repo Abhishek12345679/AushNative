@@ -20,16 +20,19 @@ app.get("/initiate", function(req, res) {
     initiatePayment();
 });
 
-app.get("/orders", function(req, res) {
+app.post("/orders", function(req, res) {
+    console.log(req.body);
+    const { amount, currency, receipt } = req.body;
+
     var instance = new Razorpay({
         key_id: process.env.KEY,
         key_secret: process.env.SECRET,
     });
 
     var options = {
-        amount: 50000, // amount in the smallest currency unit
-        currency: "INR",
-        receipt: "order_rcptid_11",
+        amount: amount, // amount in the smallest currency unit
+        currency: currency,
+        receipt: receipt,
     };
     instance.orders.create(options, function(err, order) {
         console.log(order);

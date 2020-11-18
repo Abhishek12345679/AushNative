@@ -17,16 +17,17 @@ import { ActivityIndicator } from "react-native-paper";
 
 const OrderPreviewScreen = (props) => {
   const address = props.route.params.address;
-  const paymentMode = props.route.params.paymentMode;
+  // const paymentMode = props.route.params.paymentMode;
 
-  // console.log("address", address);
+  console.log("address", address);
   // console.log("paymentmode", paymentMode);
 
   const { drugs } = DrugStore;
   let total_checkout_amt = 0;
 
+  // const [totalAmount, setTotalAmount] = useState(0);
   const [checkingOut, setCheckingOut] = useState(false);
-  const [orderStatus, setOrderStatus] = useState(false);
+  // const [orderStatus, setOrderStatus] = useState(false);
 
   // useEffect(() => {
   //   props.navigation.navigate("OrderConfirmation", {
@@ -44,8 +45,9 @@ const OrderPreviewScreen = (props) => {
   for (let i = 0; i < drugs.length; i++) {
     total_checkout_amt = total_checkout_amt + drugs[i].total_amt;
   }
+  // setTotalAmount(total_checkout_amt);
 
-  console.log(total_checkout_amt);
+  // console.log(total_checkout_amt);
 
   const toISTString = (unixtime) => {
     const dateObject = new Date(unixtime);
@@ -56,7 +58,18 @@ const OrderPreviewScreen = (props) => {
 
   const createOrder = async () => {
     const response = await fetch(
-      "https://razorpay-payments-api.herokuapp.com/orders"
+      "https://razorpay-payments-api.herokuapp.com/orders",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: Math.trunc(total_checkout_amt * 100),
+          currency: "INR",
+          receipt: "rcptid_11",
+        }),
+      }
     );
 
     const resData = await response.json();
@@ -187,6 +200,7 @@ const OrderPreviewScreen = (props) => {
           onPress={() => {
             setCheckingOut(true);
             createOrder().then((id) => {
+              console.log("amt", total_checkout_amt * 100);
               console.log("id", id);
               const options = {
                 description: `${drugs.length} Medicines you ordered.`, //product description
@@ -239,6 +253,7 @@ const OrderPreviewScreen = (props) => {
                 .catch((error) => {
                   // handle failure
                   console.log(`Error: ${error.code} | ${error.description}`);
+                  setCheckingOut(false);
                 });
             });
           }}
