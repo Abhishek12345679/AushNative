@@ -369,24 +369,25 @@ const HomeScreen = observer((props) => {
     <ScrollView
       style={{ backgroundColor: "#fff" }}
       contentContainerStyle={{ flexGrow: 1 }}
+      stickyHeaderIndices={[1]}
     >
       {Platform.OS === "ios" ? (
         <StatusBar barStyle="dark-content" />
       ) : (
         <StatusBar barStyle="light-content" />
       )}
+      <LocationPicker
+        location={locName}
+        onPress={() => {
+          onOpenActionSheet();
+        }}
+      />
       <View
         style={{
           ...styles.container,
           backgroundColor: "#fff",
         }}
       >
-        <LocationPicker
-          location={locName}
-          onPress={() => {
-            onOpenActionSheet();
-          }}
-        />
         <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
           <Text style={{ fontSize: 30 }}>Welcome back, </Text>
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "purple" }}>

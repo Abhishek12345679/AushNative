@@ -13,6 +13,7 @@ const LocationPicker = (props) => {
         alignItems: "center",
         justifyContent: "center",
         marginTop: -5,
+        backgroundColor: "#fff",
       }}
     >
       <Text style={{ marginEnd: 10, fontWeight: "500", fontSize: 15 }}>
