@@ -238,6 +238,7 @@ const OrderPreviewScreen = (props) => {
                         order_id: id,
                         status: data.status,
                       }).then(() => {
+                        console.log("statuss", data.status);
                         props.navigation.navigate("OrderConfirmation", {
                           status: data.status,
                         });

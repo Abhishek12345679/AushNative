@@ -4,8 +4,8 @@ import OrderFailed from "../../components/OrderFailed";
 import OrderSuccess from "../../components/OrderSuccess";
 
 const OrderConfirmationStatus = (props) => {
-  const status = props.status;
-  console.log(status); //showing undefined
+  const status = props.route.params.status;
+  console.log("status", status);
   return (
     <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
       {status ? (
