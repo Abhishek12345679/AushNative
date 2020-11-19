@@ -356,17 +356,15 @@ const DrugStore = types
     }))
     // initial State
     .create({
-        drugs: [
-            //   {
-            //     id: "4123534523464575675",
-            //     name: "hbwycwc 450",
-            //     salt: "Cylonndojfhjwncv ",
-            //     price: 100,
-            //     quantity: 2,
-            //     prescription_req: false,
-            //     total_amt: 200,
-            // },
-        ],
+        drugs: [{
+            id: "4123534523464575675",
+            name: "hbwycwc 450",
+            salt: "Cylonndojfhjwncv ",
+            price: 100,
+            quantity: 2,
+            prescription_req: false,
+            total_amt: 200,
+        }, ],
         count: 0,
         orders: [],
         profile: {

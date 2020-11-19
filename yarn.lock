@@ -9072,6 +9072,14 @@ react-native-paper@^4.1.0:
     color "^3.1.2"
     react-native-safe-area-view "^0.14.9"
 
+react-native-progress-steps@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/react-native-progress-steps/-/react-native-progress-steps-1.3.4.tgz#4222601c4cee36fbafd1058db74bc1831843a5c7"
+  integrity sha512-LSkaCVjYC2lYXLuvUZBYjQKYNheth5EqyXT+Vo2F54OMgdYt+nPD/xt9peWzxCGUfeQDUaXwfRy+kpAb+ptSkA==
+  dependencies:
+    lodash "^4.17.11"
+    prop-types "^15.6.2"
+
 react-native-ratings@^7.2.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-7.3.0.tgz#32e11e4ed944ba8adbbc995d601df3f131619b6f"

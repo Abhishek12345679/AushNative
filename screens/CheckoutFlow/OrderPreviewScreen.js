@@ -15,6 +15,8 @@ import DrugStore from "../../store/CartStore";
 import RazorpayCheckout from "react-native-razorpay";
 import { ActivityIndicator } from "react-native-paper";
 
+import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
+
 const OrderPreviewScreen = (props) => {
   const address = props.route.params.address;
   // const paymentMode = props.route.params.paymentMode;
@@ -117,7 +119,34 @@ const OrderPreviewScreen = (props) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} stickyHeaderIndices={[0]}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#fff",
+          shadowColor: "#000",
+          shadowOpacity: 0.69,
+        }}
+        pointerEvents="none"
+      >
+        <ProgressSteps activeStep={1} marginBottom={0}>
+          <ProgressStep
+            label="Select Address"
+            prev
+            nextBtnText=""
+          ></ProgressStep>
+          <ProgressStep
+            label="OrderPreview"
+            previousBtnText=""
+            nextBtnText=""
+          ></ProgressStep>
+          <ProgressStep
+            label="Payment"
+            previousBtnText=""
+            nextBtnText=""
+          ></ProgressStep>
+        </ProgressSteps>
+      </View>
       <View style={styles.item}>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order Date</Text>

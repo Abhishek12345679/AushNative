@@ -41,8 +41,6 @@ import {
 import Geolocation from "@react-native-community/geolocation";
 import LocationPicker from "../components/LocationPicker";
 
-import DropDownPicker from "react-native-dropdown-picker";
-import Icon from "react-native-vector-icons/Feather";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 const HomeScreen = observer((props) => {
@@ -399,6 +397,7 @@ const HomeScreen = observer((props) => {
           {/* change the UI of the actionsheet location */}
         </View>
       </View>
+
       <View
         style={{
           flex: 1,

@@ -11,6 +11,8 @@ import {
 import Address from "../../components/Address";
 import DrugStore from "../../store/CartStore";
 
+import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
+
 const SelectAddressScreen = (props) => {
   const [selectedAddress, setSelectedAddress] = useState(0);
   const { navigation } = props;
@@ -29,9 +31,16 @@ const SelectAddressScreen = (props) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={{ padding: 20 }}>
+      {/* <View style={{ padding: 20 }}>
         <Text style={{ fontSize: 30, fontWeight: "bold" }}>Select Address</Text>
         <Text>There are a few addresses available.</Text>
+      </View> */}
+      <View style={{ flex: 1 }}>
+        <ProgressSteps activeStep={0}>
+          <ProgressStep label="Select Address" nextBtnText=""></ProgressStep>
+          <ProgressStep label="OrderPreview" nextBtnText=""></ProgressStep>
+          <ProgressStep label="Payment" nextBtnText=""></ProgressStep>
+        </ProgressSteps>
       </View>
 
       <FlatList
