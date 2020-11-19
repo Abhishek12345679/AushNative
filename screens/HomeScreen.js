@@ -16,6 +16,8 @@ import {
   Image,
   Modal,
   ScrollView,
+  TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 
 import * as Firebase from "firebase";
@@ -43,6 +45,8 @@ import LocationPicker from "../components/LocationPicker";
 
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
 const HomeScreen = observer((props) => {
   const { navigation, showActionSheetWithOptions } = props;
   const [headerImg, setHeaderImg] = useState(
@@ -54,8 +58,8 @@ const HomeScreen = observer((props) => {
   const appState = useRef(AppState.currentState);
 
   const [locName, setLocName] = useState("Select Location");
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const [options, setOptions] = useState("select location");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [locData, setLocData] = useState();
 
   const geoSuccess = (position) => {
     console.log("Success", position);
@@ -77,6 +81,7 @@ const HomeScreen = observer((props) => {
           data.results[0].formatted_address.indexOf(",") + 1
         );
         console.log(locName);
+        setLocData(data);
         setLocName(locName);
         // setModalVisible(true);
       });
@@ -358,13 +363,20 @@ const HomeScreen = observer((props) => {
         // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
+        } else {
+          setModalVisible(true);
         }
       }
     );
   };
 
+  useEffect(() => {
+    console.log("modalvisi", modalVisible);
+  }, [modalVisible]);
+
   return (
     <ScrollView
+      keyboardShouldPersistTaps="always"
       style={{ backgroundColor: "#fff" }}
       contentContainerStyle={{ flexGrow: 1 }}
       stickyHeaderIndices={[1]}
@@ -397,7 +409,6 @@ const HomeScreen = observer((props) => {
           {/* change the UI of the actionsheet location */}
         </View>
       </View>
-
       <View
         style={{
           flex: 1,
@@ -419,6 +430,47 @@ const HomeScreen = observer((props) => {
           </Text>
         </TouchableOpacity>
       </View>
+      {/* beautify modal */}
+      <Modal
+        presentationStyle="formSheet"
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}
+        onDismiss={() => {
+          setModalVisible(false);
+        }}
+      >
+        <TouchableWithoutFeedback
+          // for bug which prevents dismiss from firing on swipe close
+          // https://github.com/facebook/react-native/issues/26892
+          onPressOut={() => {
+            setModalVisible(false);
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <GooglePlacesAutocomplete
+              textInputProps={{ autoCorrect: false }}
+              fetchDetails={true}
+              placeholder="Search"
+              onPress={(data, details) => {
+                // 'details' is provided when fetchDetails = true
+                console.log(details.formatted_address);
+                setLocData({ data, details });
+                setLocName(details.formatted_address);
+                setModalVisible(false);
+                // Alert.alert("yo");
+              }}
+              query={{
+                key: "AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I", //TODO: hide this
+                language: "en",
+                components: "country:in",
+              }}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </ScrollView>
   );
 });

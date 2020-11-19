@@ -132,7 +132,7 @@ const OrderPreviewScreen = (props) => {
         <ProgressSteps activeStep={1} marginBottom={0}>
           <ProgressStep
             label="Select Address"
-            prev
+            previousBtnText=""
             nextBtnText=""
           ></ProgressStep>
           <ProgressStep
