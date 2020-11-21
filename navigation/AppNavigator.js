@@ -40,9 +40,9 @@ import ProfileScreen from "../screens/Settings/ProfileScreen";
 import SelectAddressScreen, {
   screenOptions as SelectAddressScreenOptions,
 } from "../screens/CheckoutFlow/SelectAddressScreen";
-import SelectPaymentsScreen, {
-  screenOptions as SelectPaymentsScreenOptions,
-} from "../screens/CheckoutFlow/SelectPaymentsScreen";
+
+import UploadPrescriptionScreen from "../screens/CheckoutFlow/UploadPrescriptionScreen";
+
 import OrderPreviewScreen from "../screens/CheckoutFlow/OrderPreviewScreen";
 import EditProfileScreen from "../screens/Settings/EditProfileScreen";
 import HealthConditionsScreen, {
@@ -239,11 +239,11 @@ const CheckoutNavigator = () => {
         component={SelectAddressScreen}
         options={SelectAddressScreenOptions}
       />
-      {/* <CheckoutStackNavigator.Screen
-        name="SelectPayment"
-        component={SelectPaymentsScreen}
-        options={SelectPaymentsScreenOptions}
-      /> */}
+      <CheckoutStackNavigator.Screen
+        name="UploadPrescription"
+        component={UploadPrescriptionScreen}
+        // options={SelectPaymentsScreenOptions}
+      />
       <CheckoutStackNavigator.Screen
         name="OrderPreview"
         component={OrderPreviewScreen}

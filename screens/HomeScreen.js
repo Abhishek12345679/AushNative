@@ -126,6 +126,7 @@ const HomeScreen = observer((props) => {
       },
       body: JSON.stringify({
         uid: uid,
+        folder_name: "Profile_Pictures",
       }),
     });
     const resData = await response.json();
@@ -363,7 +364,7 @@ const HomeScreen = observer((props) => {
         // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
-        } else {
+        } else if (buttonIndex === 1) {
           setModalVisible(true);
         }
       }

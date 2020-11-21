@@ -94,15 +94,15 @@ const CartScreen = observer((props) => {
           style={{
             borderWidth: 1,
             borderColor: "#000",
-            flexGrow: 1,
+            // flexGrow: 1,
           }}
         >
           {drugs.map((drug, index) => (
             <View
               key={index}
               style={{
-                borderBottomColor: "#000",
-                borderBottomWidth: 1,
+                borderColor: drugs.length > 1 && "#000",
+                borderWidth: drugs.length > 1 && 1,
                 flexDirection: "column",
               }}
             >
@@ -205,30 +205,52 @@ const CartScreen = observer((props) => {
         </View>
       )}
       {drugs.length > 0 && (
-        <TouchableOpacity
-          onPress={submitOrder}
+        <View
           style={{
-            width: "100%",
-            height: 70,
-            backgroundColor: "#000",
+            flex: 1,
+            backgroundColor: "#fff",
             alignItems: "center",
-            justifyContent: "center",
-            marginTop: 10,
-            marginBottom: 30,
+            justifyContent: "flex-end",
+            // marginBottom: 30,
           }}
         >
-          {!checkingOut ? (
-            <Text style={{ color: "#fff", fontSize: 20 }}>Checkout</Text>
-          ) : (
-            <View>
-              <ActivityIndicator size="large" color="#fff" />
-            </View>
-          )}
-        </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.scanButton}
+            onPress={() => {
+              props.navigation.navigate("Scan");
+            }}
+          >
+            <Text style={{ color: "#fff", fontWeight: "500", fontSize: 17 }}>
+              Scan
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={submitOrder}
+            style={{
+              width: "100%",
+              height: 70,
+              backgroundColor: "#000",
+              alignItems: "center",
+              justifyContent: "center",
+              // marginTop: 10,
+              marginBottom: 10,
+            }}
+          >
+            {!checkingOut ? (
+              <Text style={{ color: "#fff", fontSize: 20 }}>Checkout</Text>
+            ) : (
+              <View>
+                <ActivityIndicator size="large" color="#fff" />
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
       )}
       <View style={styles.centered}>
-        <Text>Chemy/Medlads India ⓒ 2020 - eternity</Text>
-        <Text>Made with 🖤 in 🇮🇳</Text>
+        <Text>Chemy/Medlads India ⓒ 2020</Text>
+        <Text>{`< > with ♥️ in 🇮🇳`}</Text>
       </View>
     </ScrollView>
   );
@@ -238,10 +260,11 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
   },
   centered: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
   },

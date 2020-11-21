@@ -36,9 +36,10 @@ const SelectAddressScreen = (props) => {
         <Text>There are a few addresses available.</Text>
       </View> */}
       <View style={{ flex: 1 }}>
-        <ProgressSteps activeStep={0}>
-          <ProgressStep label="Select Address" nextBtnText=""></ProgressStep>
-          <ProgressStep label="OrderPreview" nextBtnText=""></ProgressStep>
+        <ProgressSteps stepCount={4} activeStep={0}>
+          <ProgressStep label="Address" nextBtnText=""></ProgressStep>
+          <ProgressStep label="Preview" nextBtnText=""></ProgressStep>
+          <ProgressStep label="Prescription" nextBtnText=""></ProgressStep>
           <ProgressStep label="Payment" nextBtnText=""></ProgressStep>
         </ProgressSteps>
       </View>
@@ -74,8 +75,12 @@ const SelectAddressScreen = (props) => {
                 marginBottom: 40,
               }}
               onPress={() =>
-                props.navigation.navigate("OrderPreview", {
-                  address: DrugStore.addresses[selectedAddress],
+                // props.navigation.navigate("OrderPreview", {
+                //   address: DrugStore.addresses[selectedAddress],
+                //   paymentMode: "sample",
+                // })
+                props.navigation.navigate("UploadPrescription", {
+                  address: selectedAddress,
                   paymentMode: "sample",
                 })
               }

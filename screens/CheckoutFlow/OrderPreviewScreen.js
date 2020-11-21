@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Linking,
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import Address from "../../components/Address";
@@ -18,10 +19,12 @@ import { ActivityIndicator } from "react-native-paper";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 
 const OrderPreviewScreen = (props) => {
-  const address = props.route.params.address;
+  const address = DrugStore.addresses[props.route.params.addressIndex];
+  const fileUrl = props.route.params.fileUrl;
   // const paymentMode = props.route.params.paymentMode;
 
   console.log("address", address);
+  console.log("file", fileUrl);
   // console.log("paymentmode", paymentMode);
 
   const { drugs } = DrugStore;
@@ -77,23 +80,6 @@ const OrderPreviewScreen = (props) => {
     const resData = await response.json();
     console.log(resData);
 
-    // const order_push_id = await DrugStore.addOrder({
-    //   items: DrugStore.drugs,
-    //   datetimestamp: new Date().getTime(),
-    //   address: address,
-    //   total_amt: total_checkout_amt,
-    //   order_id: resData.id,
-    //   status: false,
-    // });
-
-    // const data = await order_push_id.json();
-    // console.log("pushid", data);
-
-    // const ids = {
-    //   order_push_id: data.name,
-    //   order_id: resData.id,
-    // };
-    // return ids;
     return resData.id;
   };
 
@@ -205,10 +191,10 @@ const OrderPreviewScreen = (props) => {
           </View>
         ))}
       </View>
-      <Text style={{ padding: 25, fontSize: 30, fontWeight: "bold" }}>
-        Address
-      </Text>
-      <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+      <View style={{ paddingHorizontal: 20 }}>
+        <Text style={{ paddingVertical: 25, fontSize: 30, fontWeight: "bold" }}>
+          Address
+        </Text>
         <Address
           type={address.type}
           name={address.name}
@@ -216,6 +202,28 @@ const OrderPreviewScreen = (props) => {
           add_line_1={address.add_line_1}
           add_line_2={address.add_line_2}
         />
+        {/* Match with an RE pattern */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            borderWidth: 0.5,
+            borderColor: "#000",
+            padding: 10,
+            borderRadius: 5,
+          }}
+        >
+          <Text
+          // onPress={() => {
+          //   Linking.openURL(fileUrl);
+          // }}
+          >
+            Prescription Uploaded
+          </Text>
+          <Text style={{ fontWeight: "bold", color: "green" }}>Yes</Text>
+        </View>
+      </View>
+      <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
         <TouchableOpacity
           style={{
             marginVertical: 20,
@@ -266,6 +274,7 @@ const OrderPreviewScreen = (props) => {
                         total_amt: total_checkout_amt,
                         order_id: id,
                         status: data.status,
+                        prescription: fileUrl,
                       }).then(() => {
                         console.log("statuss", data.status);
                         props.navigation.navigate("OrderConfirmation", {
