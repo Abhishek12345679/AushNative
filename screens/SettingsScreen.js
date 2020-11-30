@@ -139,18 +139,21 @@ const SettingsScreen = observer((props) => {
           overflow: "hidden",
         }}
       >
-        {["Profile", "Addresses", "Orders", "Health Conditions"].map(
-          (item, index) => (
-            <ListItem
-              style={{ height: 70 }}
-              titleStyle={{ fontWeight: "400", fontSize: 18 }}
-              keyProp={Math.random() * 10}
-              key={Math.random() * 10}
-              name={index == 1 ? "Saved Data" : item}
-              onPress={() => props.navigation.navigate(item)}
-            />
-          )
-        )}
+        {[
+          // "Profile",
+          "Addresses",
+          "Orders",
+          "Health Conditions",
+        ].map((item, index) => (
+          <ListItem
+            style={{ height: 70 }}
+            titleStyle={{ fontWeight: "400", fontSize: 18 }}
+            keyProp={Math.random() * 10}
+            key={Math.random() * 10}
+            name={index == 0 ? "Saved Data" : item}
+            onPress={() => props.navigation.navigate(item)}
+          />
+        ))}
       </View>
 
       <View

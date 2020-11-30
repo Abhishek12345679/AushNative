@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 // Name,PFP and Age are hardcoded.
-// FIXME: sometimes manual search comes up on swiping down
+// Removing for a bit //
 
 import React, { useState, useEffect } from "react";
 import {
