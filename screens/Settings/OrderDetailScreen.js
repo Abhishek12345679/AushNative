@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
     // flex: 1,
-    marginBottom: 40,
+    // marginBottom: 40,
   },
   item: {
     marginHorizontal: 25,

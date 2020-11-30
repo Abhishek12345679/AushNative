@@ -374,7 +374,7 @@ const DrugStore = types
         salt: "Cylonndojfhjwncv ",
         price: 100,
         quantity: 2,
-        prescription_req: false,
+        prescription_req: true,
         total_amt: 200,
       },
     ],

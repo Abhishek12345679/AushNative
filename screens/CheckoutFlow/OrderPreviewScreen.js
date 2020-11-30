@@ -19,9 +19,12 @@ import { ActivityIndicator } from "react-native-paper";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 
 const OrderPreviewScreen = (props) => {
-  const address = DrugStore.addresses[props.route.params.addressIndex];
+  const address = DrugStore.addresses[props.route.params.address];
   const fileUrl = props.route.params.fileUrl;
+  const prescriptionUploaded = props.route.params.prescriptionUploaded;
   // const paymentMode = props.route.params.paymentMode;
+
+  console.log(props.route.params.noPrescriptionRequired);
 
   console.log("address", address);
   console.log("file", fileUrl);
@@ -203,25 +206,29 @@ const OrderPreviewScreen = (props) => {
           add_line_2={address.add_line_2}
         />
         {/* Match with an RE pattern */}
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            borderWidth: 0.5,
-            borderColor: "#000",
-            padding: 10,
-            borderRadius: 5,
-          }}
-        >
-          <Text
-          // onPress={() => {
-          //   Linking.openURL(fileUrl);
-          // }}
+        {!props.route.params.noPrescriptionRequired && (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              borderWidth: 0.5,
+              borderColor: "#000",
+              padding: 10,
+              borderRadius: 5,
+            }}
           >
-            Prescription Uploaded
-          </Text>
-          <Text style={{ fontWeight: "bold", color: "green" }}>Yes</Text>
-        </View>
+            <Text
+            // onPress={() => {
+            //   Linking.openURL(fileUrl);
+            // }}
+            >
+              Prescription Uploaded
+            </Text>
+            <Text style={{ fontWeight: "bold", color: "green" }}>
+              {prescriptionUploaded ? "Yes" : "No"}
+            </Text>
+          </View>
+        )}
       </View>
       <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
         <TouchableOpacity
@@ -276,7 +283,8 @@ const OrderPreviewScreen = (props) => {
                         status: data.status,
                         prescription: fileUrl,
                       }).then(() => {
-                        console.log("statuss", data.status);
+                        // console.log("statuss", data.status);
+
                         props.navigation.navigate("OrderConfirmation", {
                           status: data.status,
                         });

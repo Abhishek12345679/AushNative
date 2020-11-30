@@ -201,7 +201,7 @@ const CartScreen = observer((props) => {
               </Text>
             </Text>
           </View>
-          <Text>No Mad Meds 💩</Text>
+          {/* <Text>No Mad Meds 💩</Text> */}
         </View>
       )}
       {drugs.length > 0 && (
@@ -249,7 +249,7 @@ const CartScreen = observer((props) => {
         </View>
       )}
       <View style={styles.centered}>
-        <Text>Chemy/Medlads India ⓒ 2020</Text>
+        <Text>Aushadhalay India ⓒ 2020</Text>
         <Text>{`< > with ♥️ in 🇮🇳`}</Text>
       </View>
     </ScrollView>

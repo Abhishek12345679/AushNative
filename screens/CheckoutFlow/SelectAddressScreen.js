@@ -22,6 +22,18 @@ const SelectAddressScreen = (props) => {
   }, [navigation]);
   // console.log(DrugStore.addresses);
 
+  // console.log("drugs", DrugStore.drugs[0]);
+  const { drugs } = DrugStore;
+  const isPrescriptionRequired = () => {
+    let flag = false;
+    drugs.forEach((item) => {
+      if (item.prescription_req === true) {
+        flag = true;
+      }
+    });
+    return flag;
+  };
+
   const email = DrugStore.userCredentials.email;
   const name = DrugStore.profile.name;
   const contact = DrugStore.addresses[selectedAddress].ph_no;
@@ -74,16 +86,23 @@ const SelectAddressScreen = (props) => {
                 backgroundColor: "#000",
                 marginBottom: 40,
               }}
-              onPress={() =>
+              onPress={() => {
                 // props.navigation.navigate("OrderPreview", {
                 //   address: DrugStore.addresses[selectedAddress],
                 //   paymentMode: "sample",
                 // })
-                props.navigation.navigate("UploadPrescription", {
-                  address: selectedAddress,
-                  paymentMode: "sample",
-                })
-              }
+                console.log("prescr_req", isPrescriptionRequired());
+                isPrescriptionRequired()
+                  ? props.navigation.navigate("UploadPrescription", {
+                      address: selectedAddress,
+                      paymentMode: "sample",
+                    })
+                  : props.navigation.navigate("OrderPreview", {
+                      noPrescriptionRequired: true,
+                      address: selectedAddress,
+                      paymentMode: "sample",
+                    });
+              }}
             >
               <Text style={{ color: "#fff", fontSize: 15, fontWeight: "500" }}>
                 Deliver to this address
