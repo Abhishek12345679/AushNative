@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { observer } from "mobx-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -26,11 +26,22 @@ const EditProfileScreen = observer((props) => {
   const name = DrugStore.profile.name;
   //   console.log(age);
 
+  //states
   const [age, setAge] = useState(props.route.params.dob);
-
   const [dob, setDob] = useState(new Date().getTime());
-
   const [image, setImage] = useState(DrugStore.profile.display_picture);
+
+  //refs
+  const formRef = useRef();
+
+  const saveInput = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit();
+      // if (formRef.current.isValid) {
+      //   setStep(2);
+      // }
+    }
+  };
 
   const uid = DrugStore.userCredentials.uid;
 
@@ -61,35 +72,30 @@ const EditProfileScreen = observer((props) => {
     if (!result.cancelled) {
       // console.log(result.base64);
       console.log("in...");
-      // setImage(baseUrl + result.base64);
+      setImage(baseUrl + result.base64);
       DrugStore.setPFP(baseUrl + result.base64);
-      uploadDP(baseUrl + result.base64)
-        .then((data) => {
-          // console.log("changing", data);
-          // DrugStore.getExtra();
-          // props.navigation.pop();
-        })
-        .catch(() => console.error("Could not update profile picture"));
     }
   };
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  // Date of birth and age calculation
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+  // const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
+  // const showDatePicker = () => {
+  //   setDatePickerVisibility(true);
+  // };
 
-  const handleConfirm = (date) => {
-    console.log("A date has been picked: ", date.getTime());
-    setDob(date.getTime());
-    const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
-    setAge(age);
-    hideDatePicker();
-  };
+  // const hideDatePicker = () => {
+  //   setDatePickerVisibility(false);
+  // };
+
+  // const handleConfirm = (date) => {
+  //   console.log("A date has been picked: ", date.getTime());
+  //   setDob(date.getTime());
+  //   const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
+  //   setAge(age);
+  //   hideDatePicker();
+  // };
 
   const uploadDP = async (image) => {
     console.log("uploading...");
@@ -119,251 +125,130 @@ const EditProfileScreen = observer((props) => {
       headerRight: () => (
         <TouchableOpacity
           onPress={() => {
-            props.navigation.pop();
+            saveInput();
           }}
         >
           <Text>Done</Text>
+        </TouchableOpacity>
+      ),
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.pop();
+          }}
+        >
+          <Text>close</Text>
         </TouchableOpacity>
       ),
     });
   }, []);
 
   return (
-    // <SafeAreaView style={{ backgroundColor: "#fff" }}>
-    //   <ScrollView>
-    //     <Formik
-    //       initialValues={{
-    //         name: name,
-    //         imageUrl: image,
-    //         dob: DrugStore.profile.dob,
-    //       }}
-    //       onSubmit={(values) => {
-    //         // DrugStore.editProfile(values.name, values.imageUrl, dob);
-    //         DrugStore.setExtra(age);
-    //         // DrugStore.setPFP(image);
-
-    //         //firebase update()
-    //         var user = Firebase.auth().currentUser;
-
-    //         user
-    //           .updateProfile({
-    //             displayName: values.name,
-    //             // photoURL: values.imageUrl,
-    //           })
-    //           .then(() => {
-    //             // Update successful.
-    //             console.log("Updated Profile Successfully! ");
-    //             DrugStore.setName(user.displayName);
-    //             uploadDP(image)
-    //               .then((data) => {
-    //                 console.log("changing");
-    //                 DrugStore.getExtra();
-    //                 props.navigation.pop();
-    //               })
-    //               .catch(() =>
-    //                 console.error("Could not update profile picture")
-    //               );
-    //           })
-    //           .catch((error) => {
-    //             console.log("Updating Profile Failed! -  ");
-    //           });
-    //       }}
-    //     >
-    //       {({ handleChange, handleBlur, handleSubmit, values }) => (
-    //         <View>
-    //           <View
-    //             style={{
-    //               flex: 1,
-    //               flexDirection: "row",
-    //               alignItems: "center",
-    //               justifyContent: "space-between",
-    //               marginHorizontal: 20,
-    //               borderBottomColor: "#aaa",
-    //               borderBottomWidth: 1,
-    //               paddingBottom: 20,
-    //             }}
-    //           >
-    //             <View>
-    //               <TextInput
-    //                 style={{
-    //                   fontSize: 20,
-    //                   fontWeight: "bold",
-    //                   marginVertical: 5,
-    //                   padding: 3,
-    //                   paddingRight: 20,
-    //                   textAlign: "left",
-    //                   color: "#000",
-    //                   borderWidth: 1,
-    //                   borderColor: "#ccc",
-    //                   alignItems: "flex-start",
-    //                 }}
-    //                 value={values.name}
-    //                 onChangeText={handleChange("name")}
-    //               />
-    //               <Text style={{ color: "#000" }}>
-    //                 {DrugStore.userCredentials.email}
-    //               </Text>
-    //               <View
-    //                 style={{
-    //                   flexDirection: "row",
-    //                   marginTop: 10,
-    //                   alignItems: "center",
-    //                   justifyContent: "space-between",
-    //                 }}
-    //               >
-    //                 <Text
-    //                   style={{
-    //                     fontSize: 15,
-    //                     fontWeight: "bold",
-    //                     color: "#000",
-    //                   }}
-    //                 >
-    //                   {age}+
-    //                 </Text>
-
-    //                 <Button title="Edit" onPress={showDatePicker} />
-
-    //                 {/* <RoundButton style={{ width: 25, height: 25, marginEnd: 5 }}>
-    //           <Text style={{ color: "#fff" }}>A</Text>
-    //         </RoundButton>
-    //         <RoundButton style={{ width: 25, height: 25 }}>
-    //           <Text style={{ color: "#fff" }}>B</Text>
-    //         </RoundButton> */}
-    //               </View>
-    //             </View>
-    //             <TouchableOpacity
-    //               style={{
-    //                 width: 120,
-    //                 height: 120,
-    //                 borderRadius: 60,
-    //                 // backgroundColor: "#CCC",
-    //                 justifyContent: "center",
-    //                 alignItems: "center",
-    //               }}
-    //               onPress={pickImage}
-    //             >
-    //               {/* <Image
-    //                 style={{
-    //                   width: 100,
-    //                   height: 100,
-    //                   borderRadius: 50,
-    //                   backgroundColor: "#CCC",
-    //                 }}
-    //                 source={{
-    //                   uri: image,
-    //                 }}
-    //               /> */}
-    //               <DP
-    //                 inner={{ width: 100, height: 100, borderRadius: 50 }}
-    //                 outer={{ width: 110, height: 110, borderRadius: 55 }}
-    //               />
-    //             </TouchableOpacity>
-    //           </View>
-    //           <Button title="Save" onPress={handleSubmit} />
-    //         </View>
-    //       )}
-    //     </Formik>
-    //   </ScrollView>
-    //   <DateTimePickerModal
-    //     isVisible={isDatePickerVisible}
-    //     mode="date"
-    //     onConfirm={handleConfirm}
-    //     onCancel={hideDatePicker}
-    //     // isDarkModeEnabled={false}
-    //   />
-    // </SafeAreaView>
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
-      <ScrollView>
-        <View
-          style={{
-            height: 120,
-            width: "100%",
-            alignItems: "center",
-            marginTop: 10,
-            flexDirection: "column",
-            // justifyContent: "center",
-          }}
-        >
-          <DP
-            outer={{
-              width: 110,
-              height: 110,
-              borderRadius: 55,
-              marginBottom: 10,
-              marginEnd: 0,
-            }}
-            inner={{
-              width: 110,
-              height: 110,
-              borderRadius: 55,
-              // borderColor: "#fff",
-              // borderWidth: 1,
-            }}
-          />
-          <TouchableOpacity
-            onPress={pickImage}
-            // style={{ backgroundColor: "#000" }}
-          >
-            <Text
+      <Formik
+        innerRef={formRef}
+        initialValues={{
+          name: name,
+          // dob: DrugStore.profile.dob,
+          imageUrl: image,
+        }}
+        onSubmit={(values) => {
+          // DrugStore.editProfile(values.name, values.imageUrl, dob);
+          // DrugStore.setExtra(age);
+          DrugStore.setPFP(image);
+
+          //firebase update()
+
+          DrugStore.setName(values.name);
+          var user = Firebase.auth().currentUser;
+
+          user
+            .updateProfile({
+              displayName: values.name,
+              photoURL: values.imageUrl,
+            })
+            .then(() => {
+              // Update successful.
+              console.log("Updated Profile Successfully! ");
+              DrugStore.setName(user.displayName);
+              uploadDP(image)
+                .then((data) => {
+                  console.log("changing", data);
+                  DrugStore.getExtra();
+
+                  props.navigation.pop();
+                })
+                .catch(() => console.error("Could not update profile picture"));
+            })
+            .catch((error) => {
+              // update unsuccessful
+              console.log("Updating Profile Failed! -  ", error);
+            });
+        }}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
+          <ScrollView>
+            <View
               style={{
-                fontWeight: "500",
-                fontSize: 15,
-                textAlign: "center",
-                color: "#000",
+                height: 120,
+                width: "100%",
+                alignItems: "center",
+                marginTop: 10,
+                flexDirection: "column",
+                // justifyContent: "center",
               }}
             >
-              Edit Profile Picture
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Formik
-          initialValues={{
-            name: name,
-            imageUrl: image,
-            dob: DrugStore.profile.dob,
-          }}
-          // onSubmit={(values) => {
-          //   // DrugStore.editProfile(values.name, values.imageUrl, dob);
-          //   DrugStore.setExtra(age);
-          //   // DrugStore.setPFP(image);
-
-          //   //firebase update()
-          //   var user = Firebase.auth().currentUser;
-
-          //   user
-          //     .updateProfile({
-          //       displayName: values.name,
-          //       // photoURL: values.imageUrl,
-          //     })
-          //     .then(() => {
-          //       // Update successful.
-          //       console.log("Updated Profile Successfully! ");
-          //       DrugStore.setName(user.displayName);
-          //       uploadDP(image)
-          //         .then((data) => {
-          //           console.log("changing");
-          //           // DrugStore.getExtra();
-          //           // props.navigation.pop();
-          //         })
-          //         .catch(() =>
-          //           console.error("Could not update profile picture")
-          //         );
-          //     })
-          //     .catch((error) => {
-          //       console.log("Updating Profile Failed! -  ");
-          //     });
-          // }}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <View style={{ flex: 1, marginTop: 30 }}>
+              <DP
+                outer={{
+                  width: 110,
+                  height: 110,
+                  borderRadius: 55,
+                  marginBottom: 10,
+                  marginEnd: 0,
+                }}
+                inner={{
+                  width: 110,
+                  height: 110,
+                  borderRadius: 55,
+                  // borderColor: "#fff",
+                  // borderWidth: 1,
+                }}
+              />
+              <TouchableOpacity
+                onPress={pickImage}
+                // style={{ backgroundColor: "#000" }}
+              >
+                <Text
+                  style={{
+                    fontWeight: "500",
+                    fontSize: 15,
+                    textAlign: "center",
+                    color: "#000",
+                  }}
+                >
+                  Edit Profile Picture
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ marginTop: 30 }}>
               <Form>
                 <Item floatingLabel>
                   <Label>Name</Label>
-                  <Input value={name} />
+                  <Input
+                    blurOnSubmit={true}
+                    onBlur={handleBlur("name")}
+                    value={values.name}
+                    onChangeText={handleChange("name")}
+                  />
                 </Item>
                 <Item floatingLabel>
                   <Label>Username</Label>
-                  <Input value={name} />
+                  <Input
+                    // placeholder="enter a username"
+                    // placeholderTextColor="#CCC"
+                    value={"edit"}
+                    style={{ color: "#ccc" }}
+                  />
                 </Item>
                 <Item floatingLabel>
                   <Label>e-mail</Label>
@@ -375,9 +260,9 @@ const EditProfileScreen = observer((props) => {
                 </Item>
               </Form>
             </View>
-          )}
-        </Formik>
-      </ScrollView>
+          </ScrollView>
+        )}
+      </Formik>
     </SafeAreaView>
   );
 });

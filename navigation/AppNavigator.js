@@ -271,7 +271,7 @@ const EditProfileNavigator = () => {
   return (
     <EditProfileStackNavigator.Navigator
       initialRouteName="Edit Profile"
-      // screenOptions={{ headerTranslucent: true }}
+      // screenOptions={{ gestureEnabled: false }}
     >
       <EditProfileStackNavigator.Screen
         name="Edit Profile"
@@ -284,6 +284,7 @@ const EditProfileNavigator = () => {
             blurEffect: "light",
             // backgroundColor: "#000",
           },
+          // gestureEnabled: false,
         }}
       />
     </EditProfileStackNavigator.Navigator>
@@ -328,12 +329,12 @@ export const RootNavigator = () => {
       <RootStackNavigator.Screen
         name="MyWebView"
         component={MyWebView}
-        // options={{
-        //   // headerLargeTitle: true,
-        //   // stackPresentation: "modal",
-        //   headerShown: true,
-        //   headerTitle: "Settings",
-        // }}
+        options={{
+          // headerLargeTitle: true,
+          // stackPresentation: "modal",
+          headerShown: true,
+          headerTitle: "",
+        }}
       />
 
       <RootStackNavigator.Screen
@@ -399,7 +400,7 @@ export const RootNavigator = () => {
       <RootStackNavigator.Screen
         name="EditProfile"
         component={EditProfileNavigator}
-        options={{ stackPresentation: "modal" }}
+        options={{ stackPresentation: "modal", gestureEnabled: false }}
       />
       <RootStackNavigator.Screen
         name="Addresses"

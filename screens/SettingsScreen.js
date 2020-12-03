@@ -177,6 +177,7 @@ const SettingsScreen = observer((props) => {
                   index === 0
                     ? "https://aushadhalay.flycricket.io/privacy.html"
                     : "https://aushadhalay.flycricket.io/terms.html",
+                headerTitle: item,
               });
             }}
           />
