@@ -155,7 +155,7 @@ const EditProfileScreen = observer((props) => {
         onSubmit={(values) => {
           // DrugStore.editProfile(values.name, values.imageUrl, dob);
           // DrugStore.setExtra(age);
-          DrugStore.setPFP(image);
+          DrugStore.setPFP(values.imageUrl);
 
           //firebase update()
 
@@ -171,7 +171,7 @@ const EditProfileScreen = observer((props) => {
               // Update successful.
               console.log("Updated Profile Successfully! ");
               DrugStore.setName(user.displayName);
-              uploadDP(image)
+              uploadDP(values.imageUrl)
                 .then((data) => {
                   console.log("changing", data);
                   DrugStore.getExtra();
