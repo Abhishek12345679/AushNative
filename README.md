@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- # TODO:
 
 - [x] - Cropping works
@@ -5,3 +6,7 @@
 - [ ] - Work on the actual OCR in the Flask API
 - [x] - How and where to store the original images. -->
 
+=======
+# AushNative
+Aushadalay Native Ejected source code
+>>>>>>> origin/main
