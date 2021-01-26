@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "377325217652",
+    "firebase_url": "https://chemy-llc.firebaseio.com",
+    "project_id": "chemy-llc",
+    "storage_bucket": "chemy-llc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377325217652:android:ceb57fb9bf923b275f6e21",
+        "android_client_info": {
+          "package_name": "com.aush.aush"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377325217652-2ippjptljkjdb67rkkd26kn54k164d7v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aush.aush",
+            "certificate_hash": "bf3cf18f57c93ca5d27658b4ce47c0a80d50a3ca"
+          }
+        },
+        {
+          "client_id": "377325217652-nabdekf6ihq86jst5n4gr79tsm0bqi24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnxqFErmjE4WI2O1y2mhrz9JXZJdNYE5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377325217652-nabdekf6ihq86jst5n4gr79tsm0bqi24.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

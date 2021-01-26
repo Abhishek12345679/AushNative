@@ -1,0 +1,33 @@
+{
+    "apiKey": "AIzaSyBI3PnHGbtsukz2gQ9c2TbBEpQ-UBTFjtU",
+    "appName": "[DEFAULT]",
+    "authDomain": "chemy-llc.firebaseapp.com",
+    "createdAt": "1600631662992",
+    "displayName": null,
+    "email": "root@gmail.com",
+    "emailVerified": false,
+    "isAnonymous": false,
+    "lastLoginAt": "1600789035917",
+    "multiFactor": {
+        "enrolledFactors": []
+    },
+    "phoneNumber": null,
+    "photoURL": null,
+    "providerData": [{
+        "displayName": null,
+        "email": "root@gmail.com",
+        "phoneNumber": null,
+        "photoURL": null,
+        "providerId": "password",
+        "uid": "root@gmail.com"
+    }],
+    "redirectEventId": null,
+    "stsTokenManager": {
+        "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlNjYzOGY4NDlkODVhNWVkMGQ1M2NkNDI1MzE0Y2Q1MGYwYjY1YWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2hlbXktbGxjIiwiYXVkIjoiY2hlbXktbGxjIiwiYXV0aF90aW1lIjoxNjAwNzg5MDM1LCJ1c2VyX2lkIjoid0RUblI3eldRck5LWmRiMWtoeHljM2dvdXlmMiIsInN1YiI6IndEVG5SN3pXUXJOS1pkYjFraHh5YzNnb3V5ZjIiLCJpYXQiOjE2MDA3ODkwMzUsImV4cCI6MTYwMDc5MjYzNSwiZW1haWwiOiJyb290QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJyb290QGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.M9Xn5wjVbp9Pgg3ow_WlFq1Xc4XpAsffrN0YiFAj9IHiEMX_Md5K-lrwqqRWgugKSa9mlxcH4ludPfNjyBQikiWX92lQGY5IH_BDjqvdCpkuGgG0BeA_Q_9PcFGcB07fmBREbRMRc-jjLuuB1VorUX2LxPJlB81_Vkg2UqkKziZdmHcR0sRis1-xxmtw08jklrqLP5VnizYK-Cn6yCod-bb4VQXvvgquJfHvdpUTHfXAFCqqRkfpA25YFILrVoEMZuGejc0qpj_OJ_zb-mmkt1eePZi_7dNPAahtN2m58BrGg3LN_0uZX6L7sZdH8nQ5sN3HZseW976X7BjHa7Qcow",
+        "apiKey": "AIzaSyBI3PnHGbtsukz2gQ9c2TbBEpQ-UBTFjtU",
+        "expirationTime": 1600792635000,
+        "refreshToken": "AE0u-NeVHJtc9amzAgtDThCpLa_ewiugFclM0eb0In0qioclDw8fDvyLalAA21ypPUa-SFQz-eHv_to-oWgIbEWCYJ1Ku_gANoQSNXff6V9oAzNOnoUls83oO0_bgPC7XNDmzTp_xrChXyja_llNuNcrW_8QKzVRiR8mGnuYKgk2llgWa1-qA_3_q39VoW1V9Vo5CG3M1qxq"
+    },
+    "tenantId": null,
+    "uid": "wDTnR7zWQrNKZdb1khxyc3gouyf2"
+}
