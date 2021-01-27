@@ -100,7 +100,7 @@ const ResultList = observer((props) => {
   if (props.route.params.manual_search) {
     ocr_data = props.route.params.query;
   } else {
-    ocr_data = props.route.params.data.text;
+    ocr_data = props.route.params.data;
   }
 
   console.log(ocr_data);
@@ -109,14 +109,16 @@ const ResultList = observer((props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [importing, setImporting] = useState(false);
 
-  if (mode === "name" || mode === undefined) {
+  if (mode === "name" || mode === "scan") {
     var { loading, data, error } = useQuery(GET_MEDICINE, {
       variables: { name: ocr_data },
     });
+    console.log(data);
   } else if (mode === "salt") {
     var { loading, data, error } = useQuery(GET_ALTERNATE_DRUG, {
       variables: { salt: ocr_data },
     });
+    console.log(data);
   }
 
   // const { loading, data, error } = queryResponse;
@@ -170,20 +172,20 @@ const ResultList = observer((props) => {
     });
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const wifiIP = "192.168.0.102";
-      const phoneIP = "172.20.10.2";
-      const hosted_url = `http://med-importer-real-time-js.herokuapp.com/import?searchquery=${searchQuery}`;
+  // const fetchData = async () => {
+  //   try {
+  //     const wifiIP = "192.168.0.102";
+  //     const phoneIP = "172.20.10.2";
+  //     const hosted_url = `http://med-importer-real-time-js.herokuapp.com/import?searchquery=${searchQuery}`;
 
-      const response = await fetch(hosted_url);
-      const data = await response.json();
-      // console.log(data);
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     const response = await fetch(hosted_url);
+  //     const data = await response.json();
+  //     // console.log(data);
+  //     return data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   if (loading || importing) {
     return (
@@ -202,7 +204,7 @@ const ResultList = observer((props) => {
             Fetching Meds from{" "}
             <Text
               style={{ color: "purple" }}
-              onPress={() => Linking.openURL("http://google.com")}
+              onPress={() => Linking.openURL("http://google.com/1mg.com")}
             >
               {" "}
               1mg.com
@@ -232,7 +234,7 @@ const ResultList = observer((props) => {
 
       {data ? (
         (
-          mode === "name" || mode === undefined
+          mode === "name" || mode === "scan"
             ? data.search.items > 0
             : data.findDrugForSameSalt.items > 0
         ) ? (
@@ -242,7 +244,7 @@ const ResultList = observer((props) => {
                 <Text
                   style={{ fontSize: 15, fontWeight: "bold", color: "#000" }}
                 >
-                  {mode === "name" || mode === undefined
+                  {mode === "name" || mode === "scan"
                     ? data.search.items
                     : data.findDrugForSameSalt.items}{" "}
                   Meds found
@@ -250,7 +252,7 @@ const ResultList = observer((props) => {
               </View>
             }
             data={
-              mode === "name" || mode === undefined
+              mode === "name" || mode === "scan"
                 ? data.search.drugs
                 : data.findDrugForSameSalt.drugs
             }

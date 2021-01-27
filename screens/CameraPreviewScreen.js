@@ -12,6 +12,8 @@ import {
   Platform,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
+  Modal as NativeModal,
 } from "react-native";
 
 import ml from "@react-native-firebase/ml";
@@ -26,6 +28,9 @@ import DrugStore from "../store/CartStore";
 
 const CameraPreviewScreen = (props) => {
   const { navigation } = props;
+
+  let [wordList, setWordList] = useState([]);
+  // let wordList = [];
 
   useEffect(() => {
     navigation.addListener("focus", () => {
@@ -70,6 +75,7 @@ const CameraPreviewScreen = (props) => {
     const processed = await ml().cloudDocumentTextRecognizerProcessImage(
       localPath
     );
+    let temp = [];
 
     console.log("Found text in document: ", processed.text);
 
@@ -79,7 +85,10 @@ const CameraPreviewScreen = (props) => {
       console.log("Found block with text: ", block.text);
       console.log("Confidence in block: ", block.confidence);
       console.log("Languages found in block: ", block.recognizedLanguages);
+
+      temp.push(block.text);
     });
+    setWordList(temp);
   }
 
   const hosted_uri = "https://ocr-api-2020.herokuapp.com";
@@ -140,6 +149,8 @@ const CameraPreviewScreen = (props) => {
   //   );
   // }
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
@@ -149,15 +160,15 @@ const CameraPreviewScreen = (props) => {
             <CPButton
               iOS={iOS ? true : false}
               onpress={async () => {
+                processDocument(photoData.uri).then(() => {
+                  console.log("Finished processing file.");
+                  setModalVisible(true);
+                });
                 // setIsLoading(true);
                 // const uploadData = await uploadImage(newImageFile);
                 // console.log(uploadData);
                 // const tmp = await getOCRData(uploadData.url);
                 // setIsLoading(false);
-                props.navigation.navigate("Results", {
-                  data: tmp,
-                  photo: image,
-                });
               }}
               color="#FFF"
               text="Confirm"
@@ -169,11 +180,7 @@ const CameraPreviewScreen = (props) => {
             name="ios-camera"
             size={30}
             color="#fff"
-            onPress={() => {
-              processDocument(photoData.uri).then(() =>
-                console.log("Finished processing file.")
-              );
-            }}
+            onPress={() => {}}
           />
           <CPButton
             iOS={iOS ? true : false}
@@ -259,7 +266,60 @@ const CameraPreviewScreen = (props) => {
             borderRadius: 20,
           }}
         >
-          {/* <Text>Loading...</Text> */}
+          {isLoading && <ActivityIndicator size={24} color="#fff" />}
+        </View>
+      </Modal>
+      <Modal
+        backdropColor="#ccc"
+        // animationType="fade"
+        isVisible={modalVisible}
+        // onSwipeComplete={() => setModalVisible(false)}
+        // swipeDirection={["down"]}
+        style={
+          {
+            // justifyContent: "flex-end",
+            // margin: 10,
+            // justifyContent: "center",
+            // alignItems: "center",
+            // backgroundColor: "#000",
+            // borderRadius: 15,
+          }
+        }
+      >
+        <View
+          style={{
+            height: "100%",
+            backgroundColor: "#fff",
+            padding: 22,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 20,
+          }}
+        >
+          {wordList.map((word, i) => (
+            <TouchableOpacity
+              style={{
+                width: "100%",
+                height: 20,
+                marginBottom: 20,
+                backgroundColor: "#ccc",
+              }}
+              onPress={() => {
+                props.navigation.navigate("Results", {
+                  data: word.toLowerCase().trim(),
+                  mode: "scan",
+                });
+              }}
+            >
+              <Text>{word.trim()}</Text>
+            </TouchableOpacity>
+          ))}
+          <Button
+            title="close"
+            onPress={() => {
+              setModalVisible(false);
+            }}
+          />
           {/* <AnimatedLoader
             visible={isLoading}
             overlayColor="rgba(255,255,255,0)"
@@ -267,7 +327,7 @@ const CameraPreviewScreen = (props) => {
             animationStyle={{ height: 100, width: 100 }}
             speed={1}
           /> */}
-          {isLoading && <ActivityIndicator size={24} color="#fff" />}
+          {/* {isLoading && <ActivityIndicator size={24} color="#fff" />} */}
         </View>
       </Modal>
     </View>
