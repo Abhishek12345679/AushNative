@@ -9,7 +9,7 @@
         "splash": {
             "image": "./assets/splash.png",
             "resizeMode": "cover",
-            "backgroundColor": "#fff"
+            "backgroundColor": "#000"
         },
         "updates": {
             "fallbackToCacheTimeout": 0
@@ -26,7 +26,11 @@
         "android": {
             "useNextNotificationsApi": true,
             "userInterfaceStyle": "automatic",
-            "package": "com.aush.aush"
+            "package": "com.aush.aush",
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#FFFFFF"
+            }
         },
         "entryPoint": "node_modules/expo/AppEntry.js"
     }

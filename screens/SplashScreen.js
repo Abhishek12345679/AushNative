@@ -99,7 +99,10 @@ const SplashScreen = observer(({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <Image source={require("../assets/icon.png")} />
+      <Image
+        source={require("../assets/adaptive-icon.png")}
+        style={{ height: 100, width: 100 }}
+      />
     </View>
   );
 });
