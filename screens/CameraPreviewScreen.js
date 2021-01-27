@@ -1,5 +1,4 @@
-// FIXME: loading drugs bug [NSFAcebook ....]
-
+// FIXME: removeUselessSpaces not running correctly
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -86,8 +85,9 @@ const CameraPreviewScreen = (props) => {
       console.log("Confidence in block: ", block.confidence);
       console.log("Languages found in block: ", block.recognizedLanguages);
 
-      temp.push(block.text);
+      temp.push(removeUselessSpaces(block.text));
     });
+    console.log("temp", temp);
     setWordList(temp);
   }
 
@@ -148,6 +148,16 @@ const CameraPreviewScreen = (props) => {
   //     </View>
   //   );
   // }
+
+  const removeUselessSpaces = (text) => {
+    let newStringArray = [];
+    text.split(" ").forEach((block, index) => {
+      if (block !== "" || block !== " ") {
+        newStringArray.push(block);
+      }
+    });
+    return newStringArray.join();
+  };
 
   const [modalVisible, setModalVisible] = useState(false);
 
