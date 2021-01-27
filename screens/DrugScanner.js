@@ -223,18 +223,18 @@ const DrugScanner = (props) => {
                     });
                     // console.log(photo);
                     props.navigation.pop();
-                    const manipResult = await ImageManipulator.manipulateAsync(
-                      photo.uri,
-                      [
-                        {
-                          resize: {
-                            width: 375,
-                            height: 667,
-                          },
-                        },
-                      ],
-                      { base64: true }
-                    );
+                    // const manipResult = await ImageManipulator.manipulateAsync(
+                    //   photo.uri,
+                    //   [
+                    //     {
+                    //       resize: {
+                    //         width: 375,
+                    //         height: 667,
+                    //       },
+                    //     },
+                    //   ],
+                    //   { base64: true }
+                    // );
 
                     // const contourCroppedImage = await ImageManipulator.manipulateAsync(
                     //   manipResult.uri,

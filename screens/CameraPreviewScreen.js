@@ -42,6 +42,12 @@ const CameraPreviewScreen = (props) => {
   const [photoData, setPhotoData] = useState(props.route.params.photo);
   // console.log(Object.keys(photoData));
 
+  const imgHeight = photoData.height;
+  const imgWidth = photoData.width;
+
+  console.log(imgWidth);
+  console.log(imgHeight);
+
   const baseUri = "data:image/jpg;base64,";
 
   const phoneIP = "172.20.10.2";
