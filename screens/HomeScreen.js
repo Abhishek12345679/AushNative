@@ -70,11 +70,11 @@ const HomeScreen = observer((props) => {
      */
 
     // fetch(
-      //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=26.704669,89.087195&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
-      // )
-      fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
-      )
+    //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=26.704669,89.087195&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
+    // )
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
+    )
       .then((response) => response.json())
       .then((data) => {
         let locName = data.results[0].formatted_address.substring(
@@ -265,32 +265,33 @@ const HomeScreen = observer((props) => {
 
   useEffect(() => {
     props.navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("Settings");
-          }}
-        >
-          <Image
-            source={{
-              uri:
-                DrugStore.profile.display_picture === " "
-                  ? headerImg
-                  : DrugStore.profile.display_picture,
-            }}
-            style={{
-              height: 35,
-              width: 35,
-              marginTop: 0,
-              borderRadius: 17.5,
-              borderWidth: 1,
-              borderColor: "#333",
-              // shadowRadius: 10,
-              // shadowOpacity: 0.75,
-            }}
-          />
-        </TouchableOpacity>
-      ),
+      // headerLeft: () =>
+      //   Platform.OS === "ios" && (
+      //     <TouchableOpacity
+      //       onPress={() => {
+      //         props.navigation.navigate("Settings");
+      //       }}
+      //     >
+      //       <Image
+      //         source={{
+      //           uri:
+      //             DrugStore.profile.display_picture === " "
+      //               ? headerImg
+      //               : DrugStore.profile.display_picture,
+      //         }}
+      //         style={{
+      //           height: 35,
+      //           width: 35,
+      //           marginTop: 0,
+      //           borderRadius: 17.5,
+      //           borderWidth: 1,
+      //           borderColor: "#333",
+      //           // shadowRadius: 10,
+      //           // shadowOpacity: 0.75,
+      //         }}
+      //       />
+      //     </TouchableOpacity>
+      //   ),
       headerRight: () => (
         <TouchableOpacity
           onPress={() => {
@@ -317,10 +318,27 @@ const HomeScreen = observer((props) => {
           />
         </TouchableOpacity>
       ),
-      headerLargeTitle: false,
-      headerTitle: "Aushadhalay",
+      // headerTitle: "Aushadhalay",
+      headerStyle: {
+        backgroundColor: "#fff",
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0,
+      },
+      headerLargeTitle: true,
+      // headerTitleAlign: "left",
+      // headerTintColor: "#000",
+      // headerTitleStyle: {
+      //   fontWeight: "bolder",
+      //   // fontFamily: "plumpfull",
+      //   fontSize: 20,
+      // },
     });
   }, [headerImg]);
+
+  // useEffect(() => {
+  //   Platform.OS === "android" ? AndroidScreenOptions : IOSScreenOptions;
+  // }, [headerImg]);
 
   useEffect(() => {
     showMessage({
@@ -333,20 +351,6 @@ const HomeScreen = observer((props) => {
       duration: 2000,
     });
   }, []);
-
-  // useEffect(() => {
-  //   navigation.addListener("focus", () => {
-  //     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-  //   });
-
-  //   navigation.addListener("blur", () => {
-  //     ScreenOrientation.unlockAsync();
-  //   });
-  // }, [navigation]);
-
-  // useEffect(() => {
-  //   // console.log("Creds - ", DrugStore.userCredentials);
-  // }, []);
 
   const onOpenActionSheet = () => {
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
@@ -502,73 +506,133 @@ const styles = StyleSheet.create({
   },
 });
 
-export const AndroidScreenOptions = (navData) => {
-  return {
-    headerRight: () => (
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          // justifyContent: "space-around",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            navData.navigation.navigate("Settings");
-          }}
-        >
-          <Image
-            source={{
-              uri:
-                DrugStore.profile.display_picture.length === 1
-                  ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-                  : DrugStore.profile.display_picture,
-            }}
-            style={{
-              height: 35,
-              width: 35,
-              marginTop: 0,
-              borderRadius: 17.5,
-              // shadowOpacity: 0.75,
-            }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navData.navigation.navigate("Cart");
-          }}
-        >
-          <IconBadge
-            MainElement={
-              <Image
-                source={require("../assets/bag.png")}
-                style={{ height: 25, width: 25, marginTop: 0 }}
-              />
-            }
-            BadgeElement={
-              <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-            }
-            IconBadgeStyle={{
-              width: 10,
-              height: 20,
-              backgroundColor: "purple",
-              marginTop: 5,
-            }}
-            Hidden={DrugStore.count == 0}
-          />
-        </TouchableOpacity>
-      </View>
-    ),
-    headerLargeTitle: false,
-    headerTitle: "Aushadhalay",
-    // औषधालय,
-    // headerTitle: `Welcome back, \n ${DrugStore.userCredentials.email.substring(
-    //   0,
-    //   DrugStore.userCredentials.email.indexOf("@")
-    // )}`,
-    // headerTitleStyle: { textAlign: "center", flex: 1 },
-  };
-};
+// export const IOSScreenOptions = (navData) => {
+//   return {
+//     headerLeft: () => (
+//       <TouchableOpacity
+//         onPress={() => {
+//           props.navigation.navigate("Settings");
+//         }}
+//       >
+//         <Image
+//           source={{
+//             uri:
+//               DrugStore.profile.display_picture === " "
+//                 ? headerImg
+//                 : DrugStore.profile.display_picture,
+//           }}
+//           style={{
+//             height: 35,
+//             width: 35,
+//             marginTop: 0,
+//             borderRadius: 17.5,
+//             borderWidth: 1,
+//             borderColor: "#333",
+//             // shadowRadius: 10,
+//             // shadowOpacity: 0.75,
+//           }}
+//         />
+//       </TouchableOpacity>
+//     ),
+//     headerRight: () => (
+//       <TouchableOpacity
+//         onPress={() => {
+//           props.navigation.navigate("Cart");
+//         }}
+//       >
+//         <IconBadge
+//           MainElement={
+//             <Image
+//               source={require("../assets/bag.png")}
+//               style={{ height: 25, width: 25, marginTop: 0 }}
+//             />
+//           }
+//           BadgeElement={
+//             <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
+//           }
+//           IconBadgeStyle={{
+//             width: 10,
+//             height: 20,
+//             backgroundColor: "purple",
+//             marginTop: 5,
+//           }}
+//           Hidden={DrugStore.count == 0}
+//         />
+//       </TouchableOpacity>
+//     ),
+//     headerLargeTitle: false,
+//     headerTitle: "Aushadhalay",
+//     headerTitleAlign: "center",
+//   };
+// };
+
+// export const AndroidScreenOptions = (navData) => {
+//   return {
+//     headerRight: () => (
+//       <View
+//         style={{
+//           flexDirection: "row",
+//           alignItems: "center",
+//           // justifyContent: "space-around",
+//         }}
+//       >
+//         <TouchableOpacity
+//           onPress={() => {
+//             navData.navigation.navigate("Settings");
+//           }}
+//         >
+//           <Image
+//             source={{
+//               uri:
+//                 DrugStore.profile.display_picture.length === 1
+//                   ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+//                   : DrugStore.profile.display_picture,
+//             }}
+//             style={{
+//               height: 35,
+//               width: 35,
+//               marginTop: 0,
+//               borderRadius: 17.5,
+//               // shadowOpacity: 0.75,
+//             }}
+//           />
+//         </TouchableOpacity>
+//         <TouchableOpacity
+//           onPress={() => {
+//             navData.navigation.navigate("Cart");
+//           }}
+//         >
+//           <IconBadge
+//             MainElement={
+//               <Image
+//                 source={require("../assets/bag.png")}
+//                 style={{ height: 25, width: 25, marginTop: 0 }}
+//               />
+//             }
+//             BadgeElement={
+//               <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
+//             }
+//             IconBadgeStyle={{
+//               width: 10,
+//               height: 20,
+//               backgroundColor: "purple",
+//               marginTop: 5,
+//             }}
+//             Hidden={DrugStore.count == 0}
+//           />
+//         </TouchableOpacity>
+//       </View>
+//     ),
+//     headerLargeTitle: false,
+//     headerTitle: "Aushadhalay",
+//     // औषधालय,
+//     // headerTitle: `Welcome back, \n ${DrugStore.userCredentials.email.substring(
+//     //   0,
+//     //   DrugStore.userCredentials.email.indexOf("@")
+//     // )}`,
+//     // headerTitleStyle: { textAlign: "center", flex: 1 },
+//   };
+// };
 
 const connectedApp = connectActionSheet(HomeScreen);
 

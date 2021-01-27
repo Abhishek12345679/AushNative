@@ -300,6 +300,7 @@ export const RootNavigator = () => {
       screenOptions={({ route, navigation }) => ({
         headerHideShadow: true,
         // headerStyle: { marginTop: 90 },
+        // headerTitle: "aush",
       })}
     >
       <RootStackNavigator.Screen
@@ -312,7 +313,7 @@ export const RootNavigator = () => {
       <RootStackNavigator.Screen
         name="Home"
         component={HomeScreen}
-        // headerTitle="Scan"
+        headerTitle="Aushadhalay"
         options={HomeScreenOptions}
       />
 
@@ -438,35 +439,35 @@ export const RootNavigator = () => {
   );
 };
 
-const ShopStackNavigator = createNativeStackNavigator();
+// const ShopStackNavigator = createNativeStackNavigator();
 
-export const ShopNavigator = () => {
-  return (
-    <ShopStackNavigator.Navigator>
-      <ShopStackNavigator.Screen
-        name="ShopHome"
-        component={sampleshop}
-        options={{
-          headerLargeTitle: true,
-          headerHideShadow: true,
-          headerTitle: "Dukaan",
-        }}
-      />
-    </ShopStackNavigator.Navigator>
-  );
-};
+// export const ShopNavigator = () => {
+//   return (
+//     <ShopStackNavigator.Navigator>
+//       <ShopStackNavigator.Screen
+//         name="ShopHome"
+//         component={sampleshop}
+//         options={{
+//           headerLargeTitle: true,
+//           headerHideShadow: true,
+//           headerTitle: "Dukaan",
+//         }}
+//       />
+//     </ShopStackNavigator.Navigator>
+//   );
+// };
 
-const BottomNavigationBar = createBottomTabNavigator();
+// const BottomNavigationBar = createBottomTabNavigator();
 
-export const TabNavigator = () => {
-  return (
-    <BottomNavigationBar.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-      <BottomNavigationBar.Screen name="ScanScreen" component={RootNavigator} />
+// export const TabNavigator = () => {
+//   return (
+//     <BottomNavigationBar.Navigator tabBar={(props) => <MyTabBar {...props} />}>
+//       <BottomNavigationBar.Screen name="ScanScreen" component={RootNavigator} />
 
-      <BottomNavigationBar.Screen
-        name="SplashScreen"
-        component={ShopNavigator}
-      />
-    </BottomNavigationBar.Navigator>
-  );
-};
+//       <BottomNavigationBar.Screen
+//         name="SplashScreen"
+//         component={ShopNavigator}
+//       />
+//     </BottomNavigationBar.Navigator>
+//   );
+// };

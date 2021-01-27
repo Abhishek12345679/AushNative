@@ -5,7 +5,7 @@ import * as Firebase from "firebase";
 import { firebaseConfig } from "../constants/config";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { RootNavigator, TabNavigator } from "./AppNavigator";
+import { RootNavigator, ShopNavigator, TabNavigator } from "./AppNavigator";
 import { AuthNavigator } from "./AppNavigator";
 import DrugStore from "../store/CartStore";
 import SplashScreen from "../screens/SplashScreen";
@@ -17,7 +17,7 @@ const AppContainer = observer((props) => {
   }
   return (
     <NavigationContainer>
-      {!!DrugStore.userCredentials.token.length > 0 && <TabNavigator />}
+      {!!DrugStore.userCredentials.token.length > 0 && <RootNavigator />}
       {!!!DrugStore.userCredentials.token.length > 0 &&
         !!DrugStore.didTryAutoLogin && <AuthNavigator />}
       {(!!!DrugStore.userCredentials.token.length > 0 ||
