@@ -7,12 +7,12 @@
 
 # Aushadhalay 
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)   [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)   [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)  ![GitHub package.json version](https://img.shields.io/github/package-json/v/Abhishek12345679/AushNative)
 
 Want your meds ? Just Whip out your phone and snap a photo of the packaging and boom it shows you all the meds matching your med's name in our database
 
 
-Community : [Whatsapp Business](https://www.google.com)
+Community : [Whatsapp Business](https://wa.me/message/T7CNEP2FNFNTF1)
 
 
 Why Aushadhalay instead of other apps:
