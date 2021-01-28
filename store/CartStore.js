@@ -359,24 +359,24 @@ const DrugStore = types
   // initial State
   .create({
     drugs: [
-      {
-        id: "4123534523464575675",
-        name: "hbwycwc 450",
-        salt: "Cylonndojfhjwncv ",
-        price: 100,
-        quantity: 2,
-        prescription_req: false,
-        total_amt: 200,
-      },
-      {
-        id: "32456346345653463456",
-        name: "hbwycwc 450",
-        salt: "Cylonndojfhjwncv ",
-        price: 100,
-        quantity: 2,
-        prescription_req: true,
-        total_amt: 200,
-      },
+      // {
+      //   id: "4123534523464575675",
+      //   name: "hbwycwc 450",
+      //   salt: "Cylonndojfhjwncv ",
+      //   price: 100,
+      //   quantity: 2,
+      //   prescription_req: false,
+      //   total_amt: 200,
+      // },
+      // {
+      //   id: "32456346345653463456",
+      //   name: "hbwycwc 450",
+      //   salt: "Cylonndojfhjwncv ",
+      //   price: 100,
+      //   quantity: 2,
+      //   prescription_req: true,
+      //   total_amt: 200,
+      // },
     ],
     count: 0,
     orders: [],

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Image,
-  Button,
   StyleSheet,
   StatusBar,
   Dimensions,
@@ -10,8 +9,6 @@ import {
   Platform,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
-  Modal as NativeModal,
   ScrollView,
 } from "react-native";
 
@@ -22,55 +19,24 @@ import ml from "@react-native-firebase/ml";
 import Modal from "react-native-modal";
 
 import { Ionicons } from "@expo/vector-icons";
-import * as ScreenOrientation from "expo-screen-orientation";
 import { ImageManipulator } from "expo-image-crop";
 import CPButton from "../components/CPButton";
-import DrugStore from "../store/CartStore";
 
 const CameraPreviewScreen = (props) => {
-  const { navigation } = props;
-
   let [wordList, setWordList] = useState([]);
-  // let wordList = [];
-
-  useEffect(() => {
-    navigation.addListener("focus", () => {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-    });
-
-    navigation.addListener("blur", () => {
-      ScreenOrientation.unlockAsync();
-    });
-  }, [navigation]);
-
   const iOS = Platform.OS === "ios";
 
   const [photoData, setPhotoData] = useState(props.route.params.photo);
-  // console.log(Object.keys(photoData));
 
-  const imgHeight = photoData.height;
-  const imgWidth = photoData.width;
-
-  console.log(imgWidth);
-  console.log(imgHeight);
+  // const imgHeight = photoData.height;
+  // const imgWidth = photoData.width;
 
   const baseUri = "data:image/jpg;base64,";
-
-  // const phoneIP = "172.20.10.2";
-  // const wifiIP = "192.168.0.102";
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [image, setImage] = useState(baseUri + photoData.base64);
-
-  // const uid = DrugStore.userCredentials.uid;
-
-  // let newImageFile = {
-  //   uri: photoData.uri,
-  //   type: `test/${photoData.uri.split(".")[1]}`,
-  //   name: `test.${photoData.uri.split(".")[1]}`,
-  // };
 
   async function processDocument(localPath) {
     const processed = await ml().cloudDocumentTextRecognizerProcessImage(
@@ -98,70 +64,13 @@ const CameraPreviewScreen = (props) => {
     setWordList(temp);
   }
 
-  // const hosted_uri = "https://ocr-api-2020.herokuapp.com";
-
-  // const getOCRData = async (image) => {
-  //   // const response = await fetch("http://" + wifiIP + ":5000/post-image", {
-  //   //   method: "post",
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //   },
-  //   //   body: JSON.stringify({ imageUrl: image }),
-  //   // });
-
-  //   const response = await fetch(hosted_uri + "/post-image", {
-  //     method: "post",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ imageUrl: image }),
-  //   });
-
-  //   const data = await response.json();
-  //   return data;
-  // };
-
-  // const uploadImage = async (image) => {
-  //   console.log("uploading...");
-  //   const data = new FormData();
-  //   data.append("file", image);
-  //   data.append("folder", `OCR_Images/${uid}`);
-  //   data.append("upload_preset", "drug_package_image");
-  //   data.append("cloud_name", "abhisheksah69420");
-
-  //   const response = await fetch(
-  //     "https://api.cloudinary.com/v1_1/abhisheksah69420/image/upload",
-  //     //https://api.cloudinary.com/v1_1/<cloud name>/<resource_type>/upload
-  //     {
-  //       method: "POST",
-  //       body: data,
-  //     }
-  //   );
-
-  //   const resData = await response.json();
-  //   return resData;
-  // };
-
-  // if (isLoading) {
-  //   return (
-  //     <View
-  //       style={{
-  //         ...styles.container,
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //       }}
-  //     >
-
-  //     </View>
-  //   );
-  // }
-
   const removeUselessSpaces = (text) => {
     let newText = text.replace(/\s+/g, " ").trim();
     return newText.split(" ");
   };
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [scanning, setScanning] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -172,9 +81,11 @@ const CameraPreviewScreen = (props) => {
             <CPButton
               iOS={iOS ? true : false}
               onpress={async () => {
+                setScanning(true);
                 processDocument(photoData.uri).then(() => {
                   console.log("Finished processing file.");
                   setModalVisible(true);
+                  setScanning(false);
                 });
               }}
               color="#FFF"
@@ -210,14 +121,47 @@ const CameraPreviewScreen = (props) => {
             // marginTop: 10,
           }}
         />
+        <View
+          style={{
+            // flex: 1,
+            width: "100%",
+            height: Dimensions.get("window").height - 200,
+            // backgroundColor: "red",
+            position: "absolute",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {scanning && (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <View
+                style={{
+                  height: 150,
+                  width: 150,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#fff",
+                }}
+              >
+                <ActivityIndicator size="large" color="#000" />
+              </View>
+            </View>
+          )}
+        </View>
       </View>
       <View style={styles.header_footer}>
         <View style={styles.buttonContainer}>
           <CPButton
             iOS={iOS ? true : false}
-            onpress={async () => {
-              setIsVisible((prev) => !prev);
-            }}
+            // onpress={async () => {
+            //   setIsVisible((prev) => !prev);
+            // }}
             color="#FFF"
             text="edit"
           />
@@ -235,6 +179,7 @@ const CameraPreviewScreen = (props) => {
               base64: true,
             }}
           />
+
           <CPButton
             iOS={iOS ? true : false}
             onpress={() => {

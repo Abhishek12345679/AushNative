@@ -5,7 +5,8 @@ import {
   Button,
   TouchableOpacity,
   StyleSheet,
-  TouchableNativeFeedback,
+  Platform,
+  // TouchableNativeFeedback,
 } from "react-native";
 
 const CPButton = (props) => {
@@ -18,7 +19,7 @@ const CPButton = (props) => {
           color={props.color}
         />
       ) : (
-        <TouchableNativeFeedback
+        <TouchableOpacity
           onPress={props.onpress}
           style={{
             justifyContent: "center",
@@ -29,7 +30,7 @@ const CPButton = (props) => {
           }}
         >
           <Text style={{ color: "#fff" }}>{props.text}</Text>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
       )}
     </>
   );
