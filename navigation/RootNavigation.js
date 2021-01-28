@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import * as Firebase from "firebase";
 import { firebaseConfig } from "../constants/config";
 
+import { ModalPortal } from "react-native-modals";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootNavigator, ShopNavigator, TabNavigator } from "./AppNavigator";
 import { AuthNavigator } from "./AppNavigator";
@@ -25,6 +26,7 @@ const AppContainer = observer((props) => {
         !!!DrugStore.didTryAutoLogin && <SplashScreen />}
       {/* <SplashScreen /> */}
       {/* <AuthNavigator /> */}
+      <ModalPortal />
     </NavigationContainer>
   );
 });

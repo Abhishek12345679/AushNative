@@ -12,7 +12,10 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Modal as NativeModal,
+  ScrollView,
 } from "react-native";
+
+import { ModalTitle, ModalContent, BottomModal } from "react-native-modals";
 
 import ml from "@react-native-firebase/ml";
 
@@ -84,9 +87,14 @@ const CameraPreviewScreen = (props) => {
       console.log("Confidence in block: ", block.confidence);
       console.log("Languages found in block: ", block.recognizedLanguages);
 
-      temp.push(removeUselessSpaces(block.text));
+      // adding to wordList
+      const newText = removeUselessSpaces(block.text);
+      newText.forEach((text) => {
+        temp.push(text);
+      });
     });
     console.log("temp", temp);
+
     setWordList(temp);
   }
 
@@ -149,7 +157,8 @@ const CameraPreviewScreen = (props) => {
   // }
 
   const removeUselessSpaces = (text) => {
-    return text.replace(/\s+/g, " ").trim();
+    let newText = text.replace(/\s+/g, " ").trim();
+    return newText.split(" ");
   };
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -267,67 +276,67 @@ const CameraPreviewScreen = (props) => {
           {isLoading && <ActivityIndicator size={24} color="#fff" />}
         </View>
       </Modal>
-      <Modal
-        backdropColor="#ccc"
-        // animationType="fade"
-        isVisible={modalVisible}
-        // onSwipeComplete={() => setModalVisible(false)}
-        // swipeDirection={["down"]}
-        style={
-          {
-            // justifyContent: "flex-end",
-            // margin: 10,
-            // justifyContent: "center",
-            // alignItems: "center",
-            // backgroundColor: "#000",
-            // borderRadius: 15,
-          }
+      <BottomModal
+        visible={modalVisible}
+        onTouchOutside={() => setModalVisible(false)}
+        height={500}
+        width={0.5}
+        onSwipeOut={() => setModalVisible(false)}
+        modalTitle={
+          <ModalTitle title="Choose the correct Drug Name " hasTitleBar />
         }
       >
-        <View
+        <ModalContent
           style={{
-            height: "100%",
+            flex: 1,
             backgroundColor: "#fff",
-            padding: 22,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 20,
+            borderRadius: 0,
           }}
         >
-          {wordList.map((word, i) => (
-            <TouchableOpacity
-              style={{
-                width: "100%",
-                height: 20,
-                marginBottom: 20,
-                backgroundColor: "#ccc",
-              }}
-              onPress={() => {
-                props.navigation.navigate("Results", {
-                  data: word.toLowerCase().trim(),
-                  mode: "scan",
-                });
-              }}
-            >
-              <Text>{word.trim()}</Text>
-            </TouchableOpacity>
-          ))}
-          <Button
+          <ScrollView
+            contentContainerStyle={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            style={{
+              height: "100%",
+              backgroundColor: "#fff",
+              padding: 22,
+              borderRadius: 20,
+            }}
+          >
+            {wordList.map((word, i) => (
+              <TouchableOpacity
+                style={{
+                  width: "100%",
+                  height: 40,
+                  marginBottom: 20,
+                  // backgroundColor: "#ccc",
+                }}
+                onLongPress={() => {
+                  console.log("Long Press!");
+                }}
+                onPress={() => {
+                  console.log("Short Press!");
+                  setModalVisible(false);
+                  props.navigation.navigate("Results", {
+                    data: word.toLowerCase(),
+                    mode: "scan",
+                  });
+                }}
+              >
+                <Text>{word}</Text>
+              </TouchableOpacity>
+            ))}
+            {/* <Button
             title="close"
             onPress={() => {
               setModalVisible(false);
             }}
-          />
-          {/* <AnimatedLoader
-            visible={isLoading}
-            overlayColor="rgba(255,255,255,0)"
-            source={require("../assets/196-material-wave-loading.json")}
-            animationStyle={{ height: 100, width: 100 }}
-            speed={1}
-          /> */}
-          {/* {isLoading && <ActivityIndicator size={24} color="#fff" />} */}
-        </View>
-      </Modal>
+          />  */}
+          </ScrollView>
+        </ModalContent>
+      </BottomModal>
     </View>
   );
 };
