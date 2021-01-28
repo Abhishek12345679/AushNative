@@ -20,9 +20,37 @@ Why Aushadhalay instead of other apps:
 * Unlimited range of Medicinal Products 💊
 * Intuitive 🐝 
 * One Scan away from your meds 🕵🏼‍♀️ 🕵🏼‍♂️
-   
 
-   <!-- <!-- ![Scanner](assets/mockups/scanner.png?raw=true) -->
-   ![Scanned](assets/mockups/mockups.png?raw=true) -->
 
-   <!-- <img src="assets/mockups/scanner.png" width="720" height="760"/> -->
+<br/><br/>
+   ![Scanned](assets/mockups/mockups.png?raw=true) 
+
+
+
+## TESTS
+
+yarn-
+```bash
+yarn test
+```
+
+npm-
+```bash
+npm run test
+```
+
+
+
+## MOTIVATION TO BUILD IT
+
+I was not satisfied with existing Medicine Delivery Apps because they add a learning curve for the older non-tech savvy people of the country. 
+And with our app anyone can just scan their empty medicine pack to order more or simply follow the traditional route by typing and ordering.
+
+
+## LICENSE
+
+MIT
+
+
+
+## </> 💜  in  🇮🇳
