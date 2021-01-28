@@ -1,4 +1,3 @@
-// FIXME: removeUselessSpaces not running correctly
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -54,21 +53,21 @@ const CameraPreviewScreen = (props) => {
 
   const baseUri = "data:image/jpg;base64,";
 
-  const phoneIP = "172.20.10.2";
-  const wifiIP = "192.168.0.102";
+  // const phoneIP = "172.20.10.2";
+  // const wifiIP = "192.168.0.102";
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [image, setImage] = useState(baseUri + photoData.base64);
 
-  const uid = DrugStore.userCredentials.uid;
+  // const uid = DrugStore.userCredentials.uid;
 
-  let newImageFile = {
-    uri: photoData.uri,
-    type: `test/${photoData.uri.split(".")[1]}`,
-    name: `test.${photoData.uri.split(".")[1]}`,
-  };
+  // let newImageFile = {
+  //   uri: photoData.uri,
+  //   type: `test/${photoData.uri.split(".")[1]}`,
+  //   name: `test.${photoData.uri.split(".")[1]}`,
+  // };
 
   async function processDocument(localPath) {
     const processed = await ml().cloudDocumentTextRecognizerProcessImage(
@@ -91,49 +90,49 @@ const CameraPreviewScreen = (props) => {
     setWordList(temp);
   }
 
-  const hosted_uri = "https://ocr-api-2020.herokuapp.com";
+  // const hosted_uri = "https://ocr-api-2020.herokuapp.com";
 
-  const getOCRData = async (image) => {
-    // const response = await fetch("http://" + wifiIP + ":5000/post-image", {
-    //   method: "post",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ imageUrl: image }),
-    // });
+  // const getOCRData = async (image) => {
+  //   // const response = await fetch("http://" + wifiIP + ":5000/post-image", {
+  //   //   method: "post",
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   //   body: JSON.stringify({ imageUrl: image }),
+  //   // });
 
-    const response = await fetch(hosted_uri + "/post-image", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ imageUrl: image }),
-    });
+  //   const response = await fetch(hosted_uri + "/post-image", {
+  //     method: "post",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ imageUrl: image }),
+  //   });
 
-    const data = await response.json();
-    return data;
-  };
+  //   const data = await response.json();
+  //   return data;
+  // };
 
-  const uploadImage = async (image) => {
-    console.log("uploading...");
-    const data = new FormData();
-    data.append("file", image);
-    data.append("folder", `OCR_Images/${uid}`);
-    data.append("upload_preset", "drug_package_image");
-    data.append("cloud_name", "abhisheksah69420");
+  // const uploadImage = async (image) => {
+  //   console.log("uploading...");
+  //   const data = new FormData();
+  //   data.append("file", image);
+  //   data.append("folder", `OCR_Images/${uid}`);
+  //   data.append("upload_preset", "drug_package_image");
+  //   data.append("cloud_name", "abhisheksah69420");
 
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/abhisheksah69420/image/upload",
-      //https://api.cloudinary.com/v1_1/<cloud name>/<resource_type>/upload
-      {
-        method: "POST",
-        body: data,
-      }
-    );
+  //   const response = await fetch(
+  //     "https://api.cloudinary.com/v1_1/abhisheksah69420/image/upload",
+  //     //https://api.cloudinary.com/v1_1/<cloud name>/<resource_type>/upload
+  //     {
+  //       method: "POST",
+  //       body: data,
+  //     }
+  //   );
 
-    const resData = await response.json();
-    return resData;
-  };
+  //   const resData = await response.json();
+  //   return resData;
+  // };
 
   // if (isLoading) {
   //   return (
@@ -150,13 +149,7 @@ const CameraPreviewScreen = (props) => {
   // }
 
   const removeUselessSpaces = (text) => {
-    let newStringArray = [];
-    text.split(" ").forEach((block, index) => {
-      if (block !== "" || block !== " ") {
-        newStringArray.push(block);
-      }
-    });
-    return newStringArray.join();
+    return text.replace(/\s+/g, " ").trim();
   };
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -174,11 +167,6 @@ const CameraPreviewScreen = (props) => {
                   console.log("Finished processing file.");
                   setModalVisible(true);
                 });
-                // setIsLoading(true);
-                // const uploadData = await uploadImage(newImageFile);
-                // console.log(uploadData);
-                // const tmp = await getOCRData(uploadData.url);
-                // setIsLoading(false);
               }}
               color="#FFF"
               text="Confirm"
