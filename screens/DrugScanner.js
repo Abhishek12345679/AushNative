@@ -10,6 +10,7 @@ import {
   StatusBar,
   Vibration,
   Platform,
+  Dimensions,
 } from "react-native";
 
 import GestureRecognizer from "react-native-swipe-gestures";
@@ -28,18 +29,8 @@ import RoundButton from "../components/RoundButton";
 import ManualSearchBox from "../components/ManualSearchBox";
 
 const DrugScanner = (props) => {
-  useEffect(() => {
-    navigation.addListener("focus", () => {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
-    });
-
-    navigation.addListener("blur", () => {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
-    });
-  }, [navigation]);
-
   const cameraRef = useRef(null);
-  const { navigation } = props;
+  const [camera, setCamera] = useState(null);
 
   // const { width, height } = Dimensions.get("window");
   // console.log(width + " " + height);
@@ -61,6 +52,13 @@ const DrugScanner = (props) => {
   const [flashStatus, setFlashStatus] = useState(
     Camera.Constants.FlashMode.off
   );
+
+  // Screen Ratio and image padding
+  const [imagePadding, setImagePadding] = useState(0);
+  const [ratio, setRatio] = useState("4:3"); // default is 4:3
+  const { height, width } = Dimensions.get("window");
+  const screenRatio = height / width;
+  const [isRatioSet, setIsRatioSet] = useState(false);
 
   const pickImage = async () => {
     try {
@@ -100,8 +98,55 @@ const DrugScanner = (props) => {
     })();
   }, []);
 
-  const onCameraReady = () => {
+  const onCameraReady = async () => {
     setIsCameraReady(true);
+    if (!isRatioSet) {
+      await prepareRatio();
+    }
+  };
+
+  //fixing ratio
+  const prepareRatio = async () => {
+    let desiredRatio = "4:3"; // Start with the system default
+    // This issue only affects Android
+    if (Platform.OS === "android") {
+      const ratios = await camera.getSupportedRatiosAsync();
+      console.log(ratios);
+
+      // Calculate the width/height of each of the supported camera ratios
+      // These width/height are measured in landscape mode
+      // find the ratio that is closest to the screen ratio without going over
+      let distances = {};
+      let realRatios = {};
+      let minDistance = null;
+      for (const ratio of ratios) {
+        const parts = ratio.split(":");
+        const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
+        realRatios[ratio] = realRatio;
+        // ratio can't be taller than screen, so we don't want an abs()
+        const distance = screenRatio - realRatio;
+        distances[ratio] = realRatio;
+        if (minDistance == null) {
+          minDistance = ratio;
+        } else {
+          if (distance >= 0 && distance < distances[minDistance]) {
+            minDistance = ratio;
+          }
+        }
+      }
+      // set the best match
+      desiredRatio = minDistance;
+      //  calculate the difference between the camera width and the screen height
+      const remainder = Math.floor(
+        (height - realRatios[desiredRatio] * width) / 2
+      );
+      // set the preview padding and preview ratio
+      setImagePadding(remainder / 2);
+      setRatio(desiredRatio);
+      // Set a flag so we don't do this
+      // calculation each time the screen refreshes
+      setIsRatioSet(true);
+    }
   };
 
   const searchQueryChangeHandler = (text) => {
@@ -171,16 +216,26 @@ const DrugScanner = (props) => {
         config={config}
         style={{
           flex: 1,
-          // backgroundColor: this.state.backgroundColor,
+          backgroundColor: "#000",
         }}
       >
         <Camera
-          style={{ flex: 1, flexDirection: "row" }}
+          ratio={ratio}
+          style={{
+            flex: 1,
+            backgroundColor: "#000",
+            flexDirection: "row",
+            marginTop: imagePadding,
+            marginBottom: imagePadding,
+          }}
           type={type}
           flashMode={flashStatus}
-          ref={cameraRef}
+          ref={(ref) => {
+            setCamera(ref);
+          }}
           onCameraReady={onCameraReady}
           onStartShouldSetResponder={(evt) => onDoublePress()}
+          useCamera2Api
         >
           <View
             style={{
@@ -201,8 +256,8 @@ const DrugScanner = (props) => {
               }}
               style={{
                 // flex: 1,
-                borderWidth: 3,
-                borderColor: "rgb(0, 255, 0)",
+                // borderWidth: 3,
+                // borderColor: "rgb(0, 255, 0)",
                 width: "95%",
                 height: 100,
                 justifyContent: "center",
@@ -299,9 +354,9 @@ const DrugScanner = (props) => {
                 style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
                 onPress={() => {
                   setType(
-                    type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back
+                    type === Camera.Constants.Type.front
+                      ? Camera.Constants.Type.back
+                      : Camera.Constants.Type.front
                   );
                 }}
               >

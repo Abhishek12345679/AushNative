@@ -9588,6 +9588,13 @@ react-native-auto-height-image@^1.0.5:
     prop-types "^15.7.2"
     react-native-android-image-polyfill "^1.0.0"
 
+react-native-camera@^3.42.0:
+  version "3.42.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-3.42.0.tgz#e9778b77a2da96e42d604d1766ca331281b5b85f"
+  integrity sha512-DFsZeRy9TKP/pGef5iLX1AWxP9eAnlbGcA76fEoFXse6EP56sdgjYe+wudJsGZ//arGrYBqjq6wog13HMsJaoQ==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-document-picker@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-4.1.0.tgz#8092c09727018587da34358bf731fe948d4171a5"
