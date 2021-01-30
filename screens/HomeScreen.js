@@ -276,7 +276,8 @@ const HomeScreen = observer((props) => {
               // backgroundColor: "#ccc",
             }}
             onPress={() => {
-              props.navigation.navigate("Settings");
+              // props.navigation.navigate("Settings");
+              //TODO: add search screen and (suggestions while typing?)
             }}
           >
             <Ionicons name="md-search" size={24} color="#fff" />

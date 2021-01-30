@@ -507,7 +507,7 @@ export const TabNavigator = () => {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="person-circle" color={color} size={26} />
+            <Ionicons name="ios-person" color={color} size={26} />
           ),
         }}
       />
