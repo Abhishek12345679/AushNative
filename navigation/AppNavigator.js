@@ -271,13 +271,13 @@ const EditProfileNavigator = () => {
   return (
     <EditProfileStackNavigator.Navigator
       initialRouteName="Edit Profile"
-      // screenOptions={{ gestureEnabled: false }}
+      // screenOptions={{ headerShown: false }}
     >
       <EditProfileStackNavigator.Screen
         name="Edit Profile"
         component={EditProfileScreen}
         options={{
-          headerShown: true,
+          // headerShown: false,
           // headerLargeTitle: true,
           headerTranslucent: true,
           headerStyle: {
@@ -401,7 +401,11 @@ export const RootNavigator = () => {
       <RootStackNavigator.Screen
         name="EditProfile"
         component={EditProfileNavigator}
-        options={{ stackPresentation: "modal", gestureEnabled: false }}
+        options={{
+          stackPresentation: "fullScreenModal",
+          gestureEnabled: true,
+          headerShown: false,
+        }}
       />
       <RootStackNavigator.Screen
         name="Addresses"

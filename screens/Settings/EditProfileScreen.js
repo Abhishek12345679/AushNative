@@ -36,9 +36,6 @@ const EditProfileScreen = observer((props) => {
   const saveInput = () => {
     if (formRef.current) {
       formRef.current.handleSubmit();
-      // if (formRef.current.isValid) {
-      //   setStep(2);
-      // }
     }
   };
 

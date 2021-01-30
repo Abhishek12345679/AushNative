@@ -47,6 +47,10 @@ import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
+import { Ionicons } from "react-native-vector-icons";
+import { TouchableNativeFeedback } from "react-native";
+import { colors } from "react-native-elements";
+
 const HomeScreen = observer((props) => {
   const { navigation, showActionSheetWithOptions } = props;
   const [headerImg, setHeaderImg] = useState(
@@ -117,7 +121,7 @@ const HomeScreen = observer((props) => {
   //   console.log("Is connected?", state.isConnected);
   // });
 
-  // cloudinary is super slow in fetching images
+  // cloudinary is super slow in fetching images, use firebase-storage, and react-native firebase
   const getDP = async () => {
     const response = await fetch("https://images-api-v1.herokuapp.com/search", {
       method: "POST",
@@ -293,41 +297,68 @@ const HomeScreen = observer((props) => {
       //     </TouchableOpacity>
       //   ),
       headerRight: () => (
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.navigate("Cart");
-          }}
-        >
-          <IconBadge
-            MainElement={
-              <Image
-                source={require("../assets/bag.png")}
-                style={{ height: 25, width: 25, marginTop: 0 }}
-              />
-            }
-            BadgeElement={
-              <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-            }
-            IconBadgeStyle={{
-              width: 10,
-              height: 20,
-              backgroundColor: "purple",
-              marginTop: 5,
+        //TODO: add ripple effect
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={{
+              marginStart: 10,
+              height: 40,
+              width: 40,
+              justifyContent: "center",
+              alignItems: "center",
+              // backgroundColor: "#ccc",
             }}
-            Hidden={DrugStore.count == 0}
-          />
-        </TouchableOpacity>
+            onPress={() => {
+              props.navigation.navigate("Settings");
+            }}
+          >
+            <Ionicons name="md-search" size={24} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginStart: 5,
+              height: 40,
+              width: 40,
+              justifyContent: "center",
+              alignItems: "center",
+              // backgroundColor: "#ccc",
+            }}
+            onPress={() => {
+              props.navigation.navigate("Cart");
+            }}
+          >
+            <IconBadge
+              MainElement={
+                // <Image
+                //   source={require("../assets/bag.png")}
+                //   style={{ height: 25, width: 25, marginTop: 0 }}
+                // />
+                <Ionicons name="md-cart" size={24} color="#fff" />
+              }
+              BadgeElement={
+                <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
+              }
+              IconBadgeStyle={{
+                width: 10,
+                height: 20,
+                backgroundColor: "purple",
+                marginTop: 5,
+              }}
+              Hidden={DrugStore.count == 0}
+            />
+          </TouchableOpacity>
+        </View>
       ),
       // headerTitle: "Aushadhalay",
       headerStyle: {
-        backgroundColor: "#fff",
+        backgroundColor: "#14213d",
         elevation: 0,
         shadowOpacity: 0,
         borderBottomWidth: 0,
       },
       headerLargeTitle: true,
       // headerTitleAlign: "left",
-      // headerTintColor: "#000",
+      headerTintColor: "#fff",
       // headerTitleStyle: {
       //   fontWeight: "bolder",
       //   // fontFamily: "plumpfull",
@@ -368,6 +399,7 @@ const HomeScreen = observer((props) => {
         // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
+          //FIXME: returns failure due to billing issues
         } else if (buttonIndex === 1) {
           setModalVisible(true);
         }
@@ -381,43 +413,34 @@ const HomeScreen = observer((props) => {
 
   return (
     <ScrollView
-      keyboardShouldPersistTaps="always"
-      style={{ backgroundColor: "#fff" }}
+      // keyboardShouldPersistTaps="always"
+      style={styles.container}
       contentContainerStyle={{ flexGrow: 1 }}
-      stickyHeaderIndices={[1]}
+      // stickyHeaderIndices={[1]}
     >
       {Platform.OS === "ios" ? (
         <StatusBar barStyle="dark-content" />
       ) : (
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content" backgroundColor="#14213d" />
       )}
-      <LocationPicker
+      {/* <LocationPicker
         location={locName}
         onPress={() => {
           onOpenActionSheet();
         }}
-      />
-      <View
-        style={{
-          ...styles.container,
-          backgroundColor: "#fff",
-        }}
-      >
+      /> */}
+      <View style={styles.container}>
         <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
           <Text style={{ fontSize: 30 }}>Welcome back, </Text>
           <Text style={{ fontSize: 30, fontWeight: "bold", color: "purple" }}>
             {DrugStore.profile.name.trim()}
           </Text>
-          {/* <Text>
-            ConnStatus:{connStatus === true ? "connected" : "disconnected"}
-          </Text> */}
-          {/* change the UI of the actionsheet location */}
         </View>
       </View>
       <View
         style={{
           flex: 1,
-          backgroundColor: "#fff",
+          backgroundColor: "#1e335f",
           alignItems: "center",
           justifyContent: "flex-end",
           marginBottom: 30,
@@ -483,10 +506,10 @@ const HomeScreen = observer((props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#1e335f",
     flexDirection: "column",
     // alignItems: "center",
-    // flexGrow: 1,
+    flexGrow: 1,
   },
   scanButton: {
     height: 50,
@@ -506,136 +529,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// export const IOSScreenOptions = (navData) => {
-//   return {
-//     headerLeft: () => (
-//       <TouchableOpacity
-//         onPress={() => {
-//           props.navigation.navigate("Settings");
-//         }}
-//       >
-//         <Image
-//           source={{
-//             uri:
-//               DrugStore.profile.display_picture === " "
-//                 ? headerImg
-//                 : DrugStore.profile.display_picture,
-//           }}
-//           style={{
-//             height: 35,
-//             width: 35,
-//             marginTop: 0,
-//             borderRadius: 17.5,
-//             borderWidth: 1,
-//             borderColor: "#333",
-//             // shadowRadius: 10,
-//             // shadowOpacity: 0.75,
-//           }}
-//         />
-//       </TouchableOpacity>
-//     ),
-//     headerRight: () => (
-//       <TouchableOpacity
-//         onPress={() => {
-//           props.navigation.navigate("Cart");
-//         }}
-//       >
-//         <IconBadge
-//           MainElement={
-//             <Image
-//               source={require("../assets/bag.png")}
-//               style={{ height: 25, width: 25, marginTop: 0 }}
-//             />
-//           }
-//           BadgeElement={
-//             <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-//           }
-//           IconBadgeStyle={{
-//             width: 10,
-//             height: 20,
-//             backgroundColor: "purple",
-//             marginTop: 5,
-//           }}
-//           Hidden={DrugStore.count == 0}
-//         />
-//       </TouchableOpacity>
-//     ),
-//     headerLargeTitle: false,
-//     headerTitle: "Aushadhalay",
-//     headerTitleAlign: "center",
-//   };
-// };
-
-// export const AndroidScreenOptions = (navData) => {
-//   return {
-//     headerRight: () => (
-//       <View
-//         style={{
-//           flexDirection: "row",
-//           alignItems: "center",
-//           // justifyContent: "space-around",
-//         }}
-//       >
-//         <TouchableOpacity
-//           onPress={() => {
-//             navData.navigation.navigate("Settings");
-//           }}
-//         >
-//           <Image
-//             source={{
-//               uri:
-//                 DrugStore.profile.display_picture.length === 1
-//                   ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-//                   : DrugStore.profile.display_picture,
-//             }}
-//             style={{
-//               height: 35,
-//               width: 35,
-//               marginTop: 0,
-//               borderRadius: 17.5,
-//               // shadowOpacity: 0.75,
-//             }}
-//           />
-//         </TouchableOpacity>
-//         <TouchableOpacity
-//           onPress={() => {
-//             navData.navigation.navigate("Cart");
-//           }}
-//         >
-//           <IconBadge
-//             MainElement={
-//               <Image
-//                 source={require("../assets/bag.png")}
-//                 style={{ height: 25, width: 25, marginTop: 0 }}
-//               />
-//             }
-//             BadgeElement={
-//               <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-//             }
-//             IconBadgeStyle={{
-//               width: 10,
-//               height: 20,
-//               backgroundColor: "purple",
-//               marginTop: 5,
-//             }}
-//             Hidden={DrugStore.count == 0}
-//           />
-//         </TouchableOpacity>
-//       </View>
-//     ),
-//     headerLargeTitle: false,
-//     headerTitle: "Aushadhalay",
-//     // औषधालय,
-//     // headerTitle: `Welcome back, \n ${DrugStore.userCredentials.email.substring(
-//     //   0,
-//     //   DrugStore.userCredentials.email.indexOf("@")
-//     // )}`,
-//     // headerTitleStyle: { textAlign: "center", flex: 1 },
-//   };
-// };
-
 const connectedApp = connectActionSheet(HomeScreen);
 
 export default connectedApp;
-
-// {"coords": {"accuracy": 5, "altitude": 0, "altitudeAccuracy": -1, "heading": -1, "latitude": 37.785834, "longitude": -122.406417, "speed": -1}, "timestamp": 1605103023554.0972}
