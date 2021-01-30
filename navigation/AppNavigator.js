@@ -57,6 +57,7 @@ import {
   MaterialCommunityIcons,
   AntDesign,
   FontAwesome,
+  Ionicons,
 } from "@expo/vector-icons";
 import sampleshop from "../screens/shop/sampleshop";
 import OrderDetailScreen, {
@@ -396,6 +397,7 @@ export const RootNavigator = () => {
         component={ProfileScreen}
         options={{
           headerLargeTitle: false,
+          // headerShown: true,
         }}
       />
       <RootStackNavigator.Screen
@@ -405,6 +407,7 @@ export const RootNavigator = () => {
           stackPresentation: "fullScreenModal",
           gestureEnabled: true,
           headerShown: false,
+          stackAnimation: "fade",
         }}
       />
       <RootStackNavigator.Screen
@@ -443,35 +446,71 @@ export const RootNavigator = () => {
   );
 };
 
-// const ShopStackNavigator = createNativeStackNavigator();
+const ShopStackNavigator = createNativeStackNavigator();
 
-// export const ShopNavigator = () => {
-//   return (
-//     <ShopStackNavigator.Navigator>
-//       <ShopStackNavigator.Screen
-//         name="ShopHome"
-//         component={sampleshop}
-//         options={{
-//           headerLargeTitle: true,
-//           headerHideShadow: true,
-//           headerTitle: "Dukaan",
-//         }}
-//       />
-//     </ShopStackNavigator.Navigator>
-//   );
-// };
+export const ShopNavigator = () => {
+  return (
+    <ShopStackNavigator.Navigator>
+      <ShopStackNavigator.Screen
+        name="ShopHome"
+        component={sampleshop}
+        options={{
+          headerLargeTitle: true,
+          headerHideShadow: true,
+          headerTitle: "Dukaan",
+        }}
+      />
+    </ShopStackNavigator.Navigator>
+  );
+};
 
-// const BottomNavigationBar = createBottomTabNavigator();
+const BottomNavigationBar = createBottomTabNavigator();
 
-// export const TabNavigator = () => {
-//   return (
-//     <BottomNavigationBar.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-//       <BottomNavigationBar.Screen name="ScanScreen" component={RootNavigator} />
+export const TabNavigator = () => {
+  return (
+    <BottomNavigationBar.Navigator
+      // tabBar={(props) => <MyTabBar {...props} />}
+      tabBarOptions={{
+        style: {
+          backgroundColor: "#14213d",
+          borderTopColor: "#14213d",
+          height: 60,
+        },
+        showLabel: false,
+      }}
+    >
+      <BottomNavigationBar.Screen
+        name="HomeScreen"
+        component={RootNavigator}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="md-home" color={color} size={26} />
+          ),
+        }}
+      />
+      <BottomNavigationBar.Screen
+        name="ScanScreen"
+        component={DrugScanner}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="md-search" color={color} size={26} />
+          ),
+          unmountOnBlur: true,
+        }}
+      />
 
-//       <BottomNavigationBar.Screen
-//         name="SplashScreen"
-//         component={ShopNavigator}
-//       />
-//     </BottomNavigationBar.Navigator>
-//   );
-// };
+      <BottomNavigationBar.Screen
+        name="SplashScreen"
+        component={SettingsScreen}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="person-circle" color={color} size={26} />
+          ),
+        }}
+      />
+    </BottomNavigationBar.Navigator>
+  );
+};

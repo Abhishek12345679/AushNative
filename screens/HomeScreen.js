@@ -15,21 +15,16 @@ import {
   StatusBar,
   Platform,
   AppState,
-  Image,
   Modal,
   ScrollView,
   TouchableWithoutFeedback,
-  Alert,
 } from "react-native";
 
 import * as Firebase from "firebase";
 
 import { showMessage } from "react-native-flash-message";
 
-// import { Image } from "react-native-elements";
-
 import DrugStore from "../store/CartStore";
-import * as ScreenOrientation from "expo-screen-orientation";
 
 import { observer } from "mobx-react";
 import IconBadge from "react-native-icon-badge";
@@ -48,8 +43,6 @@ import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 import { Ionicons } from "react-native-vector-icons";
-import { TouchableNativeFeedback } from "react-native";
-import { colors } from "react-native-elements";
 
 const HomeScreen = observer((props) => {
   const { navigation, showActionSheetWithOptions } = props;
@@ -67,15 +60,6 @@ const HomeScreen = observer((props) => {
 
   const geoSuccess = (position) => {
     console.log("Success", position);
-
-    /**
-     * revert this back in production,
-     * this is just to show me my home address
-     */
-
-    // fetch(
-    //   `https://maps.googleapis.com/maps/api/geocode/json?latlng=26.704669,89.087195&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
-    // )
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`
     )
@@ -180,23 +164,6 @@ const HomeScreen = observer((props) => {
           updateAutoLoginData(data.expires_in);
         });
       });
-      // retrieveUserData().then((refreshedData) => {
-      // const timer = setInterval(() => {
-      //   requestNewAuthToken(refreshToken).then((data) => {
-      //     DrugStore.initializeUserCredentials(
-      //       data.id_token,
-      //       DrugStore.userCredentials.uid,
-      //       DrugStore.userCredentials.email
-      //     );
-      //     updateAutoLoginData(data.expires_in);
-      //   });
-
-      //   console.log("called requestNewToken");
-      //   console.log("expires in ");
-      // }, 3600 * 1000);
-      // DrugStore.clearTimer();
-      // DrugStore.startTimer(timer);
-      // });
     } else {
       console.log("Background");
       // delete the existing timers
@@ -204,7 +171,7 @@ const HomeScreen = observer((props) => {
     }
 
     appState.current = nextAppState;
-    // // setAppStateVisible(appState.current);
+    // setAppStateVisible(appState.current);
     // console.log("AppState", appState.current);
   };
 
@@ -328,13 +295,7 @@ const HomeScreen = observer((props) => {
             }}
           >
             <IconBadge
-              MainElement={
-                // <Image
-                //   source={require("../assets/bag.png")}
-                //   style={{ height: 25, width: 25, marginTop: 0 }}
-                // />
-                <Ionicons name="md-cart" size={24} color="#fff" />
-              }
+              MainElement={<Ionicons name="md-cart" size={24} color="#fff" />}
               BadgeElement={
                 <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
               }
@@ -367,10 +328,6 @@ const HomeScreen = observer((props) => {
     });
   }, [headerImg]);
 
-  // useEffect(() => {
-  //   Platform.OS === "android" ? AndroidScreenOptions : IOSScreenOptions;
-  // }, [headerImg]);
-
   useEffect(() => {
     showMessage({
       message: `Logged in as ${
@@ -384,19 +341,15 @@ const HomeScreen = observer((props) => {
   }, []);
 
   const onOpenActionSheet = () => {
-    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = ["Detect Current Location", "Select Manually", "Cancel"];
-    // const destructiveButtonIndex = 2;
     const cancelButtonIndex = 2;
 
     showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
-        // destructiveButtonIndex,
       },
       (buttonIndex) => {
-        // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
           //FIXME: returns failure due to billing issues
@@ -430,14 +383,16 @@ const HomeScreen = observer((props) => {
         }}
       /> */}
       <View style={styles.container}>
-        <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
-          <Text style={{ fontSize: 30 }}>Welcome back, </Text>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: "purple" }}>
+        {/* <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
+          <Text style={{ fontSize: 30, color: "#fff", fontWeight: "bold" }}>
+            Welcome back,{" "}
+          </Text>
+          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#fff" }}>
             {DrugStore.profile.name.trim()}
           </Text>
-        </View>
+        </View> */}
       </View>
-      <View
+      {/* <View
         style={{
           flex: 1,
           backgroundColor: "#1e335f",
@@ -453,11 +408,11 @@ const HomeScreen = observer((props) => {
             props.navigation.navigate("Scan");
           }}
         >
-          <Text style={{ color: "#fff", fontWeight: "500", fontSize: 17 }}>
+          <Text style={{ color: "#000", fontWeight: "bold", fontSize: 20 }}>
             Scan
           </Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       {/* beautify modal */}
       <Modal
         presentationStyle="formSheet"
@@ -471,8 +426,6 @@ const HomeScreen = observer((props) => {
         }}
       >
         <TouchableWithoutFeedback
-          // for bug which prevents dismiss from firing on swipe close
-          // https://github.com/facebook/react-native/issues/26892
           onPressOut={() => {
             setModalVisible(false);
           }}
@@ -512,11 +465,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scanButton: {
-    height: 50,
+    height: 60,
     width: "35%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
     borderRadius: 25,
     marginTop: 20,
     shadowColor: "#000",
@@ -526,6 +479,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 20,
+    elevation: 20,
   },
 });
 

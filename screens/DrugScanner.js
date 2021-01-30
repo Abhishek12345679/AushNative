@@ -105,6 +105,10 @@ const DrugScanner = (props) => {
     }
   };
 
+  useEffect(() => {
+    onCameraReady;
+  }, []);
+
   //fixing ratio
   const prepareRatio = async () => {
     let desiredRatio = "4:3"; // Start with the system default
@@ -207,16 +211,16 @@ const DrugScanner = (props) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar
-        barStyle={Platform.OS === "ios" ? "light-content" : "dark-content"}
-      />
+      {/* <StatusBar
+        barStyle={Platform.OS  "light-content"}
+      /> */}
       <GestureRecognizer
         onSwipeUp={(state) => onSwipeUp(state)}
         onSwipeDown={(state) => onSwipeDown(state)}
         config={config}
         style={{
           flex: 1,
-          backgroundColor: "#000",
+          backgroundColor: "#14213d",
         }}
       >
         <Camera
