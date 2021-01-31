@@ -29,7 +29,7 @@ import RoundButton from "../components/RoundButton";
 import ManualSearchBox from "../components/ManualSearchBox";
 
 const DrugScanner = (props) => {
-  const cameraRef = useRef(null);
+  const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
 
   // const { width, height } = Dimensions.get("window");
@@ -70,7 +70,7 @@ const DrugScanner = (props) => {
         base64: true,
       });
       if (!photo.cancelled) {
-        props.navigation.pop();
+        // props.navigation.pop();
 
         props.navigation.navigate("Confirm", {
           photo: photo,
@@ -236,6 +236,7 @@ const DrugScanner = (props) => {
           flashMode={flashStatus}
           ref={(ref) => {
             setCamera(ref);
+            setCameraRef(ref);
           }}
           onCameraReady={onCameraReady}
           onStartShouldSetResponder={(evt) => onDoublePress()}
@@ -277,11 +278,11 @@ const DrugScanner = (props) => {
                   if (isCameraReady) {
                     // vibration ->
                     Vibration.vibrate();
-                    const photo = await cameraRef.current.takePictureAsync({
+                    const photo = await cameraRef.takePictureAsync({
                       base64: true,
                     });
                     // console.log(photo);
-                    props.navigation.pop();
+                    // props.navigation.pop();
                     // const manipResult = await ImageManipulator.manipulateAsync(
                     //   photo.uri,
                     //   [
@@ -479,7 +480,7 @@ const DrugScanner = (props) => {
               <ManualSearchBox
                 onpress={() => {
                   setIsVisible(false);
-                  props.navigation.pop();
+                  // props.navigation.pop();
                   props.navigation.navigate("Results", {
                     query: query,
                     manual_search: true,
