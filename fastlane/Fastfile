@@ -21,12 +21,12 @@ platform :ios do
 
     private_lane :staging_build do
         increment_build_number_in_plist(xcodeproj: './ios/HelloWorld.xcodeproj', target: 'HelloWorld')
-        gym(scheme: 'ReactNativeFastlane-staging', workspace: './ios/HelloWorld.xcworkspace')
+        gym(scheme: 'HelloWorld', workspace: './ios/HelloWorld.xcworkspace')
     end
 
     private_lane :release_build do
         increment_build_number_in_plist(xcodeproj: './ios/HelloWorld.xcodeproj', target: 'HelloWorld')
-        gym(scheme: 'ReactNativeFastlane-release', workspace: './ios/HelloWorld.xcworkspace')
+        gym(scheme: 'HelloWorld', workspace: './ios/HelloWorld.xcworkspace')
     end
 
     private_lane :screenshots do
