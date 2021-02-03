@@ -194,7 +194,7 @@ const HomeScreen = observer((props) => {
         DrugStore.setPFP(data.resources[0].url);
       }
     });
-  }, [DrugStore]);
+  }, []);
 
   useEffect(() => {
     getDP().then((data) => {
@@ -219,7 +219,7 @@ const HomeScreen = observer((props) => {
         // });
       }
     });
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     const retrieve_creds = async () => {
@@ -373,7 +373,7 @@ const HomeScreen = observer((props) => {
       // stickyHeaderIndices={[1]}
     >
       {Platform.OS === "ios" ? (
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle="light-content" />
       ) : (
         <StatusBar barStyle="light-content" backgroundColor="#14213d" />
       )}

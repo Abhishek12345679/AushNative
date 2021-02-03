@@ -64,6 +64,7 @@ import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
 } from "../screens/Settings/OrderDetailScreen";
 import OrderConfirmationStatus from "../screens/CheckoutFlow/OrderConfirmationStatus";
+import { Platform } from "react-native";
 // import { SplashScreen } from "expo";
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
@@ -358,11 +359,11 @@ export const RootNavigator = () => {
         component={DrugDetailScreen}
         options={DrugDetailScreenOptions}
       />
-      <RootStackNavigator.Screen
+      {/* <RootStackNavigator.Screen
         name="Import"
         component={DrugImporterScreen}
         options={{ gestureEnabled: false, stackPresentation: "modal" }}
-      />
+      /> */}
       <RootStackNavigator.Screen
         name="Confirm"
         component={CameraPreviewScreen}
@@ -464,11 +465,78 @@ export const ShopNavigator = () => {
   );
 };
 
+const SettingsStackNavigator = createNativeStackNavigator();
+
+export const SettingsNavigator = () => {
+  // const colorScheme = useColorScheme()
+  return (
+    <SettingsStackNavigator.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#14213d",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerLargeTitle: true,
+        // headerTitleAlign: "left",
+        headerTintColor: "#fff",
+      }}
+    >
+      <SettingsStackNavigator.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+      />
+      <SettingsStackNavigator.Screen name="Orders" component={OrdersScreen} />
+      <SettingsStackNavigator.Screen
+        name="OrderDetail"
+        component={OrderDetailScreen}
+        options={OrderDetailScreenOptions}
+      />
+      <SettingsStackNavigator.Screen
+        name="EditProfile"
+        component={EditProfileNavigator}
+        options={{
+          stackPresentation:
+            Platform.OS === "android" ? "fullScreenModal" : "modal",
+          gestureEnabled: true,
+          headerShown: false,
+          stackAnimation: Platform.OS === "android" ? "fade" : "default",
+        }}
+      />
+      <SettingsStackNavigator.Screen
+        name="Addresses"
+        component={AddressScreen}
+        options={AddressScreenOptions}
+      />
+      <SettingsStackNavigator.Screen
+        name="Add New Address"
+        component={AddAddressModalScreen}
+        options={{
+          headerLargeTitle: false,
+          // headerRight: false,
+          // headerShown: false,
+          stackPresentation: "modal",
+          stackAnimation: "default",
+          // gestureEnabled: false,
+        }}
+      />
+      <SettingsStackNavigator.Screen
+        name="Health Conditions"
+        component={HealthConditionsScreen}
+      />
+      <SettingsStackNavigator.Screen name="MyWebView" component={MyWebView} />
+      <SettingsStackNavigator.Screen name="Login" component={LoginScreen} />
+    </SettingsStackNavigator.Navigator>
+  );
+};
+
 const BottomNavigationBar = createBottomTabNavigator();
 
 export const TabNavigator = () => {
   return (
     <BottomNavigationBar.Navigator
+      initialRouteName="Settings"
       // tabBar={(props) => <MyTabBar {...props} />}
       tabBarOptions={{
         style: {
@@ -503,8 +571,8 @@ export const TabNavigator = () => {
       />
 
       <BottomNavigationBar.Screen
-        name="SplashScreen"
-        component={SettingsScreen}
+        name="Settings"
+        component={SettingsNavigator}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
