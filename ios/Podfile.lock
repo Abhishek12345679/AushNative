@@ -69,6 +69,43 @@ PODS:
     - React-Core (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/turbomodule/core (= 0.62.2)
+  - Firebase/CoreOnly (7.4.0):
+    - FirebaseCore (= 7.4.0)
+  - Firebase/MLVision (7.4.0):
+    - Firebase/CoreOnly
+    - FirebaseMLVision (~> 7.4.0-beta)
+  - FirebaseCore (7.4.0):
+    - FirebaseCoreDiagnostics (~> 7.4)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Logger (~> 7.0)
+  - FirebaseCoreDiagnostics (7.5.0):
+    - GoogleDataTransport (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Logger (~> 7.0)
+    - nanopb (~> 2.30907.0)
+  - FirebaseInstallations (7.5.0):
+    - FirebaseCore (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
+    - PromisesObjC (~> 1.2)
+  - FirebaseMLCommon (7.5.0-beta):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
+    - GoogleUtilities/UserDefaults (~> 7.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.12)
+  - FirebaseMLVision (7.4.0-beta):
+    - FirebaseCore (~> 7.0)
+    - FirebaseMLCommon (~> 7.0-beta)
+    - GoogleAPIClientForREST/Core (~> 1.3)
+    - GoogleAPIClientForREST/Vision (~> 1.3)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
+    - GTMSessionFetcher/Core (~> 1.1)
+    - Protobuf (~> 3.12)
   - Flipper (0.33.1):
     - Flipper-Folly (~> 2.1)
     - Flipper-RSocket (~> 1.0)
@@ -125,13 +162,46 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - lottie-ios (3.1.8)
-  - lottie-react-native (3.5.0):
-    - lottie-ios (~> 3.1.8)
-    - React
+  - GoogleAPIClientForREST/Core (1.5.1):
+    - GTMSessionFetcher (>= 1.1.7)
+  - GoogleAPIClientForREST/Vision (1.5.1):
+    - GoogleAPIClientForREST/Core
+    - GTMSessionFetcher (>= 1.1.7)
+  - GoogleDataTransport (8.2.0):
+    - nanopb (~> 2.30907.0)
+  - GoogleToolboxForMac/DebugUtils (2.3.0):
+    - GoogleToolboxForMac/Defines (= 2.3.0)
+  - GoogleToolboxForMac/Defines (2.3.0)
+  - GoogleToolboxForMac/Logger (2.3.0):
+    - GoogleToolboxForMac/Defines (= 2.3.0)
+  - "GoogleToolboxForMac/NSData+zlib (2.3.0)":
+    - GoogleToolboxForMac/Defines (= 2.3.0)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.3.0)":
+    - GoogleToolboxForMac/DebugUtils (= 2.3.0)
+    - GoogleToolboxForMac/Defines (= 2.3.0)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.3.0)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.3.0)"
+  - GoogleUtilities/Environment (7.2.0):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/Logger (7.2.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/UserDefaults (7.2.0):
+    - GoogleUtilities/Logger
+  - GTMSessionFetcher (1.5.0):
+    - GTMSessionFetcher/Full (= 1.5.0)
+  - GTMSessionFetcher/Core (1.5.0)
+  - GTMSessionFetcher/Full (1.5.0):
+    - GTMSessionFetcher/Core (= 1.5.0)
+  - nanopb (2.30907.0):
+    - nanopb/decode (= 2.30907.0)
+    - nanopb/encode (= 2.30907.0)
+  - nanopb/decode (2.30907.0)
+  - nanopb/encode (2.30907.0)
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
+  - PromisesObjC (1.2.12)
+  - Protobuf (3.14.0)
   - razorpay-pod (1.1.7)
   - RCTRequired (0.62.2)
   - RCTTypeSafety (0.62.2):
@@ -296,14 +366,10 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
   - React-jsinspector (0.62.2)
-  - react-native-appearance (0.3.4):
-    - React
   - react-native-document-picker (4.1.0):
     - React-Core
   - react-native-geolocation (2.0.2):
     - React
-  - react-native-netinfo (5.9.7):
-    - React-Core
   - react-native-razorpay (2.2.1):
     - razorpay-pod
     - React
@@ -380,17 +446,20 @@ PODS:
     - React
   - RNDateTimePicker (2.4.0):
     - React
+  - RNFBApp (10.5.0):
+    - Firebase/CoreOnly (~> 7.4.0)
+    - React-Core
+  - RNFBML (10.5.1):
+    - Firebase/MLVision (~> 7.4.0)
+    - React-Core
+    - RNFBApp
   - RNFS (2.16.6):
     - React
   - RNGestureHandler (1.6.1):
     - React
-  - RNReanimated (1.9.0):
-    - React
   - RNScreens (2.10.1):
     - React
   - RNVectorIcons (7.0.0):
-    - React
-  - toolbar-android (0.1.0-rc.2):
     - React
   - UMAppLoader (1.2.0)
   - UMBarCodeScannerInterface (5.2.1)
@@ -456,8 +525,6 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.33.1)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - lottie-ios (from `../node_modules/lottie-ios`)
-  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -469,10 +536,8 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
-  - react-native-appearance (from `../node_modules/react-native-appearance`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
-  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-razorpay (from `../node_modules/react-native-razorpay`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-community/segmented-control`)"
@@ -492,12 +557,12 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
+  - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBML (from `../node_modules/@react-native-firebase/ml`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - "toolbar-android (from `../node_modules/@react-native-community/toolbar-android`)"
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
@@ -518,6 +583,12 @@ SPEC REPOS:
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseInstallations
+    - FirebaseMLCommon
+    - FirebaseMLVision
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -525,7 +596,15 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
+    - GoogleAPIClientForREST
+    - GoogleDataTransport
+    - GoogleToolboxForMac
+    - GoogleUtilities
+    - GTMSessionFetcher
+    - nanopb
     - OpenSSL-Universal
+    - PromisesObjC
+    - Protobuf
     - razorpay-pod
     - YogaKit
 
@@ -576,10 +655,6 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
-  lottie-ios:
-    :path: "../node_modules/lottie-ios"
-  lottie-react-native:
-    :path: "../node_modules/lottie-react-native"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -598,14 +673,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
-  react-native-appearance:
-    :path: "../node_modules/react-native-appearance"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
-  react-native-netinfo:
-    :path: "../node_modules/@react-native-community/netinfo"
   react-native-razorpay:
     :path: "../node_modules/react-native-razorpay"
   react-native-safe-area-context:
@@ -642,18 +713,18 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
+  RNFBApp:
+    :path: "../node_modules/@react-native-firebase/app"
+  RNFBML:
+    :path: "../node_modules/@react-native-firebase/ml"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNReanimated:
-    :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  toolbar-android:
-    :path: "../node_modules/@react-native-community/toolbar-android"
   UMAppLoader:
     :path: "../node_modules/unimodules-app-loader/ios"
   UMBarCodeScannerInterface:
@@ -708,6 +779,12 @@ SPEC CHECKSUMS:
   EXUpdates: f3c4943abb6ab28cc55cbeac4ff4612701f82725
   FBLazyVector: 4aab18c93cd9546e4bfed752b4084585eca8b245
   FBReactNativeSpec: 5465d51ccfeecb7faa12f9ae0024f2044ce4044e
+  Firebase: 09fb40287b6dfc8ee65f726fa0b788719d3f2a07
+  FirebaseCore: 99c06e5a1e8d6952e75cb1f0a6d0b23c0f5ccdcf
+  FirebaseCoreDiagnostics: 35685db68b11fe7d19d2d8b557fd7e3a56ac81cc
+  FirebaseInstallations: a46ae59915f0931e18814164849cd0354bea24ed
+  FirebaseMLCommon: 35216a0e17c90def1b9f647339aa42ba72ffe743
+  FirebaseMLVision: 0b61c31f9875697942df8814d623d60302e7c9da
   Flipper: 6c1f484f9a88d30ab3e272800d53688439e50f69
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: c12092ea368353b58e992843a990a3225d4533c3
@@ -717,9 +794,15 @@ SPEC CHECKSUMS:
   FlipperKit: 6dc9b8f4ef60d9e5ded7f0264db299c91f18832e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
+  GoogleAPIClientForREST: 4bb409633efcc2e1b3f945afe7e35039b5a61db2
+  GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
+  GoogleToolboxForMac: 1350d40e86a76f7863928d63bcb0b89c84c521c5
+  GoogleUtilities: d866834472f1324d080496bc67ab3ce5d0d46027
+  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   razorpay-pod: 6ee0c8c7afad8eead9524d5eb516bc35ac1604ef
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
   RCTTypeSafety: 93006131180074cffa227a1075802c89a49dd4ce
@@ -730,10 +813,8 @@ SPEC CHECKSUMS:
   React-jsi: b6dc94a6a12ff98e8877287a0b7620d365201161
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
-  react-native-appearance: 0f0e5fc2fcef70e03d48c8fe6b00b9158c2ba8aa
   react-native-document-picker: d870e0a41510b241d5b764e7a2b5ccf129af7967
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
-  react-native-netinfo: 250dc0ca126512f618a8a2ca6a936577e1f66586
   react-native-razorpay: 5c7216443173b90baa43871fdf565fd15f6108f3
   react-native-safe-area-context: ef6f16c66b0797ecae1bf86c103dfb3dc16fc33d
   react-native-segmented-control: d7c444e5cc5f526da766f8ff24346898b7ac7be5
@@ -752,12 +833,12 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: d059c3ee71738c39834a627476322a5a8cd5bf36
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNDateTimePicker: c4285bfdd87430f1e575b81a4742b7586a09d53e
+  RNFBApp: 43a062dc6a1a88edd934d2229d1ba64f25381598
+  RNFBML: 9a2745112d5aaff5e9979563e7bdc836ec1bfb9e
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
-  RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
-  toolbar-android: 85f3ef4d691469f2d304e7dee4bca013aa1ba1ff
   UMAppLoader: 61049c8d55590b74e9ae1d5429bf68d96b4a2528
   UMBarCodeScannerInterface: e5e4c87797d3d01214e25cd1618866caf5d4f17f
   UMCameraInterface: 415ac060034edecacdbbaa739c223e3f276e0056
@@ -774,6 +855,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: f9c5636d17ddf411840abd17c310f1c75882ba7f
+PODFILE CHECKSUM: 208ad378f1f43a66ff212b1add5fed2abdd67bae
 
 COCOAPODS: 1.9.3
