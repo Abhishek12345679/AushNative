@@ -474,7 +474,8 @@ export const TabNavigator = () => {
         style: {
           backgroundColor: "#14213d",
           borderTopColor: "#14213d",
-          height: 60,
+          height: 80,
+          justifyContent: "center",
         },
         showLabel: false,
       }}
