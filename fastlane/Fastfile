@@ -1,3 +1,4 @@
+
 before_all do
     ensure_git_branch(
         branch: 'main'
