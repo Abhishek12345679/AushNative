@@ -15,47 +15,10 @@ Install _fastlane_ using
 or alternatively using `brew install fastlane`
 
 # Available Actions
-### codepush_ios
-```
-fastlane codepush_ios
-```
-
-### codepush_android
-```
-fastlane codepush_android
-```
-
-### codepush
-```
-fastlane codepush
-```
-
-
-----
-
 ## iOS
 ### ios beta
 ```
 fastlane ios beta
-```
-
-### ios release
-```
-fastlane ios release
-```
-
-
-----
-
-## Android
-### android beta
-```
-fastlane android beta
-```
-Android build and release to beta
-### android release
-```
-fastlane android release
 ```
 
 
