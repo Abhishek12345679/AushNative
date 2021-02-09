@@ -1,4 +1,4 @@
-//TODO: show Upload progress correctly as close as possible (% not required)
+//TODO: switch with firebase-storage
 
 import React, { useState } from "react";
 import {

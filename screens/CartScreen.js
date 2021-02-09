@@ -101,8 +101,8 @@ const CartScreen = observer((props) => {
             <View
               key={index}
               style={{
-                borderColor: drugs.length > 1 && "#000",
-                borderWidth: drugs.length > 1 && 1,
+                borderColor: "#000",
+                borderWidth: 1,
                 flexDirection: "column",
               }}
             >

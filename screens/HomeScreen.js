@@ -311,7 +311,7 @@ const HomeScreen = observer((props) => {
           </TouchableOpacity>
         </View>
       ),
-      // headerTitle: "Aushadhalay",
+      headerTitle: "Aushadhalay",
       headerStyle: {
         backgroundColor: "#14213d",
         elevation: 0,
@@ -324,8 +324,7 @@ const HomeScreen = observer((props) => {
       // headerTitleStyle: {
       //   fontWeight: "bolder",
       //   // fontFamily: "plumpfull",
-      //   fontSize: 20,
-      // },
+      fontSize: 20, // },
     });
   }, [headerImg]);
 

@@ -1,5 +1,3 @@
-// TODO: 2. Styling (Flexbox) Improvements
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
@@ -27,13 +25,13 @@ import { Camera } from "expo-camera";
 import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import RoundButton from "../components/RoundButton";
 import ManualSearchBox from "../components/ManualSearchBox";
+import { colors } from "../constants/colors";
 
 const DrugScanner = (props) => {
   const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
 
-  // const { width, height } = Dimensions.get("window");
-  // console.log(width + " " + height);
+  // testing  vim
 
   const baseUri = "data:image/jpg;base64,";
 
@@ -318,7 +316,11 @@ const DrugScanner = (props) => {
                   }
                 }
               }}
-            ></TouchableOpacity>
+            >
+              <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>
+                Capture
+              </Text>
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -503,24 +505,36 @@ const DrugScanner = (props) => {
 };
 
 const styles = StyleSheet.create({
+  // captureButton: {
+  //   marginStart: 30,
+  //   // backgroundColor: "#000",
+  //   borderColor: "skyblue",
+  //   borderWidth: 5,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   height: 80,
+  //   width: 80,
+  //   borderRadius: 40,
+  //   marginEnd: 10,
+  //   marginTop: 10,
+
+  //   shadowColor: "#000",
+  //   shadowOpacity: 0.3,
+  //   shadowOffset: {
+  //     width: 0,
+  //   },
+  // },
   captureButton: {
-    marginStart: 30,
-    // backgroundColor: "#000",
-    borderColor: "skyblue",
-    borderWidth: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 80,
-    width: 80,
-    borderRadius: 40,
     marginEnd: 10,
     marginTop: 10,
-
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {
-      width: 0,
-    },
+    marginStart: 30,
+    width: 250,
+    height: 80,
+    backgroundColor: colors.PRIMARY,
+    borderRadius: 50,
+    elevation: 20, //android only
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
