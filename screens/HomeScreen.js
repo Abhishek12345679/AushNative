@@ -324,7 +324,8 @@ const HomeScreen = observer((props) => {
       // headerTitleStyle: {
       //   fontWeight: "bolder",
       //   // fontFamily: "plumpfull",
-      fontSize: 20, // },
+      fontSize: 20,
+      // },
     });
   }, [headerImg]);
 
@@ -382,38 +383,8 @@ const HomeScreen = observer((props) => {
           onOpenActionSheet();
         }}
       /> */}
-      <View style={styles.container}>
-        {/* <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
-          <Text style={{ fontSize: 30, color: "#fff", fontWeight: "bold" }}>
-            Welcome back,{" "}
-          </Text>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#fff" }}>
-            {DrugStore.profile.name.trim()}
-          </Text>
-        </View> */}
-      </View>
-      {/* <View
-        style={{
-          flex: 1,
-          backgroundColor: "#1e335f",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          marginBottom: 30,
-        }}
-      >
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.scanButton}
-          onPress={() => {
-            props.navigation.navigate("Scan");
-          }}
-        >
-          <Text style={{ color: "#000", fontWeight: "bold", fontSize: 20 }}>
-            Scan
-          </Text>
-        </TouchableOpacity>
-      </View> */}
-      {/* beautify modal */}
+      <View style={styles.container}></View>
+
       <Modal
         presentationStyle="formSheet"
         animationType="slide"

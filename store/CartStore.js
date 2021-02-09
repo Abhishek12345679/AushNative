@@ -141,9 +141,9 @@ const DrugStore = types
 
         const resData = yield response.json();
         console.log(resData);
-        // DrugStore.setPFP(resData.image);
+        DrugStore.setPFP(resData.image);
         if (resData) {
-          // self.profile.display_picture = resData.image;
+          self.profile.display_picture = resData.image;
           self.profile.dob = resData.age * 365 * 24 * 3600;
           return resData;
         }

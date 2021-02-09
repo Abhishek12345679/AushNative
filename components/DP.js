@@ -17,7 +17,7 @@ const DP = observer((props) => {
         source={{
           uri:
             DrugStore.profile.display_picture === " "
-              ? "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+              ? props.profile_picture
               : DrugStore.profile.display_picture,
         }}
       />

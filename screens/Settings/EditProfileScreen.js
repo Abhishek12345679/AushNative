@@ -7,28 +7,23 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  Button,
 } from "react-native";
-// import RoundButton from "../../components/RoundButton";
 import DrugStore from "../../store/CartStore";
 import * as ImagePicker from "expo-image-picker";
 
 import * as Firebase from "firebase";
+import { utils } from "@react-native-firebase/app";
+import storage from "@react-native-firebase/storage";
 import DP from "../../components/DP";
 import { Form, Input, Item, Label } from "native-base";
 
 const EditProfileScreen = observer((props) => {
-  // const age = props.route.params.dob;
   const name = DrugStore.profile.name;
-  //   console.log(age);
 
   //states
   const [age, setAge] = useState(props.route.params.dob);
-  // const [dob, setDob] = useState(new Date().getTime());
   const [image, setImage] = useState(DrugStore.profile.display_picture);
-
-  const uid = DrugStore.userCredentials.uid;
-
-  const baseUrl = "data:image/jpg;base64,";
 
   //refs
   const formRef = useRef();
@@ -62,55 +57,53 @@ const EditProfileScreen = observer((props) => {
     });
 
     if (!result.cancelled) {
-      // console.log(result.base64);
-      console.log("in...");
-      setImage(baseUrl + result.base64);
-      DrugStore.setPFP(baseUrl + result.base64);
+      // setImage(result.uri);
+      console.log(result.uri);
+      await uploadImageAsync(result.uri);
+      // console.log(downloadUrl);
     }
   };
 
-  // Date of birth and age calculation
+  async function uploadImageAsync(uri) {
+    const ref = storage().ref(`/dp/${DrugStore.userCredentials.uid}.jpg`);
+    // .child(`/${DrugStore.userCredentials.uid}.png`);
+    // const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
+    const snapshot = ref.putFile(uri);
 
-  // const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  // const showDatePicker = () => {
-  //   setDatePickerVisibility(true);
-  // };
-
-  // const hideDatePicker = () => {
-  //   setDatePickerVisibility(false);
-  // };
-
-  // const handleConfirm = (date) => {
-  //   console.log("A date has been picked: ", date.getTime());
-  //   setDob(date.getTime());
-  //   const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
-  //   setAge(age);
-  //   hideDatePicker();
-  // };
-
-  const uploadDP = async (image) => {
-    console.log("uploading...");
-    const data = new FormData();
-    data.append("file", image);
-    data.append("folder", `Profile_Pictures/${uid}`);
-    data.append("upload_preset", "drug_package_image");
-    data.append("cloud_name", "abhisheksah69420");
-
-    // TODO: use patch request if possible :3
-
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/abhisheksah69420/image/upload",
-      //https://api.cloudinary.com/v1_1/<cloud name>/<resource_type>/upload
-      {
-        method: "POST",
-        body: data,
+    snapshot.on(
+      Firebase.storage.TaskEvent.STATE_CHANGED,
+      (s) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (s.bytesTransferred / s.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (s.state) {
+          case Firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log("Upload is paused");
+            break;
+          case Firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        console.log(error);
+        return;
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        snapshot.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          // return downloadURL;
+          console.log(downloadURL);
+          setImage(downloadURL);
+        });
       }
     );
 
-    const resData = await response.json();
-    return resData;
-  };
+    // TODO: add a upload bar
+  }
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -163,14 +156,14 @@ const EditProfileScreen = observer((props) => {
               // Update successful.
               console.log("Updated Profile Successfully! ");
               DrugStore.setName(user.displayName);
-              uploadDP(values.imageUrl)
-                .then((data) => {
-                  console.log("changing", data);
-                  DrugStore.getExtra();
+              // uploadDP(values.imageUrl)
+              //   .then((data) => {
+              //     console.log("changing", data);
+              //     DrugStore.getExtra();
 
-                  props.navigation.pop();
-                })
-                .catch(() => console.error("Could not update profile picture"));
+              //     props.navigation.pop();
+              //   })
+              //   .catch(() => console.error("Could not update profile picture"));
             })
             .catch((error) => {
               // update unsuccessful
@@ -190,7 +183,9 @@ const EditProfileScreen = observer((props) => {
                 // justifyContent: "center",
               }}
             >
+              {/* <Button title="save" onPress={handleSubmit} /> */}
               <DP
+                profile_picture={image}
                 outer={{
                   width: 110,
                   height: 110,

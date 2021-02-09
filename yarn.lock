@@ -3084,18 +3084,23 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/segmented-control/-/segmented-control-1.6.1.tgz#47c5eb20664376e390c3412d9a7242c2df35cdb0"
   integrity sha512-6TCrkDHgchKU2RA0r+V49Uwvv9mMhLKCwx7sf6Jkj0D4RYs+qmxYFjoM82bOcaH2kOVF+cvRvABRn0Ai0my5LA==
 
-"@react-native-firebase/app@^10.5.0":
-  version "10.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-10.5.0.tgz#aa46cd3a62d2117914a6f81ffea0d1b3b9ef15c6"
-  integrity sha512-pEINud4A90RlwfTcE51m/5cOEGI4jiSi5Q4jsQ5UGGlsYqtbOw4Ja7b17x19o2OViJEQVjScpq4pH2bq9vie7Q==
+"@react-native-firebase/app@^10.6.4":
+  version "10.6.4"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-10.6.4.tgz#ab4a8d4833422326c79e915fcdcb8b6fea920e50"
+  integrity sha512-DIigHYpYwuVQFOlD5qrYoGvKdGgbXR0rFdjpKYd81HI/3OCcferPSOlNorAHncQmEpkZnOl0B2zig4ydCOZjmw==
   dependencies:
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-firebase/ml@^10.5.1":
-  version "10.5.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/ml/-/ml-10.5.1.tgz#014ebd473bf011be5ff2514a1bc4b6f07090b1c3"
-  integrity sha512-jfdOggm6Z6EGr+E+X1YTxOc/8fWoCCrLFl2czjvfvomv/Tp/xu3nwAtGksDGPsBhckFG+rKrnp4eWsiK9lWYEw==
+"@react-native-firebase/ml@^10.6.4":
+  version "10.6.4"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/ml/-/ml-10.6.4.tgz#45886c080a8a5a15213892e8ca0a9cf561f04b46"
+  integrity sha512-kluDmBIDxdM07cGSjawEHoCI40D9HkzaKSJQcGz+gQnY3nVPtAwTtZFLGpvypD+GoCnDAoZLmI5HM5J2CkP8gA==
+
+"@react-native-firebase/storage@^10.6.4":
+  version "10.6.4"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-10.6.4.tgz#2d8847bcc75c3c0a50e2a568badb16ac5e0c1146"
+  integrity sha512-ltz5Ie2gloimni8eU2AUdQKPRfbh74e/KfbXEzYXVeIZ2p+47jy6QQ2E/tV53yat5osIAMFz467IZ1A3aFeRIQ==
 
 "@react-navigation/bottom-tabs@^5.9.2":
   version "5.9.2"
