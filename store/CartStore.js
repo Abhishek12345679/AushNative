@@ -1,4 +1,5 @@
 // FIXME: Add QuantitySelector to change quantity
+// TODO: get back profile picture after upload
 
 import { flow, types } from "mobx-state-tree";
 
