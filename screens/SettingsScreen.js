@@ -31,34 +31,34 @@ const SettingsScreen = observer((props) => {
     setDate(newDate);
   };
 
-  const getDP = async () => {
-    const response = await fetch("https://images-api-v1.herokuapp.com/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        uid: uid,
-      }),
-    });
-    const resData = await response.json();
-    return resData;
-    // console.log("DP - ", resData);
-  };
+  // const getDP = async () => {
+  //   const response = await fetch("https://images-api-v1.herokuapp.com/search", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       uid: uid,
+  //     }),
+  //   });
+  //   const resData = await response.json();
+  //   return resData;
+  //   // console.log("DP - ", resData);
+  // };
 
   useEffect(() => {
     UTCToIST();
-    console.log(DrugStore.profile.display_picture);
+    // console.log(DrugStore.profile.display_picture);
   }, [UTCToIST]);
 
   useEffect(() => {
-    getDP().then((data) => {
-      console.log(data);
-      if (data.total_count !== 0) {
-        // setHeaderImg(data.resources[0].url);
-        DrugStore.setPFP(data.resources[0].url);
-      }
-    });
+    // getDP().then((data) => {
+    //   console.log(data);
+    //   if (data.total_count !== 0) {
+    //     // setHeaderImg(data.resources[0].url);
+    //     DrugStore.setPFP(data.resources[0].url);
+    //   }
+    // });
   }, [navigation]);
 
   const onOpenActionSheet = () => {

@@ -4,6 +4,7 @@ import { View, Image, StyleSheet, StatusBar } from "react-native";
 import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
 import AsyncStorage from "@react-native-community/async-storage";
+import * as Firebase from "firebase";
 
 const SplashScreen = observer(({ navigation }) => {
   const requestNewAuthToken = async (refToken) => {
@@ -37,11 +38,9 @@ const SplashScreen = observer(({ navigation }) => {
           data = JSON.parse(data);
           console.log(data);
         }
-
         // Decrement
         data.expirationTime = expTime * 1000;
         console.log("updated exp Time", data);
-
         //save the value to AsyncStorage again
         AsyncStorage.setItem("auto_login_data", JSON.stringify(data));
       })
@@ -88,6 +87,11 @@ const SplashScreen = observer(({ navigation }) => {
         // DrugStore.startTimer(timer);
 
         // console.log("YO")
+
+        Firebase.auth().onAuthStateChanged((user) => {
+          console.log(user);
+          DrugStore.setPFP(user.photoURL);
+        });
       } catch (e) {
         console.log(e);
       }

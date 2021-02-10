@@ -31,6 +31,7 @@ const EditProfileScreen = observer((props) => {
   const saveInput = () => {
     if (formRef.current) {
       formRef.current.handleSubmit();
+      props.navigation.goBack();
     }
   };
 
@@ -64,7 +65,7 @@ const EditProfileScreen = observer((props) => {
     }
   };
 
-  async function uploadImageAsync(uri) {
+  const uploadImageAsync = async (uri) => {
     const ref = storage().ref(`/dp/${DrugStore.userCredentials.uid}.jpg`);
     // .child(`/${DrugStore.userCredentials.uid}.png`);
     // const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
@@ -96,14 +97,14 @@ const EditProfileScreen = observer((props) => {
         snapshot.snapshot.ref.getDownloadURL().then((downloadURL) => {
           console.log("File available at", downloadURL);
           // return downloadURL;
-          console.log(downloadURL);
           setImage(downloadURL);
+          console.log(downloadURL);
         });
       }
     );
 
     // TODO: add a upload bar
-  }
+  };
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -138,6 +139,7 @@ const EditProfileScreen = observer((props) => {
           imageUrl: image,
         }}
         onSubmit={(values) => {
+          console.log("submitting: ", { img: image, image: values.imageUrl });
           // DrugStore.editProfile(values.name, values.imageUrl, dob);
           // DrugStore.setExtra(age);
           DrugStore.setPFP(values.imageUrl);
@@ -150,7 +152,7 @@ const EditProfileScreen = observer((props) => {
           user
             .updateProfile({
               displayName: values.name,
-              photoURL: values.imageUrl,
+              photoURL: image,
             })
             .then(() => {
               // Update successful.

@@ -120,7 +120,7 @@ const DrugStore = types
       self.profile.display_picture = imageUrl;
     },
     setExtra(age) {
-      const response = fetch(
+      fetch(
         `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
         {
           method: "PATCH",

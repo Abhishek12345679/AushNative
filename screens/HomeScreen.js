@@ -4,8 +4,6 @@
  * Network status changes to disconnected on switching off system wifi on ios emulator but does not work vice versa
  */
 
-// FIX: uploading DP error - `{"error": {"message": "Unsupported source URL:  "}}`
-
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
@@ -45,18 +43,18 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Ionicons } from "react-native-vector-icons";
 
 const HomeScreen = observer((props) => {
-  const { navigation, showActionSheetWithOptions } = props;
+  const { showActionSheetWithOptions } = props;
   const [headerImg, setHeaderImg] = useState(
     "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
   );
 
-  const uid = DrugStore.userCredentials.uid;
+  // const uid = DrugStore.userCredentials.uid;
 
   const appState = useRef(AppState.currentState);
 
-  const [locName, setLocName] = useState("Select Location");
+  // const [locName, setLocName] = useState("Select Location");
   const [modalVisible, setModalVisible] = useState(false);
-  const [locData, setLocData] = useState();
+  // const [locData, setLocData] = useState();
 
   const geoSuccess = (position) => {
     console.log("Success", position);
@@ -87,41 +85,10 @@ const HomeScreen = observer((props) => {
 
   // const [connStatus, setConnStatus] = useState(false);
 
-  // useEffect(() => {
-  //   // Subscribe
-  //   const unsubscribe = NetInfo.addEventListener((state) => {
-  //     // console.log("Connection type", state.type);
-  //     console.log("Is connected?", state.isConnected);
-  //     setConnStatus(state.isConnected);
-  //   });
-  //   return () => {
-  //     // Unsubscribe
-  //     unsubscribe();
-  //   };
-  // }, []);
-
   // NetInfo.fetch().then((state) => {
   //   console.log("Connection type", state.type);
   //   console.log("Is connected?", state.isConnected);
   // });
-
-  // cloudinary is super slow in fetching images, use firebase-storage, and react-native firebase
-  const getDP = async () => {
-    const response = await fetch("https://images-api-v1.herokuapp.com/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        uid: uid,
-        folder_name: "Profile_Pictures",
-      }),
-    });
-    const resData = await response.json();
-    console.log("DP - ", resData);
-    return resData;
-  };
-
   const retrieveUserData = async () => {
     try {
       const loginJSONValue = await AsyncStorage.getItem("login_data");
@@ -186,37 +153,13 @@ const HomeScreen = observer((props) => {
     DrugStore.fetchOrders();
     DrugStore.fetchAddresses();
     DrugStore.getHealthConditions();
-
-    getDP().then((data) => {
-      console.log(data);
-      if (data.total_count !== 0) {
-        setHeaderImg(data.resources[0].url);
-        DrugStore.setPFP(data.resources[0].url);
-      }
-    });
   }, []);
-
-  useEffect(() => {
-    getDP().then((data) => {
-      console.log(data);
-      if (data.total_count !== 0) {
-        // setHeaderImg(data.resources[0].url);
-        DrugStore.setPFP(data.resources[0].url);
-      }
-    });
-  }, [navigation]);
 
   useEffect(() => {
     Firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log("IN");
+        console.log("user: ", user);
         DrugStore.setName(user.displayName);
-        // DrugStore.getExtra().then((res) => {
-        //   if (res != undefined) {
-        //     console.log("RESOURCE", res);
-        //     setHeaderImg(res.image);
-        //   }
-        // });
       }
     });
   }, []);
