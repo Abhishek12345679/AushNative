@@ -341,8 +341,6 @@ const DrugDetailScreen = observer((props) => {
                   });
                   setAddingToCart(false);
                 }, 1000);
-
-                /* HERE WE GONE SHOW OUR FIRST MESSAGE */
               }}
             >
               {!addingToCart ? (

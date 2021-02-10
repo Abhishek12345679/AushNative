@@ -296,7 +296,6 @@ const HomeScreen = observer((props) => {
       (buttonIndex) => {
         if (buttonIndex === 0) {
           Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
-          //FIXME: returns failure due to billing issues
         } else if (buttonIndex === 1) {
           setModalVisible(true);
         }
