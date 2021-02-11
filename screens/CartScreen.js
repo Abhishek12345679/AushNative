@@ -43,24 +43,6 @@ const CartScreen = observer((props) => {
   };
 
   const submitOrder = () => {
-    // Alert.alert(
-    //   "Confirm",
-    //   "Do you want to continue to the payment options ?",
-    //   [
-    //     {
-    //       text: "Cancel",
-    //       onPress: () => console.log("Cancel Pressed"),
-    //       style: "cancel",
-    //     },
-    //     {
-    //       text: "yes",
-    //       onPress: () => {
-    //         props.navigation.navigate("CheckoutFlow");
-    //       },
-    //     },
-    //   ],
-    //   { cancelable: true }
-    // );
     props.navigation.navigate("CheckoutFlow");
   };
 
@@ -79,7 +61,9 @@ const CartScreen = observer((props) => {
         }}
       >
         <View style={{ width: "50%" }}>
-          <Text style={{ fontSize: 30, fontWeight: "bold" }}>Your Meds</Text>
+          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#000" }}>
+            Your Meds
+          </Text>
         </View>
         <View>
           <Text style={{ fontSize: 20 }}>Total : </Text>
@@ -151,9 +135,6 @@ const CartScreen = observer((props) => {
                       justifyContent: "space-around",
                     }}
                   >
-                    {/* <Text style={{ marginHorizontal: 10, fontSize: 20 }}>
-                      {drug.quantity}
-                    </Text> */}
                     <Text style={{ color: "green" }}>₹ {drug.price}</Text>
                     <Text> x {drug.quantity} = </Text>
                     <Text style={{ color: "green", fontWeight: "bold" }}>
@@ -164,7 +145,6 @@ const CartScreen = observer((props) => {
                     name="trash"
                     size={24}
                     onPress={() => {
-                      // console.log("item removed");
                       console.log(drug.id);
                       removeFromCart(drug.id);
                     }}
@@ -175,33 +155,11 @@ const CartScreen = observer((props) => {
           ))}
         </View>
       ) : (
-        <View style={{ ...styles.centered, justifyContent: "center" }}>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              marginVertical: 50,
-            }}
-          >
-            <Image
-              source={require("../assets/nomed.png")}
-              style={{ height: 300, width: 200 }}
-            />
-            <Text>
-              Courtesy :{" "}
-              <Text
-                style={{
-                  color: "purple",
-                  textDecorationLine: "underline",
-                }}
-                onPress={() => Linking.openURL("https://www.1mg.com")}
-              >
-                1mg.com
-              </Text>
-            </Text>
-          </View>
-          {/* <Text>No Mad Meds 💩</Text> */}
+        <View style={styles.centered}>
+          <Image
+            source={require("../assets/empty_cart.png")}
+            style={{ height: 400, width: 400 }}
+          />
         </View>
       )}
       {drugs.length > 0 && (
@@ -249,8 +207,13 @@ const CartScreen = observer((props) => {
         </View>
       )}
       <View style={styles.centered}>
-        <Text>Aushadhalay India ⓒ 2020</Text>
-        <Text>{`< > with ♥️ in 🇮🇳`}</Text>
+        <Text style={{ color: "#000", fontSize: 20 }}>
+          Aushadhalay India ⓒ 2020
+        </Text>
+
+        <Text style={{ color: "#000", fontWeight: "bold" }}>
+          {`< >  with ♥️ in  🇮🇳`}
+        </Text>
       </View>
     </ScrollView>
   );
@@ -258,14 +221,14 @@ const CartScreen = observer((props) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 20,
     paddingVertical: 5,
   },
   centered: {
-    // flex: 1,
-    justifyContent: "flex-end",
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
   },
 });

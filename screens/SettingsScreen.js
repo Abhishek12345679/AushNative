@@ -12,57 +12,22 @@ import ListItem from "../components/ListItem";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 const SettingsScreen = observer((props) => {
-  const { navigation, showActionSheetWithOptions } = props;
+  const { showActionSheetWithOptions } = props;
   const [date, setDate] = useState();
   const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
 
-  // const [headerImg, setHeaderImg] = useState(
-  //   "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-  // );
-
-  const uid = DrugStore.userCredentials.uid;
-
   const UTCToIST = () => {
     const offset = new Date().getTimezoneOffset();
-    // console.log(offset);
     const newDate = DrugStore.profile.dob;
     newDate.setMinutes(newDate.getMinutes() - offset);
-    // console.log(newDate);
     setDate(newDate);
   };
 
-  // const getDP = async () => {
-  //   const response = await fetch("https://images-api-v1.herokuapp.com/search", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       uid: uid,
-  //     }),
-  //   });
-  //   const resData = await response.json();
-  //   return resData;
-  //   // console.log("DP - ", resData);
-  // };
-
   useEffect(() => {
     UTCToIST();
-    // console.log(DrugStore.profile.display_picture);
   }, [UTCToIST]);
 
-  useEffect(() => {
-    // getDP().then((data) => {
-    //   console.log(data);
-    //   if (data.total_count !== 0) {
-    //     // setHeaderImg(data.resources[0].url);
-    //     DrugStore.setPFP(data.resources[0].url);
-    //   }
-    // });
-  }, [navigation]);
-
   const onOpenActionSheet = () => {
-    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = ["Log Out", "Cancel"];
     const destructiveButtonIndex = 0;
     const cancelButtonIndex = 1;
@@ -74,7 +39,6 @@ const SettingsScreen = observer((props) => {
         destructiveButtonIndex,
       },
       (buttonIndex) => {
-        // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           const logout = async () => {
             try {

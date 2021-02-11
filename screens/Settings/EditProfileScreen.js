@@ -13,7 +13,7 @@ import DrugStore from "../../store/CartStore";
 import * as ImagePicker from "expo-image-picker";
 
 import * as Firebase from "firebase";
-import { utils } from "@react-native-firebase/app";
+
 import storage from "@react-native-firebase/storage";
 import DP from "../../components/DP";
 import { Form, Input, Item, Label } from "native-base";
@@ -24,6 +24,7 @@ const EditProfileScreen = observer((props) => {
   //states
   const [age, setAge] = useState(props.route.params.dob);
   const [image, setImage] = useState(DrugStore.profile.display_picture);
+  const [loading, setLoading] = useState(false);
 
   //refs
   const formRef = useRef();
@@ -66,6 +67,7 @@ const EditProfileScreen = observer((props) => {
   };
 
   const uploadImageAsync = async (uri) => {
+    setLoading(true);
     const ref = storage().ref(`/dp/${DrugStore.userCredentials.uid}.jpg`);
     // .child(`/${DrugStore.userCredentials.uid}.png`);
     // const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/black-t-shirt-sm.png`;
@@ -99,11 +101,10 @@ const EditProfileScreen = observer((props) => {
           // return downloadURL;
           setImage(downloadURL);
           console.log(downloadURL);
+          setLoading(false);
         });
       }
     );
-
-    // TODO: add a upload bar
   };
 
   useEffect(() => {
@@ -139,12 +140,7 @@ const EditProfileScreen = observer((props) => {
           imageUrl: image,
         }}
         onSubmit={(values) => {
-          console.log("submitting: ", { img: image, image: values.imageUrl });
-          // DrugStore.editProfile(values.name, values.imageUrl, dob);
-          // DrugStore.setExtra(age);
           DrugStore.setPFP(values.imageUrl);
-
-          //firebase update()
 
           DrugStore.setName(values.name);
           var user = Firebase.auth().currentUser;
@@ -158,14 +154,6 @@ const EditProfileScreen = observer((props) => {
               // Update successful.
               console.log("Updated Profile Successfully! ");
               DrugStore.setName(user.displayName);
-              // uploadDP(values.imageUrl)
-              //   .then((data) => {
-              //     console.log("changing", data);
-              //     DrugStore.getExtra();
-
-              //     props.navigation.pop();
-              //   })
-              //   .catch(() => console.error("Could not update profile picture"));
             })
             .catch((error) => {
               // update unsuccessful
@@ -173,7 +161,7 @@ const EditProfileScreen = observer((props) => {
             });
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, values }) => (
           <ScrollView>
             <View
               style={{
@@ -187,6 +175,8 @@ const EditProfileScreen = observer((props) => {
             >
               {/* <Button title="save" onPress={handleSubmit} /> */}
               <DP
+                editMode
+                loading={loading}
                 profile_picture={image}
                 outer={{
                   width: 110,
