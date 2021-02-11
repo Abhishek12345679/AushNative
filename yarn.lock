@@ -9774,10 +9774,10 @@ react-native-ratings@^7.2.0:
     lodash "^4.17.15"
     prop-types "^15.7.2"
 
-react-native-razorpay@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-razorpay/-/react-native-razorpay-2.2.1.tgz#bcaa6234d7d40e2a95da86d4534f82e9064b3f4d"
-  integrity sha512-lSbZ3h+bcxtXyujUBxUA3hD5Ti+CKcoOXQQikeDn016QyGo9mbXr25mAUk+Oojpw8/2XmjdL1nDOFftRjh3nEQ==
+react-native-razorpay@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-razorpay/-/react-native-razorpay-2.2.2.tgz#67298811b5f8d5b910e4055f88a2cb9bca04e017"
+  integrity sha512-k0ldxnrI141WZlOilQw3TK+RZUcVXITm12533WzuDW2hg+OMrS/BK4J+U4F2lhhHQ5Mm2/78Y8C5iDGi1rwX7w==
 
 react-native-safe-area-context@~3.0.7:
   version "3.0.7"

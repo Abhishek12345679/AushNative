@@ -24,10 +24,10 @@ const OrderPreviewScreen = (props) => {
   const prescriptionUploaded = props.route.params.prescriptionUploaded;
   // const paymentMode = props.route.params.paymentMode;
 
-  console.log(props.route.params.noPrescriptionRequired);
+  // console.log(props.route.params.noPrescriptionRequired);
 
-  console.log("address", address);
-  console.log("file", fileUrl);
+  // console.log("address", address);
+  // console.log("file", fileUrl);
   // console.log("paymentmode", paymentMode);
 
   const { drugs } = DrugStore;
@@ -299,7 +299,9 @@ const OrderPreviewScreen = (props) => {
                 })
                 .catch((error) => {
                   // handle failure
-                  console.log(`Error: ${error.code} | ${error.description}`);
+                  console.log(
+                    `Error: ${error} ${error.code} | ${error.description}`
+                  );
                   setCheckingOut(false);
                 });
             });
