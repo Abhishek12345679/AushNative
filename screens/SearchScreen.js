@@ -82,9 +82,7 @@ const SearchScreen = ({ navigation }) => {
           />
           <TextInput
             onSubmitEditing={() => {
-              // console.log(text);
               getMedicine({ variables: { name: searchText } });
-              // console.log(JSON.stringify(data.search.drugs, null, 2));
             }}
             returnKeyType="search"
             placeholder="search here"
@@ -106,12 +104,7 @@ const SearchScreen = ({ navigation }) => {
           <Button
             title="search"
             onPress={() => {
-              // console.log(text);
               getMedicine({ variables: { name: searchText } });
-              // if (data) {
-              //   console.log(JSON.stringify(data.search.drugs, null, 2));
-              //   setMedicines(data.search.drugs);
-              // }
             }}
           />
         </View>
