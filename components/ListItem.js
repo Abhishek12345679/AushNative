@@ -29,7 +29,9 @@ const ListItem = observer((props) => {
           <Text style={{ ...styles.textBig, ...props.titleStyle }}>
             {props.name}
           </Text>
-          <Text style={styles.textSmall}>{props.salt_composition}</Text>
+          <Text style={{ ...styles.textSmall, ...props.saltTextStyle }}>
+            {props.salt_composition}
+          </Text>
           {/* {props.age >= 0 && <Text>{props.age >= 18 ? "Adult" : "Minor"}</Text>} */}
         </View>
         {!props.noArrow && (

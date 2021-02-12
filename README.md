@@ -1,11 +1,9 @@
-<!-- # TODO:
-
-- [x] - Cropping works
-- [x] - Add Cloudinary upload support
-- [ ] - Work on the actual OCR in the Flask API
-- [x] - How and where to store the original images. -->
-
 # Aushadhalay 😄  
+
+# TODO:
+
+- [ ] - Search/Result Screen Pagination
+
 
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)   [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)  ![GitHub package.json version](https://img.shields.io/static/v1?label=version&message=v0.0.1&color=green)
 

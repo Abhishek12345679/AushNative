@@ -357,8 +357,13 @@ export const RootNavigator = () => {
           stackAnimation: "fade",
           headerBackTitle: "",
           headerTitle: "",
-          headerShown:false
+          headerShown: false,
         }}
+      />
+      <RootStackNavigator.Screen
+        name="Drug"
+        component={DrugDetailScreen}
+        options={DrugDetailScreenOptions}
       />
       <RootStackNavigator.Screen
         name="Cart"

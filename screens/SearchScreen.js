@@ -6,6 +6,9 @@ import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import { colors } from "../constants/colors";
 
 import { gql, useLazyQuery } from "@apollo/client";
+import { Button } from "react-native";
+
+import ListItem from "../components/ListItem";
 
 const SearchScreen = ({ navigation }) => {
   const GET_MEDICINE = gql`
@@ -41,11 +44,6 @@ const SearchScreen = ({ navigation }) => {
   `;
 
   const [searchText, setSearchText] = useState("");
-  const [medicines, setMedicines] = useState([]);
-
-  const changeText = (text) => {
-    setSearchText(text);
-  };
 
   const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
@@ -86,17 +84,14 @@ const SearchScreen = ({ navigation }) => {
             onSubmitEditing={() => {
               // console.log(text);
               getMedicine({ variables: { name: searchText } });
-
-              console.log(JSON.stringify(data.search.drugs, null, 2));
-              if (!loading && data) setMedicines(data.search.drugs);
-              setSearchText("");
+              // console.log(JSON.stringify(data.search.drugs, null, 2));
             }}
             returnKeyType="search"
             placeholder="search here"
             placeholderTextColor="#ccc"
             value={searchText}
             onChangeText={(text) => {
-              changeText(text);
+              setSearchText(text);
             }}
             style={{
               // borderBottomColor: "#ccc",
@@ -108,9 +103,36 @@ const SearchScreen = ({ navigation }) => {
               color: "#fff",
             }}
           />
+          <Button
+            title="search"
+            onPress={() => {
+              // console.log(text);
+              getMedicine({ variables: { name: searchText } });
+              // if (data) {
+              //   console.log(JSON.stringify(data.search.drugs, null, 2));
+              //   setMedicines(data.search.drugs);
+              // }
+            }}
+          />
         </View>
-        <Text>{searchText}</Text>
-        {medicines && medicines.map((med) => <Text>{med.name}</Text>)}
+        {/* <Text>{searchText}</Text> */}
+        {!!data &&
+          !!!loading &&
+          data.search.drugs.map((med) => (
+            <ListItem
+              saltTextStyle={{ color: "#ccc" }}
+              style={{ backgroundColor: colors.SECONDARY }}
+              titleStyle={{ color: "#fff" }}
+              name={med.name}
+              salt_composition={`${med.salt.substring(0, 20)}...`}
+              imageUrl={med.imageUrl}
+              onPress={() =>
+                navigation.navigate("Drug", {
+                  item: med,
+                })
+              }
+            />
+          ))}
       </SafeAreaView>
     </ScrollView>
   );
