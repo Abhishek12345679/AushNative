@@ -219,7 +219,7 @@ const HomeScreen = observer((props) => {
               // backgroundColor: "#ccc",
             }}
             onPress={() => {
-              // props.navigation.navigate("Settings");
+              props.navigation.navigate("Search");
               //TODO: add search screen and (suggestions while typing?)
             }}
           >

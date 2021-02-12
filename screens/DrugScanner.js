@@ -279,35 +279,6 @@ const DrugScanner = (props) => {
                     const photo = await cameraRef.takePictureAsync({
                       base64: true,
                     });
-                    // console.log(photo);
-                    // props.navigation.pop();
-                    // const manipResult = await ImageManipulator.manipulateAsync(
-                    //   photo.uri,
-                    //   [
-                    //     {
-                    //       resize: {
-                    //         width: 375,
-                    //         height: 667,
-                    //       },
-                    //     },
-                    //   ],
-                    //   { base64: true }
-                    // );
-
-                    // const contourCroppedImage = await ImageManipulator.manipulateAsync(
-                    //   manipResult.uri,
-                    //   [
-                    //     {
-                    //       crop: {
-                    //         originX: measurements.x - measurements.width / 2,
-                    //         originY: measurements.y + measurements.height / 2,
-                    //         width: measurements.width,
-                    //         height: measurements.height,
-                    //       },
-                    //     },
-                    //   ],
-                    //   { base64: true }
-                    // );
 
                     props.navigation.navigate("Confirm", {
                       // mode:'camera',

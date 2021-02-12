@@ -54,11 +54,14 @@ import SplashScreen from "../screens/SplashScreen";
 import MyWebView from "../screens/Settings/MyWebView";
 
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import sampleshop from "../screens/shop/sampleshop";
+
 import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
 } from "../screens/Settings/OrderDetailScreen";
+
 import OrderConfirmationStatus from "../screens/CheckoutFlow/OrderConfirmationStatus";
+
+import SearchScreen from "../screens/SearchScreen";
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
   return (
@@ -321,6 +324,20 @@ export const RootNavigator = () => {
       initialRouteName="Home"
       screenOptions={{
         headerHideShadow: true,
+        headerStyle: {
+          backgroundColor: "#14213d",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
+        headerLargeTitle: true,
+        // headerTitleAlign: "left",
+        headerTintColor: "#fff",
+        // headerTitleStyle: {
+        //   fontWeight: "bolder",
+        //   // fontFamily: "plumpfull",
+        fontSize: 20,
+        // },
       }}
     >
       <RootStackNavigator.Screen name="SplashScreen" component={SplashScreen} />
@@ -331,7 +348,18 @@ export const RootNavigator = () => {
         headerTitle="Aushadhalay"
         options={HomeScreenOptions}
       />
-
+      <RootStackNavigator.Screen
+        name="Search"
+        component={SearchScreen}
+        // headerTitle="Aushadhalay"
+        // options={HomeScreenOptions}
+        options={{
+          stackAnimation: "fade",
+          headerBackTitle: "",
+          headerTitle: "",
+          headerShown:false
+        }}
+      />
       <RootStackNavigator.Screen
         name="Cart"
         component={CartScreen}
@@ -349,24 +377,6 @@ export const RootNavigator = () => {
         }}
       />
     </RootStackNavigator.Navigator>
-  );
-};
-
-const ShopStackNavigator = createNativeStackNavigator();
-
-export const ShopNavigator = () => {
-  return (
-    <ShopStackNavigator.Navigator>
-      <ShopStackNavigator.Screen
-        name="ShopHome"
-        component={sampleshop}
-        options={{
-          headerLargeTitle: true,
-          headerHideShadow: true,
-          headerTitle: "Dukaan",
-        }}
-      />
-    </ShopStackNavigator.Navigator>
   );
 };
 
@@ -467,7 +477,6 @@ export const TabNavigator = () => {
         name="ScanScreen"
         component={ScannerNavigator}
         options={{
-          tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <Ionicons name="md-search" color={color} size={26} />
           ),
@@ -479,7 +488,6 @@ export const TabNavigator = () => {
         name="Settings"
         component={SettingsNavigator}
         options={{
-          tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-person" color={color} size={26} />
           ),

@@ -1,3 +1,6 @@
+/* TODO: Razorpaycheckout.open gives an error (Error: TypeError: null is not an object (evaluating '_reactNative.NativeModules.RNRazorpayCheckout.open')) [ANDROID] */
+// Works fine on iOS
+
 import React, { useEffect, useState } from "react";
 import {
   View,

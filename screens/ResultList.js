@@ -105,10 +105,6 @@ const ResultList = observer((props) => {
 
   console.log(ocr_data);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [importing, setImporting] = useState(false);
-
   if (mode === "name" || mode === "scan") {
     var { loading, data, error } = useQuery(GET_MEDICINE, {
       variables: { name: ocr_data },
@@ -120,12 +116,6 @@ const ResultList = observer((props) => {
     });
     console.log(data);
   }
-
-  // const { loading, data, error } = queryResponse;
-
-  // const { loading, data, error } = useQuery(GET_MEDICINE, {
-  //   variables: { name: ocr_data },
-  // });
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -172,22 +162,7 @@ const ResultList = observer((props) => {
     });
   }, []);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const wifiIP = "192.168.0.102";
-  //     const phoneIP = "172.20.10.2";
-  //     const hosted_url = `http://med-importer-real-time-js.herokuapp.com/import?searchquery=${searchQuery}`;
-
-  //     const response = await fetch(hosted_url);
-  //     const data = await response.json();
-  //     // console.log(data);
-  //     return data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  if (loading || importing) {
+  if (loading) {
     return (
       <View
         style={{
@@ -198,27 +173,7 @@ const ResultList = observer((props) => {
           // width: "100%",
           backgroundColor: "#fff",
         }}
-      >
-        {importing && (
-          <Text>
-            Fetching Meds from{" "}
-            <Text
-              style={{ color: "purple" }}
-              onPress={() => Linking.openURL("http://google.com/1mg.com")}
-            >
-              {" "}
-              1mg.com
-            </Text>{" "}
-          </Text>
-        )}
-        <ActivityIndicator size="large" color="#000" />
-        {/* <Image
-          source={{
-            uri: "https://media.giphy.com/media/l3nWhI38IWDofyDrW/giphy.gif",
-          }}
-          style={{ height: 400, width: 400 }}
-        /> */}
-      </View>
+      ></View>
     );
   }
 
@@ -277,62 +232,7 @@ const ResultList = observer((props) => {
               No Drugs Found in Chemy's Database, enter the drug as accuarate as
               possible in the search bar below
             </Text>
-            {/* <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginTop: 20,
-              }}
-            >
-              <TextInput
-                style={{
-                  width: "80%",
-                  borderColor: "#000",
-                  color: "#000",
-                  borderWidth: 2,
-                  // marginBottom: 10,
-                  height: 50,
-                  borderRadius: 5,
-                  fontSize: 15,
-                  textAlign: "left",
-                  paddingHorizontal: 10,
-                }}
-                placeholder="type somethin'"
-                value={searchQuery}
-                onChangeText={(text) => setSearchQuery(text)}
-              />
-              {!importing ? (
-                <RoundButton
-                  disabled={searchQuery.length == 0}
-                  onPress={async () => {
-                    setImporting(true);
-                    const resData = await fetchData();
-                    setImporting(false);
-                    // setIsVisible(false);
-                    if (resData.length > 0) {
-                      props.navigation.navigate("Import", {
-                        importedItem: resData[0].responseObj,
-                      });
-                    } else {
-                      props.navigation.navigate("Import", {
-                        importedItem: [],
-                      });
-                    }
-                  }}
-                >
-                  <MaterialCommunityIcons
-                    name="database-import"
-                    size={24}
-                    color="#fff"
-                  />
-                </RoundButton>
-              ) : (
-                <RoundButton>
-                  <ActivityIndicator size="small" color="#fff" />
-                </RoundButton>
-              )}
-            </View> */}
+
             <Button
               title="return"
               onPress={() => {
@@ -351,18 +251,6 @@ const ResultList = observer((props) => {
                 source={require("../assets/nomed.png")}
                 style={{ height: 300, width: 200 }}
               />
-              <Text>
-                Courtesy :{" "}
-                <Text
-                  style={{
-                    color: "purple",
-                    textDecorationLine: "underline",
-                  }}
-                  onPress={() => Linking.openURL("https://www.1mg.com")}
-                >
-                  1mg.com
-                </Text>
-              </Text>
             </View>
           </ScrollView>
         )
