@@ -29,7 +29,7 @@ import * as Permissions from "expo-permissions";
 import Card from "../components/Card";
 import QuantitySelector from "../components/QuantitySelector";
 import { observer } from "mobx-react";
-
+import { Ionicons } from "@expo/vector-icons";
 import DrugStore from "../store/CartStore";
 
 Notification.setNotificationHandler({
@@ -41,37 +41,37 @@ Notification.setNotificationHandler({
   },
 });
 
-const GET_ALTERNATE_DRUG = gql`
-  query getAlternateDrug($salt: String!) {
-    findDrugForSameSalt(salt: $salt) {
-      drugs {
-        id
-        name
-        salt
-        price
-        habit_forming
-        requires_prescription
-        manufacturer_name
-        # description {
-        #   introduction
-        #   uses
-        #   side_effects
-        #   how_to_cope_with_side_effects {
-        #     question
-        #     answer
-        #   }
-        #   how_to_use
-        #   how_does_it_work
-        #   safety_advice {
-        #     question
-        #     answer
-        #   }
-        # }
-      }
-      items
-    }
-  }
-`;
+// const GET_ALTERNATE_DRUG = gql`
+//   query getAlternateDrug($salt: String!) {
+//     findDrugForSameSalt(salt: $salt) {
+//       drugs {
+//         id
+//         name
+//         salt
+//         price
+//         habit_forming
+//         requires_prescription
+//         manufacturer_name
+//         # description {
+//         #   introduction
+//         #   uses
+//         #   side_effects
+//         #   how_to_cope_with_side_effects {
+//         #     question
+//         #     answer
+//         #   }
+//         #   how_to_use
+//         #   how_does_it_work
+//         #   safety_advice {
+//         #     question
+//         #     answer
+//         #   }
+//         # }
+//       }
+//       items
+//     }
+//   }
+// `;
 
 const DrugDetailScreen = observer((props) => {
   let [quantity, setQuantity] = useState("1");
@@ -79,12 +79,12 @@ const DrugDetailScreen = observer((props) => {
 
   let [addingToCart, setAddingToCart] = useState(false);
 
-  let [introCollapsed, setIntroCollapsed] = useState(false);
-  let [usesCollapsed, setUsesCollapsed] = useState(false);
-  let [sideEffectsCollapsed, setSideEffectsCollapsed] = useState(false);
-  let [howToSECollpased, setHowToSECollapsed] = useState(false);
-  let [howToUseCollapsed, setHowToUseCollapsed] = useState(false);
-  let [safetyAdviceCollapsed, setSafetyAdviceCollapsed] = useState(false);
+  let [introCollapsed, setIntroCollapsed] = useState(true);
+  let [usesCollapsed, setUsesCollapsed] = useState(true);
+  let [sideEffectsCollapsed, setSideEffectsCollapsed] = useState(true);
+  let [howToSECollpased, setHowToSECollapsed] = useState(true);
+  let [howToUseCollapsed, setHowToUseCollapsed] = useState(true);
+  let [safetyAdviceCollapsed, setSafetyAdviceCollapsed] = useState(true);
 
   //workaround
   const [cartCount, setCartCount] = useState(0);
@@ -113,8 +113,6 @@ const DrugDetailScreen = observer((props) => {
   const addToCart = () => {
     DrugStore.addDrug(cartItem);
     setCartCount(cartCount + 1);
-    // DrugStore.addone();
-    // DrugStore.getCount;
   };
 
   const item = props.route.params.item;
@@ -122,80 +120,9 @@ const DrugDetailScreen = observer((props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
   const [pushToken, setPushToken] = useState();
 
-  const { data, loading, error } = useQuery(GET_ALTERNATE_DRUG, {
-    variables: { salt: item.salt },
-  });
-
-  // const triggerNotification = async () => {
-  //   // Notification.scheduleNotificationAsync({
-  //   //   content: {
-  //   //     title: "Badhai Ho 🤪",
-  //   //     body: "SALE SALE",
-  //   //     sound: true,
-  //   //   },
-  //   //   trigger: {
-  //   //     seconds: 5,
-  //   //   },
-  //   // });
-
-  //   const message = {
-  //     to: pushToken,
-  //     sound: "default",
-  //     title: "Damn Son",
-  //     body: "Where'd you find that",
-  //     data: { data: "goes here" },
-  //   };
-
-  //   await fetch("https://exp.host/--/api/v2/push/send", {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Accept-encoding": "gzip, deflate",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(message),
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   Permissions.getAsync(Permissions.NOTIFICATIONS)
-  //     .then((statusObj) => {
-  //       if (statusObj.status !== "granted") {
-  //         return Permissions.askAsync(Permissions.NOTIFICATIONS);
-  //       }
-  //       return statusObj;
-  //     })
-  //     .then((statusObj) => {
-  //       if (statusObj.status !== "granted") {
-  //         return;
-  //       }
-  //     })
-  //     .then(() => {
-  //       return Notification.getExpoPushTokenAsync();
-  //     })
-  //     .then((response) => {
-  //       const expoPushToken = response.data;
-  //       console.log(expoPushToken);
-  //       setPushToken(expoPushToken);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //       return null;
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   const backgroundSubscription = Notification.addNotificationResponseReceivedListener(
-  //     (response) => console.log(response)
-  //   );
-  //   const foregroundSubscription = Notification.addNotificationReceivedListener(
-  //     (notification) => console.log(notification)
-  //   );
-  //   return () => {
-  //     backgroundSubscription.remove();
-  //     foregroundSubscription.remove();
-  //   };
-  // }, []);
+  // const { data, loading, error } = useQuery(GET_ALTERNATE_DRUG, {
+  //   variables: { salt: item.salt },
+  // });
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -242,37 +169,31 @@ const DrugDetailScreen = observer((props) => {
     });
   }, [item, quantity]);
 
-  if (loading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          height: "75%",
-          width: "100%",
-          backgroundColor: "#fff",
-        }}
-      >
-        <Text> Looking for similar medicines with </Text>
-        <Text>same salt composition</Text>
+  // if (loading) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "75%",
+  //         width: "100%",
+  //         backgroundColor: "#fff",
+  //       }}
+  //     >
+  //       <Text> Looking for similar medicines with </Text>
+  //       <Text>same salt composition</Text>
 
-        <ActivityIndicator size="large" color="#000" />
-        {/* <Image
-          source={{
-            uri: "https://media.giphy.com/media/l3nWhI38IWDofyDrW/giphy.gif",
-          }}
-          style={{ height: 400, width: 400 }}
-        /> */}
-      </View>
-    );
-  }
+  //       <ActivityIndicator size="large" color="#000" />
+  //     </View>
+  //   );
+  // }
 
-  if (error) {
-    console.error(error);
-  }
+  // if (error) {
+  //   console.error(error);
+  // // }
 
-  if (data) console.log(data);
+  // if (data) console.log(data);
 
   return (
     <ScrollView style={styles.container}>
@@ -391,12 +312,12 @@ const DrugDetailScreen = observer((props) => {
             <Text style={{ ...styles.salt, fontWeight: "bold" }}>
               Introduction
             </Text>
-            <Text
+            <Ionicons
+              name="ios-arrow-down"
+              size={22}
+              color="#000"
               onPress={() => setIntroCollapsed((prev) => !prev)}
-              style={{ color: "purple", fontWeight: "bold" }}
-            >
-              [More]
-            </Text>
+            />
           </View>
           {introCollapsed && (
             <Text style={{ marginTop: 5 }}>
@@ -413,12 +334,12 @@ const DrugDetailScreen = observer((props) => {
             }}
           >
             <Text style={{ ...styles.salt, fontWeight: "bold" }}>Uses</Text>
-            <Text
+            <Ionicons
+              name="ios-arrow-down"
+              size={22}
+              color="#000"
               onPress={() => setUsesCollapsed((prev) => !prev)}
-              style={{ color: "purple", fontWeight: "bold" }}
-            >
-              [More]
-            </Text>
+            />
           </View>
           {usesCollapsed &&
             item.description.uses.map((itemData) => (
@@ -438,12 +359,12 @@ const DrugDetailScreen = observer((props) => {
             <Text style={{ ...styles.salt, fontWeight: "bold" }}>
               Side Effects
             </Text>
-            <Text
+            <Ionicons
+              name="ios-arrow-down"
+              size={22}
+              color="#000"
               onPress={() => setSideEffectsCollapsed((prev) => !prev)}
-              style={{ color: "purple", fontWeight: "bold" }}
-            >
-              [More]
-            </Text>
+            />
           </View>
           {sideEffectsCollapsed &&
             item.description.side_effects.map((itemData) => (
@@ -480,12 +401,12 @@ const DrugDetailScreen = observer((props) => {
             <Text style={{ ...styles.salt, fontWeight: "bold" }}>
               How to cope with side effects
             </Text>
-            <Text
+            <Ionicons
+              name="ios-arrow-down"
+              size={22}
+              color="#000"
               onPress={() => setHowToSECollapsed((prev) => !prev)}
-              style={{ color: "purple", fontWeight: "bold" }}
-            >
-              [More]
-            </Text>
+            />
           </View>
 
           {howToSECollpased &&
@@ -509,12 +430,12 @@ const DrugDetailScreen = observer((props) => {
             <Text style={{ ...styles.salt, fontWeight: "bold" }}>
               How to Use
             </Text>
-            <Text
+            <Ionicons
+              name="ios-arrow-down"
+              size={22}
+              color="#000"
               onPress={() => setHowToUseCollapsed((prev) => !prev)}
-              style={{ color: "purple", fontWeight: "bold" }}
-            >
-              [More]
-            </Text>
+            />
           </View>
           {howToUseCollapsed && (
             <Text style={{ marginTop: 5 }}>{item.description.how_to_use}</Text>
@@ -531,12 +452,12 @@ const DrugDetailScreen = observer((props) => {
             <Text style={{ ...styles.salt, fontWeight: "bold" }}>
               Safety Advice
             </Text>
-            <Text
+            <Ionicons
+              name="ios-arrow-down"
+              size={22}
+              color="#000"
               onPress={() => setSafetyAdviceCollapsed((prev) => !prev)}
-              style={{ color: "purple", fontWeight: "bold" }}
-            >
-              [More]
-            </Text>
+            />
           </View>
           {safetyAdviceCollapsed &&
             item.description.safety_advice.map((itemData) => (

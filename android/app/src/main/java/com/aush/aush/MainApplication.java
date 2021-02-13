@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.razorpay.rn.RazorpayPackage;
+import com.razorpay.rn.RazorpayPackage;
 import com.rnfs.RNFSPackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -30,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
 
-import com.razorpay.rn.RazorpayPackage;
+// import com.razorpay.rn.RazorpayPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
@@ -47,7 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
-      packages.add(new RazorpayPackage());
+      // packages.add(new RazorpayPackage());
       return packages;
     }
 

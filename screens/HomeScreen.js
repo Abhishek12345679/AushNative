@@ -42,19 +42,19 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 
 import { Ionicons } from "react-native-vector-icons";
 
+import { GOOGLE_PLACES_AUTOCOMPLETE_API_KEY } from "@env";
+
 const HomeScreen = observer((props) => {
   const { showActionSheetWithOptions } = props;
-  const [headerImg, setHeaderImg] = useState(
-    "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-  );
-
-  // const uid = DrugStore.userCredentials.uid;
+  // const [headerImg, setHeaderImg] = useState(
+  //   "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+  // );
 
   const appState = useRef(AppState.currentState);
 
-  // const [locName, setLocName] = useState("Select Location");
   const [modalVisible, setModalVisible] = useState(false);
-  // const [locData, setLocData] = useState();
+  const [locName, setLocName] = useState("select location");
+  const [locData, setLocData] = useState("");
 
   const geoSuccess = (position) => {
     console.log("Success", position);
@@ -69,7 +69,6 @@ const HomeScreen = observer((props) => {
         console.log(locName);
         setLocData(data);
         setLocName(locName);
-        // setModalVisible(true);
       });
   };
 
@@ -83,12 +82,6 @@ const HomeScreen = observer((props) => {
     maximumAge: 60 * 60 * 24,
   };
 
-  // const [connStatus, setConnStatus] = useState(false);
-
-  // NetInfo.fetch().then((state) => {
-  //   console.log("Connection type", state.type);
-  //   console.log("Is connected?", state.isConnected);
-  // });
   const retrieveUserData = async () => {
     try {
       const loginJSONValue = await AsyncStorage.getItem("login_data");
@@ -138,8 +131,6 @@ const HomeScreen = observer((props) => {
     }
 
     appState.current = nextAppState;
-    // setAppStateVisible(appState.current);
-    // console.log("AppState", appState.current);
   };
 
   useEffect(() => {
@@ -169,9 +160,6 @@ const HomeScreen = observer((props) => {
       const auto_login_data = await AsyncStorage.getItem("auto_login_data");
       if (auto_login_data) {
         console.log("Auto_login_data = ", auto_login_data);
-        // setTimeout(() => {
-        //   console.log("expired");
-        // }, 10000);
       }
     };
     retrieve_creds();
@@ -179,33 +167,6 @@ const HomeScreen = observer((props) => {
 
   useEffect(() => {
     props.navigation.setOptions({
-      // headerLeft: () =>
-      //   Platform.OS === "ios" && (
-      //     <TouchableOpacity
-      //       onPress={() => {
-      //         props.navigation.navigate("Settings");
-      //       }}
-      //     >
-      //       <Image
-      //         source={{
-      //           uri:
-      //             DrugStore.profile.display_picture === " "
-      //               ? headerImg
-      //               : DrugStore.profile.display_picture,
-      //         }}
-      //         style={{
-      //           height: 35,
-      //           width: 35,
-      //           marginTop: 0,
-      //           borderRadius: 17.5,
-      //           borderWidth: 1,
-      //           borderColor: "#333",
-      //           // shadowRadius: 10,
-      //           // shadowOpacity: 0.75,
-      //         }}
-      //       />
-      //     </TouchableOpacity>
-      //   ),
       headerRight: () => (
         //TODO: add ripple effect
         <View style={{ flexDirection: "row" }}>
@@ -216,11 +177,9 @@ const HomeScreen = observer((props) => {
               width: 40,
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor: "#ccc",
             }}
             onPress={() => {
               props.navigation.navigate("Search");
-              //TODO: add search screen and (suggestions while typing?)
             }}
           >
             <Ionicons name="md-search" size={24} color="#fff" />
@@ -232,7 +191,6 @@ const HomeScreen = observer((props) => {
               width: 40,
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor: "#ccc",
             }}
             onPress={() => {
               props.navigation.navigate("Cart");
@@ -262,15 +220,10 @@ const HomeScreen = observer((props) => {
         borderBottomWidth: 0,
       },
       headerLargeTitle: true,
-      // headerTitleAlign: "left",
       headerTintColor: "#fff",
-      // headerTitleStyle: {
-      //   fontWeight: "bolder",
-      //   // fontFamily: "plumpfull",
       fontSize: 20,
-      // },
     });
-  }, [headerImg]);
+  }, []);
 
   useEffect(() => {
     showMessage({
@@ -303,28 +256,24 @@ const HomeScreen = observer((props) => {
     );
   };
 
-  useEffect(() => {
-    console.log("modalvisi", modalVisible);
-  }, [modalVisible]);
-
   return (
     <ScrollView
-      // keyboardShouldPersistTaps="always"
+      keyboardShouldPersistTaps="always"
       style={styles.container}
       contentContainerStyle={{ flexGrow: 1 }}
-      // stickyHeaderIndices={[1]}
     >
       {Platform.OS === "ios" ? (
         <StatusBar barStyle="light-content" />
       ) : (
         <StatusBar barStyle="light-content" backgroundColor="#14213d" />
       )}
-      {/* <LocationPicker
+      <LocationPicker
         location={locName}
         onPress={() => {
           onOpenActionSheet();
         }}
-      /> */}
+      />
+
       <View style={styles.container}></View>
 
       <Modal
@@ -351,13 +300,12 @@ const HomeScreen = observer((props) => {
               onPress={(data, details) => {
                 // 'details' is provided when fetchDetails = true
                 console.log(details.formatted_address);
-                setLocData({ data, details });
+                // setLocData({ data, details });
                 setLocName(details.formatted_address);
                 setModalVisible(false);
-                // Alert.alert("yo");
               }}
               query={{
-                key: "AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I", //TODO: hide this
+                key: GOOGLE_PLACES_AUTOCOMPLETE_API_KEY, //TODO: hide this
                 language: "en",
                 components: "country:in",
               }}

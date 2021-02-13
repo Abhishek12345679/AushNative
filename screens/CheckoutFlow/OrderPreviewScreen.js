@@ -264,7 +264,7 @@ const OrderPreviewScreen = (props) => {
                   name: name,
                   // method: "card", //default payment method
                 },
-                theme: { color: "#000" },
+                theme: { color: "#000000" },
               };
               RazorpayCheckout.open(options)
                 .then((data) => {

@@ -9,6 +9,8 @@ import { gql, useLazyQuery } from "@apollo/client";
 import { Button } from "react-native";
 
 import ListItem from "../components/ListItem";
+import { Platform } from "react-native";
+import { ActivityIndicator } from "react-native";
 
 const SearchScreen = ({ navigation }) => {
   const GET_MEDICINE = gql`
@@ -47,23 +49,6 @@ const SearchScreen = ({ navigation }) => {
 
   const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
-  if (loading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          // height: "75%",
-          // width: "100%",
-          backgroundColor: "#fff",
-        }}
-      >
-        <Text>Loading</Text>
-      </View>
-    );
-  }
-
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
@@ -75,6 +60,8 @@ const SearchScreen = ({ navigation }) => {
           }}
         >
           <HeaderBackButton
+            tintColor="#fff"
+            pressColorAndroid="#fff"
             labelVisible={false}
             onPress={() => {
               navigation.goBack();
@@ -95,26 +82,30 @@ const SearchScreen = ({ navigation }) => {
               // borderBottomColor: "#ccc",
               // borderBottomWidth: 0.5,
               width: "70%",
-              lineHeight: 0,
-              height: 30,
+              // lineHeight: 0,
+              height: Platform.OS === "ios" ? 30 : 50,
               fontSize: 16,
               color: "#fff",
+              // marginTop: 10,
             }}
           />
-          <Button
+          {/* <Button
             title="search"
             onPress={() => {
               getMedicine({ variables: { name: searchText } });
             }}
-          />
+          /> */}
         </View>
-        {/* <Text>{searchText}</Text> */}
-        {!!data &&
-          !!!loading &&
-          data.search.drugs.map((med) => (
+        {!!data && !!!loading ? (
+          data.search.drugs.map((med, index) => (
             <ListItem
+              keyProp={index}
+              key={index}
               saltTextStyle={{ color: "#ccc" }}
-              style={{ backgroundColor: colors.SECONDARY }}
+              style={{
+                backgroundColor: colors.SECONDARY,
+                borderBottomWidth: 0,
+              }}
               titleStyle={{ color: "#fff" }}
               name={med.name}
               salt_composition={`${med.salt.substring(0, 20)}...`}
@@ -125,7 +116,12 @@ const SearchScreen = ({ navigation }) => {
                 })
               }
             />
-          ))}
+          ))
+        ) : (
+          <View style={styles.centered}>
+            <ActivityIndicator color="#fff" size={24} />
+          </View>
+        )}
       </SafeAreaView>
     </ScrollView>
   );
@@ -138,6 +134,12 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
+  },
+  centered: {
+    justifyContent: "center",
+    alignItems: "center",
+    // flex: 1,
+    // height: "100%",
   },
 });
 

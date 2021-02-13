@@ -90,6 +90,8 @@ target 'HelloWorld' do
   pod 'RNFS', :path => '../node_modules/react-native-fs'
   
 
+
+
   post_install do |installer|
     flipper_post_install(installer)
   end

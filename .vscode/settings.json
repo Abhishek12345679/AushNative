@@ -2,6 +2,8 @@
     "todo-tree.tree.showBadges": false,
     "cSpell.words": [
         "checkout",
-        "razorpay"
+        "creds",
+        "razorpay",
+        "retrieve"
     ]
 }
