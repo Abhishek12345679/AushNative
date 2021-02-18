@@ -278,7 +278,7 @@ const ScannerStackNavigator = createNativeStackNavigator();
 
 const ScannerNavigator = () => {
   return (
-    <ScannerStackNavigator.Navigator>
+    <ScannerStackNavigator.Navigator initialRouteName="Scan">
       <ScannerStackNavigator.Screen
         name="Scan"
         component={DrugScanner}
@@ -286,6 +286,7 @@ const ScannerNavigator = () => {
           headerShown: false,
           stackPresentation: "modal",
           gestureEnabled: false,
+          unmountOnBlur: true,
         }}
       />
       <ScannerStackNavigator.Screen

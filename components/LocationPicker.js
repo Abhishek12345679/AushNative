@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../constants/colors";
+import { Platform } from "react-native";
 
 const LocationPicker = (props) => {
   return (
@@ -12,17 +13,16 @@ const LocationPicker = (props) => {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        // justifyContent: "center",
-        // marginTop: -5,
         backgroundColor: colors.PRIMARY,
+        height: 45,
       }}
     >
       <Text
         style={{
           marginEnd: 10,
-          marginStart: 20,
+          marginStart: Platform.OS === "ios" ? 20 : 15,
           fontWeight: "500",
-          fontSize: 15,
+          fontSize: 16.5,
           color: "#fff",
         }}
       >
@@ -30,7 +30,7 @@ const LocationPicker = (props) => {
           ? props.location
           : props.location.substring(0, props.location.indexOf(",", 2))}
       </Text>
-      <Ionicons name="ios-arrow-down" size={22} color="#fff" />
+      <Ionicons name="ios-arrow-down" size={20} color="#fff" />
     </TouchableOpacity>
   );
 };

@@ -16,9 +16,11 @@ import {
   Modal,
   ScrollView,
   TouchableWithoutFeedback,
+  PermissionsAndroid,
 } from "react-native";
 
 import * as Firebase from "firebase";
+import * as Permissions from "expo-permissions";
 
 import { showMessage } from "react-native-flash-message";
 
@@ -33,7 +35,7 @@ import {
   updateAutoLoginData,
 } from "../helpers/requestNewAuthToken";
 
-import Geolocation from "@react-native-community/geolocation";
+import Geolocation from "react-native-geolocation-service";
 import LocationPicker from "../components/LocationPicker";
 
 import { connectActionSheet } from "@expo/react-native-action-sheet";
@@ -42,13 +44,8 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 
 import { Ionicons } from "react-native-vector-icons";
 
-import { GOOGLE_PLACES_AUTOCOMPLETE_API_KEY } from "@env";
-
 const HomeScreen = observer((props) => {
   const { showActionSheetWithOptions } = props;
-  // const [headerImg, setHeaderImg] = useState(
-  //   "https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-  // );
 
   const appState = useRef(AppState.currentState);
 
@@ -72,13 +69,14 @@ const HomeScreen = observer((props) => {
       });
   };
 
-  const geoFailure = () => {
+  const geoFailure = (error) => {
     console.log("Failure");
+    console.log("Error: ", error);
   };
 
   const geoOptions = {
     enableHighAccuracy: true,
-    timeOut: 20000,
+    timeOut: 200000,
     maximumAge: 60 * 60 * 24,
   };
 
@@ -132,6 +130,25 @@ const HomeScreen = observer((props) => {
 
     appState.current = nextAppState;
   };
+
+  useEffect(() => {
+    async function requestPermissions() {
+      if (Platform.OS === "ios") {
+        Geolocation.requestAuthorization();
+        Geolocation.setRNConfiguration({
+          skipPermissionRequests: false,
+          authorizationLevel: "whenInUse",
+        });
+      }
+
+      if (Platform.OS === "android") {
+        await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+      }
+    }
+    requestPermissions();
+  }, []);
 
   useEffect(() => {
     AppState.addEventListener("change", _handleAppStateChange);
@@ -274,8 +291,6 @@ const HomeScreen = observer((props) => {
         }}
       />
 
-      <View style={styles.container}></View>
-
       <Modal
         presentationStyle="formSheet"
         animationType="slide"
@@ -297,6 +312,8 @@ const HomeScreen = observer((props) => {
               textInputProps={{ autoCorrect: false }}
               fetchDetails={true}
               placeholder="Search"
+              currentLocation={true}
+              currentLocationLabel="Current location"
               onPress={(data, details) => {
                 // 'details' is provided when fetchDetails = true
                 console.log(details.formatted_address);
@@ -305,7 +322,7 @@ const HomeScreen = observer((props) => {
                 setModalVisible(false);
               }}
               query={{
-                key: GOOGLE_PLACES_AUTOCOMPLETE_API_KEY, //TODO: hide this
+                key: "AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I", //TODO: hide this
                 language: "en",
                 components: "country:in",
               }}

@@ -1,4 +1,5 @@
 import React from "react";
+import { TouchableNativeFeedback } from "react-native";
 import {
   View,
   Text,
@@ -19,18 +20,19 @@ const CPButton = (props) => {
           color={props.color}
         />
       ) : (
-        <TouchableOpacity
+        <TouchableNativeFeedback
           onPress={props.onpress}
           style={{
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "#000",
-            // width: 100,
-            // height: 100,
+            width: 100,
+            height: 50,
           }}
+          background={TouchableNativeFeedback.Ripple("#fff", true)}
         >
           <Text style={{ color: "#fff" }}>{props.text}</Text>
-        </TouchableOpacity>
+        </TouchableNativeFeedback>
       )}
     </>
   );

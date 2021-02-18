@@ -21,6 +21,9 @@ import Modal from "react-native-modal";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageManipulator } from "expo-image-crop";
 import CPButton from "../components/CPButton";
+// import { TouchableNativeFeedback } from "react-native";
+
+import { StackActions, NavigationActions } from "react-navigation";
 
 const CameraPreviewScreen = (props) => {
   let [wordList, setWordList] = useState([]);
@@ -35,6 +38,7 @@ const CameraPreviewScreen = (props) => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [rippleOverflow, setRippleOverflow] = useState(false);
 
   const [image, setImage] = useState(baseUri + photoData.base64);
 
@@ -103,7 +107,7 @@ const CameraPreviewScreen = (props) => {
           <CPButton
             iOS={iOS ? true : false}
             onpress={() => {
-              props.navigation.pop();
+              props.navigation.goBack();
             }}
             color="#FFF"
             text="Retake"
@@ -252,6 +256,7 @@ const CameraPreviewScreen = (props) => {
           >
             {wordList.map((word, i) => (
               <TouchableOpacity
+                key={i}
                 style={{
                   width: "100%",
                   height: 40,

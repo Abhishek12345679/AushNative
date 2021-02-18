@@ -12,6 +12,7 @@ import {
 } from "react-native";
 
 import GestureRecognizer from "react-native-swipe-gestures";
+import { useFocusEffect } from "@react-navigation/native";
 
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -30,6 +31,7 @@ import { colors } from "../constants/colors";
 const DrugScanner = (props) => {
   const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
+  const [mounted, setMounted] = useState(true);
 
   // testing  vim
 
@@ -106,6 +108,16 @@ const DrugScanner = (props) => {
   useEffect(() => {
     onCameraReady;
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setMounted(true);
+      return () => {
+        console.log("unmounted");
+        setMounted(false);
+      };
+    }, [])
+  );
 
   //fixing ratio
   const prepareRatio = async () => {
@@ -221,255 +233,259 @@ const DrugScanner = (props) => {
           backgroundColor: "#14213d",
         }}
       >
-        <Camera
-          ratio={ratio}
-          style={{
-            flex: 1,
-            backgroundColor: "#000",
-            flexDirection: "row",
-            marginTop: imagePadding,
-            marginBottom: imagePadding,
-          }}
-          type={type}
-          flashMode={flashStatus}
-          ref={(ref) => {
-            setCamera(ref);
-            setCameraRef(ref);
-          }}
-          onCameraReady={onCameraReady}
-          onStartShouldSetResponder={(evt) => onDoublePress()}
-          useCamera2Api
-        >
-          <View
+        {mounted && (
+          <Camera
+            ratio={ratio}
             style={{
-              flex: 0.8,
-              backgroundColor: "#ffffff00",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              alignItems: "center",
-              marginStart: 40,
-              marginBottom: -30,
-              marginVertical: 150,
+              flex: 1,
+              backgroundColor: "#000",
+              flexDirection: "row",
+              marginTop: imagePadding,
+              marginBottom: imagePadding,
             }}
-          >
-            <View
-              ref={contourRef.current}
-              onLayout={({ nativeEvent }) => {
-                setMeasurements(nativeEvent.layout);
-              }}
-              style={{
-                // flex: 1,
-                // borderWidth: 3,
-                // borderColor: "rgb(0, 255, 0)",
-                width: "95%",
-                height: 100,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 15,
-              }}
-            />
-            <TouchableOpacity
-              activeOpacity={0.75}
-              style={styles.captureButton}
-              onPress={async () => {
-                if (cameraRef) {
-                  if (isCameraReady) {
-                    // vibration ->
-                    Vibration.vibrate();
-                    const photo = await cameraRef.takePictureAsync({
-                      base64: true,
-                    });
-
-                    props.navigation.navigate("Confirm", {
-                      // mode:'camera',
-                      photo: photo,
-                    });
-                  }
-                }
-              }}
-            >
-              <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>
-                Capture
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              // height: "50%",
-              flex: 0.2,
-              backgroundColor: "#ffffff00",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: "flex-end",
+            type={type}
+            flashMode={flashStatus}
+            ref={(ref) => {
+              setCamera(ref);
+              setCameraRef(ref);
             }}
-          >
-            <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "flex-end",
-                marginTop: 30,
-                marginEnd: 10,
-              }}
-            >
-              <RoundButton
-                style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-                onPress={() => {
-                  props.navigation.goBack();
-                }}
-              >
-                <Entypo name="cross" size={25} color="#fff" />
-              </RoundButton>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "flex-end",
-                marginTop: 10,
-                marginEnd: 10,
-              }}
-            >
-              <RoundButton
-                style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-                onPress={() => {
-                  setType(
-                    type === Camera.Constants.Type.front
-                      ? Camera.Constants.Type.back
-                      : Camera.Constants.Type.front
-                  );
-                }}
-              >
-                <MaterialIcons
-                  name={type === 2 ? "camera-front" : "camera-rear"}
-                  size={20}
-                  color="#fff"
-                />
-              </RoundButton>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "flex-end",
-                marginEnd: 10,
-                marginTop: 10,
-              }}
-            >
-              <RoundButton
-                style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-                onPress={() => {
-                  setFlashStatus(flashStatus === 0 ? 1 : 0);
-                }}
-              >
-                <Ionicons
-                  name={flashStatus === 0 ? "ios-flash-off" : "ios-flash"}
-                  size={20}
-                  color="#fff"
-                />
-              </RoundButton>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "flex-end",
-                marginEnd: 10,
-                marginTop: 10,
-              }}
-            >
-              <RoundButton
-                style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-                onPress={() => {
-                  setIsVisible((prev) => !prev);
-                }}
-              >
-                <Ionicons name="ios-search" size={20} color="#fff" />
-              </RoundButton>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                alignSelf: "flex-end",
-                alignItems: "flex-end",
-                marginEnd: 10,
-                marginTop: 10,
-              }}
-            >
-              <RoundButton
-                onPress={pickImage}
-                style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-              >
-                <MaterialIcons name="photo-library" size={20} color="#fff" />
-              </RoundButton>
-            </TouchableOpacity>
-          </View>
-          <KeyboardAvoidingView>
-            <View
-              style={{
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 50,
-              }}
-            ></View>
-          </KeyboardAvoidingView>
-          <Modal
-            // animationIn="fadeIn"
-            // animationInTiming={3000}
-            // animationOut="jello"
-            avoidKeyboard={true}
-            isVisible={isVisible}
-            onSwipeComplete={() => setIsVisible(false)}
-            swipeDirection={["down"]}
-            style={{
-              justifyContent: "flex-end",
-              margin: 0,
-              // alignItems: "center",
-            }}
-            onBackdropPress={() => setIsVisible(false)}
+            onCameraReady={onCameraReady}
+            onStartShouldSetResponder={(evt) => onDoublePress()}
+            useCamera2Api
           >
             <View
               style={{
-                width: "100%",
-                height: 20,
+                flex: 0.8,
+                backgroundColor: "#ffffff00",
+                flexDirection: "column",
+                justifyContent: "space-around",
                 alignItems: "center",
-                justifyContent: "center",
+                marginStart: 40,
+                marginBottom: -30,
+                marginVertical: 150,
               }}
             >
               <View
+                ref={contourRef.current}
+                onLayout={({ nativeEvent }) => {
+                  setMeasurements(nativeEvent.layout);
+                }}
                 style={{
-                  backgroundColor: "#ccc",
-                  width: 50,
-                  height: 8,
-                  borderRadius: 5,
+                  // flex: 1,
+                  // borderWidth: 3,
+                  // borderColor: "rgb(0, 255, 0)",
+                  width: "95%",
+                  height: 100,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 15,
                 }}
               />
+              <TouchableOpacity
+                activeOpacity={0.75}
+                style={styles.captureButton}
+                onPress={async () => {
+                  if (cameraRef) {
+                    if (isCameraReady) {
+                      // vibration ->
+                      Vibration.vibrate();
+                      const photo = await cameraRef.takePictureAsync({
+                        base64: true,
+                      });
+
+                      props.navigation.navigate("Confirm", {
+                        // mode:'camera',
+                        photo: photo,
+                      });
+                    }
+                  }
+                }}
+              >
+                <Text
+                  style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}
+                >
+                  Capture
+                </Text>
+              </TouchableOpacity>
             </View>
             <View
               style={{
-                height: "75%",
-                backgroundColor: "#FFF",
-                padding: 22,
-                borderTopEndRadius: 15,
-                borderTopStartRadius: 15,
+                // height: "50%",
+                flex: 0.2,
+                backgroundColor: "#ffffff00",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "flex-end",
               }}
             >
-              <ManualSearchBox
-                onpress={() => {
-                  setIsVisible(false);
-                  // props.navigation.pop();
-                  props.navigation.navigate("Results", {
-                    query: query,
-                    manual_search: true,
-                    mode: selectedIndex === 0 ? "name" : "salt",
-                  });
+              <TouchableOpacity
+                style={{
+                  alignSelf: "flex-end",
+                  alignItems: "flex-end",
+                  marginTop: 30,
+                  marginEnd: 10,
                 }}
-                onchangeText={searchQueryChangeHandler}
-                value={query}
-                onchange={(event) => {
-                  setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+              >
+                <RoundButton
+                  style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+                  onPress={() => {
+                    props.navigation.goBack();
+                  }}
+                >
+                  <Entypo name="cross" size={25} color="#fff" />
+                </RoundButton>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  alignSelf: "flex-end",
+                  alignItems: "flex-end",
+                  marginTop: 10,
+                  marginEnd: 10,
                 }}
-                selectedIndex={selectedIndex}
-              />
+              >
+                <RoundButton
+                  style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+                  onPress={() => {
+                    setType(
+                      type === Camera.Constants.Type.front
+                        ? Camera.Constants.Type.back
+                        : Camera.Constants.Type.front
+                    );
+                  }}
+                >
+                  <MaterialIcons
+                    name={type === 2 ? "camera-front" : "camera-rear"}
+                    size={20}
+                    color="#fff"
+                  />
+                </RoundButton>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  alignSelf: "flex-end",
+                  alignItems: "flex-end",
+                  marginEnd: 10,
+                  marginTop: 10,
+                }}
+              >
+                <RoundButton
+                  style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+                  onPress={() => {
+                    setFlashStatus(flashStatus === 0 ? 1 : 0);
+                  }}
+                >
+                  <Ionicons
+                    name={flashStatus === 0 ? "ios-flash-off" : "ios-flash"}
+                    size={20}
+                    color="#fff"
+                  />
+                </RoundButton>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  alignSelf: "flex-end",
+                  alignItems: "flex-end",
+                  marginEnd: 10,
+                  marginTop: 10,
+                }}
+              >
+                <RoundButton
+                  style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+                  onPress={() => {
+                    setIsVisible((prev) => !prev);
+                  }}
+                >
+                  <Ionicons name="ios-search" size={20} color="#fff" />
+                </RoundButton>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  alignSelf: "flex-end",
+                  alignItems: "flex-end",
+                  marginEnd: 10,
+                  marginTop: 10,
+                }}
+              >
+                <RoundButton
+                  onPress={pickImage}
+                  style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+                >
+                  <MaterialIcons name="photo-library" size={20} color="#fff" />
+                </RoundButton>
+              </TouchableOpacity>
             </View>
-          </Modal>
-        </Camera>
+            <KeyboardAvoidingView>
+              <View
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: 50,
+                }}
+              ></View>
+            </KeyboardAvoidingView>
+            <Modal
+              // animationIn="fadeIn"
+              // animationInTiming={3000}
+              // animationOut="jello"
+              avoidKeyboard={true}
+              isVisible={isVisible}
+              onSwipeComplete={() => setIsVisible(false)}
+              swipeDirection={["down"]}
+              style={{
+                justifyContent: "flex-end",
+                margin: 0,
+                // alignItems: "center",
+              }}
+              onBackdropPress={() => setIsVisible(false)}
+            >
+              <View
+                style={{
+                  width: "100%",
+                  height: 20,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "#ccc",
+                    width: 50,
+                    height: 8,
+                    borderRadius: 5,
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  height: "75%",
+                  backgroundColor: "#FFF",
+                  padding: 22,
+                  borderTopEndRadius: 15,
+                  borderTopStartRadius: 15,
+                }}
+              >
+                <ManualSearchBox
+                  onpress={() => {
+                    setIsVisible(false);
+                    // props.navigation.pop();
+                    props.navigation.navigate("Results", {
+                      query: query,
+                      manual_search: true,
+                      mode: selectedIndex === 0 ? "name" : "salt",
+                    });
+                  }}
+                  onchangeText={searchQueryChangeHandler}
+                  value={query}
+                  onchange={(event) => {
+                    setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+                  }}
+                  selectedIndex={selectedIndex}
+                />
+              </View>
+            </Modal>
+          </Camera>
+        )}
       </GestureRecognizer>
     </View>
   );

@@ -119,7 +119,7 @@ const SearchScreen = ({ navigation }) => {
           ))
         ) : (
           <View style={styles.centered}>
-            <ActivityIndicator color="#fff" size={24} />
+            {/* <ActivityIndicator color="#fff" size={24} /> */}
           </View>
         )}
       </SafeAreaView>
