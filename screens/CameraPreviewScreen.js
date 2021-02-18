@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Image,
@@ -20,10 +20,12 @@ import Modal from "react-native-modal";
 
 import { Ionicons } from "@expo/vector-icons";
 import { ImageManipulator } from "expo-image-crop";
+import * as ExpoImageManipulator from "expo-image-manipulator";
 import CPButton from "../components/CPButton";
 // import { TouchableNativeFeedback } from "react-native";
 
 import { StackActions, NavigationActions } from "react-navigation";
+import { ImageBackground } from "react-native";
 
 const CameraPreviewScreen = (props) => {
   let [wordList, setWordList] = useState([]);
@@ -34,13 +36,17 @@ const CameraPreviewScreen = (props) => {
   // const imgHeight = photoData.height;
   // const imgWidth = photoData.width;
 
-  const baseUri = "data:image/jpg;base64,";
+  // console.log({ imgHeight, imgWidth });
+  console.log(photoData.uri);
+
+  // const baseUri = "data:image/jpg;base64,";
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rippleOverflow, setRippleOverflow] = useState(false);
 
-  const [image, setImage] = useState(baseUri + photoData.base64);
+  // const [image, setImage] = useState(baseUri + photoData.base64);
+  const [image, setImage] = useState(photoData.uri);
 
   async function processDocument(localPath) {
     const processed = await ml().cloudDocumentTextRecognizerProcessImage(
@@ -79,6 +85,18 @@ const CameraPreviewScreen = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [scanning, setScanning] = useState(false);
 
+  useEffect(() => {
+    const resizeImage = async () => {
+      const manipResult = await ExpoImageManipulator.manipulateAsync(
+        photoData.localUri || photoData.uri,
+        [{ resize: { height: 500, width: 500 } }]
+      );
+      console.log(manipResult.height);
+      setImage(manipResult.uri);
+    };
+    resizeImage();
+  }, []);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
@@ -89,7 +107,7 @@ const CameraPreviewScreen = (props) => {
               iOS={iOS ? true : false}
               onpress={async () => {
                 setScanning(true);
-                processDocument(photoData.uri).then(() => {
+                processDocument(image).then(() => {
                   console.log("Finished processing file.");
                   setModalVisible(true);
                   setScanning(false);
@@ -123,11 +141,39 @@ const CameraPreviewScreen = (props) => {
             uri: image,
           }}
           style={{
-            width: "100%",
-            height: Dimensions.get("window").height - 200,
+            // flex: 1,
+            width: 500,
+            height: 500,
+            resizeMode: "contain",
             // marginTop: 10,
+            // width: 4640,
+            // height: 2610,
+            // position: "relative",
           }}
-        />
+        >
+          {/* [left, top, right, bottom] */}
+          {/* 545, 312, 564, 324 */}
+          {/* 235, 149, 241, 156 */}
+        </Image>
+        <View
+          style={{
+            // flex: 1,
+            position: "absolute",
+            backgroundColor: "#fff",
+            // left: 545,
+            // top: 312,
+            // right: 564,
+            // bottom: 324,
+            left: 87,
+            top: 124,
+            right: 216,
+            bottom: 143,
+            height: 20,
+            width: 100,
+          }}
+        >
+          {/* <Text>Abhishek</Text> */}
+        </View>
         <View
           style={{
             // flex: 1,

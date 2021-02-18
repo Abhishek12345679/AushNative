@@ -280,6 +280,7 @@ const DrugScanner = (props) => {
 
                       const photo = await cameraRef.takePictureAsync({
                         base64: true,
+                        // quality: 0.5,
                       });
 
                       props.navigation.navigate("Confirm", {
