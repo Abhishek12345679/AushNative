@@ -16,9 +16,6 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
-import * as ScreenOrientation from "expo-screen-orientation";
-
 import Modal from "react-native-modal";
 
 import { Camera } from "expo-camera";
@@ -32,8 +29,6 @@ const DrugScanner = (props) => {
   const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
   const [mounted, setMounted] = useState(true);
-
-  // testing  vim
 
   const baseUri = "data:image/jpg;base64,";
 
@@ -167,14 +162,6 @@ const DrugScanner = (props) => {
     setQuery(text);
   };
 
-  // const measureContour = () => {
-  //   contourRef.current.measure((x, y, width, height) => {
-  //     setMeasurements(x, y, width, height);
-  //   });
-  // };
-
-  // console.log(measurements);
-
   if (hasPermission === null) {
     return <View />;
   } else if (hasPermission === false) {
@@ -235,6 +222,7 @@ const DrugScanner = (props) => {
       >
         {mounted && (
           <Camera
+            playSoundOnCapture={true}
             ratio={ratio}
             style={{
               flex: 1,
@@ -288,7 +276,8 @@ const DrugScanner = (props) => {
                   if (cameraRef) {
                     if (isCameraReady) {
                       // vibration ->
-                      Vibration.vibrate();
+                      // Vibration.vibrate();
+
                       const photo = await cameraRef.takePictureAsync({
                         base64: true,
                       });

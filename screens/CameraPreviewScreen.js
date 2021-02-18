@@ -44,7 +44,10 @@ const CameraPreviewScreen = (props) => {
 
   async function processDocument(localPath) {
     const processed = await ml().cloudDocumentTextRecognizerProcessImage(
-      localPath
+      localPath,
+      {
+        languageHints: ["en"], // to avoid diacritics(accents)
+      }
     );
     let temp = [];
 
