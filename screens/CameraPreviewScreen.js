@@ -61,6 +61,7 @@ const CameraPreviewScreen = (props) => {
 
     processed.blocks.forEach((block) => {
       // console.log(Object.keys(block));
+      // const boundingBox = block.boundingBox
       console.log("Bounding box: ", block.boundingBox);
       console.log("Found block with text: ", block.text);
       console.log("Confidence in block: ", block.confidence);
@@ -68,18 +69,29 @@ const CameraPreviewScreen = (props) => {
 
       // adding to wordList
       const newText = removeUselessSpaces(block.text);
-      newText.forEach((text) => {
-        temp.push(text);
-      });
+      // newText.forEach((text) => {
+      //   temp[text]= block.
+      // });
+      let phrase = {};
+      phrase = {
+        text: newText,
+        boundingBox: {
+          left: block.boundingBox[0],
+          top: block.boundingBox[1],
+          right: block.boundingBox[2],
+          bottom: block.boundingBox[3],
+        },
+      };
+      temp.push(phrase);
     });
-    console.log("temp", temp);
 
+    console.log("temp", temp[0]);
     setWordList(temp);
   }
 
   const removeUselessSpaces = (text) => {
     let newText = text.replace(/\s+/g, " ").trim();
-    return newText.split(" ");
+    return newText;
   };
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -89,13 +101,22 @@ const CameraPreviewScreen = (props) => {
     const resizeImage = async () => {
       const manipResult = await ExpoImageManipulator.manipulateAsync(
         photoData.localUri || photoData.uri,
-        [{ resize: { height: 500, width: 500 } }]
+        [
+          {
+            resize: {
+              height: Dimensions.get("window").height - 200,
+              width: Dimensions.get("window").width,
+            },
+          },
+        ]
       );
       console.log(manipResult.height);
       setImage(manipResult.uri);
     };
     resizeImage();
   }, []);
+
+  const coords = [25, 198, 286, 264];
 
   return (
     <View style={styles.container}>
@@ -109,7 +130,7 @@ const CameraPreviewScreen = (props) => {
                 setScanning(true);
                 processDocument(image).then(() => {
                   console.log("Finished processing file.");
-                  setModalVisible(true);
+                  // setModalVisible(true);
                   setScanning(false);
                 });
               }}
@@ -142,38 +163,42 @@ const CameraPreviewScreen = (props) => {
           }}
           style={{
             // flex: 1,
-            width: 500,
-            height: 500,
+            height: Dimensions.get("window").height - 200,
+            width: Dimensions.get("window").width,
             resizeMode: "contain",
             // marginTop: 10,
             // width: 4640,
             // height: 2610,
-            // position: "relative",
+            position: "relative",
           }}
-        >
-          {/* [left, top, right, bottom] */}
-          {/* 545, 312, 564, 324 */}
-          {/* 235, 149, 241, 156 */}
-        </Image>
-        <View
-          style={{
-            // flex: 1,
-            position: "absolute",
-            backgroundColor: "#fff",
-            // left: 545,
-            // top: 312,
-            // right: 564,
-            // bottom: 324,
-            left: 87,
-            top: 124,
-            right: 216,
-            bottom: 143,
-            height: 20,
-            width: 100,
-          }}
-        >
-          {/* <Text>Abhishek</Text> */}
-        </View>
+        ></Image>
+        {wordList.map((word, i) => (
+          <TouchableOpacity
+            onPress={() => {
+              // console.log("Short Press!");
+              // setModalVisible(false);
+              props.navigation.navigate("Results", {
+                data: word.text.toLowerCase(),
+                mode: "scan",
+              });
+            }}
+            style={{
+              // flex: 1,
+              position: "absolute",
+              // backgroundColor: "#000",
+              borderWidth: 3,
+              borderColor: "#000",
+              left: word.boundingBox.left,
+              top: word.boundingBox.top,
+              right: word.boundingBox.right,
+              bottom: word.boundingBox.bottom,
+              height: Math.abs(word.boundingBox.top - word.boundingBox.bottom),
+              width: Math.abs(word.boundingBox.left - word.boundingBox.right),
+            }}
+          >
+            <Text>{word.text}</Text>
+          </TouchableOpacity>
+        ))}
         <View
           style={{
             // flex: 1,
@@ -303,7 +328,7 @@ const CameraPreviewScreen = (props) => {
               borderRadius: 20,
             }}
           >
-            {wordList.map((word, i) => (
+            {/* {wordList.map((word, i) => (
               <TouchableOpacity
                 key={i}
                 style={{
@@ -326,7 +351,7 @@ const CameraPreviewScreen = (props) => {
               >
                 <Text>{word}</Text>
               </TouchableOpacity>
-            ))}
+            ))} */}
             {/* <Button
             title="close"
             onPress={() => {
