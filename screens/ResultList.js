@@ -103,18 +103,18 @@ const ResultList = observer((props) => {
     ocr_data = props.route.params.data;
   }
 
-  console.log(ocr_data);
+  // console.log(ocr_data);
 
   if (mode === "name" || mode === "scan") {
     var { loading, data, error } = useQuery(GET_MEDICINE, {
       variables: { name: ocr_data },
     });
-    console.log(data);
+    // console.log(data);
   } else if (mode === "salt") {
     var { loading, data, error } = useQuery(GET_ALTERNATE_DRUG, {
       variables: { salt: ocr_data },
     });
-    console.log(data);
+    // console.log(data);
   }
 
   useEffect(() => {

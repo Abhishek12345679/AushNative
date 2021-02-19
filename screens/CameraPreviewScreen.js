@@ -116,8 +116,6 @@ const CameraPreviewScreen = (props) => {
     resizeImage();
   }, []);
 
-  const coords = [25, 198, 286, 264];
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
@@ -194,6 +192,7 @@ const CameraPreviewScreen = (props) => {
               bottom: word.boundingBox.bottom,
               height: Math.abs(word.boundingBox.top - word.boundingBox.bottom),
               width: Math.abs(word.boundingBox.left - word.boundingBox.right),
+              padding: 20,
             }}
           >
             <Text>{word.text}</Text>
