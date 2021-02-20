@@ -109,7 +109,7 @@ const ResultList = observer((props) => {
     var { loading, data, error } = useQuery(GET_MEDICINE, {
       variables: { name: ocr_data },
     });
-    console.log("data", data);
+    // console.log("data", data);
   } else if (mode === "salt") {
     var { loading, data, error } = useQuery(GET_ALTERNATE_DRUG, {
       variables: { salt: ocr_data },
