@@ -10,6 +10,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 
 import { ModalTitle, ModalContent, BottomModal } from "react-native-modals";
@@ -26,6 +27,8 @@ import CPButton from "../components/CPButton";
 
 import { StackActions, NavigationActions } from "react-navigation";
 import { ImageBackground } from "react-native";
+import WordListPopover from "../components/WordListPopover";
+import { withMenuContext } from "react-native-popup-menu";
 
 const CameraPreviewScreen = (props) => {
   let [wordList, setWordList] = useState([]);
@@ -40,6 +43,8 @@ const CameraPreviewScreen = (props) => {
   console.log(photoData.uri);
 
   // const baseUri = "data:image/jpg;base64,";
+
+  // const ctx = withMenuContex
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -96,6 +101,7 @@ const CameraPreviewScreen = (props) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [scanning, setScanning] = useState(false);
+  const [words, setWords] = useState([]);
 
   useEffect(() => {
     const resizeImage = async () => {
@@ -126,11 +132,17 @@ const CameraPreviewScreen = (props) => {
               iOS={iOS ? true : false}
               onpress={async () => {
                 setScanning(true);
-                processDocument(image).then(() => {
-                  console.log("Finished processing file.");
-                  // setModalVisible(true);
-                  setScanning(false);
-                });
+                processDocument(image)
+                  .then(() => {
+                    console.log("Finished processing file.");
+                    // setModalVisible(true);
+                    setScanning(false);
+                  })
+                  .catch((error) => {
+                    setScanning(false);
+                    // Alert.alert(error);
+                    console.log(error);
+                  });
               }}
               color="#FFF"
               text="Confirm"
@@ -173,29 +185,30 @@ const CameraPreviewScreen = (props) => {
         {wordList.map((word, i) => (
           <TouchableOpacity
             onPress={() => {
-              // console.log("Short Press!");
-              // setModalVisible(false);
-              props.navigation.navigate("Results", {
-                data: word.text.toLowerCase(),
-                mode: "scan",
-              });
+              setModalVisible(true);
+              // props.navigation.navigate("Results", {
+              //   data: word.text.toLowerCase(),
+              //   mode: "scan",
+              // });
+              setWords(word.text.trim().split(" "));
             }}
             style={{
               // flex: 1,
               position: "absolute",
               // backgroundColor: "#000",
               borderWidth: 3,
-              borderColor: "#000",
+              borderColor: "#fff",
               left: word.boundingBox.left,
               top: word.boundingBox.top,
               right: word.boundingBox.right,
               bottom: word.boundingBox.bottom,
               height: Math.abs(word.boundingBox.top - word.boundingBox.bottom),
               width: Math.abs(word.boundingBox.left - word.boundingBox.right),
-              padding: 20,
+              padding: 5,
+              borderRadius: 5,
             }}
           >
-            <Text>{word.text}</Text>
+            {/* <Text style={{ color: "black", fontSize: 20 }}>{word.text}</Text> */}
           </TouchableOpacity>
         ))}
         <View
@@ -327,7 +340,7 @@ const CameraPreviewScreen = (props) => {
               borderRadius: 20,
             }}
           >
-            {/* {wordList.map((word, i) => (
+            {words.map((word, i) => (
               <TouchableOpacity
                 key={i}
                 style={{
@@ -340,17 +353,17 @@ const CameraPreviewScreen = (props) => {
                   console.log("Long Press!");
                 }}
                 onPress={() => {
-                  console.log("Short Press!");
+                  console.log(word);
                   setModalVisible(false);
                   props.navigation.navigate("Results", {
-                    data: word.toLowerCase(),
+                    data: word,
                     mode: "scan",
                   });
                 }}
               >
                 <Text>{word}</Text>
               </TouchableOpacity>
-            ))} */}
+            ))}
             {/* <Button
             title="close"
             onPress={() => {

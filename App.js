@@ -9,18 +9,38 @@ import { observer } from "mobx-react";
 
 import FlashMessage from "react-native-flash-message";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { MenuProvider } from "react-native-popup-menu";
 
-const App = observer((props) => {
+import { StyleSheet } from "react-native";
+
+const App = observer(() => {
   return (
-    <ActionSheetProvider>
-      <ApolloProvider client={client}>
-        <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-          <RootNavigation />
-          <FlashMessage position="bottom" />
-        </View>
-      </ApolloProvider>
-    </ActionSheetProvider>
+    <MenuProvider
+      style={styles.container}
+      customStyles={{ backdrop: styles.backdrop }}
+    >
+      <ActionSheetProvider>
+        <ApolloProvider client={client}>
+          <View style={{ flex: 1, backgroundColor: "#FFF" }}>
+            <RootNavigation />
+            <FlashMessage position="bottom" />
+          </View>
+        </ApolloProvider>
+      </ActionSheetProvider>
+    </MenuProvider>
   );
+});
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 0,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+  },
+  backdrop: {
+    backgroundColor: "#000",
+  },
 });
 
 export default App;

@@ -103,13 +103,13 @@ const ResultList = observer((props) => {
     ocr_data = props.route.params.data;
   }
 
-  // console.log(ocr_data);
+  console.log("ocr_data", ocr_data);
 
   if (mode === "name" || mode === "scan") {
     var { loading, data, error } = useQuery(GET_MEDICINE, {
       variables: { name: ocr_data },
     });
-    // console.log(data);
+    console.log("data", data);
   } else if (mode === "salt") {
     var { loading, data, error } = useQuery(GET_ALTERNATE_DRUG, {
       variables: { salt: ocr_data },
@@ -173,11 +173,16 @@ const ResultList = observer((props) => {
           // width: "100%",
           backgroundColor: "#fff",
         }}
-      ></View>
+      >
+        <Text> loading....</Text>
+      </View>
     );
   }
 
-  if (error) return;
+  if (error) {
+    console.log(error);
+    return;
+  }
 
   // console.log(data);
 
