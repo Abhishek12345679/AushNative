@@ -31,6 +31,8 @@ import QuantitySelector from "../components/QuantitySelector";
 import { observer } from "mobx-react";
 import { Ionicons } from "@expo/vector-icons";
 import DrugStore from "../store/CartStore";
+import { TextInput } from "react-native";
+import { Button } from "native-base";
 
 Notification.setNotificationHandler({
   handleNotification: async () => {
@@ -85,6 +87,8 @@ const DrugDetailScreen = observer((props) => {
   let [howToSECollpased, setHowToSECollapsed] = useState(true);
   let [howToUseCollapsed, setHowToUseCollapsed] = useState(true);
   let [safetyAdviceCollapsed, setSafetyAdviceCollapsed] = useState(true);
+
+  const [pincode, setPincode] = useState("");
 
   //workaround
   const [cartCount, setCartCount] = useState(0);
@@ -195,6 +199,16 @@ const DrugDetailScreen = observer((props) => {
 
   // if (data) console.log(data);
 
+  const fetchPlaceFromPincode = async () => {
+    const response = await fetch(
+      `https://api.postalpincode.in/pincode/${pincode}`
+    );
+    const resData = await response.json();
+
+    console.log(resData);
+    console.log(resData[0].Status);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -299,6 +313,44 @@ const DrugDetailScreen = observer((props) => {
               onDecrease={onDecrease}
               quantity={quantity}
             />
+          </View>
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              // marginHorizontal: 20,
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+            }}
+          >
+            <TextInput
+              placeholder="Enter Pincode"
+              value={pincode}
+              onChangeText={(pin) => setPincode(pin)}
+              style={{
+                height: 50,
+                width: "70%",
+                borderColor: "#000",
+                borderWidth: 1,
+                padding: 10,
+              }}
+              keyboardType="number-pad"
+              maxLength={6}
+            />
+            <Button
+              style={{
+                width: "20%",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 50,
+                backgroundColor: "#000",
+              }}
+              onPress={fetchPlaceFromPincode}
+            >
+              <Text style={{ color: "#fff" }}>Check</Text>
+            </Button>
           </View>
         </View>
         <View style={styles.desc}>
