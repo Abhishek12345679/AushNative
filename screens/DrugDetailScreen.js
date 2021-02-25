@@ -23,7 +23,6 @@ import { gql, useQuery } from "@apollo/client";
 
 import Tooltip from "react-native-walkthrough-tooltip";
 
-import * as Notification from "expo-notifications";
 import * as Permissions from "expo-permissions";
 
 import Card from "../components/Card";
@@ -33,15 +32,6 @@ import { Ionicons } from "@expo/vector-icons";
 import DrugStore from "../store/CartStore";
 import { TextInput } from "react-native";
 import { Button } from "native-base";
-
-Notification.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-    };
-  },
-});
 
 // const GET_ALTERNATE_DRUG = gql`
 //   query getAlternateDrug($salt: String!) {

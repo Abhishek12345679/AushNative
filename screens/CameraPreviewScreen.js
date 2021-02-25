@@ -13,6 +13,8 @@ import {
   Alert,
 } from "react-native";
 
+import FastImage from "react-native-fast-image";
+
 import { ModalTitle, ModalContent, BottomModal } from "react-native-modals";
 
 import ml from "@react-native-firebase/ml";
@@ -167,9 +169,10 @@ const CameraPreviewScreen = (props) => {
         </View>
       </View>
       <View style={{ flex: 1 }}>
-        <Image
+        <FastImage
           source={{
             uri: image,
+            priority: FastImage.priority.normal,
           }}
           style={{
             // flex: 1,
@@ -181,10 +184,11 @@ const CameraPreviewScreen = (props) => {
             // height: 2610,
             position: "relative",
           }}
-        ></Image>
+        />
         {wordList.map((word, i) => (
           <TouchableOpacity
             onPress={() => {
+              console.log("press");
               setModalVisible(true);
               // props.navigation.navigate("Results", {
               //   data: word.text.toLowerCase(),
@@ -197,7 +201,7 @@ const CameraPreviewScreen = (props) => {
               position: "absolute",
               // backgroundColor: "#000",
               borderWidth: 3,
-              borderColor: "#fff",
+              borderColor: "red",
               left: word.boundingBox.left,
               top: word.boundingBox.top,
               right: word.boundingBox.right,
@@ -205,7 +209,7 @@ const CameraPreviewScreen = (props) => {
               height: Math.abs(word.boundingBox.top - word.boundingBox.bottom),
               width: Math.abs(word.boundingBox.left - word.boundingBox.right),
               padding: 5,
-              borderRadius: 5,
+              borderRadius: 0,
             }}
           >
             {/* <Text style={{ color: "black", fontSize: 20 }}>{word.text}</Text> */}

@@ -87,7 +87,6 @@ target 'HelloWorld' do
   # you should disable these next few lines.
   add_flipper_pods!
   
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
   
 
 
