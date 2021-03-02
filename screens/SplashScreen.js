@@ -6,30 +6,9 @@ import { observer } from "mobx-react";
 import AsyncStorage from "@react-native-community/async-storage";
 import * as Firebase from "firebase";
 
+import { requestNewAuthToken } from "../helpers/requestNewAuthToken";
+
 const SplashScreen = observer(({ navigation }) => {
-  const requestNewAuthToken = async (refToken) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-    const response = await fetch(
-      `https://securetoken.googleapis.com/v1/token?key=AIzaSyBI3PnHGbtsukz2gQ9c2TbBEpQ-UBTFjtU&grant_type=refresh_token&refresh_token=${refToken}`,
-      {
-        method: "POST",
-        headers: myHeaders,
-        redirect: "follow",
-        body: JSON.stringify({
-          grant_type: "refresh_token",
-          refresh_token: refToken,
-        }),
-      }
-    );
-
-    const resData = await response.json();
-    console.log("new auth data", resData);
-    // DrugStore.updateAuthToken(resData.id_token);
-    return resData;
-  };
-
   const updateAutoLoginData = (expTime) => {
     AsyncStorage.getItem("auto_login_data")
       .then((data) => {
@@ -72,22 +51,6 @@ const SplashScreen = observer(({ navigation }) => {
           updateAutoLoginData(autoLoginData.expirationTime);
         });
 
-        // const timer = setInterval(() => {
-        //   requestNewAuthToken(refreshToken).then((data) => {
-        //     DrugStore.initializeUserCredentials(data.id_token, uid, email);
-        //     updateAutoLoginData(data.expires_in);
-        //   });
-        //   // DrugStore.startTimer(timer);
-
-        //   console.log("called requestNewToken");
-        //   console.log("expires in ", autoLoginData.expirationTime);
-        // }, autoLoginData.expirationTime);
-
-        // DrugStore.clearTimer();
-        // DrugStore.startTimer(timer);
-
-        // console.log("YO")
-
         Firebase.auth().onAuthStateChanged((user) => {
           console.log(user);
           DrugStore.setPFP(user.photoURL);
@@ -120,21 +83,3 @@ const styles = StyleSheet.create({
 });
 
 export default SplashScreen;
-
-//login-logout buggy
-
-// useEffect(() => {
-//   const startTimer = () => {
-//     setTimeout(() => {
-//       Firebase.auth().onAuthStateChanged((user) => {
-//         if (user != null) {
-//           DrugStore.initializeUserCredentials("", "", "");
-//           AsyncStorage.removeItem("login_data");
-//         }
-//       });
-//       // DrugStore.initializeUserCredentials("", "", "");
-//       // AsyncStorage.removeItem("login_data");
-//     }, 10000);
-//   };
-//   startTimer();
-// }, [navigation]);

@@ -5,7 +5,9 @@
     <item name="android:windowTranslucentStatus">true</item>
     <item name="colorPrimary">@color/colorPrimary</item>
   </style>
-  <style name="Theme.App.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="android:windowBackground">@drawable/splashscreen</item>
+   <!-- Add the following lines (BootTheme should inherit from AppTheme) -->
+   <style name="BootTheme" parent="AppTheme">
+    <!-- set the generated bootsplash.xml drawable as activity background -->
+    <item name="android:background">@drawable/bootsplash</item>
   </style>
 </resources>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 
 import RootNavigation from "./navigation/RootNavigation";
@@ -13,7 +13,19 @@ import { MenuProvider } from "react-native-popup-menu";
 
 import { StyleSheet } from "react-native";
 
+import RNBootSplash from "react-native-bootsplash";
+
 const App = observer(() => {
+  useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+    };
+
+    init().finally(async () => {
+      await RNBootSplash.hide({ fade: true });
+      console.log("Bootsplash has been hidden successfully");
+    });
+  }, []);
   return (
     <MenuProvider
       style={styles.container}
