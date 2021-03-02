@@ -222,7 +222,6 @@ const DrugScanner = (props) => {
       >
         {mounted && (
           <Camera
-            playSoundOnCapture={true}
             ratio={ratio}
             style={{
               flex: 1,

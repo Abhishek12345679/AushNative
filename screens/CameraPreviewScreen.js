@@ -209,7 +209,7 @@ const CameraPreviewScreen = (props) => {
               height: Math.abs(word.boundingBox.top - word.boundingBox.bottom),
               width: Math.abs(word.boundingBox.left - word.boundingBox.right),
               padding: 5,
-              borderRadius: 0,
+              borderRadius: 5,
             }}
           >
             {/* <Text style={{ color: "black", fontSize: 20 }}>{word.text}</Text> */}
