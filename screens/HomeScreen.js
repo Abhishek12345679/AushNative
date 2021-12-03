@@ -28,7 +28,7 @@ import DrugStore from "../store/CartStore";
 
 import { observer } from "mobx-react";
 import IconBadge from "react-native-icon-badge";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   requestNewAuthToken,

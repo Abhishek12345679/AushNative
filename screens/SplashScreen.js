@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, StatusBar } from "react-native";
 
 import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Firebase from "firebase";
 
 import { requestNewAuthToken } from "../helpers/requestNewAuthToken";
