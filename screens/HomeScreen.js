@@ -19,7 +19,7 @@ import {
   PermissionsAndroid,
 } from "react-native";
 
-import * as Firebase from "firebase";
+import firebase from "firebase/app";
 import * as Permissions from "expo-permissions";
 
 import { showMessage } from "react-native-flash-message";
@@ -165,7 +165,7 @@ const HomeScreen = observer((props) => {
   }, []);
 
   useEffect(() => {
-    Firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log("user: ", user);
         DrugStore.setName(user.displayName);
