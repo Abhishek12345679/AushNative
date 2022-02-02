@@ -19,7 +19,7 @@ import auth from "@react-native-firebase/auth";
 
 import { showMessage } from "react-native-flash-message";
 
-const SignUpScreen = observer(({ navigation }) => {
+const SignUpScreen = observer(() => {
   const [loading, setLoading] = useState(false);
   const [signIn, setSignIn] = useState(true);
 
@@ -36,7 +36,7 @@ const SignUpScreen = observer(({ navigation }) => {
       auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          console.log("User account created & signed in!");
+          DrugStore.console.log("User account created & signed in!");
         })
         .catch((error) => {
           if (error.code === "auth/email-already-in-use") {
