@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { observer } from "mobx-react";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ import {
   updateAutoLoginData,
 } from "../../helpers/requestNewAuthToken";
 
-import * as Firebase from "firebase";
+import auth from "@react-native-firebase/auth";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
@@ -77,21 +77,22 @@ const SignUpScreen = observer(({ navigation }) => {
         Alert.alert("Password invalid");
         return;
       }
-      await Firebase.auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((user) => {
-          if (user) {
-            console.log("user exists");
-            user.user.updateProfile({
-              displayName: name,
-              email: email,
-            });
-          }
+
+      const user = await auth().createUserWithEmailAndPassword(email, password);
+
+      if (user) {
+        console.log("user exists");
+        user.user.updateProfile({
+          displayName: name,
+          email: email,
         });
+      }
+
       showMessage({
         message: "Account created successfully",
         type: "success",
       });
+
       setLoading(false);
     } catch (e) {
       console.log(e);
@@ -104,16 +105,12 @@ const SignUpScreen = observer(({ navigation }) => {
   const login = async (email, password) => {
     try {
       setLoading(true);
-      const loginRes = await Firebase.auth().signInWithEmailAndPassword(
-        email,
-        password
-      );
-      const token = await Firebase.auth().currentUser.getIdToken(true);
+      const loginRes = await auth().signInWithEmailAndPassword(email, password);
 
-      const loginProps = await Firebase.auth().currentUser.getIdTokenResult(
-        true
-      );
-      const refreshToken = Firebase.auth().currentUser.refreshToken;
+      const token = await auth().currentUser.getIdToken(true);
+
+      const loginProps = await auth().currentUser.getIdTokenResult(true);
+      const refreshToken = auth().currentUser.refreshToken;
       const expirationTime = UTCtoMS(new Date(loginProps.expirationTime));
       console.log("expTime", expirationTime);
       saveAutoLoginCredentials(
@@ -122,7 +119,7 @@ const SignUpScreen = observer(({ navigation }) => {
         refreshToken
       );
 
-      Firebase.auth().onAuthStateChanged((user) => {
+      auth().onAuthStateChanged((user) => {
         saveUser(user);
         console.log("auto login creds saved ...");
       });

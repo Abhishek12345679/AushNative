@@ -1,5 +1,3 @@
-// TODO: Add Dark Theme Programatically
-
 import React from "react";
 import {
   View,
@@ -30,7 +28,6 @@ import SignUpScreen from "../screens/Authentication/SignUpScreen";
 import LoginScreen from "../screens/Authentication/LoginScreen";
 
 import { enableScreens } from "react-native-screens";
-// import { createStackNavigator } from "@react-navigation/stack";
 import { createNativeStackNavigator } from "react-native-screens/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import OrdersScreen from "../screens/Settings/OrdersScreen";
