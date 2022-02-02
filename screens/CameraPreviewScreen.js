@@ -1,3 +1,5 @@
+//TODO: Checkout Vision Camera: <https://mrousavy.com/react-native-vision-camera/>
+
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -15,8 +17,6 @@ import FastImage from "react-native-fast-image";
 
 import { ModalTitle, ModalContent, BottomModal } from "react-native-modals";
 
-import ml from "@react-native-firebase/ml";
-
 import Modal from "react-native-modal";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -32,61 +32,18 @@ const CameraPreviewScreen = (props) => {
 
   // const imgHeight = photoData.height;
   // const imgWidth = photoData.width;
-
   // console.log({ imgHeight, imgWidth });
+
   console.log(photoData.uri);
 
   // const baseUri = "data:image/jpg;base64,";
-
   // const ctx = withMenuContex
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [rippleOverflow, setRippleOverflow] = useState(false);
 
   // const [image, setImage] = useState(baseUri + photoData.base64);
   const [image, setImage] = useState(photoData.uri);
-
-  async function processDocument(localPath) {
-    const processed = await ml().cloudDocumentTextRecognizerProcessImage(
-      localPath,
-      {
-        languageHints: ["en"], // to avoid diacritics(accents)
-      }
-    );
-    let temp = [];
-
-    console.log("Found text in document: ", processed.text);
-
-    processed.blocks.forEach((block) => {
-      // console.log(Object.keys(block));
-      // const boundingBox = block.boundingBox
-      console.log("Bounding box: ", block.boundingBox);
-      console.log("Found block with text: ", block.text);
-      console.log("Confidence in block: ", block.confidence);
-      console.log("Languages found in block: ", block.recognizedLanguages);
-
-      // adding to wordList
-      const newText = removeUselessSpaces(block.text);
-      // newText.forEach((text) => {
-      //   temp[text]= block.
-      // });
-      let phrase = {};
-      phrase = {
-        text: newText,
-        boundingBox: {
-          left: block.boundingBox[0],
-          top: block.boundingBox[1],
-          right: block.boundingBox[2],
-          bottom: block.boundingBox[3],
-        },
-      };
-      temp.push(phrase);
-    });
-
-    console.log("temp", temp[0]);
-    setWordList(temp);
-  }
 
   const removeUselessSpaces = (text) => {
     let newText = text.replace(/\s+/g, " ").trim();
@@ -126,17 +83,6 @@ const CameraPreviewScreen = (props) => {
               iOS={iOS ? true : false}
               onpress={async () => {
                 setScanning(true);
-                processDocument(image)
-                  .then(() => {
-                    console.log("Finished processing file.");
-                    // setModalVisible(true);
-                    setScanning(false);
-                  })
-                  .catch((error) => {
-                    setScanning(false);
-                    // Alert.alert(error);
-                    console.log(error);
-                  });
               }}
               color="#FFF"
               text="Confirm"
@@ -167,13 +113,9 @@ const CameraPreviewScreen = (props) => {
             priority: FastImage.priority.normal,
           }}
           style={{
-            // flex: 1,
             height: Dimensions.get("window").height - 200,
             width: Dimensions.get("window").width,
             resizeMode: "contain",
-            // marginTop: 10,
-            // width: 4640,
-            // height: 2610,
             position: "relative",
           }}
         />
@@ -185,9 +127,7 @@ const CameraPreviewScreen = (props) => {
               setWords(word.text.trim().split(" "));
             }}
             style={{
-              // flex: 1,
               position: "absolute",
-              // backgroundColor: "#000",
               borderWidth: 3,
               borderColor: "red",
               left: word.boundingBox.left,
@@ -203,10 +143,8 @@ const CameraPreviewScreen = (props) => {
         ))}
         <View
           style={{
-            // flex: 1,
             width: "100%",
             height: Dimensions.get("window").height - 200,
-            // backgroundColor: "red",
             position: "absolute",
             justifyContent: "center",
             alignItems: "center",
@@ -237,14 +175,7 @@ const CameraPreviewScreen = (props) => {
       </View>
       <View style={styles.header_footer}>
         <View style={styles.buttonContainer}>
-          <CPButton
-            iOS={iOS ? true : false}
-            // onpress={async () => {
-            //   setIsVisible((prev) => !prev);
-            // }}
-            color="#FFF"
-            text="edit"
-          />
+          <CPButton iOS={iOS ? true : false} color="#FFF" text="edit" />
           <ImageManipulator
             photo={photoData}
             isVisible={isVisible}
@@ -254,8 +185,6 @@ const CameraPreviewScreen = (props) => {
             }}
             onToggleModal={() => setIsVisible((prev) => !prev)}
             saveOptions={{
-              // compress: 1,
-              // format: "jpeg",
               base64: true,
             }}
           />
@@ -270,7 +199,7 @@ const CameraPreviewScreen = (props) => {
           />
         </View>
       </View>
-      {/* android  specific config broke so back to ios-first*/}
+      {/* android specific config broke so back to ios-first*/}
       <Modal backdropColor="#ccc" isVisible={isLoading}>
         <View
           style={{
@@ -321,7 +250,6 @@ const CameraPreviewScreen = (props) => {
                   width: "100%",
                   height: 40,
                   marginBottom: 20,
-                  // backgroundColor: "#ccc",
                 }}
                 onLongPress={() => {
                   console.log("Long Press!");
