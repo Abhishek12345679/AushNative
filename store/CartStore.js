@@ -91,65 +91,48 @@ const DrugStore = types
       self.location.longitude = long;
     },
   }))
-  // Auth Actions
+  // settings action
   .actions((self) => ({
-    updateAuthToken(newToken) {
-      self.userCredentials.token = newToken;
+    setName(name) {
+      self.profile.name = name;
     },
-    startTimer(timer) {
-      // clearTimeout(timer);
-      console.log("timer starts");
-      self.timer = timer;
+    setPFP(imageUrl) {
+      self.profile.display_picture = imageUrl;
     },
-    clearTimer() {
-      console.log("timer set to null");
-      // self.timer = 0;
-      clearTimeout(self.timer);
-      // console.log("timer", self.timer);
-    },
-  }))
-  //settings action
-  // .actions((self) => ({
-  //   setName(name) {
-  //     self.profile.name = name;
-  //   },
-  //   setPFP(imageUrl) {
-  //     self.profile.display_picture = imageUrl;
-  //   },
-  //   setExtra(age) {
-  //     fetch(
-  //       `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ age }),
-  //       }
-  //     )
-  //       .then((res) => res.json())
-  //       .then((data) => console.log(data))
-  //       .catch((err) => console.log(err));
-  //   },
-  //   getExtra: flow(function* getExtra() {
-  //     try {
-  //       const response = yield fetch(
-  //         `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
-  //       );
+    // setExtra(age) {
+    //   fetch(
+    //     `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
+    //     {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ age }),
+    //     }
+    //   )
+    //     .then((res) => res.json())
+    //     .then((data) => console.log(data))
+    //     .catch((err) => console.log(err));
+    // },
+    // getExtra: flow(function* getExtra() {
+    //   try {
+    //     const response = yield fetch(
+    //       `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
+    //     );
 
-  //       const resData = yield response.json();
-  //       console.log(resData);
-  //       DrugStore.setPFP(resData.image);
-  //       if (resData) {
-  //         self.profile.display_picture = resData.image;
-  //         self.profile.dob = resData.age * 365 * 24 * 3600;
-  //         return resData;
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }),
-  // }))
+    //     const resData = yield response.json();
+    //     console.log(resData);
+    //     DrugStore.setPFP(resData.image);
+    //     if (resData) {
+    //       self.profile.display_picture = resData.image;
+    //       self.profile.dob = resData.age * 365 * 24 * 3600;
+    //       return resData;
+    //     }
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // }),
+  }))
   // Authentication
   .actions((self) => ({
     setAuthState(status) {
@@ -226,12 +209,12 @@ const DrugStore = types
   }))
   // Order Actions
   // .actions((self) => ({
-  //   // addOrder(order) {
-  //   //   self.order = order;
-  //   // },
-  //   // updateStatus(status) {
-  //   //   self.order.status = status;
-  //   // },
+  // addOrder(order) {
+  //   self.order = order;
+  // },
+  // updateStatus(status) {
+  //   self.order.status = status;
+  // },
   //   addOrder(order) {
   //     // console.log(self.userCredentials);
   //     const response = fetch(

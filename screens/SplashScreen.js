@@ -1,67 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Image, StyleSheet, StatusBar } from "react-native";
 
-import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import auth from "@react-native-firebase/auth";
-import { requestNewAuthToken } from "../helpers/requestNewAuthToken";
 
-const SplashScreen = observer(({ navigation }) => {
-  const updateAutoLoginData = (expTime) => {
-    AsyncStorage.getItem("auto_login_data")
-      .then((data) => {
-        // transform it back to an object
-        if (data) {
-          data = JSON.parse(data);
-          console.log(data);
-        }
-        // Decrement
-        data.expirationTime = expTime * 1000;
-        console.log("updated exp Time", data);
-        //save the value to AsyncStorage again
-        AsyncStorage.setItem("auto_login_data", JSON.stringify(data));
-      })
-      .done();
-  };
-
-  useEffect(() => {
-    const retrieveUserData = async () => {
-      try {
-        const loginJSONValue = await AsyncStorage.getItem("login_data");
-        const autoLoginCreds = await AsyncStorage.getItem("auto_login_data");
-
-        if (!loginJSONValue || !autoLoginCreds) {
-          DrugStore.setDidTryAutoLogin();
-        }
-
-        const autoLoginData = JSON.parse(autoLoginCreds);
-        console.log("AUTO LOGIN DATA \n", autoLoginData);
-
-        const loginData = JSON.parse(loginJSONValue);
-        console.log("LOGIN DATA \n", loginData);
-
-        const { email, uid } = loginData;
-
-        requestNewAuthToken(autoLoginData.refToken).then((data) => {
-          // DrugStore.updateAuthToken(token);
-          DrugStore.setDidTryAutoLogin();
-          DrugStore.initializeUserCredentials(data.id_token, uid, email);
-          updateAutoLoginData(autoLoginData.expirationTime);
-        });
-
-        auth().onAuthStateChanged((user) => {
-          console.log(user);
-          DrugStore.setPFP(user.photoURL);
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    retrieveUserData();
-  }, []);
-
+const SplashScreen = observer(() => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
