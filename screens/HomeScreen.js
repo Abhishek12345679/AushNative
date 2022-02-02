@@ -4,7 +4,6 @@ import {
   StyleSheet,
   StatusBar,
   Platform,
-  AppState,
   Modal,
   ScrollView,
   TouchableWithoutFeedback,

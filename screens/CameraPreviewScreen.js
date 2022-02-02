@@ -23,6 +23,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ImageManipulator } from "expo-image-crop";
 import * as ExpoImageManipulator from "expo-image-manipulator";
 import CPButton from "../components/CPButton";
+import { extractWords } from "../mlkit/TextRecognition";
 
 const CameraPreviewScreen = (props) => {
   let [wordList, setWordList] = useState([]);
@@ -83,6 +84,7 @@ const CameraPreviewScreen = (props) => {
               iOS={iOS ? true : false}
               onpress={async () => {
                 setScanning(true);
+                if (image) extractWords(image);
               }}
               color="#FFF"
               text="Confirm"
