@@ -13,7 +13,7 @@ import {
   TextInput,
 } from "react-native";
 
-// import DrugStore from "../../store/CartStore";
+import DrugStore from "../../store/CartStore";
 
 import auth from "@react-native-firebase/auth";
 
@@ -25,7 +25,6 @@ const SignUpScreen = observer(({ navigation }) => {
 
   // create account
   const signup = async (name, email, password) => {
-    console.log("USER", { name, email, password });
     try {
       setLoading(true);
 
@@ -55,7 +54,7 @@ const SignUpScreen = observer(({ navigation }) => {
         if (user) {
           const token = await user.getIdToken();
           console.log("token: ", token);
-          DrugStore.initializeUserCredentials(token, loginRes.user.uid, email);
+          DrugStore.initializeUserCredentials(token, user.uid, user.email);
         }
       });
 
@@ -98,7 +97,7 @@ const SignUpScreen = observer(({ navigation }) => {
         if (user) {
           const token = await user.getIdToken();
           console.log("token: ", token);
-          DrugStore.initializeUserCredentials(token, loginRes.user.uid, email);
+          DrugStore.initializeUserCredentials(token, user.uid, user.email);
         }
       });
     } catch (error) {
