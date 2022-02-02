@@ -4,8 +4,7 @@ import { View, Image, StyleSheet, StatusBar } from "react-native";
 import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Firebase from "firebase";
-
+import auth from "@react-native-firebase/auth";
 import { requestNewAuthToken } from "../helpers/requestNewAuthToken";
 
 const SplashScreen = observer(({ navigation }) => {
@@ -51,7 +50,7 @@ const SplashScreen = observer(({ navigation }) => {
           updateAutoLoginData(autoLoginData.expirationTime);
         });
 
-        Firebase.auth().onAuthStateChanged((user) => {
+        auth().onAuthStateChanged((user) => {
           console.log(user);
           DrugStore.setPFP(user.photoURL);
         });
