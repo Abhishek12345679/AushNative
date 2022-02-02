@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { observer } from "mobx-react";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -28,7 +28,6 @@ import { showMessage } from "react-native-flash-message";
 const SignUpScreen = observer(({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [signIn, setSignIn] = useState(true);
-  const signInRef = useRef();
 
   const UTCtoMS = (utc) => {
     const timeInMS = utc.getTime() - new Date().getTime();
