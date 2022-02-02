@@ -14,17 +14,14 @@ import DocumentPicker from "react-native-document-picker";
 import DrugStore from "../../store/CartStore";
 
 import { Platform } from "react-native";
-// import { isRegExp } from "lodash";
 
 const UploadPrescriptionScreen = (props) => {
   const [uploading, setUploading] = useState(false);
   const [prescription, setPrescription] = useState("");
   const addressIndex = props.route.params.address;
 
-  //https://res.cloudinary.com/abhisheksah69420/raw/upload/v1606036086/Prescriptions/7WCAfGl2BiOB49OgOFxLycKFAsx2/rykh8utjw5j7wc3f4qiq
   const urlRegex = new RegExp(/^(https):\/\/[^\s$.?#].[^\s]*$/);
   const isValidUrl = urlRegex.test(prescription);
-  console.log(isValidUrl);
 
   const getPrescriptionDoc = async () => {
     // Pick a single file

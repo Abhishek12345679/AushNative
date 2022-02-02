@@ -36,7 +36,6 @@ import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 import { Ionicons } from "react-native-vector-icons";
-import WordListPopover from "../components/WordListPopover";
 
 const HomeScreen = observer((props) => {
   const { showActionSheetWithOptions } = props;
@@ -151,17 +150,17 @@ const HomeScreen = observer((props) => {
     };
   }, []);
 
-  useEffect(() => {
-    DrugStore.fetchOrders();
-    DrugStore.fetchAddresses();
-    DrugStore.getHealthConditions();
-  }, []);
+  // useEffect(() => {
+  //   DrugStore.fetchOrders();
+  //   DrugStore.fetchAddresses();
+  //   DrugStore.getHealthConditions();
+  // }, []);
 
   useEffect(() => {
     auth().onAuthStateChanged((user) => {
       if (user) {
         console.log("user: ", user);
-        DrugStore.setName(user.displayName);
+        // DrugStore.setName(user.displayName);
       }
     });
   }, []);
