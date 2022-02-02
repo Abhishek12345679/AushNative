@@ -352,10 +352,3 @@ const styles = StyleSheet.create({
 });
 
 export default OrderPreviewScreen;
-
-// curl -X PATCH -d '{
-//   "-MLx3JwO8xs6pvPOct6X":{
-//       "a":"abc"
-//   }
-// }' \
-//   'https://chemy-llc.firebaseio.com/orders/7WCAfGl2BiOB49OgOFxLycKFAsx2.json'

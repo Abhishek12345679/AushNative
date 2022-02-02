@@ -13,7 +13,7 @@ import SplashScreen from "../screens/SplashScreen";
 import SignUpScreen from "../screens/Authentication/SignUpScreen";
 
 const AppContainer = observer((props) => {
-  if (!Firebase.apps.length) {
+  if (!Firebase.apps.length) { 
     Firebase.initializeApp(firebaseConfig);
   }
   return (

@@ -1,9 +1,3 @@
-// TODO: upgrade to 0.63
-
-/**
- * Network status changes to disconnected on switching off system wifi on ios emulator but does not work vice versa
- */
-
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
@@ -19,7 +13,7 @@ import {
   PermissionsAndroid,
 } from "react-native";
 
-import firebase from "firebase/app";
+// import firebase from "firebase/app";
 import * as Permissions from "expo-permissions";
 
 import { showMessage } from "react-native-flash-message";
@@ -164,14 +158,14 @@ const HomeScreen = observer((props) => {
     DrugStore.getHealthConditions();
   }, []);
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log("user: ", user);
-        DrugStore.setName(user.displayName);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       console.log("user: ", user);
+  //       DrugStore.setName(user.displayName);
+  //     }
+  //   });
+  // }, []);
 
   useEffect(() => {
     const retrieve_creds = async () => {

@@ -38,6 +38,13 @@
             {
               "client_id": "377325217652-nabdekf6ihq86jst5n4gr79tsm0bqi24.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "377325217652-m1184ohh9jtomdq6ns0q1kbasopgfmus.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aush.aush"
+              }
             }
           ]
         }
