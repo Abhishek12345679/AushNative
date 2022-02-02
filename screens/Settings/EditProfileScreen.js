@@ -7,12 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
-  Button,
 } from "react-native";
 import DrugStore from "../../store/CartStore";
 import * as ImagePicker from "expo-image-picker";
-
-import * as Firebase from "firebase";
 
 import storage from "@react-native-firebase/storage";
 import DP from "../../components/DP";
@@ -39,9 +36,8 @@ const EditProfileScreen = observer((props) => {
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
-        const {
-          status,
-        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        const { status } =
+          await ImagePicker.requestCameraRollPermissionsAsync();
         if (status !== "granted") {
           alert("Sorry, we need camera roll permissions to make this work!");
         }
@@ -74,17 +70,17 @@ const EditProfileScreen = observer((props) => {
     const snapshot = ref.putFile(uri);
 
     snapshot.on(
-      Firebase.storage.TaskEvent.STATE_CHANGED,
+      storage().TaskEvent.STATE_CHANGED,
       (s) => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         var progress = (s.bytesTransferred / s.totalBytes) * 100;
         console.log("Upload is " + progress + "% done");
         switch (s.state) {
-          case Firebase.storage.TaskState.PAUSED: // or 'paused'
+          case storage().TaskState.PAUSED: // or 'paused'
             console.log("Upload is paused");
             break;
-          case Firebase.storage.TaskState.RUNNING: // or 'running'
+          case storage().TaskState.RUNNING: // or 'running'
             console.log("Upload is running");
             break;
         }

@@ -1,6 +1,6 @@
-import * as firebase from "firebase";
+// import firebase from "@react-native-firebase/app";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyBI3PnHGbtsukz2gQ9c2TbBEpQ-UBTFjtU",
   authDomain: "chemy-llc.firebaseapp.com",
   databaseURL: "https://chemy-llc.firebaseio.com",
@@ -10,5 +10,5 @@ const firebaseConfig = {
   appId: "1:377325217652:web:67af1a48c3867f625f6e21",
 };
 
-const Firebase = firebase.initializeApp(firebaseConfig);
-export default Firebase;
+// const Firebase = firebase.initializeApp(firebaseConfig);
+// export default Firebase;

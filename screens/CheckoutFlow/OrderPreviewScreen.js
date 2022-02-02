@@ -25,6 +25,7 @@ const OrderPreviewScreen = (props) => {
   const address = DrugStore.addresses[props.route.params.address];
   const fileUrl = props.route.params.fileUrl;
   const prescriptionUploaded = props.route.params.prescriptionUploaded;
+
   // const paymentMode = props.route.params.paymentMode;
 
   // console.log(props.route.params.noPrescriptionRequired);

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DrugStore from "../store/CartStore";
 
 import { observer } from "mobx-react";
-
-import * as Firebase from "firebase";
+import auth from "@react-native-firebase/auth";
 import ListItem from "../components/ListItem";
 
 import { connectActionSheet } from "@expo/react-native-action-sheet";
@@ -42,7 +41,7 @@ const SettingsScreen = observer((props) => {
         if (buttonIndex === 0) {
           const logout = async () => {
             try {
-              await Firebase.auth().signOut();
+              await auth().signOut();
               console.log(
                 `${DrugStore.userCredentials.uid} logged out successfully`
               );

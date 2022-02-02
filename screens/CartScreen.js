@@ -6,16 +6,10 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Alert,
   ActivityIndicator,
   StatusBar,
   Platform,
-  Linking,
 } from "react-native";
-
-import { showMessage } from "react-native-flash-message";
-
-import QuantitySelector from "../components/QuantitySelector";
 
 import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
@@ -27,8 +21,6 @@ const CartScreen = observer((props) => {
   let total_checkout_amt = 0;
 
   const [checkingOut, setCheckingOut] = useState(false);
-
-  // console.log(drugs[1].quantity);
 
   for (let i = 0; i < drugs.length; i++) {
     total_checkout_amt = total_checkout_amt + drugs[i].total_amt;

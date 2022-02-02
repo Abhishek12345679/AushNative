@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
-  Image,
   StyleSheet,
   StatusBar,
   Dimensions,
@@ -10,7 +9,6 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from "react-native";
 
 import FastImage from "react-native-fast-image";
@@ -25,12 +23,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { ImageManipulator } from "expo-image-crop";
 import * as ExpoImageManipulator from "expo-image-manipulator";
 import CPButton from "../components/CPButton";
-// import { TouchableNativeFeedback } from "react-native";
-
-import { StackActions, NavigationActions } from "react-navigation";
-import { ImageBackground } from "react-native";
-import WordListPopover from "../components/WordListPopover";
-import { withMenuContext } from "react-native-popup-menu";
 
 const CameraPreviewScreen = (props) => {
   let [wordList, setWordList] = useState([]);
@@ -190,10 +182,6 @@ const CameraPreviewScreen = (props) => {
             onPress={() => {
               console.log("press");
               setModalVisible(true);
-              // props.navigation.navigate("Results", {
-              //   data: word.text.toLowerCase(),
-              //   mode: "scan",
-              // });
               setWords(word.text.trim().split(" "));
             }}
             style={{
@@ -211,9 +199,7 @@ const CameraPreviewScreen = (props) => {
               padding: 5,
               borderRadius: 5,
             }}
-          >
-            {/* <Text style={{ color: "black", fontSize: 20 }}>{word.text}</Text> */}
-          </TouchableOpacity>
+          ></TouchableOpacity>
         ))}
         <View
           style={{
@@ -285,23 +271,7 @@ const CameraPreviewScreen = (props) => {
         </View>
       </View>
       {/* android  specific config broke so back to ios-first*/}
-      <Modal
-        backdropColor="#ccc"
-        // animationType="fade"
-        isVisible={isLoading}
-        // onSwipeComplete={() => setIsLoading(false)}
-        // swipeDirection={["down"]}
-        style={
-          {
-            // justifyContent: "flex-end",
-            // margin: 10,
-            // justifyContent: "center",
-            // alignItems: "center",
-            // backgroundColor: "#000",
-            // borderRadius: 15,
-          }
-        }
-      >
+      <Modal backdropColor="#ccc" isVisible={isLoading}>
         <View
           style={{
             height: "50%",
@@ -368,12 +338,6 @@ const CameraPreviewScreen = (props) => {
                 <Text>{word}</Text>
               </TouchableOpacity>
             ))}
-            {/* <Button
-            title="close"
-            onPress={() => {
-              setModalVisible(false);
-            }}
-          />  */}
           </ScrollView>
         </ModalContent>
       </BottomModal>

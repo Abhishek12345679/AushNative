@@ -1,5 +1,3 @@
-//TODO: switch with firebase-storage
-
 import React, { useState } from "react";
 import {
   View,
@@ -10,12 +8,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-import * as Firebase from "firebase";
-
 import storage from "@react-native-firebase/storage";
 
 import DocumentPicker from "react-native-document-picker";
-import RNFS from "react-native-fs";
 import DrugStore from "../../store/CartStore";
 
 import { Platform } from "react-native";
@@ -70,17 +65,17 @@ const UploadPrescriptionScreen = (props) => {
     const snapshot = ref.putFile(uri);
 
     snapshot.on(
-      Firebase.storage.TaskEvent.STATE_CHANGED,
+      storage().TaskEvent.STATE_CHANGED,
       (s) => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         var progress = (s.bytesTransferred / s.totalBytes) * 100;
         console.log("Upload is " + progress + "% done");
         switch (s.state) {
-          case Firebase.storage.TaskState.PAUSED: // or 'paused'
+          case storage().TaskState.PAUSED: // or 'paused'
             console.log("Upload is paused");
             break;
-          case Firebase.storage.TaskState.RUNNING: // or 'running'
+          case storage().TaskState.RUNNING: // or 'running'
             console.log("Upload is running");
             break;
         }

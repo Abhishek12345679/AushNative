@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import DrugStore from "../../store/CartStore";
 
 import { Ionicons } from "@expo/vector-icons";
