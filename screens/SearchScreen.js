@@ -2,15 +2,13 @@ import { HeaderBackButton } from "@react-navigation/stack";
 import React from "react";
 import { useState } from "react";
 import { TextInput } from "react-native";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import { View, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import { colors } from "../constants/colors";
 
 import { gql, useLazyQuery } from "@apollo/client";
-import { Button } from "react-native";
 
 import ListItem from "../components/ListItem";
 import { Platform } from "react-native";
-import { ActivityIndicator } from "react-native";
 
 const SearchScreen = ({ navigation }) => {
   const GET_MEDICINE = gql`
@@ -119,7 +117,7 @@ const SearchScreen = ({ navigation }) => {
           ))
         ) : (
           <View style={styles.centered}>
-            {/* <ActivityIndicator color="#fff" size={24} /> */}
+            <ActivityIndicator color="#fff" size={24} />
           </View>
         )}
       </SafeAreaView>

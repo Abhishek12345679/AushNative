@@ -5,8 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
-  StatusBar,
-  Vibration,
   Platform,
   Dimensions,
 } from "react-native";

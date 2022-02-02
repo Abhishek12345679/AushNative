@@ -1,8 +1,8 @@
-/* TODO: quantity for each product (as in 10 vial bottle , 20 tablets, 50ml syrup bottle) need to be
-         added somehow to the existing database (rerunning the process or finding a way to add the details more flexibly)
-*/
+/**
+ * TODO: quantity for each product (as in 10 vial bottle , 20 tablets, 50ml syrup bottle) need to be added somehow to the existing database (rerunning the process or finding a way to add the details more flexibly)
+ */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,58 +12,20 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  FlatList,
 } from "react-native";
 
 import IconBadge from "react-native-icon-badge";
 
 import { showMessage } from "react-native-flash-message";
 
-import { gql, useQuery } from "@apollo/client";
-
 import Tooltip from "react-native-walkthrough-tooltip";
 
-import * as Permissions from "expo-permissions";
-
-import Card from "../components/Card";
 import QuantitySelector from "../components/QuantitySelector";
 import { observer } from "mobx-react";
 import { Ionicons } from "@expo/vector-icons";
 import DrugStore from "../store/CartStore";
 import { TextInput } from "react-native";
 import { Button } from "native-base";
-
-// const GET_ALTERNATE_DRUG = gql`
-//   query getAlternateDrug($salt: String!) {
-//     findDrugForSameSalt(salt: $salt) {
-//       drugs {
-//         id
-//         name
-//         salt
-//         price
-//         habit_forming
-//         requires_prescription
-//         manufacturer_name
-//         # description {
-//         #   introduction
-//         #   uses
-//         #   side_effects
-//         #   how_to_cope_with_side_effects {
-//         #     question
-//         #     answer
-//         #   }
-//         #   how_to_use
-//         #   how_does_it_work
-//         #   safety_advice {
-//         #     question
-//         #     answer
-//         #   }
-//         # }
-//       }
-//       items
-//     }
-//   }
-// `;
 
 const DrugDetailScreen = observer((props) => {
   let [quantity, setQuantity] = useState("1");
@@ -114,10 +76,6 @@ const DrugDetailScreen = observer((props) => {
   const [toolTipVisible, setToolTipVisible] = useState(false);
   const [pushToken, setPushToken] = useState();
 
-  // const { data, loading, error } = useQuery(GET_ALTERNATE_DRUG, {
-  //   variables: { salt: item.salt },
-  // });
-
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
@@ -162,32 +120,6 @@ const DrugDetailScreen = observer((props) => {
         parseInt(quantity) * parseFloat(parseFloat(item.price).toFixed(2)),
     });
   }, [item, quantity]);
-
-  // if (loading) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //         height: "75%",
-  //         width: "100%",
-  //         backgroundColor: "#fff",
-  //       }}
-  //     >
-  //       <Text> Looking for similar medicines with </Text>
-  //       <Text>same salt composition</Text>
-
-  //       <ActivityIndicator size="large" color="#000" />
-  //     </View>
-  //   );
-  // }
-
-  // if (error) {
-  //   console.error(error);
-  // // }
-
-  // if (data) console.log(data);
 
   const fetchPlaceFromPincode = async () => {
     const response = await fetch(
@@ -294,9 +226,6 @@ const DrugDetailScreen = observer((props) => {
               ) : (
                 <ActivityIndicator size="large" color="#FFF" />
               )}
-              {/* <Text style={{ fontSize: 50, color: "#fff", fontWeight: "100" }}>
-              |
-            </Text> */}
             </TouchableOpacity>
             <QuantitySelector
               onIncrease={onIncrease}
@@ -573,15 +502,4 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-// export const screenOptions = (navData) => {
-//   const title = navData.route.params.item.name;
-//   // console.log(title);
-//   return {
-//     headerTitle: title,
-//     headerLargeTitle: true,
-//     headerShown: true,
-//   };
-// };
-
 export default DrugDetailScreen;

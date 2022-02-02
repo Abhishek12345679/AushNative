@@ -12,7 +12,6 @@ const OrderDetailScreen = observer((props) => {
   const toISTString = (unixtime) => {
     const dateObject = new Date(unixtime);
     const humanDateFormat = dateObject.toString();
-    // return humanDateFormat.substring(0, humanDateFormat.indexOf("G"));
     return humanDateFormat.substring(0, humanDateFormat.indexOf(":") - 3);
   };
 
@@ -63,9 +62,6 @@ const OrderDetailScreen = observer((props) => {
                   marginTop: 10,
                 }}
               >
-                {/* <Text style={{ marginHorizontal: 10, fontSize: 20 }}>
-                      {drug.quantity}
-                    </Text> */}
                 <Text style={{ color: "green" }}>₹ {item.price}</Text>
                 <Text> x {item.quantity} = </Text>
                 <Text style={{ color: "green", fontWeight: "bold" }}>
@@ -102,8 +98,6 @@ export const screenOptions = (navData) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
-    // flex: 1,
-    // marginBottom: 40,
   },
   item: {
     marginHorizontal: 25,

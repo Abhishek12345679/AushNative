@@ -67,7 +67,6 @@ const AddAddressModalScreen = observer((props) => {
               type: "success",
               duration: 5000,
             });
-            // props.navigation.navigate("Settings");
             DrugStore.fetchAddresses();
             props.navigation.pop();
           }}
@@ -98,22 +97,6 @@ const AddAddressModalScreen = observer((props) => {
                   <ActivityIndicator size="small" color="#fff" />
                 )}
               </View>
-              {/* <TextInput
-                value={values.type}
-                onChangeText={handleChange("type")}
-                // onBlur={handleBlur("type")}
-                // label="Type"
-                // mode="flat"
-                style={{
-                  height: 60,
-                  marginTop: 20,
-                  borderBottomWidth: 1,
-                  borderColor: "#ccc",
-                  // paddingHorizontal: 20,
-                }}
-                placeholder={"Home"}
-                placeholderTextColor="#a7a8a9"
-              /> */}
               <RadioButtonRN
                 initial={1}
                 data={data}
@@ -125,10 +108,7 @@ const AddAddressModalScreen = observer((props) => {
               />
               <TextInput
                 onChangeText={handleChange("name")}
-                // onBlur={handleBlur("name")}
                 value={values.name}
-                // label="Name"
-                // mode="flat"
                 style={{
                   height: 60,
                   marginTop: 20,
@@ -142,7 +122,6 @@ const AddAddressModalScreen = observer((props) => {
               <TextInput
                 keyboardType="phone-pad"
                 onChangeText={handleChange("ph_no")}
-                // onBlur={handleBlur("ph_no")}
                 value={values.ph_no}
                 style={{
                   height: 60,
@@ -172,10 +151,7 @@ const AddAddressModalScreen = observer((props) => {
               />
               <TextInput
                 onChangeText={handleChange("add_line_1")}
-                // onBlur={handleBlur("add_line_1")}
                 value={values.add_line_1}
-                // label="Address Line 1"
-                // mode="flat"
                 style={{
                   height: 60,
                   marginTop: 20,
@@ -187,10 +163,7 @@ const AddAddressModalScreen = observer((props) => {
               />
               <TextInput
                 onChangeText={handleChange("add_line_2")}
-                // onBlur={handleBlur("add_line_2")}
                 value={values.add_line_2}
-                // label="Address Line 2"
-                // mode="flat"
                 style={{
                   height: 60,
                   marginTop: 20,

@@ -5,10 +5,8 @@ import {
   FlatList,
   StatusBar,
   StyleSheet,
-  ActivityIndicator,
   Button,
   TouchableOpacity,
-  TextInput,
   Image,
   ScrollView,
   Linking,
@@ -16,12 +14,8 @@ import {
 
 import ListItem from "../components/ListItem";
 
-import RoundButton from "../components/RoundButton";
-
 import { gql, useQuery } from "@apollo/client";
 
-import { Ionicons, AntDesign } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import IconBadge from "react-native-icon-badge";
 import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
@@ -119,20 +113,6 @@ const ResultList = observer((props) => {
 
   useEffect(() => {
     props.navigation.setOptions({
-      //   headerRight: () => (
-      //     <View style={{ flexDirection: "row" }}>
-      //       <RoundButton
-      //         onPress={() => props.navigation.navigate("Home")}
-      //         style={{
-      //           width: 30,
-      //           height: 30,
-      //           borderRadius: 15,
-      //         }}
-      //       >
-      //         <AntDesign name="back" size={15} color="#fff" />
-      //       </RoundButton>
-      //     </View>
-      //   ),
       headerRight: () => (
         <TouchableOpacity
           onPress={() => {
