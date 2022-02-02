@@ -1,5 +1,3 @@
-//TODO: switch with firebase-storage
-
 import React, { useState } from "react";
 import {
   View,
@@ -13,7 +11,6 @@ import {
 import storage from "@react-native-firebase/storage";
 
 import DocumentPicker from "react-native-document-picker";
-import RNFS from "react-native-fs";
 import DrugStore from "../../store/CartStore";
 
 import { Platform } from "react-native";
