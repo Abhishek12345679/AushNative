@@ -356,62 +356,62 @@ const DrugStore = types
   // }))
   // initial State
   .create({
-    // drugs: [
-    //   {
-    //     id: "4123534523464575675",
-    //     name: "hbwycwc 450",
-    //     salt: "Cylonndojfhjwncv ",
-    //     price: 100,
-    //     quantity: 2,
-    //     prescription_req: false,
-    //     total_amt: 200,
-    //   },
-    //   {
-    //     id: "32456346345653463456",
-    //     name: "hbwycwc 450",
-    //     salt: "Cylonndojfhjwncv ",
-    //     price: 100,
-    //     quantity: 2,
-    //     prescription_req: true,
-    //     total_amt: 200,
-    //   },
-    // ],
-    // count: 0,
-    // orders: [],
-    // profile: {
-    //   display_picture: " ",
-    //   name: "",
-    //   dob: new Date(996656400000), // dummy age -> 19
-    // },
-    // addresses: [
-    //   {
-    //     type: "Home",
-    //     name: "Abhishek Sah",
-    //     add_line_1: "Jogijhora Barabak",
-    //     add_line_2: "Ethelbari",
-    //     pincode: "735204",
-    //     ph_no: "+917908174073",
-    //   },
-    // ],
-    // HealthConditions: {
-    //   allergies: false,
-    //   diabetes: false,
-    //   lungdiseases: false,
-    //   skindiseases: false,
-    // },
-    // location: {
-    //   locationShortName: "select current location",
-    //   latitude: 0,
-    //   longitude: 0,
-    // },
-    // isAuthenticated: false,
-    // didTryAutoLogin: false,
-    // userCredentials: {
-    //   uid: "",
-    //   token: "",
-    //   email: "",
-    // },
-    // timer: 0,
+    drugs: [
+      {
+        id: "4123534523464575675",
+        name: "hbwycwc 450",
+        salt: "Cylonndojfhjwncv ",
+        price: 100,
+        quantity: 2,
+        prescription_req: false,
+        total_amt: 200,
+      },
+      {
+        id: "32456346345653463456",
+        name: "hbwycwc 450",
+        salt: "Cylonndojfhjwncv ",
+        price: 100,
+        quantity: 2,
+        prescription_req: true,
+        total_amt: 200,
+      },
+    ],
+    count: 0,
+    orders: [],
+    profile: {
+      display_picture: " ",
+      name: "",
+      dob: new Date(996656400000), // dummy age -> 19
+    },
+    addresses: [
+      {
+        type: "Home",
+        name: "Abhishek Sah",
+        add_line_1: "Jogijhora Barabak",
+        add_line_2: "Ethelbari",
+        pincode: "735204",
+        ph_no: "+917908174073",
+      },
+    ],
+    HealthConditions: {
+      allergies: false,
+      diabetes: false,
+      lungdiseases: false,
+      skindiseases: false,
+    },
+    location: {
+      locationShortName: "select current location",
+      latitude: 0,
+      longitude: 0,
+    },
+    isAuthenticated: false,
+    didTryAutoLogin: false,
+    userCredentials: {
+      uid: "",
+      token: "",
+      email: "",
+    },
+    timer: 0,
   });
 
 export default DrugStore;
