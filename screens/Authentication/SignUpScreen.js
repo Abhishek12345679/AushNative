@@ -17,55 +17,47 @@ import {
 
 import auth from "@react-native-firebase/auth";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 
 const SignUpScreen = observer(({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [signIn, setSignIn] = useState(true);
 
-  // for storing the user data on login on device
-  // const saveUserOnDevice = async (token, uid, email) => {
-  //   try {
-  //     const jsonValue = JSON.stringify({
-  //       token: token,
-  //       uid: uid,
-  //       email: email,
-  //     });
-  //     await AsyncStorage.setItem("login_data", jsonValue);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-  // const saveUser = async (user) => {
-  //   try {
-  //     const jsonValue = JSON.stringify(user);
-  //     await AsyncStorage.setItem("user_data", jsonValue);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   // create account
   const signup = async (name, email, password) => {
     console.log("USER", { name, email, password });
     try {
       setLoading(true);
-      if (!password.length >= 6) {
+
+      if (password.length < 6) {
         Alert.alert("Password invalid");
         return;
       }
 
-      const user = await auth().createUserWithEmailAndPassword(email, password);
+      auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          console.log("User account created & signed in!");
+        })
+        .catch((error) => {
+          if (error.code === "auth/email-already-in-use") {
+            console.log("That email address is already in use!");
+          }
 
-      if (user) {
-        console.log("user exists");
-        user.user.updateProfile({
-          displayName: name,
-          email: email,
+          if (error.code === "auth/invalid-email") {
+            console.log("That email address is invalid!");
+          }
+
+          console.error(error);
         });
-      }
+
+      auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          const token = await user.getIdToken();
+          console.log("token: ", token);
+          DrugStore.initializeUserCredentials(token, loginRes.user.uid, email);
+        }
+      });
 
       showMessage({
         message: "Account created successfully",
@@ -86,7 +78,7 @@ const SignUpScreen = observer(({ navigation }) => {
       setLoading(true);
 
       auth()
-        .createUserWithEmailAndPassword(email, password)
+        .signInWithEmailAndPassword(email, password)
         .then(() => {
           console.log("User account created & signed in!");
         })
@@ -102,7 +94,7 @@ const SignUpScreen = observer(({ navigation }) => {
           console.error(error);
         });
 
-      firebase.auth().onAuthStateChanged(async (user) => {
+      auth().onAuthStateChanged(async (user) => {
         if (user) {
           const token = await user.getIdToken();
           console.log("token: ", token);

@@ -9,9 +9,7 @@ import { ModalPortal } from "react-native-modals";
 import { NavigationContainer } from "@react-navigation/native";
 import { TabNavigator } from "./AppNavigator";
 import { AuthNavigator } from "./AppNavigator";
-// import DrugStore from "../store/CartStore";
 import SplashScreen from "../screens/SplashScreen";
-import DrugStore from "../store/CartStore";
 
 const AppContainer = observer(() => {
   // Set an initializing state whilst Firebase connects
@@ -27,33 +25,19 @@ const AppContainer = observer(() => {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(async (user) => {
+      console.log(user);
       setUser(user);
-      const token = await user.getIdToken();
-      DrugStore.initializeUserCredentials(token, user.uid, user.email);
-
       if (initializing) setInitializing(false);
     });
 
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  if (initializing) {
-    return <SplashScreen />;
-  }
-
-  if (!user) {
-    return <AuthNavigator />;
-  }
-
   return (
     <NavigationContainer>
-      {/* {!!DrugStore.userCredentials.token.length > 0 && <TabNavigator />}
-        {!!!DrugStore.userCredentials.token.length > 0 &&
-          !!DrugStore.didTryAutoLogin && <AuthNavigator />}
-        {(!!!DrugStore.userCredentials.token.length > 0 ||
-          !!!DrugStore.userCredentials.token) &&
-          !!!DrugStore.didTryAutoLogin && <SplashScreen />} */}
-      <TabNavigator />
+      {initializing && <SplashScreen />}
+      {user && <TabNavigator />}
+      {!user && <AuthNavigator />}
       <ModalPortal />
     </NavigationContainer>
   );

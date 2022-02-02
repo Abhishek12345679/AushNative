@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DrugStore from "../store/CartStore";
@@ -160,12 +160,6 @@ const SettingsScreen = observer((props) => {
         titleStyle={{ fontWeight: "400", fontSize: 18, color: "red" }}
         noArrow
       />
-      {/* <Image
-        source={{
-          uri: DrugStore.profile.display_picture,
-        }}
-        style={{ height: 100, width: 100 }}
-      /> */}
     </ScrollView>
   );
 });
