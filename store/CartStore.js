@@ -109,47 +109,47 @@ const DrugStore = types
     },
   }))
   //settings action
-  .actions((self) => ({
-    setName(name) {
-      self.profile.name = name;
-    },
-    setPFP(imageUrl) {
-      self.profile.display_picture = imageUrl;
-    },
-    setExtra(age) {
-      fetch(
-        `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ age }),
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
-    },
-    getExtra: flow(function* getExtra() {
-      try {
-        const response = yield fetch(
-          `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
-        );
+  // .actions((self) => ({
+  //   setName(name) {
+  //     self.profile.name = name;
+  //   },
+  //   setPFP(imageUrl) {
+  //     self.profile.display_picture = imageUrl;
+  //   },
+  //   setExtra(age) {
+  //     fetch(
+  //       `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ age }),
+  //       }
+  //     )
+  //       .then((res) => res.json())
+  //       .then((data) => console.log(data))
+  //       .catch((err) => console.log(err));
+  //   },
+  //   getExtra: flow(function* getExtra() {
+  //     try {
+  //       const response = yield fetch(
+  //         `https://chemy-llc.firebaseio.com/extra/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
+  //       );
 
-        const resData = yield response.json();
-        console.log(resData);
-        DrugStore.setPFP(resData.image);
-        if (resData) {
-          self.profile.display_picture = resData.image;
-          self.profile.dob = resData.age * 365 * 24 * 3600;
-          return resData;
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }),
-  }))
+  //       const resData = yield response.json();
+  //       console.log(resData);
+  //       DrugStore.setPFP(resData.image);
+  //       if (resData) {
+  //         self.profile.display_picture = resData.image;
+  //         self.profile.dob = resData.age * 365 * 24 * 3600;
+  //         return resData;
+  //       }
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }),
+  // }))
   // Authentication
   .actions((self) => ({
     setAuthState(status) {
@@ -225,193 +225,193 @@ const DrugStore = types
     },
   }))
   // Order Actions
-  .actions((self) => ({
-    // addOrder(order) {
-    //   self.order = order;
-    // },
-    // updateStatus(status) {
-    //   self.order.status = status;
-    // },
-    addOrder(order) {
-      // console.log(self.userCredentials);
-      const response = fetch(
-        `https://chemy-llc.firebaseio.com/orders/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(order),
-        }
-      )
-        .then((res) => res)
-        // .then((data) => {
-        //   if (data) data.name;
-        // })
-        .catch((err) => console.log(err));
+  // .actions((self) => ({
+  //   // addOrder(order) {
+  //   //   self.order = order;
+  //   // },
+  //   // updateStatus(status) {
+  //   //   self.order.status = status;
+  //   // },
+  //   addOrder(order) {
+  //     // console.log(self.userCredentials);
+  //     const response = fetch(
+  //       `https://chemy-llc.firebaseio.com/orders/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(order),
+  //       }
+  //     )
+  //       .then((res) => res)
+  //       // .then((data) => {
+  //       //   if (data) data.name;
+  //       // })
+  //       .catch((err) => console.log(err));
 
-      // console.log(response);
-      return response;
-    },
-    fetchOrders: flow(function* fetchOrders() {
-      try {
-        const response = yield fetch(
-          `https://chemy-llc.firebaseio.com/orders/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
-        );
+  //     // console.log(response);
+  //     return response;
+  //   },
+  //   fetchOrders: flow(function* fetchOrders() {
+  //     try {
+  //       const response = yield fetch(
+  //         `https://chemy-llc.firebaseio.com/orders/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
+  //       );
 
-        const resData = yield response.json();
+  //       const resData = yield response.json();
 
-        let loadedData = [];
+  //       let loadedData = [];
 
-        for (const key in resData) {
-          // console.log("Key", key);
-          // console.log(orders[key].items);
-          loadedData.push(resData[key]);
-        }
+  //       for (const key in resData) {
+  //         // console.log("Key", key);
+  //         // console.log(orders[key].items);
+  //         loadedData.push(resData[key]);
+  //       }
 
-        // console.log(loadedData);
-        self.orders = loadedData;
+  //       // console.log(loadedData);
+  //       self.orders = loadedData;
 
-        console.log(loadedData);
-      } catch (e) {
-        console.log(e);
-        // if (e === "Auth token is expired") {
-        //   console.log("LOGOUT");
-        // }
-        // console.log(e);
-      }
-    }),
-  }))
+  //       console.log(loadedData);
+  //     } catch (e) {
+  //       console.log(e);
+  //       // if (e === "Auth token is expired") {
+  //       //   console.log("LOGOUT");
+  //       // }
+  //       // console.log(e);
+  //     }
+  //   }),
+  // }))
   // Address Actions
-  .actions((self) => ({
-    addNewAddress(address) {
-      // self.addresses.push(address);
-      const response = fetch(
-        `https://chemy-llc.firebaseio.com/addresses/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(address),
-        }
-      )
-        .then((res) => res.json())
-        .catch((err) => console.log(err));
-    },
-    fetchAddresses: flow(function* fetchAddresses() {
-      const response = yield fetch(
-        `https://chemy-llc.firebaseio.com/addresses/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
-      );
-      const resData = yield response.json();
+  // .actions((self) => ({
+  //   addNewAddress(address) {
+  //     // self.addresses.push(address);
+  //     const response = fetch(
+  //       `https://chemy-llc.firebaseio.com/addresses/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(address),
+  //       }
+  //     )
+  //       .then((res) => res.json())
+  //       .catch((err) => console.log(err));
+  //   },
+  //   fetchAddresses: flow(function* fetchAddresses() {
+  //     const response = yield fetch(
+  //       `https://chemy-llc.firebaseio.com/addresses/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
+  //     );
+  //     const resData = yield response.json();
 
-      let adds = [];
-      if (resData)
-        for (const key in resData) {
-          adds.push(resData[key]);
-        }
+  //     let adds = [];
+  //     if (resData)
+  //       for (const key in resData) {
+  //         adds.push(resData[key]);
+  //       }
 
-      console.log(adds);
+  //     console.log(adds);
 
-      self.addresses = adds;
-    }),
-  }))
+  //     self.addresses = adds;
+  //   }),
+  // }))
   // Add Health Conditions
-  .actions((self) => ({
-    setHealthConditions(health) {
-      // self.addresses.push(address);
-      const response = fetch(
-        `https://chemy-llc.firebaseio.com/healthconditions/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(health),
-        }
-      )
-        .then((res) => res.json())
-        .catch((err) => console.log(err));
-    },
-    getHealthConditions: flow(function* fetchAddresses() {
-      const response = yield fetch(
-        `https://chemy-llc.firebaseio.com/healthconditions/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
-      );
-      const resData = yield response.json();
+  // .actions((self) => ({
+  //   setHealthConditions(health) {
+  //     // self.addresses.push(address);
+  //     const response = fetch(
+  //       `https://chemy-llc.firebaseio.com/healthconditions/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(health),
+  //       }
+  //     )
+  //       .then((res) => res.json())
+  //       .catch((err) => console.log(err));
+  //   },
+  //   getHealthConditions: flow(function* fetchAddresses() {
+  //     const response = yield fetch(
+  //       `https://chemy-llc.firebaseio.com/healthconditions/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
+  //     );
+  //     const resData = yield response.json();
 
-      console.log(resData);
+  //     console.log(resData);
 
-      if (resData) {
-        self.HealthConditions.allergies = resData.allergies;
-        self.HealthConditions.diabetes = resData.diabetes;
-        self.HealthConditions.lungdiseases = resData.lungdiseases;
-        self.HealthConditions.skindiseases = resData.skindiseases;
-      } else {
-        self.HealthConditions.allergies = false;
-        self.HealthConditions.diabetes = false;
-        self.HealthConditions.lungdiseases = false;
-        self.HealthConditions.skindiseases = false;
-      }
-    }),
-  }))
+  //     if (resData) {
+  //       self.HealthConditions.allergies = resData.allergies;
+  //       self.HealthConditions.diabetes = resData.diabetes;
+  //       self.HealthConditions.lungdiseases = resData.lungdiseases;
+  //       self.HealthConditions.skindiseases = resData.skindiseases;
+  //     } else {
+  //       self.HealthConditions.allergies = false;
+  //       self.HealthConditions.diabetes = false;
+  //       self.HealthConditions.lungdiseases = false;
+  //       self.HealthConditions.skindiseases = false;
+  //     }
+  //   }),
+  // }))
   // initial State
   .create({
-    drugs: [
-      {
-        id: "4123534523464575675",
-        name: "hbwycwc 450",
-        salt: "Cylonndojfhjwncv ",
-        price: 100,
-        quantity: 2,
-        prescription_req: false,
-        total_amt: 200,
-      },
-      {
-        id: "32456346345653463456",
-        name: "hbwycwc 450",
-        salt: "Cylonndojfhjwncv ",
-        price: 100,
-        quantity: 2,
-        prescription_req: true,
-        total_amt: 200,
-      },
-    ],
-    count: 0,
-    orders: [],
-    profile: {
-      display_picture: " ",
-      name: "",
-      dob: new Date(996656400000), // dummy age -> 19
-    },
-    addresses: [
-      {
-        type: "Home",
-        name: "Abhishek Sah",
-        add_line_1: "Jogijhora Barabak",
-        add_line_2: "Ethelbari",
-        pincode: "735204",
-        ph_no: "+917908174073",
-      },
-    ],
-    HealthConditions: {
-      allergies: false,
-      diabetes: false,
-      lungdiseases: false,
-      skindiseases: false,
-    },
-    location: {
-      locationShortName: "select current location",
-      latitude: 0,
-      longitude: 0,
-    },
-    isAuthenticated: false,
-    didTryAutoLogin: false,
-    userCredentials: {
-      uid: "",
-      token: "",
-      email: "",
-    },
-    timer: 0,
+    // drugs: [
+    //   {
+    //     id: "4123534523464575675",
+    //     name: "hbwycwc 450",
+    //     salt: "Cylonndojfhjwncv ",
+    //     price: 100,
+    //     quantity: 2,
+    //     prescription_req: false,
+    //     total_amt: 200,
+    //   },
+    //   {
+    //     id: "32456346345653463456",
+    //     name: "hbwycwc 450",
+    //     salt: "Cylonndojfhjwncv ",
+    //     price: 100,
+    //     quantity: 2,
+    //     prescription_req: true,
+    //     total_amt: 200,
+    //   },
+    // ],
+    // count: 0,
+    // orders: [],
+    // profile: {
+    //   display_picture: " ",
+    //   name: "",
+    //   dob: new Date(996656400000), // dummy age -> 19
+    // },
+    // addresses: [
+    //   {
+    //     type: "Home",
+    //     name: "Abhishek Sah",
+    //     add_line_1: "Jogijhora Barabak",
+    //     add_line_2: "Ethelbari",
+    //     pincode: "735204",
+    //     ph_no: "+917908174073",
+    //   },
+    // ],
+    // HealthConditions: {
+    //   allergies: false,
+    //   diabetes: false,
+    //   lungdiseases: false,
+    //   skindiseases: false,
+    // },
+    // location: {
+    //   locationShortName: "select current location",
+    //   latitude: 0,
+    //   longitude: 0,
+    // },
+    // isAuthenticated: false,
+    // didTryAutoLogin: false,
+    // userCredentials: {
+    //   uid: "",
+    //   token: "",
+    //   email: "",
+    // },
+    // timer: 0,
   });
 
 export default DrugStore;
