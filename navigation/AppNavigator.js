@@ -25,7 +25,6 @@ import CartScreen from "../screens/CartScreen";
 import AddAddressModalScreen from "../screens/AddAddressModalScreen";
 
 import SignUpScreen from "../screens/Authentication/SignUpScreen";
-import LoginScreen from "../screens/Authentication/LoginScreen";
 
 import { enableScreens } from "react-native-screens";
 import { createNativeStackNavigator } from "react-native-screens/native-stack";
@@ -204,7 +203,6 @@ export const AuthNavigator = () => {
         component={SignUpScreen}
         options={{ headerLargeTitle: false, headerShown: false }}
       />
-      <AuthStackNavigator.Screen name="Login" component={LoginScreen} />
     </AuthStackNavigator.Navigator>
   );
 };
@@ -444,7 +442,6 @@ export const SettingsNavigator = () => {
         component={HealthConditionsScreen}
       />
       <SettingsStackNavigator.Screen name="MyWebView" component={MyWebView} />
-      <SettingsStackNavigator.Screen name="Login" component={LoginScreen} />
     </SettingsStackNavigator.Navigator>
   );
 };

@@ -20,9 +20,6 @@
             "userInterfaceStyle": "automatic",
             "bundleIdentifier": "com.aush.aush"
         },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
         "android": {
             "useNextNotificationsApi": true,
             "userInterfaceStyle": "automatic",
