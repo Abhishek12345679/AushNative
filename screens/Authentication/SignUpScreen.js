@@ -102,11 +102,11 @@ const SignUpScreen = observer(({ navigation }) => {
           console.error(error);
         });
 
-      firebase.auth().onAuthStateChanged((user) => {
+      firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
           const token = await user.getIdToken();
           console.log("token: ", token);
-          // DrugStore.initializeUserCredentials(token, loginRes.user.uid, email);
+          DrugStore.initializeUserCredentials(token, loginRes.user.uid, email);
         }
       });
     } catch (error) {

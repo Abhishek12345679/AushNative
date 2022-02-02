@@ -344,7 +344,7 @@ export const RootNavigator = () => {
         name="Home"
         component={HomeScreen}
         headerTitle="Aushadhalay"
-        options={HomeScreenOptions}
+        // options={HomeScreenOptions}
       />
       <RootStackNavigator.Screen
         name="Search"

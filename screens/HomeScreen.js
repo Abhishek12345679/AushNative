@@ -23,10 +23,10 @@ import { observer } from "mobx-react";
 import IconBadge from "react-native-icon-badge";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {
-  requestNewAuthToken,
-  updateAutoLoginData,
-} from "../helpers/requestNewAuthToken";
+// import {
+//   requestNewAuthToken,
+//   updateAutoLoginData,
+// } from "../helpers/requestNewAuthToken";
 
 import Geolocation from "react-native-geolocation-service";
 import LocationPicker from "../components/LocationPicker";
@@ -73,56 +73,56 @@ const HomeScreen = observer((props) => {
     maximumAge: 60 * 60 * 24,
   };
 
-  const retrieveUserData = async () => {
-    try {
-      const loginJSONValue = await AsyncStorage.getItem("login_data");
-      const autoLoginCreds = await AsyncStorage.getItem("auto_login_data");
+  // const retrieveUserData = async () => {
+  //   try {
+  //     const loginJSONValue = await AsyncStorage.getItem("login_data");
+  //     const autoLoginCreds = await AsyncStorage.getItem("auto_login_data");
 
-      if (!loginJSONValue || !autoLoginCreds) {
-        DrugStore.setDidTryAutoLogin();
-      }
+  //     if (!loginJSONValue || !autoLoginCreds) {
+  //       DrugStore.setDidTryAutoLogin();
+  //     }
 
-      const autoLoginData = JSON.parse(autoLoginCreds);
-      const loginData = JSON.parse(loginJSONValue);
+  //     const autoLoginData = JSON.parse(autoLoginCreds);
+  //     const loginData = JSON.parse(loginJSONValue);
 
-      const { email, uid } = loginData;
+  //     const { email, uid } = loginData;
 
-      const data = { email: email, uid: uid, refToken: autoLoginData.refToken };
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //     const data = { email: email, uid: uid, refToken: autoLoginData.refToken };
+  //     return data;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  const _handleAppStateChange = (nextAppState) => {
-    if (
-      appState.current.match(/inactive|background/) &&
-      nextAppState === "active"
-    ) {
-      console.log("App has come to the foreground!");
-      // start new timer
-      // refetch and assign auth token
+  // const _handleAppStateChange = (nextAppState) => {
+  //   if (
+  //     appState.current.match(/inactive|background/) &&
+  //     nextAppState === "active"
+  //   ) {
+  //     console.log("App has come to the foreground!");
+  //     // start new timer
+  //     // refetch and assign auth token
 
-      retrieveUserData().then((refreshedData) => {
-        console.log("userData", refreshedData);
+  //     retrieveUserData().then((refreshedData) => {
+  //       console.log("userData", refreshedData);
 
-        requestNewAuthToken(refreshedData.refToken).then((data) => {
-          DrugStore.initializeUserCredentials(
-            data.id_token,
-            refreshedData.uid,
-            refreshedData.email
-          );
-          updateAutoLoginData(data.expires_in);
-        });
-      });
-    } else {
-      console.log("Background");
-      // delete the existing timers
-      DrugStore.clearTimer();
-    }
+  //       requestNewAuthToken(refreshedData.refToken).then((data) => {
+  //         DrugStore.initializeUserCredentials(
+  //           data.id_token,
+  //           refreshedData.uid,
+  //           refreshedData.email
+  //         );
+  //         updateAutoLoginData(data.expires_in);
+  //       });
+  //     });
+  //   } else {
+  //     console.log("Background");
+  //     // delete the existing timers
+  //     DrugStore.clearTimer();
+  //   }
 
-    appState.current = nextAppState;
-  };
+  //   appState.current = nextAppState;
+  // };
 
   useEffect(() => {
     async function requestPermissions() {
@@ -143,12 +143,12 @@ const HomeScreen = observer((props) => {
     requestPermissions();
   }, []);
 
-  useEffect(() => {
-    AppState.addEventListener("change", _handleAppStateChange);
-    return () => {
-      AppState.removeEventListener("change", _handleAppStateChange);
-    };
-  }, []);
+  // useEffect(() => {
+  //   AppState.addEventListener("change", _handleAppStateChange);
+  //   return () => {
+  //     AppState.removeEventListener("change", _handleAppStateChange);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   DrugStore.fetchOrders();
@@ -156,84 +156,84 @@ const HomeScreen = observer((props) => {
   //   DrugStore.getHealthConditions();
   // }, []);
 
-  useEffect(() => {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log("user: ", user);
-        // DrugStore.setName(user.displayName);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       console.log("user: ", user);
+  //       // DrugStore.setName(user.displayName);
+  //     }
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    const retrieve_creds = async () => {
-      const auto_login_data = await AsyncStorage.getItem("auto_login_data");
-      if (auto_login_data) {
-        console.log("Auto_login_data = ", auto_login_data);
-      }
-    };
-    retrieve_creds();
-  }, []);
+  // useEffect(() => {
+  //   const retrieve_creds = async () => {
+  //     const auto_login_data = await AsyncStorage.getItem("auto_login_data");
+  //     if (auto_login_data) {
+  //       console.log("Auto_login_data = ", auto_login_data);
+  //     }
+  //   };
+  //   retrieve_creds();
+  // }, []);
 
-  useEffect(() => {
-    props.navigation.setOptions({
-      headerRight: () => (
-        //TODO: add ripple effect
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            style={{
-              marginStart: 10,
-              height: 40,
-              width: 40,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={() => {
-              props.navigation.navigate("Search");
-            }}
-          >
-            <Ionicons name="md-search" size={24} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              marginStart: 5,
-              height: 40,
-              width: 40,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={() => {
-              props.navigation.navigate("Cart");
-            }}
-          >
-            <IconBadge
-              MainElement={<Ionicons name="md-cart" size={24} color="#fff" />}
-              BadgeElement={
-                <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-              }
-              IconBadgeStyle={{
-                width: 10,
-                height: 20,
-                backgroundColor: "purple",
-                marginTop: 5,
-              }}
-              Hidden={DrugStore.count == 0}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-      headerTitle: "Aushadhalay",
-      headerStyle: {
-        backgroundColor: "#14213d",
-        elevation: 0,
-        shadowOpacity: 0,
-        borderBottomWidth: 0,
-      },
-      headerLargeTitle: true,
-      headerTintColor: "#fff",
-      fontSize: 20,
-    });
-  }, []);
+  // useEffect(() => {
+  //   props.navigation.setOptions({
+  //     headerRight: () => (
+  //       //TODO: add ripple effect
+  //       <View style={{ flexDirection: "row" }}>
+  //         <TouchableOpacity
+  //           style={{
+  //             marginStart: 10,
+  //             height: 40,
+  //             width: 40,
+  //             justifyContent: "center",
+  //             alignItems: "center",
+  //           }}
+  //           onPress={() => {
+  //             props.navigation.navigate("Search");
+  //           }}
+  //         >
+  //           <Ionicons name="md-search" size={24} color="#fff" />
+  //         </TouchableOpacity>
+  //         <TouchableOpacity
+  //           style={{
+  //             marginStart: 5,
+  //             height: 40,
+  //             width: 40,
+  //             justifyContent: "center",
+  //             alignItems: "center",
+  //           }}
+  //           onPress={() => {
+  //             props.navigation.navigate("Cart");
+  //           }}
+  //         >
+  //           <IconBadge
+  //             MainElement={<Ionicons name="md-cart" size={24} color="#fff" />}
+  //             BadgeElement={
+  //               <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
+  //             }
+  //             IconBadgeStyle={{
+  //               width: 10,
+  //               height: 20,
+  //               backgroundColor: "purple",
+  //               marginTop: 5,
+  //             }}
+  //             Hidden={DrugStore.count == 0}
+  //           />
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //     headerTitle: "Aushadhalay",
+  //     headerStyle: {
+  //       backgroundColor: "#14213d",
+  //       elevation: 0,
+  //       shadowOpacity: 0,
+  //       borderBottomWidth: 0,
+  //     },
+  //     headerLargeTitle: true,
+  //     headerTintColor: "#fff",
+  //     fontSize: 20,
+  //   });
+  // }, []);
 
   useEffect(() => {
     showMessage({
