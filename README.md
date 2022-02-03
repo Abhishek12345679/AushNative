@@ -31,7 +31,7 @@ Makes Life More Fun
 - [x] Cloudinary => Firebase Storage
 - [ ] Refactor code.
 - [x] add Native module for mlkit text recognition
-- [ ] use MLKit native module in app
+- [x] use MLKit native module in app
 - [ ] Add react-native-firebase native sdk instead of web api in the mobx store
 - [ ] Redesign in Figma
 - [ ] Refresh Mongodb (atlas,mongoose), graphql(apollo),...
