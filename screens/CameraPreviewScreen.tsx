@@ -1,6 +1,6 @@
 //TODO: Checkout Vision Camera: <https://mrousavy.com/react-native-vision-camera/>
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -8,12 +8,11 @@ import {
   Dimensions,
   ActivityIndicator,
   Platform,
-  Text,
-  TouchableOpacity,
   ScrollView,
+  Image,
+  TouchableOpacity,
+  Text,
 } from "react-native";
-
-import FastImage from "react-native-fast-image";
 
 import { ModalTitle, ModalContent, BottomModal } from "react-native-modals";
 
@@ -21,58 +20,30 @@ import Modal from "react-native-modal";
 
 import { Ionicons } from "@expo/vector-icons";
 import { ImageManipulator } from "expo-image-crop";
-import * as ExpoImageManipulator from "expo-image-manipulator";
+// import * as ExpoImageManipulator from "expo-image-manipulator";
 import CPButton from "../components/CPButton";
-import { extractWords } from "../mlkit/TextRecognition";
+import { extractWords, TextRecognitionResponse } from "../mlkit/TextRecognition";
+import RecognisedWordsOverlay from "../components/RecognisedWordsOverlay";
 
-const CameraPreviewScreen = (props) => {
-  let [wordList, setWordList] = useState([]);
+const CameraPreviewScreen = (props: any) => {
   const iOS = Platform.OS === "ios";
+  const windowWidth = Dimensions.get("window").width;
 
   const [photoData, setPhotoData] = useState(props.route.params.photo);
-
-  // const imgHeight = photoData.height;
-  // const imgWidth = photoData.width;
-  // console.log({ imgHeight, imgWidth });
-
-  console.log(photoData.uri);
-
-  // const baseUri = "data:image/jpg;base64,";
-  // const ctx = withMenuContex
-
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const [image, setImage] = useState(baseUri + photoData.base64);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [scanning, setScanning] = useState(false);
   const [image, setImage] = useState(photoData.uri);
+  const [textRecognitionResponse, setTextRecognitonResponse] =
+    useState<TextRecognitionResponse | undefined>(undefined);
+  const [aspectRatio, setAspectRatio] = useState(1);
+
 
   const removeUselessSpaces = (text) => {
     let newText = text.replace(/\s+/g, " ").trim();
     return newText;
   };
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [scanning, setScanning] = useState(false);
-  const [words, setWords] = useState([]);
-
-  useEffect(() => {
-    const resizeImage = async () => {
-      const manipResult = await ExpoImageManipulator.manipulateAsync(
-        photoData.localUri || photoData.uri,
-        [
-          {
-            resize: {
-              height: Dimensions.get("window").height - 200,
-              width: Dimensions.get("window").width,
-            },
-          },
-        ]
-      );
-      console.log(manipResult.height);
-      setImage(manipResult.uri);
-    };
-    resizeImage();
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -87,12 +58,22 @@ const CameraPreviewScreen = (props) => {
                 if (image) {
                   try {
                     const TextRecognitionResponse = await extractWords(image);
-                    console.log(
-                      "TextRecognitionResponse",
-                      JSON.stringify(TextRecognitionResponse, null, 4)
-                    );
+                    if (TextRecognitionResponse.blocks.length > 0) {
+                      // console.log(
+                      //   "TextRecognitionResponse",
+                      //   JSON.stringify(TextRecognitionResponse, null, 4)
+                      // );
+                      setTextRecognitonResponse(TextRecognitionResponse);
+                      setAspectRatio(
+                        TextRecognitionResponse.height /
+                        TextRecognitionResponse.width
+                      );
+                    }
+                    setScanning(false);
+                    setModalVisible(true)
                   } catch (err) {
                     console.error(err);
+                    setScanning(false);
                   }
                 }
               }}
@@ -106,7 +87,7 @@ const CameraPreviewScreen = (props) => {
             name="ios-camera"
             size={30}
             color="#fff"
-            onPress={() => {}}
+            onPress={() => { }}
           />
           <CPButton
             iOS={iOS ? true : false}
@@ -119,72 +100,23 @@ const CameraPreviewScreen = (props) => {
         </View>
       </View>
       <View style={{ flex: 1 }}>
-        <FastImage
-          source={{
-            uri: image,
-            priority: FastImage.priority.normal,
-          }}
+        <Image
+          source={{ uri: image }}
           style={{
-            height: Dimensions.get("window").height - 200,
-            width: Dimensions.get("window").width,
-            resizeMode: "contain",
-            position: "relative",
+            position: 'relative',
+            height: windowWidth * aspectRatio,
+            width: windowWidth,
           }}
+          resizeMode="contain"
         />
-        {wordList.map((word, i) => (
-          <TouchableOpacity
-            onPress={() => {
-              console.log("press");
-              setModalVisible(true);
-              setWords(word.text.trim().split(" "));
-            }}
-            style={{
-              position: "absolute",
-              borderWidth: 3,
-              borderColor: "red",
-              left: word.boundingBox.left,
-              top: word.boundingBox.top,
-              right: word.boundingBox.right,
-              bottom: word.boundingBox.bottom,
-              height: Math.abs(word.boundingBox.top - word.boundingBox.bottom),
-              width: Math.abs(word.boundingBox.left - word.boundingBox.right),
-              padding: 5,
-              borderRadius: 5,
-            }}
-          ></TouchableOpacity>
-        ))}
-        <View
-          style={{
-            width: "100%",
-            height: Dimensions.get("window").height - 200,
-            position: "absolute",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {scanning && (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <View
-                style={{
-                  height: 150,
-                  width: 150,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#fff",
-                }}
-              >
-                <ActivityIndicator size="large" color="#000" />
-              </View>
-            </View>
-          )}
-        </View>
+        {!!textRecognitionResponse && (
+          <RecognisedWordsOverlay
+            response={textRecognitionResponse}
+            scale={windowWidth / textRecognitionResponse.width}
+          />
+        )}
       </View>
+
       <View style={styles.header_footer}>
         <View style={styles.buttonContainer}>
           <CPButton iOS={iOS ? true : false} color="#FFF" text="edit" />
@@ -255,29 +187,40 @@ const CameraPreviewScreen = (props) => {
               borderRadius: 20,
             }}
           >
-            {words.map((word, i) => (
-              <TouchableOpacity
-                key={i}
-                style={{
-                  width: "100%",
-                  height: 40,
-                  marginBottom: 20,
-                }}
-                onLongPress={() => {
-                  console.log("Long Press!");
-                }}
-                onPress={() => {
-                  console.log(word);
-                  setModalVisible(false);
-                  props.navigation.navigate("Results", {
-                    data: word,
-                    mode: "scan",
-                  });
-                }}
-              >
-                <Text>{word}</Text>
-              </TouchableOpacity>
-            ))}
+            {!!textRecognitionResponse &&
+              textRecognitionResponse
+                .blocks
+                .map((block, i) => {
+                  block.lines.map((line, i) => {
+                    line.words.map((word, j) => {
+                      console.log(word.text)
+                      return (
+                        <TouchableOpacity
+                          key={i}
+                          // style={{
+                          //   width: "100%",
+                          //   height: 40,
+                          //   marginBottom: 20,
+                          // }}
+                          // onLongPress={() => {
+                          //   console.log("Long Press!");
+                          // }}
+                          onPress={() => {
+                            // console.log(word);
+                            setModalVisible(false);
+                            // props.navigation.navigate("Results", {
+                            //   data: word.text,
+                            //   mode: "scan",
+                            // });
+                          }}
+                        >
+                          <Text style={{ color: '#000' }}>{word.text}</Text>
+                        </TouchableOpacity>
+                      )
+                    }
+                    )
+                  })
+                })}
           </ScrollView>
         </ModalContent>
       </BottomModal>

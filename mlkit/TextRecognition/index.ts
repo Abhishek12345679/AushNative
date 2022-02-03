@@ -2,30 +2,36 @@ import { NativeModules } from "react-native";
 
 const { MLKitTextRecognitionModule } = NativeModules;
 
-export type BoundingBox = {
+export type BoundingBoxType = {
   left: number;
   top: number;
   width: number;
   height: number;
 };
 
+export type Word = {
+  text: string;
+  rect: BoundingBoxType;
+};
+
 export type Line = {
   text: string;
-  rect: BoundingBox;
+  rect: BoundingBoxType;
+  words: Array<Word>;
 };
 
 export type Block = {
   text: string;
-  rect: BoundingBox;
+  rect: BoundingBoxType;
   lines: Array<Line>;
 };
 
-export type Response = {
+export type TextRecognitionResponse = {
   width: number;
   height: number;
   blocks: Array<Block>;
 };
 
-export const extractWords = (url: string): Promise<Response> => {
+export const extractWords = (url: string): Promise<TextRecognitionResponse> => {
   return MLKitTextRecognitionModule.extractWords(url);
 };

@@ -20,19 +20,19 @@ const CPButton = (props) => {
           color={props.color}
         />
       ) : (
-        <TouchableNativeFeedback
+        <TouchableOpacity
           onPress={props.onpress}
           style={{
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#000",
+            backgroundColor: "red",
             width: 100,
             height: 50,
           }}
           background={TouchableNativeFeedback.Ripple("#fff", true)}
         >
           <Text style={{ color: "#fff" }}>{props.text}</Text>
-        </TouchableNativeFeedback>
+        </TouchableOpacity>
       )}
     </>
   );

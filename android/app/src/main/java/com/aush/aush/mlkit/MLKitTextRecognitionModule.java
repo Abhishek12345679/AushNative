@@ -1,7 +1,6 @@
 package com.aush.aush.mlkit;
 
 import android.annotation.SuppressLint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.util.Log;
@@ -50,7 +49,7 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
     @SuppressLint("LongLogTag")
     @ReactMethod
     public void extractWords(String url, Promise promise) {
-        Log.d("MLKitTextRecognitionModule", "url= "+url);
+//        Log.d("MLKitTextRecognitionModule", "url= "+url);
         InputImage image;
         Uri uri = Uri.parse(url);
         try {
@@ -68,24 +67,32 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
                                     response.putInt("height",image.getHeight());
 
                                     WritableArray blocks = Arguments.createArray();
-
                                     for (Text.TextBlock block : result.getTextBlocks()) {
                                         WritableMap blockObject = Arguments.createMap();
                                         blockObject.putString("text",block.getText());
                                         blockObject.putMap("rect",Rect2Map(block.getBoundingBox()));
-//                                        Point[] blockCornerPoints = block.getCornerPoints();
 
                                         WritableArray lines = Arguments.createArray();
                                         for (Text.Line line : block.getLines()) {
                                             WritableMap lineObject = Arguments.createMap();
                                             lineObject.putString("text",line.getText());
                                             lineObject.putMap("rect",Rect2Map(line.getBoundingBox()));
+
+                                            WritableArray words = Arguments.createArray();
+                                            for (Text.Element word : line.getElements()) {
+                                                WritableMap wordObject = Arguments.createMap();
+                                                wordObject.putString("text",word.getText());
+                                                wordObject.putMap("rect",Rect2Map(word.getBoundingBox()));
+                                                words.pushMap(wordObject);
+                                            }
+                                            lineObject.putArray("words",words);
                                             lines.pushMap(lineObject);
+
                                         }
+//                                        Log.d("Response", String.valueOf(lines));
                                         blockObject.putArray("lines",lines);
                                         blocks.pushMap(blockObject);
                                     }
-
                                     response.putArray("blocks",blocks);
                                     promise.resolve(response);
                                 }
@@ -98,8 +105,6 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
                                             promise.reject("Text Recognition Failed!!", e);
                                         }
                                     });
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
