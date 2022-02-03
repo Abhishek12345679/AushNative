@@ -8,9 +8,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -33,12 +37,20 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
         return "MLKitTextRecognitionModule";
     }
 
+    public WritableMap Rect2Map(Rect rect){
+        WritableMap rectObject = Arguments.createMap();
+        rectObject.putInt("left",rect.left);
+        rectObject.putInt("top",rect.top);
+        rectObject.putInt("width",(rect.right - rect.left));
+        rectObject.putInt("height",(rect.bottom - rect.top));
+
+        return rectObject;
+    }
+
     @SuppressLint("LongLogTag")
     @ReactMethod
-    public void extractWords(String url) {
+    public void extractWords(String url, Promise promise) {
         Log.d("MLKitTextRecognitionModule", "url= "+url);
-
-
         InputImage image;
         Uri uri = Uri.parse(url);
         try {
@@ -50,23 +62,32 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
                             .addOnSuccessListener(new OnSuccessListener<Text>() {
                                 @Override
                                 public void onSuccess(Text result) {
-                                    // Task completed successfully
-                                    String resultText = result.getText();
+                                    //maps are like objects in JS
+                                    WritableMap response = Arguments.createMap();
+                                    response.putInt("width",image.getWidth());
+                                    response.putInt("height",image.getHeight());
+
+                                    WritableArray blocks = Arguments.createArray();
+
                                     for (Text.TextBlock block : result.getTextBlocks()) {
-                                        String blockText = block.getText();
-                                        Point[] blockCornerPoints = block.getCornerPoints();
-                                        Rect blockFrame = block.getBoundingBox();
+                                        WritableMap blockObject = Arguments.createMap();
+                                        blockObject.putString("text",block.getText());
+                                        blockObject.putMap("rect",Rect2Map(block.getBoundingBox()));
+//                                        Point[] blockCornerPoints = block.getCornerPoints();
+
+                                        WritableArray lines = Arguments.createArray();
                                         for (Text.Line line : block.getLines()) {
-                                            String lineText = line.getText();
-                                            Point[] lineCornerPoints = line.getCornerPoints();
-                                            Rect lineFrame = line.getBoundingBox();
-                                            for (Text.Element element : line.getElements()) {
-                                                String elementText = element.getText();
-                                                Point[] elementCornerPoints = element.getCornerPoints();
-                                                Rect elementFrame = element.getBoundingBox();
-                                            }
+                                            WritableMap lineObject = Arguments.createMap();
+                                            lineObject.putString("text",line.getText());
+                                            lineObject.putMap("rect",Rect2Map(line.getBoundingBox()));
+                                            lines.pushMap(lineObject);
                                         }
+                                        blockObject.putArray("lines",lines);
+                                        blocks.pushMap(blockObject);
                                     }
+
+                                    response.putArray("blocks",blocks);
+                                    promise.resolve(response);
                                 }
                             })
                             .addOnFailureListener(
@@ -74,7 +95,7 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             // Task failed with an exception
-                                            // ...
+                                            promise.reject("Text Recognition Failed!!", e);
                                         }
                                     });
 

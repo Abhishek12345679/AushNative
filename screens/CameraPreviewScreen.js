@@ -84,7 +84,17 @@ const CameraPreviewScreen = (props) => {
               iOS={iOS ? true : false}
               onpress={async () => {
                 setScanning(true);
-                if (image) extractWords(image);
+                if (image) {
+                  try {
+                    const TextRecognitionResponse = await extractWords(image);
+                    console.log(
+                      "TextRecognitionResponse",
+                      JSON.stringify(TextRecognitionResponse, null, 4)
+                    );
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }
               }}
               color="#FFF"
               text="Confirm"

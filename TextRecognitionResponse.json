@@ -1,0 +1,333 @@
+{
+    "blocks": [{
+            "lines": [{
+                "rect": {
+                    "height": 12,
+                    "width": 205,
+                    "top": 177,
+                    "left": 236
+                },
+                "text": "CameraPreviewScreenjs-AushNar"
+            }],
+            "rect": {
+                "height": 12,
+                "width": 205,
+                "top": 177,
+                "left": 236
+            },
+            "text": "CameraPreviewScreenjs-AushNar"
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 18,
+                    "width": 197,
+                    "top": 206,
+                    "left": 55
+                },
+                "text": "CameraPreview Screen.js M x"
+            }],
+            "rect": {
+                "height": 18,
+                "width": 197,
+                "top": 206,
+                "left": 55
+            },
+            "text": "CameraPreview Screen.js M x"
+        },
+        {
+            "lines": [{
+                    "rect": {
+                        "height": 16,
+                        "width": 427,
+                        "top": 234,
+                        "left": 1
+                    },
+                    "text": "CameraPreviewScreen.js ) éa CameraPreviewScreen f<function>"
+                },
+                {
+                    "rect": {
+                        "height": 20,
+                        "width": 324,
+                        "top": 254,
+                        "left": 107
+                    },
+                    "text": "height: Dimens ions . get (\"window\"). height"
+                },
+                {
+                    "rect": {
+                        "height": 15,
+                        "width": 315,
+                        "top": 274,
+                        "left": 106
+                    },
+                    "text": "width: Dimensions . get (\"window\").uidth,"
+                }
+            ],
+            "rect": {
+                "height": 55,
+                "width": 430,
+                "top": 234,
+                "left": 1
+            },
+            "text": "CameraPreviewScreen.js ) éa CameraPreviewScreen f<function>\nheight: Dimens ions . get (\"window\"). height\nwidth: Dimensions . get (\"window\").uidth,"
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 16,
+                    "width": 256,
+                    "top": 368,
+                    "left": 43
+                },
+                "text": "console. log (manipResult. height ) ;"
+            }],
+            "rect": {
+                "height": 17,
+                "width": 255,
+                "top": 368,
+                "left": 44
+            },
+            "text": "console. log (manipResult. height ) ;"
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 19,
+                    "width": 211,
+                    "top": 387,
+                    "left": 41
+                },
+                "text": "setImage (manipResult.uri);"
+            }],
+            "rect": {
+                "height": 20,
+                "width": 210,
+                "top": 387,
+                "left": 42
+            },
+            "text": "setImage (manipResult.uri);"
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 19,
+                    "width": 112,
+                    "top": 422,
+                    "left": 25
+                },
+                "text": "resizeImage ();"
+            }],
+            "rect": {
+                "height": 20,
+                "width": 111,
+                "top": 422,
+                "left": 26
+            },
+            "text": "resizeImage ();"
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 9,
+                    "width": 58,
+                    "top": 479,
+                    "left": 15
+                },
+                "text": "return ("
+            }],
+            "rect": {
+                "height": 10,
+                "width": 57,
+                "top": 479,
+                "left": 16
+            },
+            "text": "return ("
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 17,
+                    "width": 245,
+                    "top": 497,
+                    "left": 29
+                },
+                "text": "iew style={styles. container)»"
+            }],
+            "rect": {
+                "height": 18,
+                "width": 244,
+                "top": 497,
+                "left": 30
+            },
+            "text": "iew style={styles. container)»"
+        },
+        {
+            "lines": [{
+                    "rect": {
+                        "height": 25,
+                        "width": 395,
+                        "top": 515,
+                        "left": 45
+                    },
+                    "text": "StatusBar barstye=\"light-content\" backgroundCo le="
+                },
+                {
+                    "rect": {
+                        "height": 26,
+                        "width": 277,
+                        "top": 532,
+                        "left": 45
+                    },
+                    "text": "View style={styles . header-tooter}»"
+                },
+                {
+                    "rect": {
+                        "height": 20,
+                        "width": 292,
+                        "top": 551,
+                        "left": 62
+                    },
+                    "text": "View stylea{styles.buttonContainer)>"
+                },
+                {
+                    "rect": {
+                        "height": 22,
+                        "width": 101,
+                        "top": 567,
+                        "left": 76
+                    },
+                    "text": "isLoad ing ?"
+                },
+                {
+                    "rect": {
+                        "height": 34,
+                        "width": 80,
+                        "top": 580,
+                        "left": 92
+                    },
+                    "text": "CPBUES"
+                }
+            ],
+            "rect": {
+                "height": 90,
+                "width": 395,
+                "top": 515,
+                "left": 45
+            },
+            "text": "StatusBar barstye=\"light-content\" backgroundCo le=\nView style={styles . header-tooter}»\nView stylea{styles.buttonContainer)>\nisLoad ing ?\nCPBUES"
+        },
+        {
+            "lines": [{
+                    "rect": {
+                        "height": 18,
+                        "width": 179,
+                        "top": 606,
+                        "left": 109
+                    },
+                    "text": "105{10S ? truet talse"
+                },
+                {
+                    "rect": {
+                        "height": 15,
+                        "width": 130,
+                        "top": 623,
+                        "left": 108
+                    },
+                    "text": "onpress=(async ()"
+                },
+                {
+                    "rect": {
+                        "height": 18,
+                        "width": 138,
+                        "top": 639,
+                        "left": 124
+                    },
+                    "text": "setScann ing(t rue) i"
+                },
+                {
+                    "rect": {
+                        "height": 20,
+                        "width": 75,
+                        "top": 655,
+                        "left": 125
+                    },
+                    "text": "if (inage)"
+                }
+            ],
+            "rect": {
+                "height": 68,
+                "width": 179,
+                "top": 606,
+                "left": 109
+            },
+            "text": "105{10S ? truet talse\nonpress=(async ()\nsetScann ing(t rue) i\nif (inage)"
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 10,
+                    "width": 21,
+                    "top": 676,
+                    "left": 140
+                },
+                "text": "try"
+            }],
+            "rect": {
+                "height": 11,
+                "width": 20,
+                "top": 676,
+                "left": 141
+            },
+            "text": "try"
+        },
+        {
+            "lines": [{
+                    "rect": {
+                        "height": 22,
+                        "width": 281,
+                        "top": 694,
+                        "left": 155
+                    },
+                    "text": "const TextRecognitionResponse awai"
+                },
+                {
+                    "rect": {
+                        "height": 16,
+                        "width": 83,
+                        "top": 713,
+                        "left": 156
+                    },
+                    "text": "conso te. Log"
+                }
+            ],
+            "rect": {
+                "height": 42,
+                "width": 280,
+                "top": 694,
+                "left": 156
+            },
+            "text": "const TextRecognitionResponse awai\nconso te. Log"
+        },
+        {
+            "lines": [{
+                "rect": {
+                    "height": 6,
+                    "width": 12,
+                    "top": 727,
+                    "left": 172
+                },
+                "text": "T."
+            }],
+            "rect": {
+                "height": 6,
+                "width": 12,
+                "top": 727,
+                "left": 172
+            },
+            "text": "T."
+        }
+    ],
+    "height": 733,
+    "width": 441
+}

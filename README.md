@@ -18,8 +18,8 @@ Makes Life More Fun
 6. GraphQL / Apollo 
 
 > Servers
-> Payments Server: 
-> GraphQl API w/ the mongodb atlas: 
+> Payments Server: <https://razorpay-payments-api.herokuapp.com/>
+> GraphQl API w/ the mongodb atlas: <https://med-db-v1.herokuapp.com/>
 
 
 ## TODO
