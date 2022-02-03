@@ -32,6 +32,8 @@ export type TextRecognitionResponse = {
   blocks: Array<Block>;
 };
 
-export const extractWords = (url: string): Promise<TextRecognitionResponse> => {
-  return MLKitTextRecognitionModule.extractWords(url);
+export const extractWords = async (
+  url: string
+): Promise<TextRecognitionResponse> => {
+  return await MLKitTextRecognitionModule.extractWords(url);
 };

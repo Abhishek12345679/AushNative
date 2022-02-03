@@ -18,11 +18,9 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale }: BoundingBoxProps) =>
             width: boundingBox.width * scale,
         }
     }, [
-        // boundingBox,
         scale,
         text
     ])
-    // console.log("bounding box: ", boundingBox)
     return (
         <View
             key={keyProp}
@@ -31,7 +29,6 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale }: BoundingBoxProps) =>
                 borderWidth: 1,
                 borderColor: 'red',
                 ...rect,
-                wid
             }}
         >
             <Text style={{ color: "red", fontWeight: 'bold' }}>
