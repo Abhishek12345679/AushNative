@@ -77,7 +77,6 @@ const HomeScreen = observer((props) => {
   // useEffect(() => {
   //   DrugStore.fetchOrders();
   //   DrugStore.fetchAddresses();
-  //   DrugStore.getHealthConditions();
   // }, []);
 
   useEffect(() => {

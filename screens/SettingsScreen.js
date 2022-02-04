@@ -106,7 +106,6 @@ const SettingsScreen = observer((props) => {
           // "Profile",
           "Addresses",
           "Orders",
-          "Health Conditions",
         ].map((item, index) => (
           <ListItem
             style={{ height: 70 }}

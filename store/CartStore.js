@@ -2,81 +2,69 @@ import { flow, types } from "mobx-state-tree";
 
 // Drug Model
 const Drug = types.model("Drug", {
-  id: types.string,
-  name: types.string,
-  salt: types.string,
-  price: types.number,
-  quantity: types.number,
+  id: types.optional(types.string, ""),
+  name: types.optional(types.string, ""),
+  salt: types.optional(types.string, ""),
+  price: types.optional(types.number, 0),
+  quantity: types.optional(types.number, 0),
   prescription_req: false,
-  total_amt: types.number,
+  total_amt: types.optional(types.number, 0),
 });
 
 // Address Model
 const Address = types.model("Address", {
-  type: types.string,
-  name: types.string,
-  add_line_1: types.string,
-  add_line_2: types.string,
-  pincode: types.string,
-  ph_no: types.string,
+  type: types.optional(types.string, ""),
+  name: types.optional(types.string, ""),
+  add_line_1: types.optional(types.string, ""),
+  add_line_2: types.optional(types.string, ""),
+  pincode: types.optional(types.string, ""),
+  ph_no: types.optional(types.string, ""),
 });
 
 // Profile Model
 const Profile = types.model("Profile", {
-  display_picture: types.string,
-  name: types.string,
-  dob: types.Date,
+  display_picture: types.optional(types.string, ""),
+  name: types.optional(types.string, "test"),
+  dob: types.optional(types.Date, 0),
 });
 
 // Order Model
 const Order = types.model("Order", {
-  items: types.array(Drug),
-  datetimestamp: types.number,
-  address: Address,
-  total_amt: types.number,
-  order_id: types.string,
-  status: types.boolean,
-  prescription: types.string,
+  items: types.optional(types.array(Drug), []),
+  datetimestamp: types.optional(types.number, 0),
+  address: types.optional(Address, {}),
+  total_amt: types.optional(types.number, 0),
+  order_id: types.optional(types.string, ""),
+  status: types.optional(types.boolean, false),
+  prescription: types.optional(types.string, ""),
 });
 
 // User Credentials for re-login auto.
 const userCredentials = types.model("userCredentials", {
-  token: types.string,
-  uid: types.string,
-  email: types.string,
-});
-
-// Health Conditions
-
-const healthConditions = types.model("healthConditions", {
-  allergies: types.boolean,
-  diabetes: types.boolean,
-  lungdiseases: types.boolean,
-  skindiseases: types.boolean,
+  token: types.optional(types.string, ""),
+  uid: types.optional(types.string, ""),
+  email: types.optional(types.string, ""),
 });
 
 const Location = types.model("Location", {
-  // locationObj: types.frozen,
-  locationShortName: types.string,
-  latitude: types.number,
-  longitude: types.number,
+  locationShortName: types.optional(types.string, ""),
+  latitude: types.optional(types.number, 0),
+  longitude: types.optional(types.number, 0),
 });
 
 // Main Store
 const DrugStore = types
   .model("DrugStore", {
-    drugs: types.array(Drug),
-    count: types.number,
-    // order: Order,
+    drugs: types.optional(types.array(Drug), []),
+    count: types.optional(types.number, 0),
     orders: types.array(Order),
-    profile: Profile,
-    addresses: types.array(Address),
-    HealthConditions: healthConditions,
-    isAuthenticated: types.boolean,
-    userCredentials: userCredentials,
-    didTryAutoLogin: types.boolean,
-    timer: types.number,
-    location: Location,
+    profile: types.optional(Profile, {}),
+    addresses: types.optional(types.array(Address), []),
+    isAuthenticated: types.optional(types.boolean, false),
+    userCredentials: types.optional(userCredentials, {}),
+    didTryAutoLogin: types.optional(types.boolean, false),
+    timer: types.optional(types.number, 0),
+    location: types.optional(Location, {}),
   })
   .views((self) => ({
     get getCount() {
@@ -289,66 +277,8 @@ const DrugStore = types
       // self.addresses = adds;
     }),
   }))
-  // Add Health Conditions
-  .actions((self) => ({
-    setHealthConditions(health) {
-      // self.addresses.push(address);
-      const response = fetch(
-        `https://chemy-llc.firebaseio.com/healthconditions/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(health),
-        }
-      )
-        .then((res) => res.json())
-        .catch((err) => console.log(err));
-    },
-    getHealthConditions: flow(function* fetchAddresses() {
-      // const response = yield fetch(
-      //   `https://chemy-llc.firebaseio.com/healthconditions/${self.userCredentials.uid}.json?auth=${self.userCredentials.token}`
-      // );
-      // const resData = yield response.json();
-      // console.log(resData);
-      // if (resData) {
-      //   self.HealthConditions.allergies = resData.allergies;
-      //   self.HealthConditions.diabetes = resData.diabetes;
-      //   self.HealthConditions.lungdiseases = resData.lungdiseases;
-      //   self.HealthConditions.skindiseases = resData.skindiseases;
-      // } else {
-      //   self.HealthConditions.allergies = false;
-      //   self.HealthConditions.diabetes = false;
-      //   self.HealthConditions.lungdiseases = false;
-      //   self.HealthConditions.skindiseases = false;
-      // }
-    }),
-  }))
   // initial State
   .create({
-    drugs: [
-      {
-        id: "4123534523464575675",
-        name: "hbwycwc 450",
-        salt: "Cylonndojfhjwncv ",
-        price: 100,
-        quantity: 2,
-        prescription_req: false,
-        total_amt: 200,
-      },
-      {
-        id: "32456346345653463456",
-        name: "hbwycwc 450",
-        salt: "Cylonndojfhjwncv ",
-        price: 100,
-        quantity: 2,
-        prescription_req: true,
-        total_amt: 200,
-      },
-    ],
-    count: 0,
-    orders: [],
     profile: {
       display_picture: " ",
       name: "",
@@ -364,25 +294,6 @@ const DrugStore = types
         ph_no: "+917908174073",
       },
     ],
-    HealthConditions: {
-      allergies: false,
-      diabetes: false,
-      lungdiseases: false,
-      skindiseases: false,
-    },
-    location: {
-      locationShortName: "select current location",
-      latitude: 0,
-      longitude: 0,
-    },
-    isAuthenticated: false,
-    didTryAutoLogin: false,
-    userCredentials: {
-      uid: "",
-      token: "",
-      email: "",
-    },
-    timer: 0,
   });
 
 export default DrugStore;

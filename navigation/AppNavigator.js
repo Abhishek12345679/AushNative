@@ -41,9 +41,6 @@ import UploadPrescriptionScreen from "../screens/CheckoutFlow/UploadPrescription
 
 import OrderPreviewScreen from "../screens/CheckoutFlow/OrderPreviewScreen";
 import EditProfileScreen from "../screens/Settings/EditProfileScreen";
-import HealthConditionsScreen, {
-  screenOptions as HealthConditionsScreenOptions,
-} from "../screens/Settings/HealthConditionsScreen";
 
 import SplashScreen from "../screens/SplashScreen";
 
@@ -436,10 +433,6 @@ export const SettingsNavigator = () => {
           stackAnimation: "default",
           // gestureEnabled: false,
         }}
-      />
-      <SettingsStackNavigator.Screen
-        name="Health Conditions"
-        component={HealthConditionsScreen}
       />
       <SettingsStackNavigator.Screen name="MyWebView" component={MyWebView} />
     </SettingsStackNavigator.Navigator>

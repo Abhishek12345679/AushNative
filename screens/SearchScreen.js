@@ -1,7 +1,7 @@
 import { HeaderBackButton } from "@react-navigation/stack";
 import React from "react";
 import { useState } from "react";
-import { TextInput } from "react-native";
+import { ActivityIndicator, Text, TextInput } from "react-native";
 import { View, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import { colors } from "../constants/colors";
 
@@ -52,9 +52,9 @@ const SearchScreen = ({ navigation }) => {
       <SafeAreaView>
         <View
           style={{
+            // flex: 1,
             flexDirection: "row",
             alignItems: "center",
-            // justifyContent: "center",
           }}
         >
           <HeaderBackButton
@@ -77,14 +77,10 @@ const SearchScreen = ({ navigation }) => {
               setSearchText(text);
             }}
             style={{
-              // borderBottomColor: "#ccc",
-              // borderBottomWidth: 0.5,
               width: "70%",
-              // lineHeight: 0,
               height: Platform.OS === "ios" ? 30 : 50,
               fontSize: 16,
               color: "#fff",
-              // marginTop: 10,
             }}
           />
           {/* <Button
@@ -94,7 +90,7 @@ const SearchScreen = ({ navigation }) => {
             }}
           /> */}
         </View>
-        {!!data && !!!loading ? (
+        {!!data ? (
           data.search.drugs.map((med, index) => (
             <ListItem
               keyProp={index}
@@ -115,9 +111,24 @@ const SearchScreen = ({ navigation }) => {
               }
             />
           ))
+        ) : loading ? (
+          <ActivityIndicator color="#fff" size="large" />
         ) : (
-          <View style={styles.centered}>
-            <ActivityIndicator color="#fff" size={24} />
+          <View
+            style={{
+              // flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 20,
+              }}
+            >
+              No medicine
+            </Text>
           </View>
         )}
       </SafeAreaView>
@@ -136,8 +147,6 @@ const styles = StyleSheet.create({
   centered: {
     justifyContent: "center",
     alignItems: "center",
-    // flex: 1,
-    // height: "100%",
   },
 });
 

@@ -3,7 +3,7 @@ export const colors = {
   BUTTONS: "#D2f000",
   WHITE: "#FFFFFF",
   BLACK: "#000000",
-  SECONDARY: "#fff",
+  SECONDARY: "#1e335f",
 };
 
 //TODO: Add Dynamic Color
