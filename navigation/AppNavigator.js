@@ -192,7 +192,6 @@ enableScreens();
 
 const AuthStackNavigator = createNativeStackNavigator();
 export const AuthNavigator = () => {
-  // const colorScheme = useColorScheme()
   return (
     <AuthStackNavigator.Navigator>
       <AuthStackNavigator.Screen
@@ -217,13 +216,11 @@ const CheckoutNavigator = () => {
       <CheckoutStackNavigator.Screen
         name="UploadPrescription"
         component={UploadPrescriptionScreen}
-        // options={SelectPaymentsScreenOptions}
       />
       <CheckoutStackNavigator.Screen
         name="OrderPreview"
         component={OrderPreviewScreen}
         options={{
-          // stackPresentation: "modal",
           headerTitle: "Order Summary",
         }}
       />
@@ -244,22 +241,15 @@ const EditProfileStackNavigator = createNativeStackNavigator();
 
 const EditProfileNavigator = () => {
   return (
-    <EditProfileStackNavigator.Navigator
-      initialRouteName="Edit Profile"
-      // screenOptions={{ headerShown: false }}
-    >
+    <EditProfileStackNavigator.Navigator initialRouteName="Edit Profile">
       <EditProfileStackNavigator.Screen
         name="Edit Profile"
         component={EditProfileScreen}
         options={{
-          // headerShown: false,
-          // headerLargeTitle: true,
           headerTranslucent: true,
           headerStyle: {
             blurEffect: "light",
-            // backgroundColor: "#000",
           },
-          // gestureEnabled: false,
         }}
       />
     </EditProfileStackNavigator.Navigator>
@@ -324,13 +314,8 @@ export const RootNavigator = () => {
           borderBottomWidth: 0,
         },
         headerLargeTitle: true,
-        // headerTitleAlign: "left",
         headerTintColor: "#fff",
-        // headerTitleStyle: {
-        //   fontWeight: "bolder",
-        //   // fontFamily: "plumpfull",
         fontSize: 20,
-        // },
       }}
     >
       <RootStackNavigator.Screen name="SplashScreen" component={SplashScreen} />
@@ -339,13 +324,10 @@ export const RootNavigator = () => {
         name="Home"
         component={HomeScreen}
         headerTitle="Aushadhalay"
-        // options={HomeScreenOptions}
       />
       <RootStackNavigator.Screen
         name="Search"
         component={SearchScreen}
-        // headerTitle="Aushadhalay"
-        // options={HomeScreenOptions}
         options={{
           stackAnimation: "fade",
           headerBackTitle: "",
@@ -381,7 +363,6 @@ export const RootNavigator = () => {
 const SettingsStackNavigator = createNativeStackNavigator();
 
 export const SettingsNavigator = () => {
-  // const colorScheme = useColorScheme()
   return (
     <SettingsStackNavigator.Navigator
       screenOptions={{
@@ -392,7 +373,6 @@ export const SettingsNavigator = () => {
           borderBottomWidth: 0,
         },
         headerLargeTitle: true,
-        // headerTitleAlign: "left",
         headerTintColor: "#fff",
       }}
     >
@@ -427,11 +407,8 @@ export const SettingsNavigator = () => {
         component={AddAddressModalScreen}
         options={{
           headerLargeTitle: false,
-          // headerRight: false,
-          // headerShown: false,
           stackPresentation: "modal",
           stackAnimation: "default",
-          // gestureEnabled: false,
         }}
       />
       <SettingsStackNavigator.Screen name="MyWebView" component={MyWebView} />
