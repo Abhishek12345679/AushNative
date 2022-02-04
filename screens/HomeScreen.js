@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   PermissionsAndroid,
   TouchableOpacity,
+  Text,
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import DrugStore from "../store/CartStore";
@@ -99,7 +100,7 @@ const HomeScreen = observer((props) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              marginStart: 5,
+              marginStart: 10,
               height: 40,
               width: 40,
               justifyContent: "center",
@@ -109,20 +110,11 @@ const HomeScreen = observer((props) => {
               props.navigation.navigate("Cart");
             }}
           >
-            {/* <IconBadge
-              MainElement={<Ionicons name="md-cart" size={24} color="#fff" />}
-              BadgeElement={
-                <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-              }
-              IconBadgeStyle={{
-                width: 10,
-                height: 20,
-                backgroundColor: "purple",
-                marginTop: 5,
-              }}
-              Hidden={DrugStore.count == 0}
-            /> */}
+            <Ionicons name="md-cart" size={24} color="#fff" />
           </TouchableOpacity>
+          <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 20 }}>
+            {DrugStore.count}
+          </Text>
         </View>
       ),
       headerTitle: "Aushadhalay",
