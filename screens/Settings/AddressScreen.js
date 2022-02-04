@@ -8,13 +8,14 @@ import Address from "../../components/Address";
 import fetchAddresses from "../../helpers/fetchAddresses";
 
 const AddressScreen = observer((props) => {
+  const { navigation } = props;
   useEffect(() => {
     const fetchStuff = async () => {
       const addresses = await fetchAddresses();
       DrugStore.addAddresses(addresses);
     };
     fetchStuff();
-  }, []);
+  }, [navigation]);
 
   return (
     <ScrollView style={styles.container}>

@@ -208,16 +208,7 @@ const DrugStore = types
       name: "",
       dob: new Date(996656400000), // dummy age -> 19
     },
-    addresses: [
-      {
-        type: "Home",
-        name: "Abhishek Sah",
-        add_line_1: "Jogijhora Barabak",
-        add_line_2: "Ethelbari",
-        pincode: "735204",
-        ph_no: "+917908174073",
-      },
-    ],
+    // addresses: [],
   });
 
 export default DrugStore;

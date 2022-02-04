@@ -102,17 +102,13 @@ const SettingsScreen = observer((props) => {
           overflow: "hidden",
         }}
       >
-        {[
-          // "Profile",
-          "Addresses",
-          "Orders",
-        ].map((item, index) => (
+        {["Addresses", "Orders"].map((item, index) => (
           <ListItem
             style={{ height: 70 }}
             titleStyle={{ fontWeight: "400", fontSize: 18 }}
             keyProp={Math.random() * 10}
             key={Math.random() * 10}
-            name={index == 0 ? "Saved Data" : item}
+            name={item}
             onPress={() => props.navigation.navigate(item)}
           />
         ))}
@@ -150,14 +146,12 @@ const SettingsScreen = observer((props) => {
         onPress={onOpenActionSheet}
         style={{
           marginVertical: 30,
-          borderRadius: 10,
+          borderRadius: 5,
           justifyContent: "center",
           alignItems: "center",
-          height: 60,
-          paddingTop: 10,
+          height: 80,
         }}
-        titleStyle={{ fontWeight: "400", fontSize: 18, color: "red" }}
-        noArrow
+        titleStyle={{ fontWeight: "bold", fontSize: 18, color: "red" }}
       />
     </ScrollView>
   );

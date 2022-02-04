@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import {
-  View,
-  Text,
   KeyboardAvoidingView,
   ScrollView,
   TextInput,
   TouchableOpacity,
   StatusBar,
-  ActivityIndicator,
+  Button,
 } from "react-native";
 
 import { Formik } from "formik";
 import { Ionicons } from "@expo/vector-icons";
 import RadioButtonRN from "radio-buttons-react-native";
 
-import DrugStore from "../store/CartStore";
-import RoundButton from "../components/RoundButton";
 import { showMessage } from "react-native-flash-message";
 import { observer } from "mobx-react";
-import fetchAddresses from "../helpers/fetchAddresses";
 import addAddresses from "../helpers/addAddress";
+import { Pressable } from "react-native";
 
 const AddAddressModalScreen = observer((props) => {
   const [addingAddress, setAddingAddress] = useState(false);
@@ -43,7 +39,7 @@ const AddAddressModalScreen = observer((props) => {
       <KeyboardAvoidingView behavior="position">
         <Formik
           initialValues={{
-            // type: "",
+            type: "",
             name: "",
             add_line_1: "",
             add_line_2: "",
@@ -61,44 +57,18 @@ const AddAddressModalScreen = observer((props) => {
               pincode: values.pincode,
               ph_no: "+91" + values.ph_no,
             });
+
             showMessage({
               message: "New Address Added",
               type: "success",
-              duration: 5000,
+              duration: 1000,
             });
-
-            const addresses = await fetchAddresses();
-            DrugStore.addAddresses(addresses);
 
             props.navigation.pop();
           }}
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <View>
-              <TouchableOpacity
-                onPress={() => props.navigation.pop()}
-                style={{ alignItems: "center", height: 20 }}
-              >
-                <Ionicons name="ios-arrow-down" size={24} color="#000" />
-              </TouchableOpacity>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-                  Add New Address
-                </Text>
-                {!addingAddress ? (
-                  <RoundButton onPress={handleSubmit}>
-                    <Ionicons name="ios-add" size={24} color="#fff" />
-                  </RoundButton>
-                ) : (
-                  <ActivityIndicator size="small" color="#fff" />
-                )}
-              </View>
+          {({ handleChange, handleSubmit, values }) => (
+            <ScrollView>
               <RadioButtonRN
                 initial={1}
                 data={data}
@@ -138,10 +108,7 @@ const AddAddressModalScreen = observer((props) => {
                 maxLength={6}
                 keyboardType="number-pad"
                 onChangeText={handleChange("pincode")}
-                // onBlur={handleBlur("pincode")}
                 value={values.pincode}
-                // label="Pincode"
-                // mode="flat"
                 style={{
                   height: 60,
                   marginTop: 20,
@@ -175,7 +142,29 @@ const AddAddressModalScreen = observer((props) => {
                 placeholder={"Address Line 2"}
                 placeholderTextColor="#a7a8a9"
               />
-            </View>
+              <Button
+                title="Add Address"
+                style={{
+                  width: 100,
+                  height: 10,
+                }}
+                onPress={handleSubmit}
+              />
+              <Pressable
+                style={{
+                  width: 200,
+                  height: 70,
+                  backgroundColor: "#000",
+                }}
+                android_ripple={{
+                  color: "#fff",
+                  borderless: true,
+                }}
+                onPress={handleSubmit}
+              >
+                <Text>Add Address</Text>
+              </Pressable>
+            </ScrollView>
           )}
         </Formik>
       </KeyboardAvoidingView>
