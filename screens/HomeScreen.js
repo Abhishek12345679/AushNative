@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   PermissionsAndroid,
+  TouchableOpacity,
 } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import DrugStore from "../store/CartStore";
@@ -16,6 +17,8 @@ import Geolocation from "react-native-geolocation-service";
 import LocationPicker from "../components/LocationPicker";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
+import { Ionicons } from "@expo/vector-icons";
 
 const HomeScreen = observer((props) => {
   const { showActionSheetWithOptions } = props;
@@ -76,64 +79,64 @@ const HomeScreen = observer((props) => {
   //   DrugStore.getHealthConditions();
   // }, []);
 
-  // useEffect(() => {
-  //   props.navigation.setOptions({
-  //     headerRight: () => (
-  //       <View style={{ flexDirection: "row" }}>
-  //         <TouchableOpacity
-  //           style={{
-  //             marginStart: 10,
-  //             height: 40,
-  //             width: 40,
-  //             justifyContent: "center",
-  //             alignItems: "center",
-  //           }}
-  //           onPress={() => {
-  //             props.navigation.navigate("Search");
-  //           }}
-  //         >
-  //           <Ionicons name="md-search" size={24} color="#fff" />
-  //         </TouchableOpacity>
-  //         <TouchableOpacity
-  //           style={{
-  //             marginStart: 5,
-  //             height: 40,
-  //             width: 40,
-  //             justifyContent: "center",
-  //             alignItems: "center",
-  //           }}
-  //           onPress={() => {
-  //             props.navigation.navigate("Cart");
-  //           }}
-  //         >
-  //           <IconBadge
-  //             MainElement={<Ionicons name="md-cart" size={24} color="#fff" />}
-  //             BadgeElement={
-  //               <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
-  //             }
-  //             IconBadgeStyle={{
-  //               width: 10,
-  //               height: 20,
-  //               backgroundColor: "purple",
-  //               marginTop: 5,
-  //             }}
-  //             Hidden={DrugStore.count == 0}
-  //           />
-  //         </TouchableOpacity>
-  //       </View>
-  //     ),
-  //     headerTitle: "Aushadhalay",
-  //     headerStyle: {
-  //       backgroundColor: "#14213d",
-  //       elevation: 0,
-  //       shadowOpacity: 0,
-  //       borderBottomWidth: 0,
-  //     },
-  //     headerLargeTitle: true,
-  //     headerTintColor: "#fff",
-  //     fontSize: 20,
-  //   });
-  // }, []);
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={{
+              marginStart: 10,
+              height: 40,
+              width: 40,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              props.navigation.navigate("Search");
+            }}
+          >
+            <Ionicons name="md-search" size={24} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginStart: 5,
+              height: 40,
+              width: 40,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              props.navigation.navigate("Cart");
+            }}
+          >
+            {/* <IconBadge
+              MainElement={<Ionicons name="md-cart" size={24} color="#fff" />}
+              BadgeElement={
+                <Text style={{ color: "#FFFFFF" }}> {DrugStore.count} </Text>
+              }
+              IconBadgeStyle={{
+                width: 10,
+                height: 20,
+                backgroundColor: "purple",
+                marginTop: 5,
+              }}
+              Hidden={DrugStore.count == 0}
+            /> */}
+          </TouchableOpacity>
+        </View>
+      ),
+      headerTitle: "Aushadhalay",
+      headerStyle: {
+        backgroundColor: "#14213d",
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0,
+      },
+      headerLargeTitle: true,
+      headerTintColor: "#fff",
+      fontSize: 20,
+    });
+  }, []);
 
   useEffect(() => {
     showMessage({
