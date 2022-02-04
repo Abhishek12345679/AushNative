@@ -18,12 +18,9 @@ const SelectAddressScreen = (props) => {
   const { navigation } = props;
 
   useEffect(() => {
-    // console.log(selectedAddress);
     // DrugStore.fetchAddresses();
   }, [navigation]);
-  // console.log(DrugStore.addresses);
 
-  // console.log("drugs", DrugStore.drugs[0]);
   const { drugs } = DrugStore;
   const isPrescriptionRequired = () => {
     let flag = false;
@@ -44,10 +41,6 @@ const SelectAddressScreen = (props) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {/* <View style={{ padding: 20 }}>
-        <Text style={{ fontSize: 30, fontWeight: "bold" }}>Select Address</Text>
-        <Text>There are a few addresses available.</Text>
-      </View> */}
       <View style={{ flex: 1 }}>
         <ProgressSteps stepCount={4} activeStep={0}>
           <ProgressStep label="Address" nextBtnText=""></ProgressStep>
@@ -70,7 +63,6 @@ const SelectAddressScreen = (props) => {
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: "#000",
-                // marginBottom: 40,
               }}
               onPress={() => props.navigation.navigate("Add New Address")}
             >
@@ -80,7 +72,6 @@ const SelectAddressScreen = (props) => {
             </TouchableOpacity>
             <TouchableHighlight
               style={{
-                // marginVertical: 20,
                 height: 60,
                 alignItems: "center",
                 justifyContent: "center",
@@ -88,10 +79,6 @@ const SelectAddressScreen = (props) => {
                 marginBottom: 40,
               }}
               onPress={() => {
-                // props.navigation.navigate("OrderPreview", {
-                //   address: DrugStore.addresses[selectedAddress],
-                //   paymentMode: "sample",
-                // })
                 console.log("prescr_req", isPrescriptionRequired());
                 isPrescriptionRequired()
                   ? props.navigation.navigate("UploadPrescription", {
@@ -113,7 +100,6 @@ const SelectAddressScreen = (props) => {
         }
         renderItem={({ item, index }) => (
           <Address
-            // selectMode
             onPress={() => {
               console.log(index);
               setSelectedAddress(index);
@@ -145,9 +131,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF",
-    // padding: 20,
   },
 });
+
 export const screenOptions = (navData) => {
   return {
     headerTitle: "Addresses",
@@ -167,6 +153,3 @@ export const screenOptions = (navData) => {
 };
 
 export default SelectAddressScreen;
-
-// curl -u rzp_test_JTQ6Nksjcb9tRj:2fXQGvQKrEc9CuG9Xcvw1pOW
-// -X GET https://api.razorpay.com/v1/orders/?expand[]=payments

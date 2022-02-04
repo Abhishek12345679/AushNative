@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
   StatusBar,
   Platform,
@@ -27,8 +26,9 @@ const CartScreen = observer((props) => {
   }
 
   // useEffect(() => {
-  //   DrugStore.fetchOrders();
-  // }, [DrugStore]);
+  //   fetchOrders();
+  // },
+  // []);
 
   const removeFromCart = (id) => {
     DrugStore.removeFromCart(id);
@@ -70,7 +70,6 @@ const CartScreen = observer((props) => {
           style={{
             borderWidth: 1,
             borderColor: "#000",
-            // flexGrow: 1,
           }}
         >
           {drugs.map((drug, index) => (
@@ -105,9 +104,6 @@ const CartScreen = observer((props) => {
                     </Text>
                   </View>
                 </View>
-                {/* <Text style={{ color: "green", fontWeight: "bold" }}>
-                  ₹{drug.total_amt}
-                </Text> */}
               </View>
 
               <View style={{ marginStart: 10, marginVertical: 10 }}>

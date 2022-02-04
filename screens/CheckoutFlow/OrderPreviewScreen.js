@@ -20,23 +20,6 @@ const OrderPreviewScreen = (props) => {
   const fileUrl = props.route.params.fileUrl;
   const prescriptionUploaded = props.route.params.prescriptionUploaded;
 
-  const RPPaymentOptions = {
-    description: `${drugs.length} Medicines you ordered.`, //product description
-    image:
-      "https://media.npr.org/assets/img/2020/03/09/gettyimages-88160320_wide-27e22851a1aaf72f2e66e280f55d0c28c81ec7bb.jpg?s=1400", // product image
-    currency: "INR",
-    key: "rzp_test_JTQ6Nksjcb9tRj", // secure this key
-    amount: total_checkout_amt * 100,
-    name: ordername,
-    order_id: id, // order_id recieved after
-    prefill: {
-      email: email,
-      contact: contact,
-      name: name,
-    },
-    theme: { color: "#000000" },
-  };
-
   const { drugs } = DrugStore;
   let total_checkout_amt = 0;
 
@@ -100,10 +83,27 @@ const OrderPreviewScreen = (props) => {
     return resData;
   };
 
-  const openPaymentDialog = async () => {
+  const openPaymentDialog = async (order_id) => {
     try {
+      const RPPaymentOptions = {
+        description: `${drugs.length} Medicines you ordered.`, //product description
+        image:
+          "https://media.npr.org/assets/img/2020/03/09/gettyimages-88160320_wide-27e22851a1aaf72f2e66e280f55d0c28c81ec7bb.jpg?s=1400", // product image
+        currency: "INR",
+        key: "rzp_test_JTQ6Nksjcb9tRj", // secure this key
+        amount: total_checkout_amt * 100,
+        name: ordername,
+        order_id: order_id, // order_id recieved after
+        prefill: {
+          email: email,
+          contact: contact,
+          name: name,
+        },
+        theme: { color: "#000000" },
+      };
+
       await RazorpayCheckout.open(RPPaymentOptions);
-      // handle success
+
       setCheckingOut(false);
       console.log("Success:", data);
 
@@ -133,8 +133,7 @@ const OrderPreviewScreen = (props) => {
         // }
       }
     } catch (err) {
-      // handle failure
-      console.log(`Error: ${error} ${error.code} | ${error.description}`);
+      console.error(`Error: ${error} ${error.code} | ${error.description}`);
       setCheckingOut(false);
     }
   };
@@ -142,10 +141,10 @@ const OrderPreviewScreen = (props) => {
   const initiatePayment = async () => {
     setCheckingOut(true);
     try {
-      await createOrder();
-      console.log("amt", total_checkout_amt * 100);
-      console.log("id", id);
-      openPaymentDialog;
+      const orderId = await createOrder();
+      console.log("Total Amount: ", total_checkout_amt * 100);
+      console.log("order id:", orderId);
+      // await openPaymentDialog(orderId);
     } catch (err) {
       console.error(err);
     }
