@@ -18,9 +18,7 @@ const AppContainer = observer(() => {
   const [user, setUser] = useState();
 
   if (!firebase.apps.length) {
-    /**
-     * If a firebase app has not been initialized this will initialize it
-     */
+    //If a firebase app has not been initialized this will initialize it
     firebase.initializeApp(firebaseConfig);
   }
 
@@ -34,7 +32,7 @@ const AppContainer = observer(() => {
     });
 
     if (initializing) setInitializing(false);
-    return subscriber; // unsubscribe on unmount
+    return subscriber;
   }, []);
 
   return (

@@ -127,7 +127,13 @@ const EditProfileScreen = observer((props) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
+    <SafeAreaView
+      style={{
+        backgroundColor: "#fff",
+        flex: 1,
+        marginTop: 90,
+      }}
+    >
       <Formik
         innerRef={formRef}
         initialValues={{
