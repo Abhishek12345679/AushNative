@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -74,10 +74,10 @@ const HomeScreen = observer((props) => {
     requestPermissions();
   }, []);
 
-  // useEffect(() => {
-  //   DrugStore.fetchOrders();
-  //   DrugStore.fetchAddresses();
-  // }, []);
+  useEffect(() => {
+    // fetchOrders();
+    // fetchAddresses();
+  }, []);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -129,17 +129,17 @@ const HomeScreen = observer((props) => {
     });
   }, []);
 
-  useEffect(() => {
-    showMessage({
-      message: `Logged in as ${
-        !DrugStore.profile.name.length > 0
-          ? DrugStore.userCredentials.email
-          : DrugStore.profile.name.trim()
-      }`,
-      type: "success",
-      duration: 2000,
-    });
-  }, []);
+  // useEffect(() => {
+  //   showMessage({
+  //     message: `Logged in as ${
+  //       !DrugStore.profile.name.length > 0
+  //         ? DrugStore.userCredentials.email
+  //         : DrugStore.profile.name.trim()
+  //     }`,
+  //     type: "success",
+  //     duration: 2000,
+  //   });
+  // }, []);
 
   const onOpenActionSheet = () => {
     const options = ["Detect Current Location", "Select Manually", "Cancel"];
@@ -202,9 +202,7 @@ const HomeScreen = observer((props) => {
               currentLocation={true}
               currentLocationLabel="Current location"
               onPress={(data, details) => {
-                // 'details' is provided when fetchDetails = true
-                console.log(details.formatted_address);
-                // setLocData({ data, details });
+                // console.log(details.formatted_address);
                 setLocName(details.formatted_address);
                 setModalVisible(false);
               }}
