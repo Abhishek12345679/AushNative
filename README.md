@@ -32,13 +32,13 @@ Makes Life More Fun
 - [ ] Refactor code.
 - [x] add Native module for mlkit text recognition
 - [x] use MLKit native module in app
-- [ ] Add react-native-firebase native sdk instead of web api in the mobx store
+- [x] Add react-native-firebase native sdk instead of web api in the mobx store
+- [x] Fix razorpay payments api integration
 - [ ] Redesign in Figma
 - [ ] Refresh Mongodb (atlas,mongoose), graphql(apollo),...
 - [ ] Update Modules to the latest version.
 - [ ] Publish to App Store.
 - [ ] Create a website for advertisement.
-
 
 Want your meds ? Just Whip out your phone and snap a photo of the packaging and boom it shows you all the meds matching your med's name in our database
 Why Aushadhalay instead of other apps:

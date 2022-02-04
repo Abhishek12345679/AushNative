@@ -57,13 +57,13 @@ const OrderPreviewScreen = (props) => {
     );
 
     const resData = await response.json();
-    console.log(resData);
+    // console.log(resData);
 
     return resData.id;
   };
 
   const verifySignature = async (order_id, pid, signature) => {
-    console.log({ order_id, pid, signature });
+    // console.log({ order_id, pid, signature });
     const response = await fetch(
       "https://razorpay-payments-api.herokuapp.com/verifysignature",
       {
@@ -79,7 +79,7 @@ const OrderPreviewScreen = (props) => {
       }
     );
     const resData = await response.json();
-    console.log(resData);
+    // console.log(resData);
     return resData;
   };
 
@@ -90,10 +90,10 @@ const OrderPreviewScreen = (props) => {
         image:
           "https://media.npr.org/assets/img/2020/03/09/gettyimages-88160320_wide-27e22851a1aaf72f2e66e280f55d0c28c81ec7bb.jpg?s=1400", // product image
         currency: "INR",
-        key: "rzp_test_JTQ6Nksjcb9tRj", // secure this key
+        key: "rzp_test_spbocQblrbzEdw",
         amount: total_checkout_amt * 100,
         name: ordername,
-        order_id: order_id, // order_id recieved after
+        order_id: order_id,
         prefill: {
           email: email,
           contact: contact,
@@ -102,18 +102,17 @@ const OrderPreviewScreen = (props) => {
         theme: { color: "#000000" },
       };
 
-      await RazorpayCheckout.open(RPPaymentOptions);
-
+      const paymentResponse = await RazorpayCheckout.open(RPPaymentOptions);
       setCheckingOut(false);
-      console.log("Success:", data);
 
-      const data = await verifySignature(
-        id,
-        data.razorpay_payment_id,
-        data.razorpay_signature
+      const verificationResponse = await verifySignature(
+        order_id,
+        paymentResponse.razorpay_payment_id,
+        paymentResponse.razorpay_signature
       );
 
-      if (data) {
+      if (verificationResponse) {
+        console.log("Success:", verificationResponse);
         // await addOrder({
         //   items: DrugStore.drugs,
         //   datetimestamp: new Date().getTime(),
@@ -132,7 +131,7 @@ const OrderPreviewScreen = (props) => {
         //   DrugStore.clearCart();
         // }
       }
-    } catch (err) {
+    } catch (error) {
       console.error(`Error: ${error} ${error.code} | ${error.description}`);
       setCheckingOut(false);
     }
@@ -142,9 +141,7 @@ const OrderPreviewScreen = (props) => {
     setCheckingOut(true);
     try {
       const orderId = await createOrder();
-      console.log("Total Amount: ", total_checkout_amt * 100);
-      console.log("order id:", orderId);
-      // await openPaymentDialog(orderId);
+      await openPaymentDialog(orderId);
     } catch (err) {
       console.error(err);
     }
