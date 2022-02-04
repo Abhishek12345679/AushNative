@@ -16,8 +16,6 @@ import {
 
 import { showMessage } from "react-native-flash-message";
 
-import Tooltip from "react-native-walkthrough-tooltip";
-
 import QuantitySelector from "../components/QuantitySelector";
 import { observer } from "mobx-react";
 import { Ionicons } from "@expo/vector-icons";
@@ -70,9 +68,6 @@ const DrugDetailScreen = observer((props) => {
   };
 
   const item = props.route.params.item;
-
-  const [toolTipVisible, setToolTipVisible] = useState(false);
-  const [pushToken, setPushToken] = useState();
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -138,26 +133,15 @@ const DrugDetailScreen = observer((props) => {
               <Text style={styles.salt}> {item.salt} </Text>
             </View>
             {item.requires_prescription && (
-              <Tooltip
-                isVisible={toolTipVisible}
-                content={
-                  <View>
-                    <Text> Prescription Required </Text>
-                  </View>
-                }
-                placement="left"
-                onClose={() => setToolTipVisible(false)}
+              <TouchableOpacity
+                style={{ height: 50, width: 50 }}
+                onPress={() => setToolTipVisible(true)}
               >
-                <TouchableOpacity
+                <Image
+                  source={require("../assets/pharmacy.png")}
                   style={{ height: 50, width: 50 }}
-                  onPress={() => setToolTipVisible(true)}
-                >
-                  <Image
-                    source={require("../assets/pharmacy.png")}
-                    style={{ height: 50, width: 50 }}
-                  />
-                </TouchableOpacity>
-              </Tooltip>
+                />
+              </TouchableOpacity>
             )}
           </View>
           <View
@@ -224,7 +208,6 @@ const DrugDetailScreen = observer((props) => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              // marginHorizontal: 20,
               paddingHorizontal: 20,
               paddingVertical: 10,
             }}
@@ -472,7 +455,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buyBtn: {
-    // flex: 1,
     width: 250,
     height: 70,
     backgroundColor: "#000",

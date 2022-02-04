@@ -115,7 +115,7 @@ const DrugScanner = (props) => {
     // This issue only affects Android
     if (Platform.OS === "android") {
       const ratios = await camera.getSupportedRatiosAsync();
-      console.log(ratios);
+      // console.log(ratios);
 
       // Calculate the width/height of each of the supported camera ratios
       // These width/height are measured in landscape mode
