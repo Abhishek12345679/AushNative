@@ -35,7 +35,7 @@ Makes Life More Fun
 - [x] Add react-native-firebase native sdk instead of web api in the mobx store
 - [x] Fix razorpay payments api integration
 - [x] use firestore
-- [ ] JS => TS
+- [x] JS => TS (in progress...)
 - [ ] Redesign in Figma
 - [ ] Refresh Mongodb (atlas,mongoose), graphql(apollo),...
 - [ ] Update Modules to the latest version.
