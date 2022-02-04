@@ -190,8 +190,9 @@ const HomeScreen = observer((props) => {
               placeholder="Search"
               currentLocation={true}
               currentLocationLabel="Current location"
-              onPress={(details) => {
-                setLocName(details.formatted_address);
+              onPress={(data, details) => {
+                console.log(data.description);
+                setLocName(data.description);
                 setModalVisible(false);
               }}
               query={{

@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
 
+navigator.geolocation = require("react-native-geolocation-service");
+
+import { Text, TouchableOpacity, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../constants/colors";
-import { Platform } from "react-native";
 
 const LocationPicker = (props) => {
   return (
