@@ -16,9 +16,10 @@ import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 const SelectAddressScreen = (props) => {
   const [selectedAddress, setSelectedAddress] = useState(0);
   const { navigation } = props;
+
   useEffect(() => {
     // console.log(selectedAddress);
-    DrugStore.fetchAddresses();
+    // DrugStore.fetchAddresses();
   }, [navigation]);
   // console.log(DrugStore.addresses);
 

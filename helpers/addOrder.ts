@@ -1,5 +1,5 @@
 import firestore from "@react-native-firebase/firestore";
-import DrugStore from "../store/CartStore";
+import DrugStore, { Order } from "../store/CartStore";
 
 const addOrder = async (order: Order) => {
   try {

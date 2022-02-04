@@ -148,10 +148,7 @@ const CartScreen = observer((props) => {
         </View>
       ) : (
         <View style={styles.centered}>
-          <Image
-            source={require("../assets/empty_cart.png")}
-            style={{ height: 400, width: 400 }}
-          />
+          <Text>No items in the cart</Text>
         </View>
       )}
       {drugs.length > 0 && (

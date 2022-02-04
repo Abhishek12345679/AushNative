@@ -1,18 +1,12 @@
-/* TODO: Razorpaycheckout.open gives an error (Error: TypeError: null is not an object (evaluating '_reactNative.NativeModules.RNRazorpayCheckout.open')) [ANDROID] */
-// Works fine on iOS
-
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
-  Button,
   ScrollView,
   StyleSheet,
   Image,
   TouchableOpacity,
-  Linking,
 } from "react-native";
-import { showMessage } from "react-native-flash-message";
 import Address from "../../components/Address";
 import DrugStore from "../../store/CartStore";
 
@@ -26,45 +20,40 @@ const OrderPreviewScreen = (props) => {
   const fileUrl = props.route.params.fileUrl;
   const prescriptionUploaded = props.route.params.prescriptionUploaded;
 
-  // const paymentMode = props.route.params.paymentMode;
-
-  // console.log(props.route.params.noPrescriptionRequired);
-
-  // console.log("address", address);
-  // console.log("file", fileUrl);
-  // console.log("paymentmode", paymentMode);
+  const RPPaymentOptions = {
+    description: `${drugs.length} Medicines you ordered.`, //product description
+    image:
+      "https://media.npr.org/assets/img/2020/03/09/gettyimages-88160320_wide-27e22851a1aaf72f2e66e280f55d0c28c81ec7bb.jpg?s=1400", // product image
+    currency: "INR",
+    key: "rzp_test_JTQ6Nksjcb9tRj", // secure this key
+    amount: total_checkout_amt * 100,
+    name: ordername,
+    order_id: id, // order_id recieved after
+    prefill: {
+      email: email,
+      contact: contact,
+      name: name,
+    },
+    theme: { color: "#000000" },
+  };
 
   const { drugs } = DrugStore;
   let total_checkout_amt = 0;
 
-  // const [totalAmount, setTotalAmount] = useState(0);
   const [checkingOut, setCheckingOut] = useState(false);
-  // const [orderStatus, setOrderStatus] = useState(false);
-
-  // useEffect(() => {
-  //   props.navigation.navigate("OrderConfirmation", {
-  //     status: orderStatus,
-  //   });
-  // }, [orderStatus]);
 
   const email = DrugStore.userCredentials.email;
   const name = DrugStore.profile.name;
   const contact = address.ph_no;
   const ordername = DrugStore.drugs[0].name + "...";
 
-  // console.log(drugs[1].quantity);
-
   for (let i = 0; i < drugs.length; i++) {
     total_checkout_amt = total_checkout_amt + drugs[i].total_amt;
   }
-  // setTotalAmount(total_checkout_amt);
-
-  // console.log(total_checkout_amt);
 
   const toISTString = (unixtime) => {
     const dateObject = new Date(unixtime);
     const humanDateFormat = dateObject.toString();
-    // return humanDateFormat.substring(0, humanDateFormat.indexOf("G"));
     return humanDateFormat.substring(0, humanDateFormat.indexOf(":") - 3);
   };
 
@@ -111,6 +100,57 @@ const OrderPreviewScreen = (props) => {
     return resData;
   };
 
+  const openPaymentDialog = async () => {
+    try {
+      await RazorpayCheckout.open(RPPaymentOptions);
+      // handle success
+      setCheckingOut(false);
+      console.log("Success:", data);
+
+      const data = await verifySignature(
+        id,
+        data.razorpay_payment_id,
+        data.razorpay_signature
+      );
+
+      if (data) {
+        // await addOrder({
+        //   items: DrugStore.drugs,
+        //   datetimestamp: new Date().getTime(),
+        //   address: address,
+        //   total_amt: total_checkout_amt,
+        //   order_id: id,
+        //   status: data.status,
+        //   prescription: fileUrl,
+        // });
+        // console.log("status", data.status);
+        // props.navigation.navigate("OrderConfirmation", {
+        //   status: data.status,
+        // });
+        // remove cartItems
+        // if (data.status === true) {
+        //   DrugStore.clearCart();
+        // }
+      }
+    } catch (err) {
+      // handle failure
+      console.log(`Error: ${error} ${error.code} | ${error.description}`);
+      setCheckingOut(false);
+    }
+  };
+
+  const initiatePayment = async () => {
+    setCheckingOut(true);
+    try {
+      await createOrder();
+      console.log("amt", total_checkout_amt * 100);
+      console.log("id", id);
+      openPaymentDialog;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <ScrollView style={styles.container} stickyHeaderIndices={[0]}>
       <View
@@ -145,11 +185,7 @@ const OrderPreviewScreen = (props) => {
           <Text style={styles.BoldText}>Order Date</Text>
           <Text>{toISTString(new Date())}</Text>
         </View>
-        <View style={styles.textCont}>
-          {/* <Text style={styles.BoldText}>Order #</Text>
-
-          <Text>{"sample"}</Text> */}
-        </View>
+        <View style={styles.textCont}></View>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order Total</Text>
           <Text style={{ color: "green", fontWeight: "bold" }}>
@@ -185,9 +221,6 @@ const OrderPreviewScreen = (props) => {
                   marginTop: 10,
                 }}
               >
-                {/* <Text style={{ marginHorizontal: 10, fontSize: 20 }}>
-                      {drug.quantity}
-                    </Text> */}
                 <Text style={{ color: "green" }}>₹ {item.price}</Text>
                 <Text> x {item.quantity} = </Text>
                 <Text style={{ color: "green", fontWeight: "bold" }}>
@@ -221,13 +254,7 @@ const OrderPreviewScreen = (props) => {
               borderRadius: 5,
             }}
           >
-            <Text
-            // onPress={() => {
-            //   Linking.openURL(fileUrl);
-            // }}
-            >
-              Prescription Uploaded
-            </Text>
+            <Text>Prescription Uploaded</Text>
             <Text style={{ fontWeight: "bold", color: "green" }}>
               {prescriptionUploaded ? "Yes" : "No"}
             </Text>
@@ -245,71 +272,7 @@ const OrderPreviewScreen = (props) => {
             marginBottom: 40,
             width: "100%",
           }}
-          onPress={() => {
-            setCheckingOut(true);
-            createOrder().then((id) => {
-              console.log("amt", total_checkout_amt * 100);
-              console.log("id", id);
-              const options = {
-                description: `${drugs.length} Medicines you ordered.`, //product description
-                image:
-                  "https://media.npr.org/assets/img/2020/03/09/gettyimages-88160320_wide-27e22851a1aaf72f2e66e280f55d0c28c81ec7bb.jpg?s=1400", // product image
-                currency: "INR",
-                key: "rzp_test_JTQ6Nksjcb9tRj", // secure this key
-                amount: total_checkout_amt * 100,
-                name: ordername,
-                order_id: id, // order_id recieved after
-                prefill: {
-                  email: email,
-                  contact: contact,
-                  name: name,
-                  // method: "card", //default payment method
-                },
-                theme: { color: "#000000" },
-              };
-              RazorpayCheckout.open(options)
-                .then((data) => {
-                  // handle success
-                  setCheckingOut(false);
-                  console.log("Success:", data);
-                  verifySignature(
-                    id,
-                    data.razorpay_payment_id,
-                    data.razorpay_signature
-                  ).then((data) => {
-                    if (data) {
-                      DrugStore.addOrder({
-                        items: DrugStore.drugs,
-                        datetimestamp: new Date().getTime(),
-                        address: address,
-                        total_amt: total_checkout_amt,
-                        order_id: id,
-                        status: data.status,
-                        prescription: fileUrl,
-                      }).then(() => {
-                        // console.log("statuss", data.status);
-
-                        props.navigation.navigate("OrderConfirmation", {
-                          status: data.status,
-                        });
-                      });
-
-                      // remove cartItems
-                      if (data.status === true) {
-                        DrugStore.clearCart();
-                      }
-                    }
-                  });
-                })
-                .catch((error) => {
-                  // handle failure
-                  console.log(
-                    `Error: ${error} ${error.code} | ${error.description}`
-                  );
-                  setCheckingOut(false);
-                });
-            });
-          }}
+          onPress={initiatePayment}
         >
           {!checkingOut ? (
             <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>
@@ -327,8 +290,6 @@ const OrderPreviewScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
-    // flex: 1,
-    // marginBottom: 40,
   },
   item: {
     marginHorizontal: 25,
