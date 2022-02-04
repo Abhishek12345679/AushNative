@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
-  StatusBar,
   Platform,
   Modal,
   ScrollView,
@@ -11,15 +10,14 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import { showMessage } from "react-native-flash-message";
 import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
 import Geolocation from "react-native-geolocation-service";
 import LocationPicker from "../components/LocationPicker";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-
 import { Ionicons } from "@expo/vector-icons";
+import firestore from "@react-native-firebase/firestore";
 
 const HomeScreen = observer((props) => {
   const { showActionSheetWithOptions } = props;

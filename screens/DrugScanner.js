@@ -201,6 +201,22 @@ const DrugScanner = (props) => {
     directionalOffsetThreshold: 80,
   };
 
+  const captureImage = async () => {
+    if (cameraRef) {
+      if (isCameraReady) {
+        const photo = await cameraRef.takePictureAsync({
+          base64: true,
+          // quality: 0.5,
+        });
+
+        props.navigation.navigate("Confirm", {
+          // mode:'camera',
+          photo: photo,
+        });
+      }
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <GestureRecognizer
@@ -246,13 +262,7 @@ const DrugScanner = (props) => {
             >
               <View
                 ref={contourRef.current}
-                onLayout={({ nativeEvent }) => {
-                  setMeasurements(nativeEvent.layout);
-                }}
                 style={{
-                  // flex: 1,
-                  // borderWidth: 3,
-                  // borderColor: "rgb(0, 255, 0)",
                   width: "95%",
                   height: 100,
                   justifyContent: "center",
@@ -263,24 +273,7 @@ const DrugScanner = (props) => {
               <TouchableOpacity
                 activeOpacity={0.75}
                 style={styles.captureButton}
-                onPress={async () => {
-                  if (cameraRef) {
-                    if (isCameraReady) {
-                      // vibration ->
-                      // Vibration.vibrate();
-
-                      const photo = await cameraRef.takePictureAsync({
-                        base64: true,
-                        // quality: 0.5,
-                      });
-
-                      props.navigation.navigate("Confirm", {
-                        // mode:'camera',
-                        photo: photo,
-                      });
-                    }
-                  }
-                }}
+                onPress={captureImage}
               >
                 <Text
                   style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}

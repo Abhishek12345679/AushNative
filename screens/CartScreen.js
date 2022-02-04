@@ -161,7 +161,6 @@ const CartScreen = observer((props) => {
             backgroundColor: "#fff",
             alignItems: "center",
             justifyContent: "flex-end",
-            // marginBottom: 30,
           }}
         >
           <TouchableOpacity
@@ -184,7 +183,6 @@ const CartScreen = observer((props) => {
               backgroundColor: "#000",
               alignItems: "center",
               justifyContent: "center",
-              // marginTop: 10,
               marginBottom: 10,
             }}
           >
@@ -198,15 +196,6 @@ const CartScreen = observer((props) => {
           </TouchableOpacity>
         </View>
       )}
-      <View style={styles.centered}>
-        <Text style={{ color: "#000", fontSize: 20 }}>
-          Aushadhalay India ⓒ 2020
-        </Text>
-
-        <Text style={{ color: "#000", fontWeight: "bold" }}>
-          {`< >  with ♥️ in  🇮🇳`}
-        </Text>
-      </View>
     </ScrollView>
   );
 });
