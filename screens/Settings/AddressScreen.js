@@ -5,6 +5,7 @@ import DrugStore from "../../store/CartStore";
 import { Ionicons } from "@expo/vector-icons";
 import { observer } from "mobx-react";
 import Address from "../../components/Address";
+import fetchAddresses from "../../helpers/fetchAddresses";
 
 const AddressScreen = observer((props) => {
   useEffect(() => {

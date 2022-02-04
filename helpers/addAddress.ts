@@ -1,6 +1,6 @@
 import firestore from "@react-native-firebase/firestore";
-import DrugStore, { Address, Order } from "../store/CartStore";
-import fetchOrders from "./fetchOrders";
+import DrugStore, { Address } from "../store/CartStore";
+import fetchAddresses from "./fetchAddresses";
 
 const addAddresses = async (address: Address) => {
   try {
@@ -13,7 +13,7 @@ const addAddresses = async (address: Address) => {
     // console.log("user: ", userExists);
 
     if (userExists) {
-      const addresses = await fetchOrders();
+      const addresses = await fetchAddresses();
       await user.update({
         addresses: [...addresses, address],
       });

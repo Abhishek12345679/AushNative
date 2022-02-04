@@ -80,6 +80,7 @@ const HomeScreen = observer((props) => {
       DrugStore.addOrders(orders);
 
       const addresses = await fetchAddresses();
+      console.log("addresses: ", JSON.stringify(addresses, null, 2));
       DrugStore.addAddresses(addresses);
     };
     fetchingStuff();
