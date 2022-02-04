@@ -13,7 +13,7 @@ const MyWebView = (props) => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginTop: -330 }}>
       <WebView source={{ uri: url }} />
     </View>
   );
