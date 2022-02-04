@@ -28,6 +28,12 @@ const HomeScreen = observer((props) => {
   const [locName, setLocName] = useState("select location");
   const [locData, setLocData] = useState("");
 
+  const geoOptions = {
+    enableHighAccuracy: true,
+    timeOut: 200000,
+    maximumAge: 60 * 60 * 24,
+  };
+
   const geoSuccess = (position) => {
     console.log("Success", position);
     fetch(
@@ -49,14 +55,8 @@ const HomeScreen = observer((props) => {
     console.log("Error: ", error);
   };
 
-  const geoOptions = {
-    enableHighAccuracy: true,
-    timeOut: 200000,
-    maximumAge: 60 * 60 * 24,
-  };
-
   useEffect(() => {
-    async function requestPermissions() {
+    const requestPermissions = async () => {
       if (Platform.OS === "ios") {
         Geolocation.requestAuthorization();
         Geolocation.setRNConfiguration({
@@ -70,7 +70,7 @@ const HomeScreen = observer((props) => {
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
         );
       }
-    }
+    };
     requestPermissions();
   }, []);
 
@@ -129,18 +129,6 @@ const HomeScreen = observer((props) => {
     });
   }, []);
 
-  // useEffect(() => {
-  //   showMessage({
-  //     message: `Logged in as ${
-  //       !DrugStore.profile.name.length > 0
-  //         ? DrugStore.userCredentials.email
-  //         : DrugStore.profile.name.trim()
-  //     }`,
-  //     type: "success",
-  //     duration: 2000,
-  //   });
-  // }, []);
-
   const onOpenActionSheet = () => {
     const options = ["Detect Current Location", "Select Manually", "Cancel"];
     const cancelButtonIndex = 2;
@@ -166,18 +154,12 @@ const HomeScreen = observer((props) => {
       style={styles.container}
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      {Platform.OS === "ios" ? (
-        <StatusBar barStyle="light-content" />
-      ) : (
-        <StatusBar barStyle="light-content" backgroundColor="#14213d" />
-      )}
       <LocationPicker
         location={locName}
         onPress={() => {
           onOpenActionSheet();
         }}
       />
-
       <Modal
         presentationStyle="formSheet"
         animationType="slide"
@@ -201,8 +183,7 @@ const HomeScreen = observer((props) => {
               placeholder="Search"
               currentLocation={true}
               currentLocationLabel="Current location"
-              onPress={(data, details) => {
-                // console.log(details.formatted_address);
+              onPress={(details) => {
                 setLocName(details.formatted_address);
                 setModalVisible(false);
               }}

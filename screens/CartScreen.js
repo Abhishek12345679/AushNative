@@ -26,9 +26,9 @@ const CartScreen = observer((props) => {
     total_checkout_amt = total_checkout_amt + drugs[i].total_amt;
   }
 
-  useEffect(() => {
-    DrugStore.fetchOrders();
-  }, [DrugStore]);
+  // useEffect(() => {
+  //   DrugStore.fetchOrders();
+  // }, [DrugStore]);
 
   const removeFromCart = (id) => {
     DrugStore.removeFromCart(id);

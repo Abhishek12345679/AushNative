@@ -7,9 +7,7 @@ import {
   StatusBar,
   Dimensions,
   Image,
-} from "react-native";
-
-
+} from "react-native"
 import { Ionicons } from "@expo/vector-icons";
 import CameraPreviewCornerButton from "../components/CameraPreviewCornerButton";
 import { extractWords, TextRecognitionResponse } from "../mlkit/TextRecognition";
@@ -23,21 +21,11 @@ const CameraPreviewScreen = (props: any) => {
     useState<TextRecognitionResponse | undefined>(undefined);
   const [aspectRatio, setAspectRatio] = useState(1);
 
-  const removeUselessSpaces = (text) => {
-    let newText = text.replace(/\s+/g, " ").trim();
-    return newText;
-  };
-
-
   const processImage = async () => {
     if (image) {
       try {
         const TextRecognitionResponse = await extractWords(image);
         if (TextRecognitionResponse.blocks.length > 0) {
-          // console.log(
-          //   "TextRecognitionResponse",
-          //   JSON.stringify(TextRecognitionResponse, null, 4)
-          // );
           setTextRecognitonResponse(TextRecognitionResponse);
           setAspectRatio(
             TextRecognitionResponse.height /

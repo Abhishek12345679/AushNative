@@ -29,8 +29,6 @@ const DrugScanner = (props) => {
   const [mounted, setMounted] = useState(true);
 
   const baseUri = "data:image/jpg;base64,";
-
-  const [measurements, setMeasurements] = useState({});
   const contourRef = useRef(null);
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -84,7 +82,6 @@ const DrugScanner = (props) => {
           Permissions.CAMERA_ROLL
         );
         setHasPermission(CameraStatus && GalleryStatus === "granted");
-        // measureContour();
       } catch (e) {
         console.error(e);
       }
@@ -206,9 +203,6 @@ const DrugScanner = (props) => {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* <StatusBar
-        barStyle={Platform.OS  "light-content"}
-      /> */}
       <GestureRecognizer
         onSwipeUp={(state) => onSwipeUp(state)}
         onSwipeDown={(state) => onSwipeDown(state)}
@@ -297,7 +291,6 @@ const DrugScanner = (props) => {
             </View>
             <View
               style={{
-                // height: "50%",
                 flex: 0.2,
                 backgroundColor: "#ffffff00",
                 flexDirection: "column",
@@ -412,9 +405,6 @@ const DrugScanner = (props) => {
               ></View>
             </KeyboardAvoidingView>
             <Modal
-              // animationIn="fadeIn"
-              // animationInTiming={3000}
-              // animationOut="jello"
               avoidKeyboard={true}
               isVisible={isVisible}
               onSwipeComplete={() => setIsVisible(false)}
@@ -422,7 +412,6 @@ const DrugScanner = (props) => {
               style={{
                 justifyContent: "flex-end",
                 margin: 0,
-                // alignItems: "center",
               }}
               onBackdropPress={() => setIsVisible(false)}
             >
@@ -455,7 +444,6 @@ const DrugScanner = (props) => {
                 <ManualSearchBox
                   onpress={() => {
                     setIsVisible(false);
-                    // props.navigation.pop();
                     props.navigation.navigate("Results", {
                       query: query,
                       manual_search: true,
@@ -479,25 +467,6 @@ const DrugScanner = (props) => {
 };
 
 const styles = StyleSheet.create({
-  // captureButton: {
-  //   marginStart: 30,
-  //   // backgroundColor: "#000",
-  //   borderColor: "skyblue",
-  //   borderWidth: 5,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   height: 80,
-  //   width: 80,
-  //   borderRadius: 40,
-  //   marginEnd: 10,
-  //   marginTop: 10,
-
-  //   shadowColor: "#000",
-  //   shadowOpacity: 0.3,
-  //   shadowOffset: {
-  //     width: 0,
-  //   },
-  // },
   captureButton: {
     marginEnd: 10,
     marginTop: 10,
