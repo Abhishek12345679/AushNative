@@ -7,11 +7,13 @@ import { observer } from "mobx-react";
 import Address from "../../components/Address";
 
 const AddressScreen = observer((props) => {
-  const { navigation } = props;
-
   useEffect(() => {
-    DrugStore.fetchAddresses();
-  }, [navigation]);
+    const fetchStuff = async () => {
+      const addresses = await fetchAddresses();
+      DrugStore.addAddresses(addresses);
+    };
+    fetchStuff();
+  }, []);
 
   return (
     <ScrollView style={styles.container}>

@@ -12,14 +12,18 @@ import Address from "../../components/Address";
 import DrugStore from "../../store/CartStore";
 
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
+import fetchAddresses from "../../helpers/fetchAddresses";
 
 const SelectAddressScreen = (props) => {
   const [selectedAddress, setSelectedAddress] = useState(0);
-  const { navigation } = props;
 
   useEffect(() => {
-    // DrugStore.fetchAddresses();
-  }, [navigation]);
+    const fetchStuff = async () => {
+      const addresses = await fetchAddresses();
+      DrugStore.addAddresses(addresses);
+    };
+    fetchStuff();
+  }, []);
 
   const { drugs } = DrugStore;
   const isPrescriptionRequired = () => {

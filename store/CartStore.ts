@@ -194,10 +194,11 @@ const DrugStore = types
   }))
   // Order Actions
   .actions((self) => ({
-    // add new addresses to firestore
-    // fetch addresses from firestore,
     addOrders(orders: Array<Order>) {
       self.orders = cast(orders);
+    },
+    addAddresses(addresses: Array<Address>) {
+      self.addresses = cast(addresses);
     },
   }))
   // initial State

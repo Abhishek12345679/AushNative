@@ -19,8 +19,7 @@ Makes Life More Fun
 
 > Servers
 > Payments Server: <https://razorpay-payments-api.herokuapp.com/>
-> GraphQl API w/ the mongodb atlas: <https://med-db-v1.herokuapp.com/>
-
+> GraphQl API w/ the mongodb atlas: <https://med-db-v1.herokuapp.com/graphql>
 
 ## TODO
 

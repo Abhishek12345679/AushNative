@@ -18,6 +18,8 @@ import DrugStore from "../store/CartStore";
 import RoundButton from "../components/RoundButton";
 import { showMessage } from "react-native-flash-message";
 import { observer } from "mobx-react";
+import fetchAddresses from "../helpers/fetchAddresses";
+import addAddresses from "../helpers/addAddress";
 
 const AddAddressModalScreen = observer((props) => {
   const [addingAddress, setAddingAddress] = useState(false);
@@ -35,9 +37,6 @@ const AddAddressModalScreen = observer((props) => {
     },
   ];
 
-  const addAddress = (address) => {
-    DrugStore.addNewAddress(address);
-  };
   return (
     <ScrollView style={{ padding: 20 }}>
       <StatusBar barStyle="light-content" />
@@ -51,10 +50,10 @@ const AddAddressModalScreen = observer((props) => {
             pincode: "",
             ph_no: "",
           }}
-          onSubmit={(values) => {
+          onSubmit={async (values) => {
             console.log("Submitting...");
 
-            addAddress({
+            await addAddresses({
               type: type,
               name: values.name,
               add_line_1: values.add_line_1,
@@ -67,7 +66,10 @@ const AddAddressModalScreen = observer((props) => {
               type: "success",
               duration: 5000,
             });
-            DrugStore.fetchAddresses();
+
+            const addresses = await fetchAddresses();
+            DrugStore.addAddresses(addresses);
+
             props.navigation.pop();
           }}
         >

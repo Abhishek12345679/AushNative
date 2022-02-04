@@ -19,6 +19,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Ionicons } from "@expo/vector-icons";
 import firestore from "@react-native-firebase/firestore";
 import fetchOrders from "../helpers/fetchOrders";
+import fetchAddresses from "../helpers/fetchAddresses";
 
 const HomeScreen = observer((props) => {
   const { showActionSheetWithOptions } = props;
@@ -78,7 +79,8 @@ const HomeScreen = observer((props) => {
       const orders = await fetchOrders();
       DrugStore.addOrders(orders);
 
-      // fetchAddresses();
+      const addresses = await fetchAddresses();
+      DrugStore.addAddresses(addresses);
     };
     fetchingStuff();
   }, []);
