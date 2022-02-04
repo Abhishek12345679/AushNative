@@ -4,7 +4,6 @@ import { WebView } from "react-native-webview";
 
 const MyWebView = (props) => {
   const url = props.route.params.url;
-  console.log("url", url);
 
   useEffect(() => {
     props.navigation.setOptions({
