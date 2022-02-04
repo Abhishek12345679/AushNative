@@ -29,11 +29,12 @@ Makes Life More Fun
 - [x] Disabled Firebase analytics causing IDBIndex Error.
 - [x] Removed Unnecessary Code.
 - [x] Cloudinary => Firebase Storage
-- [ ] Refactor code.
+- [x] Refactor code.
 - [x] add Native module for mlkit text recognition
 - [x] use MLKit native module in app
 - [x] Add react-native-firebase native sdk instead of web api in the mobx store
 - [x] Fix razorpay payments api integration
+- [x] use firestore
 - [ ] JS => TS
 - [ ] Redesign in Figma
 - [ ] Refresh Mongodb (atlas,mongoose), graphql(apollo),...
