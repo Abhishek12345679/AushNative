@@ -1,5 +1,3 @@
-// FIXME: change the testing uuid to a permanent one assigned when order is successful
-
 import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";

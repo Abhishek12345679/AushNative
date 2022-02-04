@@ -211,10 +211,7 @@ const ResultList = observer((props) => {
                 marginVertical: 50,
               }}
             >
-              <Image
-                source={require("../assets/nomed.png")}
-                style={{ height: 300, width: 200 }}
-              />
+              <Text>No Medicines</Text>
             </View>
           </ScrollView>
         )
@@ -227,10 +224,7 @@ const ResultList = observer((props) => {
             marginVertical: 50,
           }}
         >
-          <Image
-            source={require("../assets/nomed.png")}
-            style={{ height: 300, width: 200 }}
-          />
+          <Text>No Medicines</Text>
         </View>
       )}
     </View>

@@ -9,7 +9,6 @@ import { observer } from "mobx-react";
 
 import FlashMessage from "react-native-flash-message";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { MenuProvider } from "react-native-popup-menu";
 
 import { StyleSheet } from "react-native";
 
@@ -27,19 +26,14 @@ const App = observer(() => {
     });
   }, []);
   return (
-    <MenuProvider
-      style={styles.container}
-      customStyles={{ backdrop: styles.backdrop }}
-    >
-      <ActionSheetProvider>
-        <ApolloProvider client={client}>
-          <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-            <RootNavigation />
-            <FlashMessage position="bottom" />
-          </View>
-        </ApolloProvider>
-      </ActionSheetProvider>
-    </MenuProvider>
+    <ActionSheetProvider>
+      <ApolloProvider client={client}>
+        <View style={{ flex: 1, backgroundColor: "#FFF" }}>
+          <RootNavigation />
+          <FlashMessage position="bottom" />
+        </View>
+      </ApolloProvider>
+    </ActionSheetProvider>
   );
 });
 

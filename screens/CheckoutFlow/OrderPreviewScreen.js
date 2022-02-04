@@ -6,12 +6,12 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import Address from "../../components/Address";
 import DrugStore from "../../store/CartStore";
 
 import RazorpayCheckout from "react-native-razorpay";
-import { ActivityIndicator } from "react-native-paper";
 
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import addOrder from "../../helpers/addOrder";
