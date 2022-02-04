@@ -14,7 +14,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-
 import { showMessage } from "react-native-flash-message";
 
 import Tooltip from "react-native-walkthrough-tooltip";
@@ -24,7 +23,7 @@ import { observer } from "mobx-react";
 import { Ionicons } from "@expo/vector-icons";
 import DrugStore from "../store/CartStore";
 import { TextInput } from "react-native";
-import { Button } from "native-base";
+import { Pressable } from "react-native";
 
 const DrugDetailScreen = observer((props) => {
   let [quantity, setQuantity] = useState("1");
@@ -244,7 +243,7 @@ const DrugDetailScreen = observer((props) => {
               keyboardType="number-pad"
               maxLength={6}
             />
-            <Button
+            <Pressable
               style={{
                 width: "20%",
                 justifyContent: "center",
@@ -252,10 +251,14 @@ const DrugDetailScreen = observer((props) => {
                 height: 50,
                 backgroundColor: "#000",
               }}
+              android_ripple={{
+                color: "#FFF",
+                borderless: true,
+              }}
               onPress={fetchPlaceFromPincode}
             >
               <Text style={{ color: "#fff" }}>Check</Text>
-            </Button>
+            </Pressable>
           </View>
         </View>
         <View style={styles.desc}>

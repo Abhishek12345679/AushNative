@@ -5,8 +5,6 @@ import { ActivityIndicator } from "react-native";
 import { View, Text, Image, StyleSheet } from "react-native";
 import DrugStore from "../store/CartStore";
 
-// import { Image } from "react-native-elements";
-
 const DP = observer((props) => {
   return (
     <LinearGradient
