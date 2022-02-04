@@ -1,7 +1,17 @@
 import { types } from "mobx-state-tree";
 
+export type Drug = {
+  id: string;
+  name: string;
+  salt: string;
+  price: number;
+  quantity: number;
+  prescription_req: false;
+  total_amt: number;
+};
+
 // Drug Model
-const Drug = types.model("Drug", {
+const drug = types.model({
   id: types.optional(types.string, ""),
   name: types.optional(types.string, ""),
   salt: types.optional(types.string, ""),
@@ -11,8 +21,17 @@ const Drug = types.model("Drug", {
   total_amt: types.optional(types.number, 0),
 });
 
+export type Address = {
+  type: string;
+  name: string;
+  add_line_1: string;
+  add_line_2: string;
+  pincode: string;
+  ph_no: string;
+};
+
 // Address Model
-const Address = types.model("Address", {
+const address = types.model({
   type: types.optional(types.string, ""),
   name: types.optional(types.string, ""),
   add_line_1: types.optional(types.string, ""),
@@ -21,32 +40,48 @@ const Address = types.model("Address", {
   ph_no: types.optional(types.string, ""),
 });
 
+export type Profile = {
+  display_picture: string;
+  name: string;
+  dob: Date;
+};
+
 // Profile Model
-const Profile = types.model("Profile", {
+const profile = types.model({
   display_picture: types.optional(types.string, ""),
   name: types.optional(types.string, "test"),
   dob: types.optional(types.Date, 0),
 });
 
+export type Order = {
+  items: Array<Drug>;
+  datetimestamp: number;
+  address: Address;
+  total_amt: number;
+  order_id: string;
+  status: boolean;
+  prescription: string;
+};
+
 // Order Model
-const Order = types.model("Order", {
-  items: types.optional(types.array(Drug), []),
+const order = types.model({
+  items: types.optional(types.array(drug), []),
   datetimestamp: types.optional(types.number, 0),
-  address: types.optional(Address, {}),
+  address: types.optional(address, {}),
   total_amt: types.optional(types.number, 0),
   order_id: types.optional(types.string, ""),
   status: types.optional(types.boolean, false),
   prescription: types.optional(types.string, ""),
 });
 
-// User Credentials for re-login auto.
-const userCredentials = types.model("userCredentials", {
+// User Credentials
+const userCredentials = types.model({
   token: types.optional(types.string, ""),
   uid: types.optional(types.string, ""),
   email: types.optional(types.string, ""),
 });
 
-const Location = types.model("Location", {
+const location = types.model({
   locationShortName: types.optional(types.string, ""),
   latitude: types.optional(types.number, 0),
   longitude: types.optional(types.number, 0),
@@ -55,16 +90,16 @@ const Location = types.model("Location", {
 // Main Store
 const DrugStore = types
   .model("DrugStore", {
-    drugs: types.optional(types.array(Drug), []),
+    drugs: types.optional(types.array(drug), []),
     count: types.optional(types.number, 0),
-    orders: types.array(Order),
-    profile: types.optional(Profile, {}),
-    addresses: types.optional(types.array(Address), []),
+    orders: types.array(order),
+    profile: types.optional(profile, {}),
+    addresses: types.optional(types.array(address), []),
     isAuthenticated: types.optional(types.boolean, false),
     userCredentials: types.optional(userCredentials, {}),
     didTryAutoLogin: types.optional(types.boolean, false),
     timer: types.optional(types.number, 0),
-    location: types.optional(Location, {}),
+    location: types.optional(location, {}),
   })
   .views((self) => ({
     get getCount() {

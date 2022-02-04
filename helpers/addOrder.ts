@@ -1,7 +1,7 @@
 import firestore from "@react-native-firebase/firestore";
 import DrugStore from "../store/CartStore";
 
-const addOrder = async (order) => {
+const addOrder = async (order: Order) => {
   try {
     await firestore()
       .collection("users")
