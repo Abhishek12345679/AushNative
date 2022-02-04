@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useMemo } from 'react';
 import { BoundingBoxType } from '../mlkit/TextRecognition';
 
@@ -6,10 +6,11 @@ interface BoundingBoxProps {
     text: string;
     boundingBox: BoundingBoxType;
     keyProp: number | string;
-    scale: number
+    scale: number;
+    navigation: any;
 }
 
-const BoundingBox = ({ boundingBox, text, keyProp, scale }: BoundingBoxProps) => {
+const BoundingBox = ({ boundingBox, text, keyProp, scale, navigation }: BoundingBoxProps) => {
     const rect = useMemo(() => {
         return {
             left: boundingBox.left * scale,
@@ -22,7 +23,7 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale }: BoundingBoxProps) =>
         text
     ])
     return (
-        <View
+        <TouchableOpacity
             key={keyProp}
             style={{
                 position: 'absolute',
@@ -30,11 +31,17 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale }: BoundingBoxProps) =>
                 borderColor: 'red',
                 ...rect,
             }}
+            onPress={() => {
+                navigation.navigate("Results", {
+                    data: text,
+                    mode: "scan"
+                })
+            }}
         >
             <Text style={{ color: "red", fontWeight: 'bold' }}>
                 {text}
             </Text>
-        </View>
+        </TouchableOpacity >
     );
 }
 

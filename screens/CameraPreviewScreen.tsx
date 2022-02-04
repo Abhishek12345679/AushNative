@@ -88,6 +88,7 @@ const CameraPreviewScreen = (props: any) => {
         />
         {!!textRecognitionResponse && (
           <RecognisedWordsOverlay
+            navigation={props.navigation}
             response={textRecognitionResponse}
             scale={windowWidth / textRecognitionResponse.width}
           />

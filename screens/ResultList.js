@@ -9,14 +9,13 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Linking,
+  ActivityIndicator,
 } from "react-native";
 
 import ListItem from "../components/ListItem";
 
 import { gql, useQuery } from "@apollo/client";
 
-import IconBadge from "react-native-icon-badge";
 import DrugStore from "../store/CartStore";
 import { observer } from "mobx-react";
 
@@ -85,7 +84,6 @@ const GET_ALTERNATE_DRUG = gql`
 `;
 
 const ResultList = observer((props) => {
-  // let imported_res = null;
   let ocr_data = "";
 
   const mode = props.route.params.mode;
@@ -101,14 +99,12 @@ const ResultList = observer((props) => {
 
   if (mode === "name" || mode === "scan") {
     var { loading, data, error } = useQuery(GET_MEDICINE, {
-      variables: { name: ocr_data },
+      variables: { name: ocr_data.toLowerCase() },
     });
-    // console.log("data", data);
   } else if (mode === "salt") {
     var { loading, data, error } = useQuery(GET_ALTERNATE_DRUG, {
-      variables: { salt: ocr_data },
+      variables: { salt: ocr_data.toLowerCase() },
     });
-    // console.log(data);
   }
 
   useEffect(() => {
@@ -119,24 +115,11 @@ const ResultList = observer((props) => {
             props.navigation.navigate("Cart");
           }}
         >
-          <IconBadge
-            MainElement={
-              <Image
-                source={require("../assets/bag.png")}
-                style={{ height: 25, width: 25, marginTop: 0 }}
-              />
-            }
-            BadgeElement={
-              <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
-            }
-            IconBadgeStyle={{
-              width: 10,
-              height: 20,
-              backgroundColor: "purple",
-              marginTop: 5,
-            }}
-            Hidden={DrugStore.count == 0}
+          <Image
+            source={require("../assets/bag.png")}
+            style={{ height: 25, width: 25, marginTop: 0 }}
           />
+          <Text style={{ color: "#FFFFFF" }}>{DrugStore.count}</Text>
         </TouchableOpacity>
       ),
     });
@@ -149,12 +132,10 @@ const ResultList = observer((props) => {
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          // height: "75%",
-          // width: "100%",
           backgroundColor: "#fff",
         }}
       >
-        <Text> loading....</Text>
+        <ActivityIndicator color="#000" size="large" />
       </View>
     );
   }
@@ -163,8 +144,6 @@ const ResultList = observer((props) => {
     console.log(error);
     return;
   }
-
-  // console.log(data);
 
   return (
     <View style={styles.container}>
@@ -252,18 +231,6 @@ const ResultList = observer((props) => {
             source={require("../assets/nomed.png")}
             style={{ height: 300, width: 200 }}
           />
-          <Text>
-            Courtesy :{" "}
-            <Text
-              style={{
-                color: "purple",
-                textDecorationLine: "underline",
-              }}
-              onPress={() => Linking.openURL("https://www.1mg.com")}
-            >
-              1mg.com
-            </Text>
-          </Text>
         </View>
       )}
     </View>
