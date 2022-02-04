@@ -14,6 +14,7 @@ import RazorpayCheckout from "react-native-razorpay";
 import { ActivityIndicator } from "react-native-paper";
 
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
+import addOrder from "../../helpers/addOrder";
 
 const OrderPreviewScreen = (props) => {
   const address = DrugStore.addresses[props.route.params.address];
@@ -113,27 +114,31 @@ const OrderPreviewScreen = (props) => {
 
       if (verificationResponse) {
         console.log("Success:", verificationResponse);
-        // await addOrder({
-        //   items: DrugStore.drugs,
-        //   datetimestamp: new Date().getTime(),
-        //   address: address,
-        //   total_amt: total_checkout_amt,
-        //   order_id: id,
-        //   status: data.status,
-        //   prescription: fileUrl,
-        // });
-        // console.log("status", data.status);
-        // props.navigation.navigate("OrderConfirmation", {
-        //   status: data.status,
-        // });
-        // remove cartItems
-        // if (data.status === true) {
-        //   DrugStore.clearCart();
-        // }
+        try {
+          await addOrder({
+            items: DrugStore.drugs,
+            datetimestamp: new Date().getTime(),
+            address: address,
+            total_amt: total_checkout_amt,
+            order_id: order_id,
+            status: verificationResponse.status,
+            // prescription: fileUrl,
+          });
+
+          // props.navigation.navigate("OrderConfirmation", {
+          //   status: verificationResponse.status,
+          // });
+          // remove cartItems
+          // if (verificationResponse.status === true) {
+          //   DrugStore.clearCart();
+          // }
+        } catch (err) {
+          console.error(err);
+        }
       }
-    } catch (error) {
-      console.error(`Error: ${error} ${error.code} | ${error.description}`);
+    } catch (err) {
       setCheckingOut(false);
+      console.error(`Error: ${err} ${err.code} | ${err.description}`);
     }
   };
 

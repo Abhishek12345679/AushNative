@@ -1,17 +1,30 @@
 import firestore from "@react-native-firebase/firestore";
 import DrugStore, { Order } from "../store/CartStore";
+import fetchOrders from "./fetchOrders";
 
 const addOrder = async (order: Order) => {
   try {
-    await firestore()
+    const user = firestore()
       .collection("users")
-      .doc(DrugStore.userCredentials.uid)
-      .update({
+      .doc(DrugStore.userCredentials.uid);
+
+    const userExists = (await user.get()).exists;
+
+    console.log("user: ", userExists);
+
+    if (userExists) {
+      const orders = await fetchOrders();
+      await user.update({
+        orders: [...orders, order],
+      });
+    } else {
+      await user.set({
         orders: order,
       });
+    }
     console.log("Placed Order");
   } catch (err) {
-    console.error("Failed to add order to the firestore db");
+    console.error("Error: ", err);
   }
 };
 

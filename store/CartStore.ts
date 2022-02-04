@@ -1,4 +1,4 @@
-import { types } from "mobx-state-tree";
+import { cast, types } from "mobx-state-tree";
 
 export type Drug = {
   id: string;
@@ -60,7 +60,7 @@ export type Order = {
   total_amt: number;
   order_id: string;
   status: boolean;
-  prescription: string;
+  prescription?: string;
 };
 
 // Order Model
@@ -126,7 +126,7 @@ const DrugStore = types
   }))
   // Authentication
   .actions((self) => ({
-    initializeUserCredentials(token, uid, email) {
+    initializeUserCredentials(token: string, uid: string, email: string) {
       self.userCredentials.token = token;
       self.userCredentials.uid = uid;
       self.userCredentials.email = email;
@@ -194,10 +194,11 @@ const DrugStore = types
   }))
   // Order Actions
   .actions((self) => ({
-    // add orders to firestore
-    // fetch orders from firestore
     // add new addresses to firestore
-    // fetch addresses from firestore
+    // fetch addresses from firestore,
+    addOrders(orders: Array<Order>) {
+      self.orders = cast(orders);
+    },
   }))
   // initial State
   .create({

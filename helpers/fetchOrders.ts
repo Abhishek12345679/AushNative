@@ -7,7 +7,16 @@ const fetchOrders = async () => {
     .doc(DrugStore.userCredentials.uid)
     .get();
 
-  console.log("orders: ", orders);
+  // console.log("orders: ", orders.data().orders);
+  const ordersData = orders.data();
+  if (ordersData) {
+    if (ordersData.orders.length > 0) {
+      return ordersData.orders;
+    }
+    return [ordersData.orders];
+  } else {
+    return [];
+  }
 };
 
 export default fetchOrders;

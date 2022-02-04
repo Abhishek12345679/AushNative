@@ -2,6 +2,7 @@ import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, RefreshControl, FlatList, View, Text } from "react-native";
 import OrderItem from "../../components/OrderItem";
+import fetchOrders from "../../helpers/fetchOrders";
 import DrugStore from "../../store/CartStore";
 
 const OrdersScreen = observer((props) => {
@@ -10,17 +11,16 @@ const OrdersScreen = observer((props) => {
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     setIsRefreshing(true);
-    DrugStore.fetchOrders();
+    const orders = await fetchOrders();
+    DrugStore.addOrders(orders);
     setIsRefreshing(false);
   };
 
   useEffect(() => {
-    DrugStore.fetchOrders();
-    // console.log("token uid email", DrugStore.userCredentials);
+    onRefresh();
   }, [navigation]);
-  // console.log(DrugStore.orders);
   return (
     <View style={{ flex: 1 }}>
       {hasOrders ? (

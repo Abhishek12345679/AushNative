@@ -18,6 +18,7 @@ import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons } from "@expo/vector-icons";
 import firestore from "@react-native-firebase/firestore";
+import fetchOrders from "../helpers/fetchOrders";
 
 const HomeScreen = observer((props) => {
   const { showActionSheetWithOptions } = props;
@@ -73,8 +74,13 @@ const HomeScreen = observer((props) => {
   }, []);
 
   useEffect(() => {
-    // fetchOrders();
-    // fetchAddresses();
+    const fetchingStuff = async () => {
+      const orders = await fetchOrders();
+      DrugStore.addOrders(orders);
+
+      // fetchAddresses();
+    };
+    fetchingStuff();
   }, []);
 
   useEffect(() => {

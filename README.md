@@ -34,6 +34,7 @@ Makes Life More Fun
 - [x] use MLKit native module in app
 - [x] Add react-native-firebase native sdk instead of web api in the mobx store
 - [x] Fix razorpay payments api integration
+- [ ] JS => TS
 - [ ] Redesign in Figma
 - [ ] Refresh Mongodb (atlas,mongoose), graphql(apollo),...
 - [ ] Update Modules to the latest version.
