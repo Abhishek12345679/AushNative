@@ -44,7 +44,6 @@
     android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode" 
     android:launchMode="singleTask" 
     android:windowSoftInputMode="adjustResize" 
-    android:theme="@style/Theme.App.SplashScreen" 
     android:screenOrientation="unspecified"
     android:exported="true">
     </activity>

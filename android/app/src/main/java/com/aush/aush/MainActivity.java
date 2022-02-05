@@ -1,37 +1,22 @@
 package com.aush.aush;
-import android.content.res.Configuration;
-import android.content.Intent;
-
 import android.os.Bundle;
-
 import com.facebook.react.ReactActivity;
-import com.zoontek.rnbootsplash.RNBootSplash; // <- add this necessary import
-
+import com.zoontek.rnbootsplash.RNBootSplash;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-
-import expo.modules.splashscreen.SplashScreen;
-import expo.modules.splashscreen.SplashScreenImageResizeMode;
-
+import expo.modules.ReactActivityDelegateWrapper;
 
 public class MainActivity extends ReactActivity {
 
-    // Added automatically by Expo Config
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        Intent intent = new Intent("onConfigurationChanged");
-        intent.putExtra("newConfig", newConfig);
-        sendBroadcast(intent);
-    }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    // Set the theme to AppTheme BEFORE onCreate to support
+    // coloring the background, status bar, and navigation bar.
+    // This is required for expo-splash-screen.
     super.onCreate(savedInstanceState);
     RNBootSplash.init(R.drawable.bootsplash, MainActivity.this); // <- display the generated bootsplash.xml drawable over our MainActivity
   }
-
 
     /**
      * Returns the name of the main component registered from JavaScript.
@@ -44,11 +29,14 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
-        return new ReactActivityDelegate(this, getMainComponentName()) {
+        return new ReactActivityDelegateWrapper(
+          this,
+          new ReactActivityDelegate(this, getMainComponentName()) {
             @Override
             protected ReactRootView createRootView() {
-                return new RNGestureHandlerEnabledRootView(MainActivity.this);
+              return new RNGestureHandlerEnabledRootView(MainActivity.this);
             }
-        };
+          }
+        );
     }
 }
