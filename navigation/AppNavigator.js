@@ -1,96 +1,89 @@
-import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-  Platform,
-} from "react-native";
+import React from 'react';
+import {View, Text, TouchableOpacity, Dimensions, Platform} from 'react-native';
 
 import HomeScreen, {
   screenOptions as HomeScreenOptions,
-} from "../screens/HomeScreen";
-import DrugScanner from "../screens/DrugScanner";
+} from '../screens/HomeScreen';
+import DrugScanner from '../screens/DrugScanner';
 import ResultList, {
   screenOptions as ResultListScreenOptions,
-} from "../screens/ResultList";
+} from '../screens/ResultList';
 import DrugDetailScreen, {
   screenOptions as DrugDetailScreenOptions,
-} from "../screens/DrugDetailScreen";
-import CameraPreviewScreen from "../screens/CameraPreviewScreen";
-import SettingsScreen from "../screens/SettingsScreen";
+} from '../screens/DrugDetailScreen';
+import CameraPreviewScreen from '../screens/CameraPreviewScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
-import CartScreen from "../screens/CartScreen";
+import CartScreen from '../screens/CartScreen';
 
-import AddAddressModalScreen from "../screens/AddAddressModalScreen";
+import AddAddressModalScreen from '../screens/AddAddressModalScreen';
 
-import SignUpScreen from "../screens/Authentication/SignUpScreen";
+import SignUpScreen from '../screens/Authentication/SignUpScreen';
 
-import { enableScreens } from "react-native-screens";
-import { createNativeStackNavigator } from "react-native-screens/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import OrdersScreen from "../screens/Settings/OrdersScreen";
+import {enableScreens} from 'react-native-screens';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import OrdersScreen from '../screens/Settings/OrdersScreen';
 import AddressScreen, {
   screenOptions as AddressScreenOptions,
-} from "../screens/Settings/AddressScreen";
+} from '../screens/Settings/AddressScreen';
 import SelectAddressScreen, {
   screenOptions as SelectAddressScreenOptions,
-} from "../screens/CheckoutFlow/SelectAddressScreen";
+} from '../screens/CheckoutFlow/SelectAddressScreen';
 
-import UploadPrescriptionScreen from "../screens/CheckoutFlow/UploadPrescriptionScreen";
+import UploadPrescriptionScreen from '../screens/CheckoutFlow/UploadPrescriptionScreen';
 
-import OrderPreviewScreen from "../screens/CheckoutFlow/OrderPreviewScreen";
-import EditProfileScreen from "../screens/Settings/EditProfileScreen";
+import OrderPreviewScreen from '../screens/CheckoutFlow/OrderPreviewScreen';
+import EditProfileScreen from '../screens/Settings/EditProfileScreen';
 
-import SplashScreen from "../screens/SplashScreen";
+import SplashScreen from '../screens/SplashScreen';
 
-import MyWebView from "../screens/Settings/MyWebView";
+import MyWebView from '../screens/Settings/MyWebView';
 
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import {AntDesign, Ionicons} from '@expo/vector-icons';
 
 import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
-} from "../screens/Settings/OrderDetailScreen";
+} from '../screens/Settings/OrderDetailScreen';
 
-import OrderConfirmationStatus from "../screens/CheckoutFlow/OrderConfirmationStatus";
+import OrderConfirmationStatus from '../screens/CheckoutFlow/OrderConfirmationStatus';
 
-import SearchScreen from "../screens/SearchScreen";
+import SearchScreen from '../screens/SearchScreen';
 
-const MyTabBar = ({ state, descriptors, navigation }) => {
+const MyTabBar = ({state, descriptors, navigation}) => {
   return (
     <View
       style={{
-        position: "absolute",
-        bottom: Dimensions.get("window").width / 20,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        position: 'absolute',
+        bottom: Dimensions.get('window').width / 20,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 65,
-        backgroundColor: "#070d59",
+        backgroundColor: '#070d59',
         borderRadius: 15,
-        width: "50%",
+        width: '50%',
         marginLeft: 100,
         marginRight: 100,
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
           width: 1,
           height: 1,
         },
         shadowOpacity: 0.25,
         shadowRadius: 10,
-      }}
-    >
+      }}>
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const {options} = descriptors[route.key];
 
-        const IconNames = ["scan1"];
-        const tabNames = ["| scan"];
-        const routeNames = ["Scan"];
+        const IconNames = ['scan1'];
+        const tabNames = ['| scan'];
+        const routeNames = ['Scan'];
 
         const isFocused = state.index === index;
         const onPress = () => {
           const event = navigation.emit({
-            type: "tabPress",
+            type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           });
@@ -107,7 +100,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
 
         const onLongPress = () => {
           navigation.emit({
-            type: "tabLongPress",
+            type: 'tabLongPress',
             target: route.key,
           });
         };
@@ -117,31 +110,29 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             key={index}
             activeOpacity={1}
             accessibilityRole="button"
-            accessibilityStates={isFocused ? ["selected"] : []}
+            accessibilityStates={isFocused ? ['selected'] : []}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
             style={{
-              width: (Dimensions.get("window").width * 13) / 25 / 2,
+              width: (Dimensions.get('window').width * 13) / 25 / 2,
               height: 40,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               flex: 1,
-              flexDirection: "row",
+              flexDirection: 'row',
               fontSize: 15,
               // backgroundColor: "#ccc",
-            }}
-          >
+            }}>
             <View
               style={{
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "space-around",
+                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
                 // backgroundColor: "#ccc",
-                width: "50%",
-              }}
-            >
+                width: '50%',
+              }}>
               {/* {index === 0 ? (
                 <AntDesign
                   name={IconNames[index]}
@@ -169,15 +160,14 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               <AntDesign
                 name={IconNames[index]}
                 size={25}
-                color={!isFocused ? "#aaa" : "#fff"}
+                color={!isFocused ? '#aaa' : '#fff'}
               />
               <Text
                 style={{
-                  color: !isFocused ? "#aaa" : "#fff",
+                  color: !isFocused ? '#aaa' : '#fff',
                   fontSize: 22,
-                  fontWeight: "bold",
-                }}
-              >
+                  fontWeight: 'bold',
+                }}>
                 {tabNames[index]}
               </Text>
             </View>
@@ -197,7 +187,7 @@ export const AuthNavigator = () => {
       <AuthStackNavigator.Screen
         name="Signup"
         component={SignUpScreen}
-        options={{ headerLargeTitle: false, headerShown: false }}
+        options={{headerLargeTitle: false, headerShown: false}}
       />
     </AuthStackNavigator.Navigator>
   );
@@ -221,7 +211,7 @@ const CheckoutNavigator = () => {
         name="OrderPreview"
         component={OrderPreviewScreen}
         options={{
-          headerTitle: "Order Summary",
+          headerTitle: 'Order Summary',
         }}
       />
 
@@ -229,7 +219,7 @@ const CheckoutNavigator = () => {
         name="OrderConfirmation"
         component={OrderConfirmationStatus}
         options={{
-          stackPresentation: "fullScreenModal",
+          stackPresentation: 'fullScreenModal',
           headerShown: true,
         }}
       />
@@ -248,7 +238,7 @@ const EditProfileNavigator = () => {
         options={{
           headerTranslucent: true,
           headerStyle: {
-            blurEffect: "light",
+            blurEffect: 'light',
           },
         }}
       />
@@ -266,7 +256,7 @@ const ScannerNavigator = () => {
         component={DrugScanner}
         options={{
           headerShown: false,
-          stackPresentation: "modal",
+          stackPresentation: 'modal',
           gestureEnabled: false,
           unmountOnBlur: true,
         }}
@@ -308,16 +298,15 @@ export const RootNavigator = () => {
       screenOptions={{
         headerHideShadow: true,
         headerStyle: {
-          backgroundColor: "#14213d",
+          backgroundColor: '#14213d',
           elevation: 0,
           shadowOpacity: 0,
           borderBottomWidth: 0,
         },
         headerLargeTitle: true,
-        headerTintColor: "#fff",
+        headerTintColor: '#fff',
         fontSize: 20,
-      }}
-    >
+      }}>
       <RootStackNavigator.Screen name="SplashScreen" component={SplashScreen} />
 
       <RootStackNavigator.Screen
@@ -329,9 +318,6 @@ export const RootNavigator = () => {
         name="Search"
         component={SearchScreen}
         options={{
-          stackAnimation: "fade",
-          headerBackTitle: "",
-          headerTitle: "",
           headerShown: false,
         }}
       />
@@ -367,15 +353,14 @@ export const SettingsNavigator = () => {
     <SettingsStackNavigator.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#14213d",
+          backgroundColor: '#14213d',
           elevation: 0,
           shadowOpacity: 0,
           borderBottomWidth: 0,
         },
         headerLargeTitle: true,
-        headerTintColor: "#fff",
-      }}
-    >
+        headerTintColor: '#fff',
+      }}>
       <SettingsStackNavigator.Screen
         name="SettingsScreen"
         component={SettingsScreen}
@@ -391,10 +376,10 @@ export const SettingsNavigator = () => {
         component={EditProfileNavigator}
         options={{
           stackPresentation:
-            Platform.OS === "android" ? "fullScreenModal" : "modal",
+            Platform.OS === 'android' ? 'fullScreenModal' : 'modal',
           gestureEnabled: true,
           headerShown: false,
-          stackAnimation: Platform.OS === "android" ? "fade" : "default",
+          stackAnimation: Platform.OS === 'android' ? 'fade' : 'default',
         }}
       />
       <SettingsStackNavigator.Screen
@@ -407,8 +392,8 @@ export const SettingsNavigator = () => {
         component={AddAddressModalScreen}
         options={{
           headerLargeTitle: false,
-          stackPresentation: "modal",
-          stackAnimation: "default",
+          stackPresentation: 'modal',
+          stackAnimation: 'default',
         }}
       />
       <SettingsStackNavigator.Screen name="MyWebView" component={MyWebView} />
@@ -423,22 +408,22 @@ export const TabNavigator = () => {
     <BottomNavigationBar.Navigator
       initialRouteName="HomeScreen"
       // tabBar={(props) => <MyTabBar {...props} />}
-      tabBarOptions={{
-        style: {
-          backgroundColor: "#14213d",
-          borderTopColor: "#14213d",
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: '#14213d',
+          borderTopColor: '#14213d',
           height: 80,
-          justifyContent: "center",
+          justifyContent: 'center',
         },
-        showLabel: false,
-      }}
-    >
+        tabBarShowLabel: false,
+        headerShown: false,
+      }}>
       <BottomNavigationBar.Screen
         name="HomeScreen"
         component={RootNavigator}
         options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color }) => (
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => (
             <Ionicons name="md-home" color={color} size={26} />
           ),
         }}
@@ -447,7 +432,7 @@ export const TabNavigator = () => {
         name="ScanScreen"
         component={ScannerNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Ionicons name="md-search" color={color} size={26} />
           ),
           unmountOnBlur: true,
@@ -458,7 +443,7 @@ export const TabNavigator = () => {
         name="Settings"
         component={SettingsNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({color}) => (
             <Ionicons name="ios-person" color={color} size={26} />
           ),
         }}

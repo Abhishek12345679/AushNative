@@ -1,16 +1,22 @@
-import { HeaderBackButton } from "@react-navigation/stack";
-import React from "react";
-import { useState } from "react";
-import { ActivityIndicator, Text, TextInput } from "react-native";
-import { View, StyleSheet, SafeAreaView, ScrollView } from "react-native";
-import { colors } from "../constants/colors";
+import React, {useState} from 'react';
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Platform,
+} from 'react-native';
+import {colors} from '../constants/colors';
+// import {HeaderBackButton} from '@react-navigation/stack';
+import {gql, useLazyQuery} from '@apollo/client';
+import ListItem from '../components/ListItem';
+import {observer} from 'mobx-react';
+import {ScreenStackHeaderBackButtonImage} from 'react-native-screens';
 
-import { gql, useLazyQuery } from "@apollo/client";
-
-import ListItem from "../components/ListItem";
-import { Platform } from "react-native";
-
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = observer(({navigation}) => {
   const GET_MEDICINE = gql`
     query getMedicine($name: String!) {
       search(name: $name) {
@@ -43,21 +49,19 @@ const SearchScreen = ({ navigation }) => {
     }
   `;
 
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
 
-  const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
+  const [getMedicine, {loading, data, error}] = useLazyQuery(GET_MEDICINE);
 
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
         <View
           style={{
-            // flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <HeaderBackButton
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <ScreenStackHeaderBackButtonImage
             tintColor="#fff"
             pressColorAndroid="#fff"
             labelVisible={false}
@@ -67,45 +71,39 @@ const SearchScreen = ({ navigation }) => {
           />
           <TextInput
             onSubmitEditing={() => {
-              getMedicine({ variables: { name: searchText } });
+              getMedicine({variables: {name: searchText}});
             }}
             returnKeyType="search"
             placeholder="search here"
             placeholderTextColor="#ccc"
             value={searchText}
-            onChangeText={(text) => {
+            onChangeText={text => {
               setSearchText(text);
             }}
             style={{
-              width: "70%",
-              height: Platform.OS === "ios" ? 30 : 50,
+              width: '70%',
+              height: Platform.OS === 'ios' ? 30 : 50,
               fontSize: 16,
-              color: "#fff",
+              color: '#fff',
             }}
           />
-          {/* <Button
-            title="search"
-            onPress={() => {
-              getMedicine({ variables: { name: searchText } });
-            }}
-          /> */}
         </View>
         {!!data ? (
           data.search.drugs.map((med, index) => (
             <ListItem
               keyProp={index}
               key={index}
-              saltTextStyle={{ color: "#ccc" }}
+              saltTextStyle={{color: '#ccc'}}
               style={{
                 backgroundColor: colors.SECONDARY,
                 borderBottomWidth: 0,
               }}
-              titleStyle={{ color: "#fff" }}
+              titleStyle={{color: '#fff'}}
               name={med.name}
               salt_composition={`${med.salt.substring(0, 20)}...`}
               imageUrl={med.imageUrl}
               onPress={() =>
-                navigation.navigate("Drug", {
+                navigation.navigate('Drug', {
                   item: med,
                 })
               }
@@ -116,17 +114,14 @@ const SearchScreen = ({ navigation }) => {
         ) : (
           <View
             style={{
-              // flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <Text
               style={{
-                color: "#fff",
+                color: '#fff',
                 fontSize: 20,
-              }}
-            >
+              }}>
               No medicine
             </Text>
           </View>
@@ -134,7 +129,9 @@ const SearchScreen = ({ navigation }) => {
       </SafeAreaView>
     </ScrollView>
   );
-};
+});
+
+export default SearchScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -142,12 +139,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.SECONDARY,
   },
   text: {
-    color: "#fff",
+    color: '#fff',
   },
   centered: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
-
-export default SearchScreen;
