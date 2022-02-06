@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,18 +6,18 @@ import {
   Image,
   Linking,
   ActivityIndicator,
-} from "react-native";
+} from 'react-native';
 
-import storage from "@react-native-firebase/storage";
+import storage from '@react-native-firebase/storage';
 
-import DocumentPicker from "react-native-document-picker";
-import DrugStore from "../../store/CartStore";
+import DocumentPicker from 'react-native-document-picker';
+import DrugStore from '../../store/CartStore';
 
-import { Platform } from "react-native";
+import {Platform} from 'react-native';
 
-const UploadPrescriptionScreen = (props) => {
+const UploadPrescriptionScreen = props => {
   const [uploading, setUploading] = useState(false);
-  const [prescription, setPrescription] = useState("");
+  const [prescription, setPrescription] = useState('');
   const addressIndex = props.route.params.address;
 
   const urlRegex = new RegExp(/^(https):\/\/[^\s$.?#].[^\s]*$/);
@@ -29,11 +29,11 @@ const UploadPrescriptionScreen = (props) => {
       setUploading(true);
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
-        copyTo: "documentDirectory",
+        copyTo: 'documentDirectory',
       });
       const uri = Platform.select({
         android: res.fileCopyUri,
-        ios: decodeURIComponent(res.fileCopyUri)?.replace?.("file://", ""),
+        ios: decodeURIComponent(res.fileCopyUri)?.replace?.('file://', ''),
       });
 
       // const base64File = await RNFS.readFile(uri, "base64");
@@ -51,89 +51,82 @@ const UploadPrescriptionScreen = (props) => {
     }
   };
 
-  const uploadPrescriptionDoc = async (uri) => {
+  const uploadPrescriptionDoc = async uri => {
     // setLoading(true);
     const ref = storage().ref(
       `/prescriptions/${new Date().toISOString()}/${
         DrugStore.userCredentials.uid
-      }.jpg`
+      }.jpg`,
     );
 
     const snapshot = ref.putFile(uri);
 
     snapshot.on(
       storage().TaskEvent.STATE_CHANGED,
-      (s) => {
+      s => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         var progress = (s.bytesTransferred / s.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
+        console.log('Upload is ' + progress + '% done');
         switch (s.state) {
           case storage().TaskState.PAUSED: // or 'paused'
-            console.log("Upload is paused");
+            console.log('Upload is paused');
             break;
           case storage().TaskState.RUNNING: // or 'running'
-            console.log("Upload is running");
+            console.log('Upload is running');
             break;
         }
       },
-      (error) => {
+      error => {
         console.log(error);
         return;
       },
       () => {
-        snapshot.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          console.log("File available at", downloadURL);
+        snapshot.snapshot.ref.getDownloadURL().then(downloadURL => {
+          console.log('File available at', downloadURL);
           console.log(downloadURL);
           // setLoading(false);
           setUploading(false);
           return downloadURL;
           // setImage(downloadURL);
         });
-      }
+      },
     );
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <View style={{ alignItems: "center" }}>
-        <Image
-          source={require("../../assets/prescription.png")}
-          style={{ width: 256, height: 256, marginTop: 50 }}
-        />
-      </View>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{alignItems: 'center'}}></View>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          justifyContent: 'space-between',
           // borderWidth: 0.5,
           // borderColor: "#000",
           padding: 10,
           borderRadius: 5,
-          backgroundColor: "#000",
+          backgroundColor: '#000',
           marginHorizontal: 20,
           marginTop: 20,
-        }}
-      >
+        }}>
         <Text
-          style={{ fontWeight: "bold", color: "#fff" }}
+          style={{fontWeight: 'bold', color: '#fff'}}
           // onPress={() => {
           //   Linking.openURL(fileUrl);
           // }}
         >
           Prescription Uploaded
         </Text>
-        <Text style={{ fontWeight: "bold", color: "#fff" }}>
-          {isValidUrl ? "Yes" : "No"}
+        <Text style={{fontWeight: 'bold', color: '#fff'}}>
+          {isValidUrl ? 'Yes' : 'No'}
         </Text>
       </View>
       <Text
         onPress={() => {
           Linking.openURL(
-            `https://drive.google.com/viewerng/viewer?embedded=true&url=${prescription}`
+            `https://drive.google.com/viewerng/viewer?embedded=true&url=${prescription}`,
           );
-        }}
-      >
+        }}>
         {/* {prescription === "" ? "no file" : prescription} */}link
       </Text>
       {!uploading ? (
@@ -153,7 +146,7 @@ const UploadPrescriptionScreen = (props) => {
       <Button
         title="next"
         onPress={() => {
-          props.navigation.navigate("OrderPreview", {
+          props.navigation.navigate('OrderPreview', {
             address: addressIndex,
             fileUrl: prescription,
             prescriptionUploaded: isValidUrl,

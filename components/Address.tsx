@@ -1,29 +1,38 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { AddressType } from "../store/CartStore";
 import Tag from "./Tag";
 
-const Address = observer((props) => {
+
+interface AddressComponentProps {
+  keyProp: number | string;
+  address: AddressType;
+  onPress: () => void;
+  style: StyleSheet
+}
+
+
+const Address = observer(({ keyProp, address, onPress, style }: AddressComponentProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.75}
-      key={props.keyProp}
-      onPress={props.onPress}
-      style={{ ...styles.container, ...props.style }}
+      key={keyProp}
+      onPress={onPress}
+      style={{ ...styles.container, ...style }}
     >
       <View>
         <View style={{ flexDirection: "row" }}>
-          <Tag label={props.type} bgc="#000" textColor="#fff" />
-          <Tag label={props.ph_no} bgc="#000" textColor="#fff" />
+          <Tag label={address.type} bgc="#000" textColor="#fff" />
+          <Tag label={address.ph_no} bgc="#000" textColor="#fff" />
         </View>
         <View style={{ padding: 5 }}>
           <Text style={{ color: "#000", fontSize: 20, fontWeight: "bold" }}>
-            {props.name}
+            {address.name}
           </Text>
           <View style={{ flexDirection: "column", marginTop: 10 }}>
-            <Text>{props.add_line_1}</Text>
-            <Text>{props.add_line_2}</Text>
-            {/* <Text> - {props.pincode}</Text> */}
+            <Text>{address.add_line_1}</Text>
+            <Text>{address.add_line_2}</Text>
           </View>
         </View>
       </View>

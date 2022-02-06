@@ -17,6 +17,8 @@ import {gql, useQuery} from '@apollo/client';
 import DrugStore from '../store/CartStore';
 import {observer} from 'mobx-react';
 
+import {Entypo} from '@expo/vector-icons';
+
 const GET_MEDICINE = gql`
   query getMedicine($name: String!) {
     search(name: $name) {
@@ -112,10 +114,7 @@ const ResultList = observer(props => {
           onPress={() => {
             props.navigation.navigate('Cart');
           }}>
-          <Image
-            source={require('../assets/bag.png')}
-            style={{height: 25, width: 25, marginTop: 0}}
-          />
+          <Entypo name="shopping-cart" color="#fff" size={24} />
           <Text style={{color: '#FFFFFF'}}>{DrugStore.count}</Text>
         </TouchableOpacity>
       ),

@@ -1,16 +1,15 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { Text, SafeAreaView } from "react-native";
+import React from 'react';
+import {Text, SafeAreaView} from 'react-native';
+import {observer} from 'mobx-react';
 
-const EditProfileScreen = observer((props) => {
+const EditProfileScreen = observer(() => {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: "#fff",
         flex: 1,
-        marginTop: 90,
-      }}
-    >
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <Text>Maintainance</Text>
     </SafeAreaView>
   );

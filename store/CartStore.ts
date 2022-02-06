@@ -1,6 +1,6 @@
-import { cast, types } from "mobx-state-tree";
+import {cast, types} from 'mobx-state-tree';
 
-export type Drug = {
+export type DrugType = {
   id: string;
   name: string;
   salt: string;
@@ -12,17 +12,17 @@ export type Drug = {
 
 // Drug Model
 const drug = types.model({
-  id: types.optional(types.string, ""),
-  name: types.optional(types.string, ""),
-  salt: types.optional(types.string, ""),
+  id: types.optional(types.string, ''),
+  name: types.optional(types.string, ''),
+  salt: types.optional(types.string, ''),
   price: types.optional(types.number, 0),
   quantity: types.optional(types.number, 0),
   prescription_req: false,
   total_amt: types.optional(types.number, 0),
 });
 
-export type Address = {
-  type: string;
+export type AddressType = {
+  type?: string;
   name: string;
   add_line_1: string;
   add_line_2: string;
@@ -32,15 +32,15 @@ export type Address = {
 
 // Address Model
 const address = types.model({
-  type: types.optional(types.string, ""),
-  name: types.optional(types.string, ""),
-  add_line_1: types.optional(types.string, ""),
-  add_line_2: types.optional(types.string, ""),
-  pincode: types.optional(types.string, ""),
-  ph_no: types.optional(types.string, ""),
+  type: types.optional(types.string, ''),
+  name: types.optional(types.string, ''),
+  add_line_1: types.optional(types.string, ''),
+  add_line_2: types.optional(types.string, ''),
+  pincode: types.optional(types.string, ''),
+  ph_no: types.optional(types.string, ''),
 });
 
-export type Profile = {
+export type ProfileType = {
   display_picture: string;
   name: string;
   dob: Date;
@@ -48,15 +48,15 @@ export type Profile = {
 
 // Profile Model
 const profile = types.model({
-  display_picture: types.optional(types.string, ""),
-  name: types.optional(types.string, "test"),
+  display_picture: types.optional(types.string, ''),
+  name: types.optional(types.string, 'test'),
   dob: types.optional(types.Date, 0),
 });
 
-export type Order = {
-  items: Array<Drug>;
+export type OrderType = {
+  items: Array<DrugType>;
   datetimestamp: number;
-  address: Address;
+  address: AddressType;
   total_amt: number;
   order_id: string;
   status: boolean;
@@ -69,27 +69,33 @@ const order = types.model({
   datetimestamp: types.optional(types.number, 0),
   address: types.optional(address, {}),
   total_amt: types.optional(types.number, 0),
-  order_id: types.optional(types.string, ""),
+  order_id: types.optional(types.string, ''),
   status: types.optional(types.boolean, false),
-  prescription: types.optional(types.string, ""),
+  prescription: types.optional(types.string, ''),
 });
 
 // User Credentials
 const userCredentials = types.model({
-  token: types.optional(types.string, ""),
-  uid: types.optional(types.string, ""),
-  email: types.optional(types.string, ""),
+  token: types.optional(types.string, ''),
+  uid: types.optional(types.string, ''),
+  email: types.optional(types.string, ''),
 });
 
+export type LocationType = {
+  locationShortName: string;
+  latitude: number;
+  longitude: number;
+};
+
 const location = types.model({
-  locationShortName: types.optional(types.string, ""),
+  locationShortName: types.optional(types.string, ''),
   latitude: types.optional(types.number, 0),
   longitude: types.optional(types.number, 0),
 });
 
 // Main Store
 const DrugStore = types
-  .model("DrugStore", {
+  .model('DrugStore', {
     drugs: types.optional(types.array(drug), []),
     count: types.optional(types.number, 0),
     orders: types.array(order),
@@ -101,13 +107,13 @@ const DrugStore = types
     timer: types.optional(types.number, 0),
     location: types.optional(location, {}),
   })
-  .views((self) => ({
+  .views(self => ({
     get getCount() {
       return self.count;
     },
   }))
   // Location
-  .actions((self) => ({
+  .actions(self => ({
     saveLocation(name, lat, long) {
       self.location.locationShortName = name;
       self.location.latitude = lat;
@@ -115,17 +121,17 @@ const DrugStore = types
     },
   }))
   // settings action
-  .actions((self) => ({
+  .actions(self => ({
     setName(name) {
       self.profile.name = name;
     },
     setPFP(imageUrl) {
       self.profile.display_picture = imageUrl;
     },
-    // add profile data to firebase
+    // TODO: add profile data to firebase
   }))
   // Authentication
-  .actions((self) => ({
+  .actions(self => ({
     initializeUserCredentials(token: string, uid: string, email: string) {
       self.userCredentials.token = token;
       self.userCredentials.uid = uid;
@@ -133,15 +139,15 @@ const DrugStore = types
     },
   }))
   // Cart Actions
-  .actions((self) => ({
+  .actions(self => ({
     addDrug(drug) {
       let total_count = 0;
       let flag = 0;
 
-      self.drugs.forEach((drugItem) => {
+      self.drugs.forEach(drugItem => {
         console.log(drug.id === drugItem.id);
 
-        const index = self.drugs.findIndex((x) => x.id === drug.id);
+        const index = self.drugs.findIndex(x => x.id === drug.id);
         console.log(index);
 
         if (drugItem.id === drug.id) {
@@ -153,20 +159,16 @@ const DrugStore = types
             quantity: drugItem.quantity + drug.quantity,
             prescription_req: drugItem.prescription_req,
             total_amt: parseInt(
-              (drugItem.total_amt + drug.quantity * drugItem.price).toFixed(2)
+              (drugItem.total_amt + drug.quantity * drugItem.price).toFixed(2),
             ),
           };
           flag++;
         }
       });
 
-      console.log(self.drugs);
-
       if (flag === 0) {
         self.drugs.push(drug);
       }
-
-      // self.count = self.drugs;
 
       for (let i = 0; i < self.drugs.length; i++) {
         total_count += self.drugs[i].quantity;
@@ -180,7 +182,6 @@ const DrugStore = types
           console.log(index);
           self.count = self.count - drug.quantity;
           self.drugs.splice(index, 1);
-          //   console.log(self.drugs);
         }
       });
     },
@@ -193,22 +194,21 @@ const DrugStore = types
     },
   }))
   // Order Actions
-  .actions((self) => ({
-    addOrders(orders: Array<Order>) {
+  .actions(self => ({
+    addOrders(orders: Array<OrderType>) {
       self.orders = cast(orders);
     },
-    addAddresses(addresses: Array<Address>) {
+    addAddresses(addresses: Array<AddressType>) {
       self.addresses = cast(addresses);
     },
   }))
   // initial State
   .create({
     profile: {
-      display_picture: " ",
-      name: "",
+      display_picture: ' ',
+      name: '',
       dob: new Date(996656400000), // dummy age -> 19
     },
-    // addresses: [],
   });
 
 export default DrugStore;

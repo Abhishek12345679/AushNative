@@ -10,13 +10,13 @@ import {
   Platform,
 } from 'react-native';
 import {colors} from '../constants/colors';
-// import {HeaderBackButton} from '@react-navigation/stack';
 import {gql, useLazyQuery} from '@apollo/client';
 import ListItem from '../components/ListItem';
 import {observer} from 'mobx-react';
-import {ScreenStackHeaderBackButtonImage} from 'react-native-screens';
 
 const SearchScreen = observer(({navigation}) => {
+  const [searchText, setSearchText] = useState('');
+
   const GET_MEDICINE = gql`
     query getMedicine($name: String!) {
       search(name: $name) {
@@ -49,26 +49,15 @@ const SearchScreen = observer(({navigation}) => {
     }
   `;
 
-  const [searchText, setSearchText] = useState('');
-
   const [getMedicine, {loading, data, error}] = useLazyQuery(GET_MEDICINE);
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
         <View
           style={{
             flexDirection: 'row',
-            alignItems: 'center',
           }}>
-          <ScreenStackHeaderBackButtonImage
-            tintColor="#fff"
-            pressColorAndroid="#fff"
-            labelVisible={false}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
           <TextInput
             onSubmitEditing={() => {
               getMedicine({variables: {name: searchText}});
@@ -81,11 +70,14 @@ const SearchScreen = observer(({navigation}) => {
               setSearchText(text);
             }}
             style={{
-              width: '70%',
-              height: Platform.OS === 'ios' ? 30 : 50,
+              width: '100%',
+              height: Platform.OS === 'ios' ? 30 : 100,
               fontSize: 16,
               color: '#fff',
+              backgroundColor: '#00000025',
+              // alignItems: 'center',
             }}
+            textAlign="center"
           />
         </View>
         {!!data ? (
@@ -126,8 +118,8 @@ const SearchScreen = observer(({navigation}) => {
             </Text>
           </View>
         )}
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 });
 

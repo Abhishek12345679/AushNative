@@ -4,7 +4,7 @@
         "slug": "samplegraphqlapolloclient",
         "version": "1.0.0",
         "orientation": "default",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/adaptive-icon.png",
         "userInterfaceStyle": "automatic",
         "splash": {
             "image": "./assets/splash.png",

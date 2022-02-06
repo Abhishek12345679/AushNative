@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import DrugStore from "../store/CartStore";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import DrugStore from '../store/CartStore';
 
-import { observer } from "mobx-react";
-import auth from "@react-native-firebase/auth";
-import ListItem from "../components/ListItem";
+import {observer} from 'mobx-react';
+import auth from '@react-native-firebase/auth';
+import ListItem from '../components/ListItem';
 
-import { connectActionSheet } from "@expo/react-native-action-sheet";
+import {connectActionSheet} from '@expo/react-native-action-sheet';
 
-const SettingsScreen = observer((props) => {
-  const { showActionSheetWithOptions } = props;
+const SettingsScreen = observer(props => {
+  const {showActionSheetWithOptions} = props;
   const [date, setDate] = useState();
   const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
 
@@ -27,7 +27,7 @@ const SettingsScreen = observer((props) => {
   }, [UTCToIST]);
 
   const onOpenActionSheet = () => {
-    const options = ["Log Out", "Cancel"];
+    const options = ['Log Out', 'Cancel'];
     const destructiveButtonIndex = 0;
     const cancelButtonIndex = 1;
 
@@ -37,19 +37,19 @@ const SettingsScreen = observer((props) => {
         cancelButtonIndex,
         destructiveButtonIndex,
       },
-      (buttonIndex) => {
+      buttonIndex => {
         if (buttonIndex === 0) {
           const logout = async () => {
             try {
               await auth().signOut();
               console.log(
-                `${DrugStore.userCredentials.uid} logged out successfully`
+                `${DrugStore.userCredentials.uid} logged out successfully`,
               );
-              await AsyncStorage.removeItem("login_data");
-              await AsyncStorage.removeItem("auto_login_data");
-              await AsyncStorage.removeItem("user_data");
-              DrugStore.initializeUserCredentials("", "", "");
-              DrugStore.setPFP(" ");
+              await AsyncStorage.removeItem('login_data');
+              await AsyncStorage.removeItem('auto_login_data');
+              await AsyncStorage.removeItem('user_data');
+              DrugStore.initializeUserCredentials('', '', '');
+              DrugStore.setPFP(' ');
               DrugStore.clearTimer();
             } catch (e) {
               console.log(e);
@@ -57,7 +57,7 @@ const SettingsScreen = observer((props) => {
           };
           logout();
         }
-      }
+      },
     );
   };
 
@@ -66,9 +66,9 @@ const SettingsScreen = observer((props) => {
       <ListItem
         name={
           DrugStore.profile.name.length < 3
-            ? DrugStore.userCredentials.email.substr(
+            ? DrugStore.userCredentials.email.substring(
                 0,
-                DrugStore.userCredentials.email.indexOf("@")
+                DrugStore.userCredentials.email.indexOf('@'),
               )
             : DrugStore.profile.name
         }
@@ -78,18 +78,18 @@ const SettingsScreen = observer((props) => {
           borderRadius: 10,
           height: 100,
         }}
-        titleStyle={{ fontWeight: "bold", fontSize: 20 }}
+        titleStyle={{fontWeight: 'bold', fontSize: 20}}
         noArrow
         profile
         age={age}
         onPress={() => {
-          props.navigation.navigate("EditProfile", {
-            screen: "Edit Profile",
+          props.navigation.navigate('EditProfile', {
+            screen: 'Edit Profile',
             params: {
               dob: age,
-              name: DrugStore.userCredentials.email.substr(
+              name: DrugStore.userCredentials.email.substring(
                 0,
-                DrugStore.userCredentials.email.indexOf("@")
+                DrugStore.userCredentials.email.indexOf('@'),
               ),
             },
           });
@@ -98,14 +98,13 @@ const SettingsScreen = observer((props) => {
       <View
         style={{
           borderRadius: 12,
-          width: "100%",
-          overflow: "hidden",
-        }}
-      >
-        {["Addresses", "Orders"].map((item, index) => (
+          width: '100%',
+          overflow: 'hidden',
+        }}>
+        {['Addresses', 'Orders'].map((item, index) => (
           <ListItem
-            style={{ height: 70 }}
-            titleStyle={{ fontWeight: "400", fontSize: 18 }}
+            style={{height: 70}}
+            titleStyle={{fontWeight: '400', fontSize: 18}}
             keyProp={Math.random() * 10}
             key={Math.random() * 10}
             name={item}
@@ -117,24 +116,23 @@ const SettingsScreen = observer((props) => {
       <View
         style={{
           borderRadius: 12,
-          width: "100%",
-          overflow: "hidden",
+          width: '100%',
+          overflow: 'hidden',
           marginTop: 20,
-        }}
-      >
-        {["Privacy Policy", "Terms and Conditions"].map((item, index) => (
+        }}>
+        {['Privacy Policy', 'Terms and Conditions'].map((item, index) => (
           <ListItem
-            style={{ height: 70 }}
-            titleStyle={{ fontWeight: "400", fontSize: 18 }}
+            style={{height: 70}}
+            titleStyle={{fontWeight: '400', fontSize: 18}}
             keyProp={Math.random() * 10}
             key={Math.random() * 10}
             name={item}
             onPress={() => {
-              props.navigation.navigate("MyWebView", {
+              props.navigation.navigate('MyWebView', {
                 url:
                   index === 0
-                    ? "https://aushadhalay.flycricket.io/privacy.html"
-                    : "https://aushadhalay.flycricket.io/terms.html",
+                    ? 'https://aushadhalay.flycricket.io/privacy.html'
+                    : 'https://aushadhalay.flycricket.io/terms.html',
                 headerTitle: item,
               });
             }}
@@ -147,11 +145,11 @@ const SettingsScreen = observer((props) => {
         style={{
           marginVertical: 30,
           borderRadius: 5,
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
           height: 80,
         }}
-        titleStyle={{ fontWeight: "bold", fontSize: 18, color: "red" }}
+        titleStyle={{fontWeight: 'bold', fontSize: 18, color: 'red'}}
       />
     </ScrollView>
   );
@@ -160,28 +158,28 @@ const SettingsScreen = observer((props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e3e3e8",
+    backgroundColor: '#e3e3e8',
     padding: 20,
   },
   input: {
-    width: "100%",
-    borderColor: "black",
+    width: '100%',
+    borderColor: 'black',
     borderBottomWidth: 2,
     marginBottom: 10,
     height: 30,
     borderRadius: 10,
-    color: "#9400D3",
+    color: '#9400D3',
     fontSize: 15,
-    textAlign: "left",
-    textAlignVertical: "bottom",
+    textAlign: 'left',
+    textAlignVertical: 'bottom',
     paddingHorizontal: 10,
   },
   searchBtn: {
-    width: "100%",
+    width: '100%',
     height: 60,
-    backgroundColor: "#9400D3",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#9400D3',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 10,
   },
 });

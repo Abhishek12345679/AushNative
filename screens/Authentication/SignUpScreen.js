@@ -1,6 +1,6 @@
-import { Formik } from "formik";
-import { observer } from "mobx-react";
-import React, { useState } from "react";
+import {Formik} from 'formik';
+import {observer} from 'mobx-react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,13 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
-} from "react-native";
+} from 'react-native';
 
-import DrugStore from "../../store/CartStore";
+import DrugStore from '../../store/CartStore';
 
-import auth from "@react-native-firebase/auth";
+import auth from '@react-native-firebase/auth';
 
-import { showMessage } from "react-native-flash-message";
+import {showMessage} from 'react-native-flash-message';
 
 const SignUpScreen = observer(() => {
   const [loading, setLoading] = useState(false);
@@ -29,44 +29,44 @@ const SignUpScreen = observer(() => {
       setLoading(true);
 
       if (password.length < 6) {
-        Alert.alert("Password invalid");
+        Alert.alert('Password invalid');
         return;
       }
 
       auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          DrugStore.console.log("User account created & signed in!");
+          DrugStore.console.log('User account created & signed in!');
         })
-        .catch((error) => {
-          if (error.code === "auth/email-already-in-use") {
-            console.log("That email address is already in use!");
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!');
           }
 
-          if (error.code === "auth/invalid-email") {
-            console.log("That email address is invalid!");
+          if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!');
           }
 
           console.error(error);
         });
 
-      auth().onAuthStateChanged(async (user) => {
+      auth().onAuthStateChanged(async user => {
         if (user) {
           const token = await user.getIdToken();
-          console.log("token: ", token);
+          console.log('token: ', token);
           DrugStore.initializeUserCredentials(token, user.uid, user.email);
         }
       });
 
       showMessage({
-        message: "Account created successfully",
-        type: "success",
+        message: 'Account created successfully',
+        type: 'success',
       });
 
       setLoading(false);
     } catch (e) {
       console.log(e);
-      Alert.alert("Something went wrong");
+      Alert.alert('Something went wrong');
       return;
     }
   };
@@ -79,31 +79,31 @@ const SignUpScreen = observer(() => {
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-          console.log("User account created & signed in!");
+          console.log('User account created & signed in!');
         })
-        .catch((error) => {
-          if (error.code === "auth/email-already-in-use") {
-            console.log("That email address is already in use!");
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!');
           }
 
-          if (error.code === "auth/invalid-email") {
-            console.log("That email address is invalid!");
+          if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!');
           }
 
           console.error(error);
         });
 
-      auth().onAuthStateChanged(async (user) => {
+      auth().onAuthStateChanged(async user => {
         if (user) {
           const token = await user.getIdToken();
-          console.log("token: ", token);
+          console.log('token: ', token);
           DrugStore.initializeUserCredentials(token, user.uid, user.email);
         }
       });
     } catch (error) {
       setLoading(false);
       console.log(error);
-      return Alert.alert("Something Really bAd happened!"); //lol
+      return Alert.alert('Something Really bAd happened!'); //lol
     }
   };
 
@@ -111,52 +111,49 @@ const SignUpScreen = observer(() => {
     <View style={styles.container}>
       <View
         style={{
-          width: "100%",
+          width: '100%',
           marginTop: 20,
           padding: 20,
-        }}
-      >
-        <Text style={{ color: "#fff", fontSize: 40 }}>
+        }}>
+        <Text style={{color: '#fff', fontSize: 40}}>
           Welcome Back
-          <Text style={{ color: "purple", fontWeight: "bold", fontSize: 45 }}>
-            {"  "}Stranger
+          <Text style={{color: 'purple', fontWeight: 'bold', fontSize: 45}}>
+            {'  '}Stranger
           </Text>
         </Text>
       </View>
       <TouchableOpacity
-        style={{ flex: 1, justifyContent: "center", padding: 20 }}
+        style={{flex: 1, justifyContent: 'center', padding: 20}}
         activeOpacity={1}
-        onPress={() => Keyboard.dismiss()}
-      >
+        onPress={() => Keyboard.dismiss()}>
         <StatusBar barStyle="light-content" />
         <Formik
           initialValues={{
-            name: "",
-            email: "",
-            password: "",
-          }}
-        >
-          {({ handleSubmit, handleChange, values }) => (
+            name: '',
+            email: '',
+            password: '',
+          }}>
+          {({handleChange, values}) => (
             <View>
               {signIn && (
                 <TextInput
                   placeholder="Name"
                   style={styles.input}
-                  onChangeText={handleChange("name")}
+                  onChangeText={handleChange('name')}
                   autoCapitalize="none"
                 />
               )}
               <TextInput
                 placeholder="Email"
                 style={styles.input}
-                onChangeText={handleChange("email")}
+                onChangeText={handleChange('email')}
                 autoCapitalize="none"
               />
               <TextInput
                 secureTextEntry
                 placeholder="Password"
                 style={styles.input}
-                onChangeText={handleChange("password")}
+                onChangeText={handleChange('password')}
                 autoCapitalize="none"
               />
               {signIn && (
@@ -168,16 +165,14 @@ const SignUpScreen = observer(() => {
                     signup(values.name, values.email, values.password);
                   }}
                   style={{
-                    backgroundColor: "skyblue",
+                    backgroundColor: 'skyblue',
                     height: 60,
-                    justifyContent: "center",
-                    alignItems: "center",
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     marginTop: 25,
-                  }}
-                >
+                  }}>
                   <Text
-                    style={{ fontSize: 20, fontWeight: "bold", color: "#000" }}
-                  >
+                    style={{fontSize: 20, fontWeight: 'bold', color: '#000'}}>
                     Create Account
                   </Text>
                 </TouchableOpacity>
@@ -191,21 +186,19 @@ const SignUpScreen = observer(() => {
                     login(values.email, values.password);
                   }}
                   style={{
-                    backgroundColor: "purple",
+                    backgroundColor: 'purple',
                     height: 60,
-                    justifyContent: "center",
-                    alignItems: "center",
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     marginTop: 25,
-                  }}
-                >
+                  }}>
                   {!loading ? (
                     <Text
                       style={{
                         fontSize: 20,
-                        fontWeight: "bold",
-                        color: "#fff",
-                      }}
-                    >
+                        fontWeight: 'bold',
+                        color: '#fff',
+                      }}>
                       Login
                     </Text>
                   ) : (
@@ -215,28 +208,25 @@ const SignUpScreen = observer(() => {
               )}
               <View
                 style={{
-                  width: "100%",
-                  alignItems: "center",
+                  width: '100%',
+                  alignItems: 'center',
                   marginVertical: 20,
-                }}
-              >
+                }}>
                 {!signIn ? (
-                  <Text style={{ color: "#fff" }}>
-                    Create an account.{" "}
+                  <Text style={{color: '#fff'}}>
+                    Create an account.{' '}
                     <Text
-                      style={{ color: "purple", fontWeight: "bold" }}
-                      onPress={() => setSignIn(true)}
-                    >
+                      style={{color: 'purple', fontWeight: 'bold'}}
+                      onPress={() => setSignIn(true)}>
                       Sign in
                     </Text>
                   </Text>
                 ) : (
-                  <Text style={{ color: "#fff" }}>
-                    Already have an account.{" "}
+                  <Text style={{color: '#fff'}}>
+                    Already have an account.{' '}
                     <Text
-                      style={{ color: "purple", fontWeight: "bold" }}
-                      onPress={() => setSignIn(false)}
-                    >
+                      style={{color: 'purple', fontWeight: 'bold'}}
+                      onPress={() => setSignIn(false)}>
                       Login
                     </Text>
                   </Text>
@@ -253,17 +243,17 @@ const SignUpScreen = observer(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: '#000',
   },
   input: {
     height: 60,
-    width: "100%",
-    backgroundColor: "#FFF",
+    width: '100%',
+    backgroundColor: '#FFF',
     marginVertical: 10,
     paddingLeft: 10,
-    color: "#000",
+    color: '#000',
     fontSize: 20,
-    fontWeight: "500",
+    fontWeight: '500',
   },
 });
 

@@ -48,7 +48,7 @@ Why Aushadhalay instead of other apps:
 - Intuitive 🐝
 - One Scan away from your meds 🕵🏼‍♀️ 🕵🏼‍♂️
 
-   ![Scanned](assets/mockups/mockups.png?raw=true)
+   ![Scanned](/mockups/mockups.png?raw=true)
 
 ## TESTS
 

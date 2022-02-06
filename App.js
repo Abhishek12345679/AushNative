@@ -8,8 +8,8 @@ import FlashMessage from 'react-native-flash-message';
 import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 import RNBootSplash from 'react-native-bootsplash';
 
-// in expo
-LogBox.ignoreLogs(['EventEmitter.removeListener']);
+// Deprecation warnings in Expo Modules
+LogBox.ignoreLogs(['EventEmitter.removeListener', 'new NativeEventEmitter()']);
 
 const App = observer(() => {
   useEffect(() => {
@@ -21,6 +21,7 @@ const App = observer(() => {
       await RNBootSplash.hide({fade: true});
     });
   }, []);
+
   return (
     <ActionSheetProvider>
       <ApolloProvider client={client}>

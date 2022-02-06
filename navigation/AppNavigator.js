@@ -188,6 +188,10 @@ export const RootNavigator = () => {
         component={SearchScreen}
         options={{
           headerShown: false,
+          // headerStyle: {
+          //   height: 100,
+          //   width: 100,
+          // },
         }}
       />
       <RootStackNavigator.Screen

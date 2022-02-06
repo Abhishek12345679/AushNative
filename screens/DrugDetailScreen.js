@@ -1,8 +1,4 @@
-/**
- * TODO: quantity for each product (as in 10 vial bottle , 20 tablets, 50ml syrup bottle) need to be added somehow to the existing database (rerunning the process or finding a way to add the details more flexibly)
- */
-
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,19 +8,19 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-} from "react-native";
+  TextInput,
+  Pressable,
+} from 'react-native';
 
-import { showMessage } from "react-native-flash-message";
+import {showMessage} from 'react-native-flash-message';
 
-import QuantitySelector from "../components/QuantitySelector";
-import { observer } from "mobx-react";
-import { Ionicons } from "@expo/vector-icons";
-import DrugStore from "../store/CartStore";
-import { TextInput } from "react-native";
-import { Pressable } from "react-native";
+import QuantitySelector from '../components/QuantitySelector';
+import {observer} from 'mobx-react';
+import {Ionicons, Entypo} from '@expo/vector-icons';
+import DrugStore from '../store/CartStore';
 
-const DrugDetailScreen = observer((props) => {
-  let [quantity, setQuantity] = useState("1");
+const DrugDetailScreen = observer(props => {
+  let [quantity, setQuantity] = useState('1');
   let [initialValue, setInitialValue] = useState(1);
 
   let [addingToCart, setAddingToCart] = useState(false);
@@ -36,7 +32,7 @@ const DrugDetailScreen = observer((props) => {
   let [howToUseCollapsed, setHowToUseCollapsed] = useState(true);
   let [safetyAdviceCollapsed, setSafetyAdviceCollapsed] = useState(true);
 
-  const [pincode, setPincode] = useState("");
+  const [pincode, setPincode] = useState('');
 
   //workaround
   const [cartCount, setCartCount] = useState(0);
@@ -54,8 +50,8 @@ const DrugDetailScreen = observer((props) => {
   };
 
   const [cartItem, setCartItem] = useState({
-    name: "",
-    salt: "",
+    name: '',
+    salt: '',
     price: 0,
     quantity: 0,
     prescription_req: false,
@@ -74,15 +70,11 @@ const DrugDetailScreen = observer((props) => {
       headerRight: () => (
         <TouchableOpacity
           onPress={() => {
-            props.navigation.navigate("Cart");
-          }}
-        >
-          <Image
-            source={require("../assets/bag.png")}
-            style={{ height: 25, width: 25, marginTop: 0 }}
-          />
+            props.navigation.navigate('Cart');
+          }}>
+          <Entypo name="shopping-cart" color="#fff" size={24} />
 
-          <Text style={{ color: "#000" }}>{DrugStore.count}</Text>
+          <Text style={{color: '#000'}}>{DrugStore.count}</Text>
         </TouchableOpacity>
       ),
     });
@@ -103,7 +95,7 @@ const DrugDetailScreen = observer((props) => {
 
   const fetchPlaceFromPincode = async () => {
     const response = await fetch(
-      `https://api.postalpincode.in/pincode/${pincode}`
+      `https://api.postalpincode.in/pincode/${pincode}`,
     );
     const resData = await response.json();
 
@@ -113,48 +105,46 @@ const DrugDetailScreen = observer((props) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{ flex: 1 }}>
-        {Platform.OS === "ios" && (
+      <View style={{flex: 1}}>
+        {Platform.OS === 'ios' && (
           <StatusBar barStyle="dark-content" backgroundColor="#000" />
         )}
-        <View style={{ marginStart: 15, marginTop: 0 }}>
-          <Text style={{ color: "#0000FF" }}> Manufacturer </Text>
+        <View style={{marginStart: 15, marginTop: 0}}>
+          <Text style={{color: '#0000FF'}}> Manufacturer </Text>
           <Text> {item.manufacturer_name} </Text>
         </View>
         <View style={styles.content}>
           <View style={styles.imageContainer}>
-            <View style={{ width: "90%", alignItems: "center" }}>
+            <View style={{width: '90%', alignItems: 'center'}}>
               <Text style={styles.bigTitle}> {item.name} </Text>
             </View>
           </View>
           <View style={styles.row}>
-            <View style={{ width: "70%" }}>
-              <Text style={{ color: "#0000FF" }}> Salt </Text>
+            <View style={{width: '70%'}}>
+              <Text style={{color: '#0000FF'}}> Salt </Text>
               <Text style={styles.salt}> {item.salt} </Text>
             </View>
             {item.requires_prescription && (
               <TouchableOpacity
-                style={{ height: 50, width: 50 }}
-                onPress={() => setToolTipVisible(true)}
-              >
+                style={{height: 50, width: 50}}
+                onPress={() => setToolTipVisible(true)}>
                 <Image
-                  source={require("../assets/pharmacy.png")}
-                  style={{ height: 50, width: 50 }}
+                  source={require('../assets/pharmacy.png')}
+                  style={{height: 50, width: 50}}
                 />
               </TouchableOpacity>
             )}
           </View>
           <View
             style={{
-              width: "100%",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               height: 70,
               marginTop: 15,
               paddingHorizontal: 15,
-            }}
-          >
+            }}>
             <TouchableOpacity
               style={styles.buyBtn}
               onPress={() => {
@@ -163,34 +153,29 @@ const DrugDetailScreen = observer((props) => {
                   addToCart(cartItem);
                   showMessage({
                     message: `${quantity} ${item.name} added to Cart`,
-                    type: "success",
+                    type: 'success',
                   });
                   setAddingToCart(false);
                 }, 1000);
-              }}
-            >
+              }}>
               {!addingToCart ? (
                 <View
                   style={{
-                    alignItems: "center",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}>
                   <View>
                     <Text
                       style={{
                         fontSize: 35,
-                        fontWeight: "bold",
-                        color: "#ffffff",
-                      }}
-                    >
+                        fontWeight: 'bold',
+                        color: '#ffffff',
+                      }}>
                       ₹{item.price}
                     </Text>
                   </View>
-                  <Text style={{ fontSize: 15, color: "#fff" }}>
-                    Add to cart
-                  </Text>
+                  <Text style={{fontSize: 15, color: '#fff'}}>Add to cart</Text>
                 </View>
               ) : (
                 <ActivityIndicator size="large" color="#FFF" />
@@ -204,22 +189,21 @@ const DrugDetailScreen = observer((props) => {
           </View>
           <View
             style={{
-              width: "100%",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
               paddingHorizontal: 20,
               paddingVertical: 10,
-            }}
-          >
+            }}>
             <TextInput
               placeholder="Enter Pincode"
               value={pincode}
-              onChangeText={(pin) => setPincode(pin)}
+              onChangeText={pin => setPincode(pin)}
               style={{
                 height: 50,
-                width: "70%",
-                borderColor: "#000",
+                width: '70%',
+                borderColor: '#000',
                 borderWidth: 1,
                 padding: 10,
               }}
@@ -228,65 +212,60 @@ const DrugDetailScreen = observer((props) => {
             />
             <Pressable
               style={{
-                width: "20%",
-                justifyContent: "center",
-                alignItems: "center",
+                width: '20%',
+                justifyContent: 'center',
+                alignItems: 'center',
                 height: 50,
-                backgroundColor: "#000",
+                backgroundColor: '#000',
               }}
               android_ripple={{
-                color: "#FFF",
+                color: '#FFF',
                 borderless: true,
               }}
-              onPress={fetchPlaceFromPincode}
-            >
-              <Text style={{ color: "#fff" }}>Check</Text>
+              onPress={fetchPlaceFromPincode}>
+              <Text style={{color: '#fff'}}>Check</Text>
             </Pressable>
           </View>
         </View>
         <View style={styles.desc}>
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ ...styles.salt, fontWeight: "bold" }}>
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text style={{...styles.salt, fontWeight: 'bold'}}>
               Introduction
             </Text>
             <Ionicons
               name="ios-arrow-down"
               size={22}
               color="#000"
-              onPress={() => setIntroCollapsed((prev) => !prev)}
+              onPress={() => setIntroCollapsed(prev => !prev)}
             />
           </View>
           {introCollapsed && (
-            <Text style={{ marginTop: 5 }}>
-              {item.description.introduction}
-            </Text>
+            <Text style={{marginTop: 5}}>{item.description.introduction}</Text>
           )}
         </View>
         <View style={styles.desc}>
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ ...styles.salt, fontWeight: "bold" }}>Uses</Text>
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text style={{...styles.salt, fontWeight: 'bold'}}>Uses</Text>
             <Ionicons
               name="ios-arrow-down"
               size={22}
               color="#000"
-              onPress={() => setUsesCollapsed((prev) => !prev)}
+              onPress={() => setUsesCollapsed(prev => !prev)}
             />
           </View>
           {usesCollapsed &&
-            item.description.uses.map((itemData) => (
-              <Text key={itemData} style={{ marginTop: 5 }}>
+            item.description.uses.map(itemData => (
+              <Text key={itemData} style={{marginTop: 5}}>
                 {`\u2022 ${itemData}`}
               </Text>
             ))}
@@ -294,24 +273,23 @@ const DrugDetailScreen = observer((props) => {
         <View style={styles.desc}>
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ ...styles.salt, fontWeight: "bold" }}>
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text style={{...styles.salt, fontWeight: 'bold'}}>
               Side Effects
             </Text>
             <Ionicons
               name="ios-arrow-down"
               size={22}
               color="#000"
-              onPress={() => setSideEffectsCollapsed((prev) => !prev)}
+              onPress={() => setSideEffectsCollapsed(prev => !prev)}
             />
           </View>
           {sideEffectsCollapsed &&
-            item.description.side_effects.map((itemData) => (
-              <Text key={itemData} style={{ marginTop: 5 }}>
+            item.description.side_effects.map(itemData => (
+              <Text key={itemData} style={{marginTop: 5}}>
                 {`\u2022 ${itemData}`}
               </Text>
             ))}
@@ -336,79 +314,74 @@ const DrugDetailScreen = observer((props) => {
         <View style={styles.desc}>
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ ...styles.salt, fontWeight: "bold" }}>
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text style={{...styles.salt, fontWeight: 'bold'}}>
               How to cope with side effects
             </Text>
             <Ionicons
               name="ios-arrow-down"
               size={22}
               color="#000"
-              onPress={() => setHowToSECollapsed((prev) => !prev)}
+              onPress={() => setHowToSECollapsed(prev => !prev)}
             />
           </View>
 
           {howToSECollpased &&
-            item.description.how_to_cope_with_side_effects.map((itemData) => (
-              <View style={{ marginBottom: 20 }} key={itemData.question}>
-                <Text style={{ marginTop: 5, fontSize: 20 }}>
+            item.description.how_to_cope_with_side_effects.map(itemData => (
+              <View style={{marginBottom: 20}} key={itemData.question}>
+                <Text style={{marginTop: 5, fontSize: 20}}>
                   {`\u2022 ${itemData.question}`}
                 </Text>
-                <Text style={{ marginTop: 5 }}> {itemData.answer} </Text>
+                <Text style={{marginTop: 5}}> {itemData.answer} </Text>
               </View>
             ))}
         </View>
         <View style={styles.desc}>
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ ...styles.salt, fontWeight: "bold" }}>
-              How to Use
-            </Text>
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text style={{...styles.salt, fontWeight: 'bold'}}>How to Use</Text>
             <Ionicons
               name="ios-arrow-down"
               size={22}
               color="#000"
-              onPress={() => setHowToUseCollapsed((prev) => !prev)}
+              onPress={() => setHowToUseCollapsed(prev => !prev)}
             />
           </View>
           {howToUseCollapsed && (
-            <Text style={{ marginTop: 5 }}>{item.description.how_to_use}</Text>
+            <Text style={{marginTop: 5}}>{item.description.how_to_use}</Text>
           )}
         </View>
-        <View style={{ ...styles.desc, marginBottom: 40 }}>
+        <View style={{...styles.desc, marginBottom: 40}}>
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ ...styles.salt, fontWeight: "bold" }}>
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text style={{...styles.salt, fontWeight: 'bold'}}>
               Safety Advice
             </Text>
             <Ionicons
               name="ios-arrow-down"
               size={22}
               color="#000"
-              onPress={() => setSafetyAdviceCollapsed((prev) => !prev)}
+              onPress={() => setSafetyAdviceCollapsed(prev => !prev)}
             />
           </View>
           {safetyAdviceCollapsed &&
-            item.description.safety_advice.map((itemData) => (
-              <View style={{ marginBottom: 20 }} key={itemData.question}>
-                <Text style={{ marginTop: 5, fontSize: 20 }}>
+            item.description.safety_advice.map(itemData => (
+              <View style={{marginBottom: 20}} key={itemData.question}>
+                <Text style={{marginTop: 5, fontSize: 20}}>
                   {`\u2022 ${itemData.question}`}
                 </Text>
-                <Text style={{ marginTop: 5 }}> {itemData.answer} </Text>
+                <Text style={{marginTop: 5}}> {itemData.answer} </Text>
               </View>
             ))}
         </View>
@@ -420,55 +393,55 @@ const DrugDetailScreen = observer((props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   content: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 5,
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   imageContainer: {
-    width: "95%",
-    backgroundColor: "#000",
+    width: '95%',
+    backgroundColor: '#000',
     height: 200,
     borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bigTitle: {
     fontSize: 50,
-    fontWeight: "600",
-    color: "#fff",
+    fontWeight: '600',
+    color: '#fff',
   },
   salt: {
     fontSize: 20,
-    fontWeight: "400",
-    color: "#000",
+    fontWeight: '400',
+    color: '#000',
   },
   row: {
-    width: "100%",
-    justifyContent: "space-between",
-    flexDirection: "row",
+    width: '100%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
     marginHorizontal: 10,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 25,
     marginTop: 10,
   },
   buyBtn: {
     width: 250,
     height: 70,
-    backgroundColor: "#000",
-    flexDirection: "column",
-    justifyContent: "space-around",
+    backgroundColor: '#000',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
 
     paddingHorizontal: 20,
     paddingVertical: 10,
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: 15,
     marginStart: 10,
   },
   desc: {
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
     paddingHorizontal: 25,
     marginTop: 10,
   },
