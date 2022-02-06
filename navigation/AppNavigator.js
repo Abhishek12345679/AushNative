@@ -1,9 +1,7 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Dimensions, Platform} from 'react-native';
+import {Platform} from 'react-native';
 
-import HomeScreen, {
-  screenOptions as HomeScreenOptions,
-} from '../screens/HomeScreen';
+import HomeScreen from '../screens/HomeScreen';
 import DrugScanner from '../screens/DrugScanner';
 import ResultList, {
   screenOptions as ResultListScreenOptions,
@@ -40,7 +38,7 @@ import SplashScreen from '../screens/SplashScreen';
 
 import MyWebView from '../screens/Settings/MyWebView';
 
-import {AntDesign, Ionicons} from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 
 import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
@@ -50,136 +48,7 @@ import OrderConfirmationStatus from '../screens/CheckoutFlow/OrderConfirmationSt
 
 import SearchScreen from '../screens/SearchScreen';
 
-const MyTabBar = ({state, descriptors, navigation}) => {
-  return (
-    <View
-      style={{
-        position: 'absolute',
-        bottom: Dimensions.get('window').width / 20,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 65,
-        backgroundColor: '#070d59',
-        borderRadius: 15,
-        width: '50%',
-        marginLeft: 100,
-        marginRight: 100,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 1,
-          height: 1,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
-      }}>
-      {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
-
-        const IconNames = ['scan1'];
-        const tabNames = ['| scan'];
-        const routeNames = ['Scan'];
-
-        const isFocused = state.index === index;
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!event.defaultPrevented) {
-            // if (!route.name === "Home") {
-            //   navigation.goToTop();
-            //   return;
-            // }
-            navigation.navigate(routeNames[index]);
-            console.log(routeNames[index]);
-          }
-        };
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
-        return (
-          <TouchableOpacity
-            key={index}
-            activeOpacity={1}
-            accessibilityRole="button"
-            accessibilityStates={isFocused ? ['selected'] : []}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{
-              width: (Dimensions.get('window').width * 13) / 25 / 2,
-              height: 40,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flex: 1,
-              flexDirection: 'row',
-              fontSize: 15,
-              // backgroundColor: "#ccc",
-            }}>
-            <View
-              style={{
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                // backgroundColor: "#ccc",
-                width: '50%',
-              }}>
-              {/* {index === 0 ? (
-                <AntDesign
-                  name={IconNames[index]}
-                  size={25}
-                  color={!isFocused ? "#aaa" : "#fff"}
-                />
-              ) : (
-                <FontAwesome
-                  name={IconNames[index]}
-                  size={25}
-                  color={!isFocused ? "#aaa" : "#fff"}
-                />
-              )}
-              {index === 0 && (
-                <Text
-                  style={{
-                    color: !isFocused ? "#aaa" : "#fff",
-                    fontSize: index === 0 ? 22 : 15,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {tabNames[index]}
-                </Text>
-              )} */}
-              <AntDesign
-                name={IconNames[index]}
-                size={25}
-                color={!isFocused ? '#aaa' : '#fff'}
-              />
-              <Text
-                style={{
-                  color: !isFocused ? '#aaa' : '#fff',
-                  fontSize: 22,
-                  fontWeight: 'bold',
-                }}>
-                {tabNames[index]}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
-  );
-};
-
 enableScreens();
-
 const AuthStackNavigator = createNativeStackNavigator();
 export const AuthNavigator = () => {
   return (
