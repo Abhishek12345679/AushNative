@@ -14,6 +14,7 @@ import {useFocusEffect} from '@react-navigation/native';
 
 import * as ImagePicker from 'expo-image-picker';
 import {Camera} from 'expo-camera';
+
 import Modal from 'react-native-modal';
 
 import {MaterialIcons, Ionicons, Entypo} from '@expo/vector-icons';
