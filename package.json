@@ -51,7 +51,7 @@
         "react-native-safe-area-context": "~3.0.7",
         "react-native-screens": "^3.10.2",
         "react-native-swipe-gestures": "^1.0.5",
-        "react-native-webview": "^10.10.2"
+        "react-native-webview": "^11.0.0"
     },
     "devDependencies": {
         "@babel/core": "^7.12.9",
