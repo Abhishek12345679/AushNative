@@ -3,17 +3,14 @@ import {
   View,
   Text,
   Button,
-  Image,
   Linking,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 
 import storage from '@react-native-firebase/storage';
-
 import DocumentPicker from 'react-native-document-picker';
 import DrugStore from '../../store/CartStore';
-
-import {Platform} from 'react-native';
 
 const UploadPrescriptionScreen = props => {
   const [uploading, setUploading] = useState(false);
@@ -85,10 +82,8 @@ const UploadPrescriptionScreen = props => {
         snapshot.snapshot.ref.getDownloadURL().then(downloadURL => {
           console.log('File available at', downloadURL);
           console.log(downloadURL);
-          // setLoading(false);
           setUploading(false);
           return downloadURL;
-          // setImage(downloadURL);
         });
       },
     );
@@ -101,20 +96,13 @@ const UploadPrescriptionScreen = props => {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          // borderWidth: 0.5,
-          // borderColor: "#000",
           padding: 10,
           borderRadius: 5,
           backgroundColor: '#000',
           marginHorizontal: 20,
           marginTop: 20,
         }}>
-        <Text
-          style={{fontWeight: 'bold', color: '#fff'}}
-          // onPress={() => {
-          //   Linking.openURL(fileUrl);
-          // }}
-        >
+        <Text style={{fontWeight: 'bold', color: '#fff'}}>
           Prescription Uploaded
         </Text>
         <Text style={{fontWeight: 'bold', color: '#fff'}}>
@@ -132,12 +120,12 @@ const UploadPrescriptionScreen = props => {
       {!uploading ? (
         <Button
           title="upload"
-          onPress={() => {
-            getPrescriptionDoc();
+          onPress={async () => {
+            // await getPrescriptionDoc();
             // setTimeout(() => {
             //   setUploading(false);
             // }, 5000);
-            // uploadPrescriptionDoc();
+            // await uploadPrescriptionDoc();
           }}
         />
       ) : (
