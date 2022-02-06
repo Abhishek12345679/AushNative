@@ -2031,10 +2031,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.3.0.tgz#b60d16a7d39d64a3e45a7c2dabaf7679da542246"
   integrity sha512-2G/Vh5o/ly7Tg00lkPDXkgwDptLLGPnuswJXq6aESRZL6gyRLUvFYgVQJd1c/pu0ft1ETNXhbmNSohunSbAC+g==
 
-"@react-native-firebase/storage@^10.6.4":
-  version "10.8.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-10.8.1.tgz#16f833995c4f3315752de354e5e9e24674bd5a67"
-  integrity sha512-1Db87rh7DekGxynnbVo0jU+/LokJ8G0v5NWbVYyU0C2LOFjjuaODkQG4hYQKD/Pr85n5w0kD8P9k9HRRWbH9eQ==
+"@react-native-firebase/storage@^14.3.0":
+  version "14.3.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.3.0.tgz#f5a5bd24d65595c498a405ef416d20f430a89f1d"
+  integrity sha512-9uhqM3a+DiBPtnrCLQ4dpxCTpAD7Cbhk+cMVCSdkvzRU9W8DBcf4mnKgv64ytSiRLOxpVeDeFzaoQzjPXtLlag==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -7589,11 +7589,6 @@ react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
-
-react-native-vision-camera@^2.12.0:
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.12.0.tgz#e174798e04676c57ec2633222a954156fd77e48c"
-  integrity sha512-sc6h1OS8Xei/w6roeHix7bcJC6ml8fW+w1slWxQDYYsch1tb65xflMVQ71SNjyE9FN3KyrojLEqZqgN4iDzL9g==
 
 react-native-webview@^10.10.2:
   version "10.10.2"
