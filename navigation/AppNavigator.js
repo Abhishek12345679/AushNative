@@ -38,7 +38,7 @@ import SplashScreen from '../screens/SplashScreen';
 
 import MyWebView from '../screens/Settings/MyWebView';
 
-import {Ionicons} from '@expo/vector-icons';
+import {Ionicons, Fontisto} from '@expo/vector-icons';
 
 import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
@@ -188,10 +188,6 @@ export const RootNavigator = () => {
         component={SearchScreen}
         options={{
           headerShown: false,
-          // headerStyle: {
-          //   height: 100,
-          //   width: 100,
-          // },
         }}
       />
       <RootStackNavigator.Screen
@@ -285,8 +281,9 @@ export const TabNavigator = () => {
         tabBarStyle: {
           backgroundColor: '#14213d',
           borderTopColor: '#14213d',
-          height: 80,
-          justifyContent: 'center',
+          height: 55,
+          // justifyContent: 'center',
+          elevation: 10,
         },
         tabBarShowLabel: false,
         headerShown: false,
@@ -297,7 +294,7 @@ export const TabNavigator = () => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <Ionicons name="md-home" color={color} size={26} />
+            <Fontisto name="pills" color={color} size={22} />
           ),
         }}
       />
@@ -306,7 +303,7 @@ export const TabNavigator = () => {
         component={ScannerNavigator}
         options={{
           tabBarIcon: ({color}) => (
-            <Ionicons name="md-search" color={color} size={26} />
+            <Ionicons name="scan" color={color} size={22} />
           ),
           unmountOnBlur: true,
         }}
@@ -317,7 +314,7 @@ export const TabNavigator = () => {
         component={SettingsNavigator}
         options={{
           tabBarIcon: ({color}) => (
-            <Ionicons name="ios-person" color={color} size={26} />
+            <Ionicons name="ios-person" color={color} size={22} />
           ),
         }}
       />

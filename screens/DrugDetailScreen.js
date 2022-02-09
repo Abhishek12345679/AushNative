@@ -412,7 +412,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    // backgroundColor: '#000',
     height: 400,
     borderRadius: 15,
     justifyContent: 'center',
