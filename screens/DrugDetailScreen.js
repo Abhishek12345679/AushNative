@@ -16,8 +16,9 @@ import {showMessage} from 'react-native-flash-message';
 
 import QuantitySelector from '../components/QuantitySelector';
 import {observer} from 'mobx-react';
-import {Ionicons, Entypo} from '@expo/vector-icons';
+import {MaterialIcons, Entypo} from '@expo/vector-icons';
 import DrugStore from '../store/CartStore';
+import {colors} from '../constants/colors';
 
 const DrugDetailScreen = observer(props => {
   let [quantity, setQuantity] = useState('1');
@@ -65,6 +66,8 @@ const DrugDetailScreen = observer(props => {
 
   const item = props.route.params.item;
 
+  console.log(item.imageUrl);
+
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
@@ -77,6 +80,7 @@ const DrugDetailScreen = observer(props => {
           <Text style={{color: '#000'}}>{DrugStore.count}</Text>
         </TouchableOpacity>
       ),
+      headerTitle: item ? item.name : 'Drug',
     });
   }, [cartCount]);
 
@@ -109,20 +113,26 @@ const DrugDetailScreen = observer(props => {
         {Platform.OS === 'ios' && (
           <StatusBar barStyle="dark-content" backgroundColor="#000" />
         )}
-        <View style={{marginStart: 15, marginTop: 0}}>
+        <View style={{marginStart: 15, marginTop: 15}}>
           <Text style={{color: '#0000FF'}}> Manufacturer </Text>
           <Text> {item.manufacturer_name} </Text>
         </View>
         <View style={styles.content}>
           <View style={styles.imageContainer}>
-            <View style={{width: '90%', alignItems: 'center'}}>
-              <Text style={styles.bigTitle}> {item.name} </Text>
-            </View>
+            <Image
+              source={{
+                uri: item.image_url,
+              }}
+              style={{
+                height: 380,
+                width: 380,
+              }}
+            />
           </View>
           <View style={styles.row}>
             <View style={{width: '70%'}}>
-              <Text style={{color: '#0000FF'}}> Salt </Text>
-              <Text style={styles.salt}> {item.salt} </Text>
+              <Text style={{color: '#0000FF'}}>Salt</Text>
+              <Text style={styles.salt}>{item.salt}</Text>
             </View>
             {item.requires_prescription && (
               <TouchableOpacity
@@ -141,7 +151,7 @@ const DrugDetailScreen = observer(props => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: 70,
+              height: 100,
               marginTop: 15,
               paddingHorizontal: 15,
             }}>
@@ -237,8 +247,8 @@ const DrugDetailScreen = observer(props => {
             <Text style={{...styles.salt, fontWeight: 'bold'}}>
               Introduction
             </Text>
-            <Ionicons
-              name="ios-arrow-down"
+            <MaterialIcons
+              name="keyboard-arrow-down"
               size={22}
               color="#000"
               onPress={() => setIntroCollapsed(prev => !prev)}
@@ -256,8 +266,8 @@ const DrugDetailScreen = observer(props => {
               alignItems: 'center',
             }}>
             <Text style={{...styles.salt, fontWeight: 'bold'}}>Uses</Text>
-            <Ionicons
-              name="ios-arrow-down"
+            <MaterialIcons
+              name="keyboard-arrow-down"
               size={22}
               color="#000"
               onPress={() => setUsesCollapsed(prev => !prev)}
@@ -280,8 +290,8 @@ const DrugDetailScreen = observer(props => {
             <Text style={{...styles.salt, fontWeight: 'bold'}}>
               Side Effects
             </Text>
-            <Ionicons
-              name="ios-arrow-down"
+            <MaterialIcons
+              name="keyboard-arrow-down"
               size={22}
               color="#000"
               onPress={() => setSideEffectsCollapsed(prev => !prev)}
@@ -321,8 +331,8 @@ const DrugDetailScreen = observer(props => {
             <Text style={{...styles.salt, fontWeight: 'bold'}}>
               How to cope with side effects
             </Text>
-            <Ionicons
-              name="ios-arrow-down"
+            <MaterialIcons
+              name="keyboard-arrow-down"
               size={22}
               color="#000"
               onPress={() => setHowToSECollapsed(prev => !prev)}
@@ -347,8 +357,8 @@ const DrugDetailScreen = observer(props => {
               alignItems: 'center',
             }}>
             <Text style={{...styles.salt, fontWeight: 'bold'}}>How to Use</Text>
-            <Ionicons
-              name="ios-arrow-down"
+            <MaterialIcons
+              name="keyboard-arrow-down"
               size={22}
               color="#000"
               onPress={() => setHowToUseCollapsed(prev => !prev)}
@@ -368,8 +378,8 @@ const DrugDetailScreen = observer(props => {
             <Text style={{...styles.salt, fontWeight: 'bold'}}>
               Safety Advice
             </Text>
-            <Ionicons
-              name="ios-arrow-down"
+            <MaterialIcons
+              name="keyboard-arrow-down"
               size={22}
               color="#000"
               onPress={() => setSafetyAdviceCollapsed(prev => !prev)}
@@ -401,9 +411,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   imageContainer: {
-    width: '95%',
-    backgroundColor: '#000',
-    height: 200,
+    width: '100%',
+    // backgroundColor: '#000',
+    height: 400,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -429,8 +439,8 @@ const styles = StyleSheet.create({
   },
   buyBtn: {
     width: 250,
-    height: 70,
-    backgroundColor: '#000',
+    height: 85,
+    backgroundColor: colors.SECONDARY,
     flexDirection: 'column',
     justifyContent: 'space-around',
 

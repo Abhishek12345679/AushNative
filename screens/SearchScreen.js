@@ -23,6 +23,7 @@ const SearchScreen = observer(({navigation}) => {
         drugs {
           id
           name
+          image_url
           salt
           price
           habit_forming
@@ -93,7 +94,7 @@ const SearchScreen = observer(({navigation}) => {
               titleStyle={{color: '#fff'}}
               name={med.name}
               salt_composition={`${med.salt.substring(0, 20)}...`}
-              imageUrl={med.imageUrl}
+              imageUrl={med.image_url}
               onPress={() =>
                 navigation.navigate('Drug', {
                   item: med,

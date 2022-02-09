@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TextInput,
+  Image,
 } from 'react-native';
 
 import DrugStore from '../../store/CartStore';
