@@ -5,6 +5,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTConvert.h>
+#import <React/RCTLinkingManager.h>
 
 #import "RNBootSplash.h" // <- add the header import
 
