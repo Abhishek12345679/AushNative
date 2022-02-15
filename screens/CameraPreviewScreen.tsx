@@ -7,7 +7,6 @@ import {
   StatusBar,
   Dimensions,
   Image,
-  Platform,
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons";
 import CameraPreviewCornerButton from "../components/CameraPreviewCornerButton";
@@ -17,7 +16,7 @@ import RecognisedWordsOverlay from "../components/RecognisedWordsOverlay";
 const CameraPreviewScreen = (props: any) => {
 
   const windowWidth = Dimensions.get("window").width;
-  const [image, setImage] = useState(props.route.params.photo.uri);
+  const [image, _] = useState(props.route.params.photo.uri);
   const [textRecognitionResponse, setTextRecognitonResponse] =
     useState<TextRecognitionResponse | undefined>(undefined);
   const [aspectRatio, setAspectRatio] = useState(1);
@@ -26,8 +25,6 @@ const CameraPreviewScreen = (props: any) => {
     if (image) {
       try {
         const TextRecognitionResponse = await extractWords(image);
-
-        console.log(JSON.stringify(TextRecognitionResponse, null, 2))
 
         if (TextRecognitionResponse.blocks.length > 0) {
           setTextRecognitonResponse(TextRecognitionResponse);
