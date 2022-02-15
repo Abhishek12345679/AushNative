@@ -1,4 +1,7 @@
+<img style="width: 100px;" alt="jless mascot" src="/assets/icon.png">
+
 # Aushadhalay
+
 
 Makes Life More Fun
 
