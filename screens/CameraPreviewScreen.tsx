@@ -7,6 +7,7 @@ import {
   StatusBar,
   Dimensions,
   Image,
+  Platform,
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons";
 import CameraPreviewCornerButton from "../components/CameraPreviewCornerButton";
@@ -25,6 +26,9 @@ const CameraPreviewScreen = (props: any) => {
     if (image) {
       try {
         const TextRecognitionResponse = await extractWords(image);
+
+        console.log(JSON.stringify(TextRecognitionResponse, null, 2))
+
         if (TextRecognitionResponse.blocks.length > 0) {
           setTextRecognitonResponse(TextRecognitionResponse);
           setAspectRatio(
