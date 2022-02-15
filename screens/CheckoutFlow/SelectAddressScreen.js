@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import Address from '../../components/Address';
 import DrugStore from '../../store/CartStore';
-
 import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
+
 import fetchAddresses from '../../helpers/fetchAddresses';
 
 const SelectAddressScreen = props => {
@@ -77,17 +77,11 @@ const SelectAddressScreen = props => {
                 marginBottom: 40,
               }}
               onPress={() => {
-                console.log('prescr_req', isPrescriptionRequired());
-                isPrescriptionRequired()
-                  ? props.navigation.navigate('UploadPrescription', {
-                      selectedAddressIndex: selectedAddressIndex,
-                      // paymentMode: 'sample',
-                    })
-                  : props.navigation.navigate('OrderPreview', {
-                      noPrescriptionRequired: true,
-                      selectedAddressIndex: selectedAddressIndex,
-                      // paymentMode: 'sample',
-                    });
+                // console.log('prescr_req', isPrescriptionRequired());
+                // isPrescriptionRequired()
+                props.navigation.navigate('UploadPrescription', {
+                  selectedAddressIndex: selectedAddressIndex,
+                });
               }}>
               <Text style={{color: '#fff', fontSize: 15, fontWeight: '500'}}>
                 Deliver to this address

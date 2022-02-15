@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -13,30 +13,21 @@ import DrugStore from '../../store/CartStore';
 
 import RazorpayCheckout from 'react-native-razorpay';
 
-import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
+import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import addOrder from '../../helpers/addOrder';
 
 const OrderPreviewScreen = props => {
-  const {drugs} = DrugStore;
-  const [address, setAddress] = useState(
+  const [address, _] = useState(
     DrugStore.addresses[props.route.params.selectedAddressIndex],
   );
 
   let total_checkout_amt = 0;
 
-  const email = DrugStore.userCredentials.email;
-  const name = DrugStore.profile.name;
-  const contact = address.ph_no;
-  const ordername = DrugStore.drugs[0].name + '...';
-
   const [checkingOut, setCheckingOut] = useState(false);
 
-  // prescription:
-  const fileUrl = props.route.params.fileUrl;
-  const prescriptionUploaded = props.route.params.prescriptionUploaded;
 
-  for (let i = 0; i < drugs.length; i++) {
-    total_checkout_amt = total_checkout_amt + drugs[i].total_amt;
+  for (let i = 0; i < DrugStore.drugs.length; i++) {
+    total_checkout_amt = total_checkout_amt + DrugStore.drugs[i].total_amt;
   }
 
   const toISTString = unixtime => {
@@ -66,7 +57,7 @@ const OrderPreviewScreen = props => {
     return resData.id;
   };
 
-  const verifySignature = async (order_id, pid, signature) => {
+  const verifySignature = async (order_id: any, pid: any, signature: any) => {
     // console.log({ order_id, pid, signature });
     const response = await fetch(
       'https://razorpay-payments-api.herokuapp.com/verifysignature',
@@ -86,58 +77,60 @@ const OrderPreviewScreen = props => {
     return resData;
   };
 
-  const openPaymentDialog = async order_id => {
+  const openPaymentDialog = async (order_id) => {
     try {
-      const RPPaymentOptions = {
-        description: `${drugs.length} Medicines you ordered.`, //product description
-        image:
-          'https://media.npr.org/assets/img/2020/03/09/gettyimages-88160320_wide-27e22851a1aaf72f2e66e280f55d0c28c81ec7bb.jpg?s=1400', // product image
-        currency: 'INR',
-        key: 'rzp_test_spbocQblrbzEdw',
-        amount: total_checkout_amt * 100,
-        name: ordername,
-        order_id: order_id,
-        prefill: {
-          email: email,
-          contact: contact,
-          name: name,
-        },
-        theme: {color: '#000000'},
-      };
+      if (address) {
+        const RPPaymentOptions = {
+          description: `${DrugStore.drugs.length} Medicines you ordered.`, //product description
+          image: DrugStore.drugs[0].imageUrl, // product image
+          currency: 'INR',
+          key: 'rzp_test_spbocQblrbzEdw',
+          amount: total_checkout_amt * 100,
+          name: DrugStore.drugs[0].name + `and ${DrugStore.drugs.length - 1} others`,
+          order_id: order_id,
+          prefill: {
+            email: DrugStore.userCredentials.email,
+            contact: address.ph_no,
+            name: DrugStore.profile.name,
+          },
+          theme: { color: '#000000' },
+        };
 
-      const paymentResponse = await RazorpayCheckout.open(RPPaymentOptions);
-      setCheckingOut(false);
+        const paymentResponse = await RazorpayCheckout.open(RPPaymentOptions);
+        setCheckingOut(false);
 
-      const verificationResponse = await verifySignature(
-        order_id,
-        paymentResponse.razorpay_payment_id,
-        paymentResponse.razorpay_signature,
-      );
+        const verificationResponse = await verifySignature(
+          order_id,
+          paymentResponse.razorpay_payment_id,
+          paymentResponse.razorpay_signature,
+        );
 
-      if (verificationResponse) {
-        console.log('Success:', verificationResponse);
-        try {
-          await addOrder({
-            items: DrugStore.drugs,
-            datetimestamp: new Date().getTime(),
-            address: address,
-            total_amt: total_checkout_amt,
-            order_id: order_id,
-            status: verificationResponse.status,
-            // prescription: fileUrl,
-          });
+        if (verificationResponse) {
+          console.log('Success:', verificationResponse);
+          try {
+            await addOrder({
+              items: DrugStore.drugs,
+              datetimestamp: new Date().getTime(),
+              address: address,
+              total_amt: total_checkout_amt,
+              order_id: order_id,
+              status: verificationResponse.status,
+              // prescription: fileUrl,
+            });
 
-          props.navigation.navigate('OrderConfirmation', {
-            status: verificationResponse.status,
-          });
-          // remove cartItems
-          if (verificationResponse.status === true) {
-            DrugStore.clearCart();
+            props.navigation.navigate('OrderConfirmation', {
+              status: verificationResponse.status,
+            });
+            // remove cartItems
+            if (verificationResponse.status === true) {
+              DrugStore.clearCart();
+            }
+          } catch (err) {
+            console.error(err);
           }
-        } catch (err) {
-          console.error(err);
         }
       }
+
     } catch (err) {
       setCheckingOut(false);
       console.error(`Error: ${err} ${err.code} | ${err.description}`);
@@ -180,22 +173,22 @@ const OrderPreviewScreen = props => {
         </ProgressSteps>
       </View>
       <View style={styles.item}>
-        <View style={styles.textCont}>
-          <Text style={styles.BoldText}>Order Date</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.boldtext}>Order Date</Text>
           <Text>{toISTString(new Date())}</Text>
         </View>
-        <View style={styles.textCont}></View>
-        <View style={styles.textCont}>
-          <Text style={styles.BoldText}>Order Total</Text>
-          <Text style={{color: 'green', fontWeight: 'bold'}}>
+        <View style={styles.textContainer}></View>
+        <View style={styles.textContainer}>
+          <Text style={styles.boldtext}>Order Total</Text>
+          <Text style={{ color: 'green', fontWeight: 'bold' }}>
             ₹{total_checkout_amt}
           </Text>
         </View>
       </View>
 
-      <Text style={{padding: 25, fontSize: 30, fontWeight: 'bold'}}>Items</Text>
-      <View style={{padding: 0}}>
-        {drugs.map((item, index) => (
+      <Text style={{ marginTop: 35, marginLeft: 20, fontSize: 30, fontWeight: 'bold' }}>Items</Text>
+      <View style={{ padding: 0 }}>
+        {DrugStore.drugs.map((item, index) => (
           <View
             style={{
               ...styles.item,
@@ -203,16 +196,23 @@ const OrderPreviewScreen = props => {
               justifyContent: 'space-between',
             }}
             key={index}>
-            <View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center'
+              }}
+            >
+              <Image
+                source={{ uri: item.imageUrl }}
+                style={{
+                  width: 75,
+                  height: 75,
+                }}
+              />
               <View>
-                <Image
-                  source={{uri: item.imageUrl}}
-                  style={{
-                    width: 100,
-                    height: 100,
-                  }}
-                />
-                <Text style={{...styles.BoldText, width: 150}}>
+                <Text style={{ ...styles.boldtext, width: 150 }}>
                   {item.name}
                 </Text>
                 <Text>{item.salt}</Text>
@@ -223,9 +223,9 @@ const OrderPreviewScreen = props => {
                     justifyContent: 'space-around',
                     marginTop: 10,
                   }}>
-                  <Text style={{color: 'green'}}>₹ {item.price}</Text>
+                  <Text style={{ color: 'green' }}>₹ {item.price}</Text>
                   <Text> x {item.quantity} = </Text>
-                  <Text style={{color: 'green', fontWeight: 'bold'}}>
+                  <Text style={{ color: 'green', fontWeight: 'bold' }}>
                     ₹{item.total_amt.toFixed(2)}
                   </Text>
                 </View>
@@ -234,35 +234,13 @@ const OrderPreviewScreen = props => {
           </View>
         ))}
       </View>
-      <View style={{paddingHorizontal: 20}}>
-        <Text style={{paddingVertical: 25, fontSize: 30, fontWeight: 'bold'}}>
+      <View style={{ paddingHorizontal: 20 }}>
+        <Text style={{ paddingVertical: 25, fontSize: 30, fontWeight: 'bold' }}>
           Address
         </Text>
-        <Address
-          type={address.type ?? 'Home'}
-          name={address.name}
-          ph_no={address.ph_no}
-          add_line_1={address.add_line_1}
-          add_line_2={address.add_line_2}
-        />
-        {/* {!props.route.params.noPrescriptionRequired && (
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              borderWidth: 0.5,
-              borderColor: '#000',
-              padding: 10,
-              borderRadius: 5,
-            }}>
-            <Text>Prescription Uploaded</Text>
-            <Text style={{fontWeight: 'bold', color: 'green'}}>
-              {prescriptionUploaded ? 'Yes' : 'No'}
-            </Text>
-          </View>
-        )} */}
+        <Address address={address} />
       </View>
-      <View style={{paddingHorizontal: 20, alignItems: 'center'}}>
+      <View style={{ paddingHorizontal: 20, alignItems: 'center' }}>
         <TouchableOpacity
           style={{
             marginVertical: 20,
@@ -275,7 +253,7 @@ const OrderPreviewScreen = props => {
           }}
           onPress={initiatePayment}>
           {!checkingOut ? (
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>
+            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
               Pay
             </Text>
           ) : (
@@ -294,18 +272,16 @@ const styles = StyleSheet.create({
   item: {
     marginHorizontal: 25,
     marginVertical: 10,
-    borderWidth: 1,
-    padding: 25,
-    borderColor: '#ccc',
+    padding: 5,
     borderRadius: 10,
     overflow: 'hidden',
   },
-  textCont: {
+  textContainer: {
     marginVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  BoldText: {
+  boldtext: {
     fontSize: 15,
     fontWeight: 'bold',
     width: 100,

@@ -136,7 +136,7 @@ const UploadPrescriptionScreen = props => {
             selectedAddressIndex: props.route.params.selectedAddressIndex,
             // fileUrl: prescription,
             // prescriptionUploaded: isValidUrl,
-            noPrescriptionRequired: true,
+            // noPrescriptionRequired: true,
           });
         }}
       />

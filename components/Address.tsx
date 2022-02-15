@@ -6,10 +6,10 @@ import Tag from "./Tag";
 
 
 interface AddressComponentProps {
-  keyProp: number | string;
+  keyProp?: number | string;
   address: AddressType;
-  onPress: () => void;
-  style: StyleSheet
+  onPress?: () => void;
+  style?: StyleSheet
 }
 
 
