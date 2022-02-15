@@ -1,3 +1,5 @@
+navigator.geolocation = require('react-native-geolocation-service');
+
 import React, {useEffect} from 'react';
 import {View, LogBox} from 'react-native';
 import RootNavigation from './navigation/RootNavigation';

@@ -1,7 +1,5 @@
 import React from 'react';
 
-navigator.geolocation = require('react-native-geolocation-service');
-
 import {Text, TouchableOpacity, Platform} from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons';
 import {colors} from '../constants/colors';
@@ -15,7 +13,8 @@ const LocationPicker = props => {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: colors.PRIMARY,
-        height: 45,
+        height: 30,
+        marginTop: Platform.OS === 'ios' ? 90 : 65,
       }}>
       <Text
         style={{

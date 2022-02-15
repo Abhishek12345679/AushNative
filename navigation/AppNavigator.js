@@ -164,24 +164,28 @@ export const RootNavigator = () => {
   return (
     <RootStackNavigator.Navigator
       initialRouteName="Home"
-      screenOptions={{
-        headerHideShadow: true,
-        headerStyle: {
-          backgroundColor: '#14213d',
-          elevation: 0,
-          shadowOpacity: 0,
-          borderBottomWidth: 0,
-        },
-        headerLargeTitle: true,
-        headerTintColor: '#fff',
-        fontSize: 20,
-      }}>
+      screenOptions={
+        Platform.OS === 'android' && {
+          headerHideShadow: true,
+          headerStyle: {
+            backgroundColor: '#14213d',
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+          headerTintColor: '#fff',
+          fontSize: 20,
+        }
+      }>
       <RootStackNavigator.Screen name="SplashScreen" component={SplashScreen} />
 
       <RootStackNavigator.Screen
         name="Home"
         component={HomeScreen}
         headerTitle="Aushadhalay"
+        options={{
+          headerLargeTitle: false,
+        }}
       />
       <RootStackNavigator.Screen
         name="Search"
@@ -227,12 +231,15 @@ export const SettingsNavigator = () => {
           shadowOpacity: 0,
           borderBottomWidth: 0,
         },
-        headerLargeTitle: true,
+        headerLargeTitle: false,
         headerTintColor: '#fff',
       }}>
       <SettingsStackNavigator.Screen
         name="SettingsScreen"
         component={SettingsScreen}
+        options={{
+          headerLargeTitle: false,
+        }}
       />
       <SettingsStackNavigator.Screen name="Orders" component={OrdersScreen} />
       <SettingsStackNavigator.Screen
@@ -281,7 +288,7 @@ export const TabNavigator = () => {
         tabBarStyle: {
           backgroundColor: '#14213d',
           borderTopColor: '#14213d',
-          height: 55,
+          height: Platform.OS === 'ios' ? 75 : 55,
           // justifyContent: 'center',
           elevation: 10,
         },
