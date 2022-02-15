@@ -2,6 +2,7 @@ import {cast, types} from 'mobx-state-tree';
 
 export type DrugType = {
   id: string;
+  imageUrl: string;
   name: string;
   salt: string;
   price: number;
