@@ -18,7 +18,10 @@ import addOrder from '../../helpers/addOrder';
 
 const OrderPreviewScreen = props => {
   const {drugs} = DrugStore;
-  const address = DrugStore.addresses[props.route.params.address];
+  const [address, setAddress] = useState(
+    DrugStore.addresses[props.route.params.selectedAddressIndex],
+  );
+
   let total_checkout_amt = 0;
 
   const email = DrugStore.userCredentials.email;
@@ -59,7 +62,6 @@ const OrderPreviewScreen = props => {
     );
 
     const resData = await response.json();
-    // console.log(resData);
 
     return resData.id;
   };
@@ -202,20 +204,31 @@ const OrderPreviewScreen = props => {
             }}
             key={index}>
             <View>
-              <Text style={{...styles.BoldText, width: 150}}>{item.name}</Text>
-              <Text>{item.salt}</Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-around',
-                  marginTop: 10,
-                }}>
-                <Text style={{color: 'green'}}>₹ {item.price}</Text>
-                <Text> x {item.quantity} = </Text>
-                <Text style={{color: 'green', fontWeight: 'bold'}}>
-                  ₹{item.total_amt.toFixed(2)}
+              <View>
+                <Image
+                  source={{uri: item.imageUrl}}
+                  style={{
+                    width: 100,
+                    height: 100,
+                  }}
+                />
+                <Text style={{...styles.BoldText, width: 150}}>
+                  {item.name}
                 </Text>
+                <Text>{item.salt}</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-around',
+                    marginTop: 10,
+                  }}>
+                  <Text style={{color: 'green'}}>₹ {item.price}</Text>
+                  <Text> x {item.quantity} = </Text>
+                  <Text style={{color: 'green', fontWeight: 'bold'}}>
+                    ₹{item.total_amt.toFixed(2)}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -226,13 +239,13 @@ const OrderPreviewScreen = props => {
           Address
         </Text>
         <Address
-          type={address.type}
+          type={address.type ?? 'Home'}
           name={address.name}
           ph_no={address.ph_no}
           add_line_1={address.add_line_1}
           add_line_2={address.add_line_2}
         />
-        {!props.route.params.noPrescriptionRequired && (
+        {/* {!props.route.params.noPrescriptionRequired && (
           <View
             style={{
               flexDirection: 'row',
@@ -247,7 +260,7 @@ const OrderPreviewScreen = props => {
               {prescriptionUploaded ? 'Yes' : 'No'}
             </Text>
           </View>
-        )}
+        )} */}
       </View>
       <View style={{paddingHorizontal: 20, alignItems: 'center'}}>
         <TouchableOpacity

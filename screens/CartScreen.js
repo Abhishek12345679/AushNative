@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,15 +8,16 @@ import {
   ActivityIndicator,
   StatusBar,
   Platform,
-} from "react-native";
+  Image,
+} from 'react-native';
 
-import DrugStore from "../store/CartStore";
-import { observer } from "mobx-react";
+import DrugStore from '../store/CartStore';
+import {observer} from 'mobx-react';
 
-import { FontAwesome } from "@expo/vector-icons";
+import {FontAwesome} from '@expo/vector-icons';
 
-const CartScreen = observer((props) => {
-  const { drugs } = DrugStore;
+const CartScreen = observer(props => {
+  const {drugs} = DrugStore;
   let total_checkout_amt = 0;
 
   const [checkingOut, setCheckingOut] = useState(false);
@@ -25,107 +26,86 @@ const CartScreen = observer((props) => {
     total_checkout_amt = total_checkout_amt + drugs[i].total_amt;
   }
 
-  // useEffect(() => {
-  //   fetchOrders();
-  // },
-  // []);
-
-  const removeFromCart = (id) => {
+  const removeFromCart = id => {
     DrugStore.removeFromCart(id);
   };
 
   const submitOrder = () => {
-    props.navigation.navigate("CheckoutFlow");
+    props.navigation.navigate('CheckoutFlow');
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ flexGrow: 1 }}
-    >
-      {Platform.OS === "android" && <StatusBar barStyle="dark-content" />}
+    <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
+      {Platform.OS === 'android' && <StatusBar barStyle="dark-content" />}
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           marginVertical: 10,
-        }}
-      >
-        <View style={{ width: "50%" }}>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#000" }}>
-            Your Meds
+        }}>
+        <View style={{width: '50%'}}>
+          <Text style={{fontSize: 30, fontWeight: 'bold', color: '#000'}}>
+            Medicines
           </Text>
         </View>
         <View>
-          <Text style={{ fontSize: 20 }}>Total : </Text>
-          <Text style={{ fontSize: 20, color: "green" }}>
-            {" "}
+          <Text style={{fontSize: 20, color: 'green', fontWeight: 'bold'}}>
             ₹{total_checkout_amt.toFixed(2)}
           </Text>
         </View>
       </View>
       {drugs.length > 0 ? (
-        <View
-          style={{
-            borderWidth: 1,
-            borderColor: "#000",
-          }}
-        >
+        <>
           {drugs.map((drug, index) => (
             <View
               key={index}
               style={{
-                borderColor: "#000",
-                borderWidth: 1,
-                flexDirection: "column",
-              }}
-            >
+                flexDirection: 'column',
+                backgroundColor: '#fff',
+              }}>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingHorizontal: 10,
-                }}
-              >
-                <View style={{ flexDirection: "row", marginEnd: 10 }}>
-                  <Text
-                    style={{ fontSize: 25, marginEnd: 10, fontWeight: "bold" }}
-                  >
-                    {drug.quantity}
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginEnd: 10,
+                  marginTop: 10,
+                  borderRadius: 20,
+                }}>
+                <Image
+                  source={{uri: drug.imageUrl}}
+                  style={{
+                    width: 75,
+                    height: 75,
+                    marginEnd: 10,
+                  }}
+                />
+                <View style={{marginEnd: 10}}>
+                  <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+                    {drug.name}
                   </Text>
-                  <View style={{ marginEnd: 10 }}>
-                    <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                      {drug.name}
-                    </Text>
-                    <Text style={{ fontSize: 15, width: 200 }}>
-                      {drug.salt}
-                    </Text>
-                  </View>
+                  <Text style={{fontSize: 15, width: 200}}>{drug.salt}</Text>
                 </View>
               </View>
 
-              <View style={{ marginStart: 10, marginVertical: 10 }}>
+              <View style={{marginStart: 10, marginVertical: 10}}>
                 {/* <QuantitySelector /> */}
                 <View
                   style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                     paddingHorizontal: 10,
-                  }}
-                >
+                  }}>
                   <View
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-around",
-                    }}
-                  >
-                    <Text style={{ color: "green" }}>₹ {drug.price}</Text>
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-around',
+                    }}>
+                    <Text style={{color: 'green'}}>₹ {drug.price}</Text>
                     <Text> x {drug.quantity} = </Text>
-                    <Text style={{ color: "green", fontWeight: "bold" }}>
+                    <Text style={{color: 'green', fontWeight: 'bold'}}>
                       ₹{drug.total_amt.toFixed(2)}
                     </Text>
                   </View>
@@ -141,7 +121,7 @@ const CartScreen = observer((props) => {
               </View>
             </View>
           ))}
-        </View>
+        </>
       ) : (
         <View style={styles.centered}>
           <Text>No items in the cart</Text>
@@ -151,19 +131,17 @@ const CartScreen = observer((props) => {
         <View
           style={{
             flex: 1,
-            backgroundColor: "#fff",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}>
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.scanButton}
             onPress={() => {
-              props.navigation.navigate("Scan");
-            }}
-          >
-            <Text style={{ color: "#fff", fontWeight: "500", fontSize: 17 }}>
+              props.navigation.navigate('Scan');
+            }}>
+            <Text style={{color: '#fff', fontWeight: '500', fontSize: 17}}>
               Scan
             </Text>
           </TouchableOpacity>
@@ -171,16 +149,15 @@ const CartScreen = observer((props) => {
           <TouchableOpacity
             onPress={submitOrder}
             style={{
-              width: "100%",
+              width: '100%',
               height: 70,
-              backgroundColor: "#000",
-              alignItems: "center",
-              justifyContent: "center",
+              backgroundColor: '#000',
+              alignItems: 'center',
+              justifyContent: 'center',
               marginBottom: 10,
-            }}
-          >
+            }}>
             {!checkingOut ? (
-              <Text style={{ color: "#fff", fontSize: 20 }}>Checkout</Text>
+              <Text style={{color: '#fff', fontSize: 20}}>Checkout</Text>
             ) : (
               <View>
                 <ActivityIndicator size="large" color="#fff" />
@@ -196,14 +173,14 @@ const CartScreen = observer((props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingVertical: 5,
   },
   centered: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

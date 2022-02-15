@@ -16,10 +16,6 @@ import fetchAddresses from '../../helpers/fetchAddresses';
 
 const SelectAddressScreen = props => {
   const {drugs} = DrugStore;
-  const email = DrugStore.userCredentials.email;
-  const name = DrugStore.profile.name;
-  const contact = DrugStore.addresses[selectedAddress].ph_no;
-  const ordername = DrugStore.drugs[0].name + '...';
 
   const isPrescriptionRequired = () => {
     let flag = false;
@@ -31,7 +27,7 @@ const SelectAddressScreen = props => {
     return flag;
   };
 
-  const [selectedAddress, setSelectedAddress] = useState(0);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
 
   useEffect(() => {
     const fetchStuff = async () => {
@@ -84,13 +80,13 @@ const SelectAddressScreen = props => {
                 console.log('prescr_req', isPrescriptionRequired());
                 isPrescriptionRequired()
                   ? props.navigation.navigate('UploadPrescription', {
-                      address: selectedAddress,
-                      paymentMode: 'sample',
+                      selectedAddressIndex: selectedAddressIndex,
+                      // paymentMode: 'sample',
                     })
                   : props.navigation.navigate('OrderPreview', {
                       noPrescriptionRequired: true,
-                      address: selectedAddress,
-                      paymentMode: 'sample',
+                      selectedAddressIndex: selectedAddressIndex,
+                      // paymentMode: 'sample',
                     });
               }}>
               <Text style={{color: '#fff', fontSize: 15, fontWeight: '500'}}>
@@ -102,8 +98,7 @@ const SelectAddressScreen = props => {
         renderItem={({item, index}) => (
           <Address
             onPress={() => {
-              console.log(index);
-              setSelectedAddress(index);
+              setSelectedAddressIndex(index);
             }}
             style={{
               shadowOffset: {
@@ -111,7 +106,7 @@ const SelectAddressScreen = props => {
                 height: 5,
               },
               shadowRadius: 10,
-              borderWidth: index === selectedAddress ? 2 : 0,
+              borderWidth: index === selectedAddressIndex ? 2 : 0,
               borderColor: 'blue',
             }}
             keyProp={item.ph_no}

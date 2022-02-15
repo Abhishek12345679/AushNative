@@ -13,6 +13,7 @@ export type DrugType = {
 // Drug Model
 const drug = types.model({
   id: types.optional(types.string, ''),
+  imageUrl: types.optional(types.string, ''),
   name: types.optional(types.string, ''),
   salt: types.optional(types.string, ''),
   price: types.optional(types.number, 0),
@@ -22,7 +23,7 @@ const drug = types.model({
 });
 
 export type AddressType = {
-  type?: string;
+  type: string;
   name: string;
   add_line_1: string;
   add_line_2: string;
@@ -153,6 +154,7 @@ const DrugStore = types
         if (drugItem.id === drug.id) {
           self.drugs[0] = {
             id: drugItem.id,
+            imageUrl: drugItem.imageUrl,
             name: drugItem.name,
             salt: drugItem.salt,
             price: drugItem.price,

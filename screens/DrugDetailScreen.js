@@ -87,6 +87,7 @@ const DrugDetailScreen = observer(props => {
   useEffect(() => {
     setCartItem({
       id: item.id,
+      imageUrl: item.image_url,
       name: item.name,
       salt: item.salt,
       price: parseFloat(parseFloat(item.price).toFixed(2)),

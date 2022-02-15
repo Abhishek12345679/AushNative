@@ -15,8 +15,6 @@ import DrugStore from '../../store/CartStore';
 const UploadPrescriptionScreen = props => {
   const [uploading, setUploading] = useState(false);
   const [prescription, setPrescription] = useState('');
-  const addressIndex = props.route.params.address;
-
   const urlRegex = new RegExp(/^(https):\/\/[^\s$.?#].[^\s]*$/);
   const isValidUrl = urlRegex.test(prescription);
 
@@ -135,10 +133,10 @@ const UploadPrescriptionScreen = props => {
         title="next"
         onPress={() => {
           props.navigation.navigate('OrderPreview', {
-            address: addressIndex,
-            fileUrl: prescription,
-            prescriptionUploaded: isValidUrl,
-            noPrescriptionRequired: false,
+            selectedAddressIndex: props.route.params.selectedAddressIndex,
+            // fileUrl: prescription,
+            // prescriptionUploaded: isValidUrl,
+            noPrescriptionRequired: true,
           });
         }}
       />
