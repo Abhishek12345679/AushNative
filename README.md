@@ -7,20 +7,21 @@ Makes Life More Fun
 
 ## Tech Stack
 
-**Client**
+**Client**:
 
 1. React Native
 
-**Backend**
+**Backend**:
 
 1. Firebase ML
-2. Firebase Auth
-3. Firebase Storage
-4. MongoDB atlas / Mongoose
-5. NodeJS / Express
-6. GraphQL / Apollo 
+1. Firebase Auth
+1. Firebase Storage
+1. MongoDB atlas / Mongoose
+1. NodeJS / Express
+1. GraphQL / Apollo 
 
-> Servers
+## Servers:
+
 > Payments Server: <https://razorpay-payments-api.herokuapp.com/>
 > GraphQl API w/ the mongodb atlas: <https://med-db-v1.herokuapp.com/graphql>
 
@@ -51,21 +52,8 @@ Why Aushadhalay instead of other apps:
 - Intuitive 🐝
 - One Scan away from your meds 🕵🏼‍♀️ 🕵🏼‍♂️
 
-   ![Scanned](/mockups/mockups.png?raw=true)
+   <!-- ![Scanned](/mockups/mockups.png?raw=true) -->
 
-## TESTS
-
-yarn-
-
-```bash
-yarn test
-```
-
-npm-
-
-```bash
-npm run test
-```
 
 ## MOTIVATION TO BUILD IT
 
