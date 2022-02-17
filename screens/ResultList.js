@@ -7,9 +7,9 @@ import {
   StyleSheet,
   Button,
   TouchableOpacity,
-  Image,
   ScrollView,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 
 import ListItem from '../components/ListItem';
@@ -18,6 +18,7 @@ import DrugStore from '../store/CartStore';
 import {observer} from 'mobx-react';
 
 import {Entypo} from '@expo/vector-icons';
+import {colors} from '../constants/colors';
 
 const GET_MEDICINE = gql`
   query getMedicine($name: String!) {
@@ -87,17 +88,13 @@ const GET_ALTERNATE_DRUG = gql`
 
 const ResultList = observer(props => {
   let ocr_data = '';
-
   const mode = props.route.params.mode;
-  console.log('mode', mode);
 
   if (props.route.params.manual_search) {
     ocr_data = props.route.params.query;
   } else {
     ocr_data = props.route.params.data;
   }
-
-  console.log('ocr_data', ocr_data);
 
   if (mode === 'name' || mode === 'scan') {
     var {loading, data, error} = useQuery(GET_MEDICINE, {
@@ -112,14 +109,22 @@ const ResultList = observer(props => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
+        <Pressable
+          android_ripple={{
+            color: '#fff',
+            borderless: true,
+          }}
           onPress={() => {
             props.navigation.navigate('Cart');
+          }}
+          style={{
+            flexDirection: 'row',
           }}>
           <Entypo name="shopping-cart" color="#fff" size={24} />
           <Text style={{color: '#FFFFFF'}}>{DrugStore.count}</Text>
-        </TouchableOpacity>
+        </Pressable>
       ),
+      headerLargeTitle: false,
     });
   }, []);
 
@@ -130,24 +135,21 @@ const ResultList = observer(props => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#fff',
+          backgroundColor: colors.PRIMARY,
         }}>
-        <ActivityIndicator color="#000" size="large" />
+        <ActivityIndicator color="#FFF" size="large" />
       </View>
     );
   }
 
   if (error) {
-    console.log(error);
+    console.error(error);
     return;
   }
 
   return (
     <View style={styles.container}>
-      {Platform.OS === 'ios' && (
-        <StatusBar barStyle="dark-content" backgroundColor="#000" />
-      )}
-
+      <StatusBar barStyle="light-content" />
       {data ? (
         (
           mode === 'name' || mode === 'scan'
@@ -186,7 +188,7 @@ const ResultList = observer(props => {
             }}
           />
         ) : (
-          <ScrollView style={styles.containerEmpty}>
+          <ScrollView style={styles.container}>
             <Text style={{color: '#000', fontWeight: '400'}}>
               No Drugs Found in Chemy's Database, enter the drug as accuarate as
               possible in the search bar below
@@ -227,72 +229,9 @@ const ResultList = observer(props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.PRIMARY,
     padding: 10,
-  },
-  containerEmpty: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 10,
-  },
-  content: {
-    alignItems: 'center',
-    marginTop: 5,
-    flexDirection: 'column',
-  },
-  imageContainer: {
-    width: '95%',
-    backgroundColor: '#000',
-    height: 200,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bigTitle: {
-    fontSize: 50,
-    fontWeight: '600',
-    color: '#fff',
-  },
-  salt: {
-    fontSize: 20,
-    fontWeight: '400',
-    color: '#000',
-  },
-  row: {
-    width: '100%',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginHorizontal: 10,
-    alignItems: 'center',
-    paddingHorizontal: 25,
-    marginTop: 10,
-  },
-  buyBtn: {
-    width: '80%',
-    height: 60,
-    backgroundColor: '#e75468',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 15,
-    paddingHorizontal: 50,
-    alignItems: 'center',
-    borderRadius: 15,
-  },
-  desc: {
-    justifyContent: 'flex-start',
-    paddingHorizontal: 25,
-    marginTop: 10,
   },
 });
-
-export const screenOptions = () => {
-  return {
-    headerLargeTitle: true,
-    gestureEnabled: false,
-    headerHideBackButton: true,
-    headerShown: true,
-    // headerTranslucent: true,
-  };
-};
 
 export default ResultList;

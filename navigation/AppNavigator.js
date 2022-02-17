@@ -3,9 +3,7 @@ import {Button, Platform} from 'react-native';
 
 import HomeScreen from '../screens/HomeScreen';
 import DrugScanner from '../screens/DrugScanner';
-import ResultList, {
-  screenOptions as ResultListScreenOptions,
-} from '../screens/ResultList';
+import ResultList from '../screens/ResultList';
 import DrugDetailScreen, {
   screenOptions as DrugDetailScreenOptions,
 } from '../screens/DrugDetailScreen';
@@ -140,11 +138,7 @@ const ScannerNavigator = () => {
           unmountOnBlur: true,
         }}
       />
-      <ScannerStackNavigator.Screen
-        name="Results"
-        component={ResultList}
-        options={ResultListScreenOptions}
-      />
+      <ScannerStackNavigator.Screen name="Results" component={ResultList} />
       <ScannerStackNavigator.Screen
         name="Drug"
         component={DrugDetailScreen}
