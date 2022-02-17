@@ -1,7 +1,7 @@
-import { View, Pressable } from 'react-native'
 import React from 'react'
-import RoundButton from './RoundButton';
+import { View, Pressable } from 'react-native'
 
+import RoundButton from './RoundButton';
 import { Entypo, MaterialIcons, Ionicons } from '@expo/vector-icons'
 import { CameraType, FlashMode } from 'expo-camera/build/Camera.types';
 
@@ -25,6 +25,8 @@ const ScannerButtonsPane = ({
     pickImage
 }: ScannerButtonsPaneProps
 ) => {
+
+
     return (
         <View
             style={{
@@ -61,7 +63,7 @@ const ScannerButtonsPane = ({
                     style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
                     onPress={toggleFrontBackCamera}>
                     <MaterialIcons
-                        name={cameraType === CameraType.back ? 'camera-front' : 'camera-rear'}
+                        name={cameraType === CameraType.back ? 'camera-rear' : 'camera-front'}
                         size={20}
                         color="#fff"
                     />
@@ -78,7 +80,7 @@ const ScannerButtonsPane = ({
                     style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
                     onPress={toggleFlash}>
                     <Ionicons
-                        name={flashStatus === FlashMode.on ? 'ios-flash-off' : 'ios-flash'}
+                        name={flashStatus === FlashMode.on ? "ios-flash-on" : "ios-flash-off"}
                         size={20}
                         color="#fff"
                     />

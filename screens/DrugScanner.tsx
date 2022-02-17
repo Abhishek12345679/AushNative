@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   Dimensions,
@@ -16,32 +15,30 @@ import { Camera } from 'expo-camera';
 
 import Modal from 'react-native-modal';
 
-import { MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
 
-import RoundButton from '../components/RoundButton';
 import ManualSearchBox from '../components/ManualSearchBox';
 import CaptureButton from '../components/CaptureButton';
 import ScannerButtonsPane from '../components/ScannerButtonsPane';
 
 const DrugScanner = props => {
+
   const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
   const [mounted, setMounted] = useState(true);
-
-  const contourRef = useRef(null);
+  const [isCameraReady, setIsCameraReady] = useState(false);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const [flashStatus, setFlashStatus] = useState(
+    Camera.Constants.FlashMode.off,
+  );
 
   const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
 
-  const [isCameraReady, setIsCameraReady] = useState(false);
+  const contourRef = useRef(null);
 
   const [isVisible, setIsVisible] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const [flashStatus, setFlashStatus] = useState(
-    Camera.Constants.FlashMode.off,
-  );
 
   const [imagePadding, setImagePadding] = useState(0);
   const [ratio, setRatio] = useState('4:3');
@@ -71,10 +68,11 @@ const DrugScanner = props => {
   useEffect(() => {
     (async () => {
       try {
-        const { CameraStatus } = await Camera.requestCameraPermissionsAsync();
-        const { GalleryStatus } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        setHasPermission(CameraStatus && GalleryStatus === 'granted');
+        const cameraStatus = await Camera.requestCameraPermissionsAsync();
+        const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (cameraStatus && galleryStatus) {
+          setHasPermission(true);
+        }
       } catch (e) {
         console.error(e);
       }
@@ -89,7 +87,7 @@ const DrugScanner = props => {
   };
 
   useEffect(() => {
-    onCameraReady;
+    onCameraReady();
   }, []);
 
   useFocusEffect(
@@ -160,21 +158,21 @@ const DrugScanner = props => {
     );
   }
 
-  let lastPress = 0;
-  const onDoublePress = () => {
-    const time = new Date().getTime();
-    const delta = time - lastPress;
+  // let lastPress = 0;
+  // const onDoublePress = () => {
+  //   const time = new Date().getTime();
+  //   const delta = time - lastPress;
 
-    const DOUBLE_PRESS_DELAY = 400;
-    if (delta < DOUBLE_PRESS_DELAY) {
-      setType(
-        type === Camera.Constants.Type.back
-          ? Camera.Constants.Type.front
-          : Camera.Constants.Type.back,
-      );
-    }
-    lastPress = time;
-  };
+  //   const DOUBLE_PRESS_DELAY = 400;
+  //   if (delta < DOUBLE_PRESS_DELAY) {
+  //     setType(
+  //       type === Camera.Constants.Type.back
+  //         ? Camera.Constants.Type.front
+  //         : Camera.Constants.Type.back,
+  //     );
+  //   }
+  //   lastPress = time;
+  // };
 
   const onSwipeUp = () => {
     if (isVisible === false) {
@@ -210,8 +208,8 @@ const DrugScanner = props => {
   return (
     <View style={{ flex: 1 }}>
       <GestureRecognizer
-        onSwipeUp={state => onSwipeUp(state)}
-        onSwipeDown={state => onSwipeDown(state)}
+        onSwipeUp={onSwipeUp}
+        onSwipeDown={onSwipeDown}
         config={config}
         style={{
           flex: 1,
@@ -227,14 +225,14 @@ const DrugScanner = props => {
               marginTop: imagePadding,
               marginBottom: imagePadding,
             }}
-            type={type}
+            type={cameraType}
             flashMode={flashStatus}
             ref={ref => {
               setCamera(ref);
               setCameraRef(ref);
             }}
             onCameraReady={onCameraReady}
-            onStartShouldSetResponder={evt => onDoublePress()}
+            // onStartShouldSetResponder={evt => onDoublePress()}
             useCamera2Api={true}>
             <View
               style={{
@@ -260,21 +258,21 @@ const DrugScanner = props => {
               <CaptureButton captureImage={captureImage} />
             </View>
             <ScannerButtonsPane
-              cameraType={type}
+              cameraType={cameraType}
               flashStatus={flashStatus}
               navigation={props.navigation}
               pickImage={pickImage}
               toggleFlash={() => {
-                setFlashStatus(flashStatus === Camera.Constants.FlashMode.on ?
+                const newState = flashStatus === Camera.Constants.FlashMode.on ?
                   Camera.Constants.FlashMode.off :
-                  Camera.Constants.FlashMode.on);
+                  Camera.Constants.FlashMode.on;
+                setFlashStatus(newState);
               }}
               toggleFrontBackCamera={() => {
-                setType(
-                  type === Camera.Constants.Type.front
-                    ? Camera.Constants.Type.back
-                    : Camera.Constants.Type.front,
-                );
+                const newState = cameraType === Camera.Constants.Type.front
+                  ? Camera.Constants.Type.back
+                  : Camera.Constants.Type.front;
+                setCameraType(newState)
               }}
               toggleManualSearchBox={() => {
                 setIsVisible(prev => !prev);
@@ -282,13 +280,7 @@ const DrugScanner = props => {
 
             />
             <KeyboardAvoidingView>
-              <View
-                style={{
-                  width: '100%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginBottom: 50,
-                }}></View>
+
             </KeyboardAvoidingView>
             <Modal
               avoidKeyboard={true}

@@ -1,5 +1,5 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native'
 import React from 'react'
+import { View, Pressable, StyleSheet } from 'react-native'
 
 interface CaptureButtonProps {
     captureImage: () => Promise<void>
