@@ -15,15 +15,16 @@ import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
 import Geolocation, { AuthorizationLevel, ErrorCallback, GeoOptions, SuccessCallback } from 'react-native-geolocation-service';
 import LocationPicker from '../components/LocationPicker';
-import { connectActionSheet } from '@expo/react-native-action-sheet';
 import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Ionicons } from '@expo/vector-icons';
 import fetchOrders from '../helpers/fetchOrders';
 import fetchAddresses from '../helpers/fetchAddresses';
 import { colors } from '../constants/colors';
 
+import { useActionSheet } from '@expo/react-native-action-sheet';
+
 const HomeScreen = observer((props: any) => {
-  const { showActionSheetWithOptions } = props;
+  const { showActionSheetWithOptions } = useActionSheet();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [locName, setLocName] = useState('select location');
@@ -210,11 +211,15 @@ const HomeScreen = observer((props: any) => {
         }}
         onDismiss={() => {
           setModalVisible(false);
-        }}>
+        }}
+
+      >
         <TouchableWithoutFeedback
           onPressOut={() => {
             setModalVisible(false);
-          }}>
+          }}
+
+        >
           <View style={{ flex: 1 }}>
             <GooglePlacesAutocomplete
               textInputProps={{ autoCorrect: false }}
@@ -265,6 +270,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const connectedApp = connectActionSheet(HomeScreen);
-
-export default connectedApp;
+export default HomeScreen;

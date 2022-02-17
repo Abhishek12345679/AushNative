@@ -2,10 +2,10 @@ import React from "react";
 import { StyleSheet, Pressable } from "react-native";
 
 interface RoundButtonProps {
-  disabled: boolean;
-  onPress: () => void;
-  style: {},
-  children: JSX.Element
+  disabled?: boolean;
+  onPress?: () => void;
+  style?: {},
+  children?: JSX.Element
 }
 
 const RoundButton = ({ disabled, onPress, style, children }: RoundButtonProps) => {
@@ -14,6 +14,7 @@ const RoundButton = ({ disabled, onPress, style, children }: RoundButtonProps) =
       disabled={disabled}
       android_ripple={{
         color: "#000",
+        borderless: true
       }}
       onPress={onPress}
       style={{ ...styles.button, ...style }}

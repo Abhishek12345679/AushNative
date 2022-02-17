@@ -212,9 +212,9 @@ export const SettingsNavigator = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.PRIMARY,
-          elevation: 0,
-          shadowOpacity: 0,
-          borderBottomWidth: 0,
+          // elevation: 0,
+          // shadowOpacity: 0,
+          // borderBottomWidth: 0,
         },
         headerLargeTitle: false,
         headerTintColor: '#fff',
@@ -224,6 +224,7 @@ export const SettingsNavigator = () => {
         component={SettingsScreen}
         options={{
           headerLargeTitle: false,
+          headerTitle: 'Settings',
         }}
       />
       <SettingsStackNavigator.Screen name="Orders" component={OrdersScreen} />
