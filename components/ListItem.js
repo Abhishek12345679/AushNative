@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {observer} from 'mobx-react';
 import DP from './DP';
 import {colors} from '../constants/colors';
@@ -65,7 +58,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomColor: '#ccc',
-    padding: (10, 10, 10, 10),
   },
   textBig: {
     fontSize: 20,

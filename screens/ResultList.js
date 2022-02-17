@@ -6,7 +6,6 @@ import {
   StatusBar,
   StyleSheet,
   Button,
-  TouchableOpacity,
   ScrollView,
   ActivityIndicator,
   Pressable,
@@ -149,7 +148,7 @@ const ResultList = observer(props => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="light-content" backgroundColor={colors.SECONDARY} />
       {data ? (
         (
           mode === 'name' || mode === 'scan'
@@ -159,7 +158,7 @@ const ResultList = observer(props => {
           <FlatList
             ListHeaderComponent={
               <View style={{marginVertical: 10, marginStart: 5}}>
-                <Text style={{fontSize: 15, fontWeight: 'bold', color: '#000'}}>
+                <Text style={{fontSize: 15, fontWeight: 'bold', color: '#fff'}}>
                   {mode === 'name' || mode === 'scan'
                     ? data.search.items
                     : data.findDrugForSameSalt.items}{' '}
@@ -175,6 +174,9 @@ const ResultList = observer(props => {
             renderItem={itemData => {
               return (
                 <ListItem
+                  style={{
+                    backgroundColor: colors.PRIMARY,
+                  }}
                   name={itemData.item.name}
                   salt_composition={`${itemData.item.salt.substring(0, 20)}...`}
                   imageUrl={itemData.item.image_url}
