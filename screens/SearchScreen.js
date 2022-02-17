@@ -55,37 +55,37 @@ const SearchScreen = observer(({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View
+      <View
+        style={{
+          flexDirection: 'row',
+          margin: 10,
+        }}>
+        <TextInput
+          onSubmitEditing={() => {
+            getMedicine({variables: {name: searchText}});
+          }}
+          returnKeyType="search"
+          placeholder="search here"
+          placeholderTextColor="#fff"
+          value={searchText}
+          onChangeText={text => {
+            setSearchText(text);
+          }}
           style={{
-            flexDirection: 'row',
-            margin: 10,
-          }}>
-          <TextInput
-            onSubmitEditing={() => {
-              getMedicine({variables: {name: searchText}});
-            }}
-            returnKeyType="search"
-            placeholder="search here"
-            placeholderTextColor="#fff"
-            value={searchText}
-            onChangeText={text => {
-              setSearchText(text);
-            }}
-            style={{
-              width: '100%',
-              height: 55,
-              fontSize: 16,
-              color: '#fff',
-              backgroundColor: colors.PRIMARY,
-              padding: 10,
-              marginTop: StatusBar.currentHeight,
-              borderRadius: 20,
-              textAlignVertical: 'center',
-              textAlign: 'center',
-            }}
-          />
-        </View>
+            width: '100%',
+            height: 55,
+            fontSize: 16,
+            color: '#fff',
+            backgroundColor: colors.SECONDARY,
+            padding: 10,
+            marginTop: StatusBar.currentHeight,
+            borderRadius: 20,
+            textAlignVertical: 'center',
+            textAlign: 'center',
+          }}
+        />
+      </View>
+      <ScrollView>
         {!!data && !loading ? (
           data.search.drugs.map((med, index) => (
             <ListItem
@@ -93,7 +93,7 @@ const SearchScreen = observer(({navigation}) => {
               key={index}
               saltTextStyle={{color: '#ccc'}}
               style={{
-                backgroundColor: colors.SECONDARY,
+                backgroundColor: colors.PRIMARY,
                 borderBottomWidth: 0,
               }}
               titleStyle={{color: '#fff'}}
@@ -144,7 +144,7 @@ export default SearchScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.SECONDARY,
+    backgroundColor: colors.PRIMARY,
   },
   text: {
     color: '#fff',
