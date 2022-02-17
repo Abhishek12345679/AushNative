@@ -29,10 +29,9 @@ const HomeScreen = observer((props: any) => {
   const [locName, setLocName] = useState('select location');
 
   const geoOptions: GeoOptions = {
-    enableHighAccuracy: false,
-    timeout: 10000,
+    enableHighAccuracy: true,
+    timeout: 200000,
     maximumAge: 60 * 60 * 24,
-    forceRequestLocation: true,
   };
 
   const geoSuccess: SuccessCallback = async (position: any) => {
@@ -76,7 +75,6 @@ const HomeScreen = observer((props: any) => {
   };
 
   const requestPermissions = async (): Promise<boolean> => {
-
     if (Platform.OS === 'ios') {
       const status = await hasPermissionsIOS("whenInUse");
       return status;
@@ -107,16 +105,20 @@ const HomeScreen = observer((props: any) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerLeft: () => (
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 20,
-            fontWeight: 'bold',
-            margin: 5
-          }}
-        >
-          Aushadhalay
-        </Text>
+        <>
+          {Platform.OS === "ios" ? <Text
+            style={{
+              color: "#fff",
+              fontSize: 20,
+              fontWeight: 'bold',
+              margin: 5
+            }}
+          >
+            Aushadhalay
+          </Text> :
+            <></>
+          }
+        </>
       ),
       headerRight: () => (
         <View style={{ flexDirection: 'row' }}>
@@ -151,7 +153,7 @@ const HomeScreen = observer((props: any) => {
           </Text>
         </View>
       ),
-      headerTitle: '',
+      headerTitle: Platform.OS === "ios" ? '' : "Aushadhalay",
       headerStyle: {
         backgroundColor: colors.PRIMARY,
         elevation: 0,
@@ -162,7 +164,6 @@ const HomeScreen = observer((props: any) => {
       headerLargeTitle: false,
       headerTintColor: '#fff',
       fontSize: 20,
-
     });
   }, []);
 
