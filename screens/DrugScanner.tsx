@@ -6,6 +6,7 @@ import {
   Platform,
   Dimensions,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -192,7 +193,8 @@ const DrugScanner = (props: any) => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
+      <StatusBar hidden />
       <GestureRecognizer
         onSwipeUp={onSwipeUp}
         onSwipeDown={onSwipeDown}
@@ -206,8 +208,8 @@ const DrugScanner = (props: any) => {
             style={{
               flex: 1,
               flexDirection: 'row',
-              marginTop: imagePadding - 5,
-              // marginBottom: imagePadding,
+              // marginTop: imagePadding,
+              marginBottom: imagePadding * 2,
             }}
             type={cameraType}
             flashMode={flashStatus}
