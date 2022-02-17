@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React from 'react';
+import {View, TextInput, StyleSheet} from 'react-native';
 
-import { AntDesign } from "@expo/vector-icons";
+import {AntDesign} from '@expo/vector-icons';
+import {colors} from '../constants/colors';
 
-const QuantitySelector = (props) => {
-  // let [quantity, setQuantity] = useState("1");
-
+const QuantitySelector = props => {
   return (
     <View style={styles.container}>
       <View>
@@ -17,32 +16,21 @@ const QuantitySelector = (props) => {
       </View>
       <View
         style={{
-          flexDirection: "column",
-          justifyContent: "space-between",
+          flexDirection: 'column',
+          justifyContent: 'space-between',
           paddingVertical: 10,
-        }}
-      >
+        }}>
         <AntDesign
           name="plus"
           size={20}
           color="#fff"
-          onPress={
-            // setQuantity((initialValue + 1).toString());
-            // setInitialValue(initialValue + 1);
-            props.onIncrease
-          }
+          onPress={props.onIncrease}
         />
         <AntDesign
           name="minus"
           size={20}
           color="#fff"
-          onPress={
-            // if (initialValue >= 1) {
-            //   setQuantity((initialValue - 1).toString());
-            //   setInitialValue(initialValue - 1);
-            // }
-            props.onDecrease
-          }
+          onPress={props.onDecrease}
         />
       </View>
     </View>
@@ -51,26 +39,23 @@ const QuantitySelector = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 0.5,
-    // backgroundColor: "#e75468",
-    backgroundColor: "#000",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    backgroundColor: colors.SECONDARY,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     height: 70,
     width: 80,
     borderRadius: 10,
     paddingHorizontal: 3,
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     height: 65,
     width: 50,
     marginStart: 0,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 20,
-    fontWeight: "bold",
-    // color: "#fff",
+    fontWeight: 'bold',
     fontSize: 30,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,

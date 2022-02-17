@@ -28,7 +28,7 @@ export type AddressType = {
   name: string;
   add_line_1: string;
   add_line_2: string;
-  pincode: string;
+  pincode?: string;
   ph_no: string;
 };
 

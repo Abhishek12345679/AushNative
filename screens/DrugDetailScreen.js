@@ -33,10 +33,7 @@ const DrugDetailScreen = observer(props => {
   let [howToUseCollapsed, setHowToUseCollapsed] = useState(true);
   let [safetyAdviceCollapsed, setSafetyAdviceCollapsed] = useState(true);
 
-  const [pincode, setPincode] = useState('');
-
-  //workaround
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(DrugStore.count);
 
   const onIncrease = () => {
     setQuantity((initialValue + 1).toString());
@@ -71,16 +68,25 @@ const DrugDetailScreen = observer(props => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
+        <Pressable
+          android_ripple={{
+            color: '#fff',
+            borderless: false,
+          }}
+          style={{flexDirection: 'row'}}
           onPress={() => {
             props.navigation.navigate('Cart');
           }}>
-          <Entypo name="shopping-cart" color="#fff" size={24} />
+          <Entypo name="shopping-cart" color="#fff" size={20} />
 
-          <Text style={{color: '#000'}}>{DrugStore.count}</Text>
-        </TouchableOpacity>
+          <Text style={{color: '#FFF', fontSize: 15}}>{DrugStore.count}</Text>
+        </Pressable>
       ),
       headerTitle: item ? item.name : 'Drug',
+      headerStyle: {
+        backgroundColor: colors.PRIMARY,
+      },
+      headerTintColor: '#fff',
     });
   }, [cartCount]);
 
@@ -98,25 +104,15 @@ const DrugDetailScreen = observer(props => {
     });
   }, [item, quantity]);
 
-  const fetchPlaceFromPincode = async () => {
-    const response = await fetch(
-      `https://api.postalpincode.in/pincode/${pincode}`,
-    );
-    const resData = await response.json();
-
-    console.log(resData);
-    console.log(resData[0].Status);
-  };
-
   return (
     <ScrollView style={styles.container}>
       <View style={{flex: 1}}>
-        {Platform.OS === 'ios' && (
-          <StatusBar barStyle="dark-content" backgroundColor="#000" />
-        )}
+        <StatusBar barStyle="light-content" backgroundColor={colors.PRIMARY} />
         <View style={{marginStart: 15, marginTop: 15}}>
-          <Text style={{color: '#0000FF'}}> Manufacturer </Text>
-          <Text> {item.manufacturer_name} </Text>
+          <Text style={{color: '#FFF', fontSize: 15, fontWeight: 'bold'}}>
+            Manufacturer
+          </Text>
+          <Text style={{color: '#fff'}}>{item.manufacturer_name}</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.imageContainer}>
@@ -127,23 +123,21 @@ const DrugDetailScreen = observer(props => {
               style={{
                 height: 380,
                 width: 380,
+                backgroundColor: colors.PRIMARY,
+                borderRadius: 20,
               }}
             />
           </View>
           <View style={styles.row}>
             <View style={{width: '70%'}}>
-              <Text style={{color: '#0000FF'}}>Salt</Text>
+              <Text style={{color: '#FFF', fontWeight: 'bold'}}>Salt</Text>
               <Text style={styles.salt}>{item.salt}</Text>
             </View>
             {item.requires_prescription && (
-              <TouchableOpacity
+              <Image
+                source={require('../assets/pharmacy.png')}
                 style={{height: 50, width: 50}}
-                onPress={() => setToolTipVisible(true)}>
-                <Image
-                  source={require('../assets/pharmacy.png')}
-                  style={{height: 50, width: 50}}
-                />
-              </TouchableOpacity>
+              />
             )}
           </View>
           <View
@@ -198,7 +192,7 @@ const DrugDetailScreen = observer(props => {
               quantity={quantity}
             />
           </View>
-          <View
+          {/* <View
             style={{
               width: '100%',
               flexDirection: 'row',
@@ -236,7 +230,7 @@ const DrugDetailScreen = observer(props => {
               onPress={fetchPlaceFromPincode}>
               <Text style={{color: '#fff'}}>Check</Text>
             </Pressable>
-          </View>
+          </View> */}
         </View>
         <View style={styles.desc}>
           <View
@@ -256,7 +250,9 @@ const DrugDetailScreen = observer(props => {
             />
           </View>
           {introCollapsed && (
-            <Text style={{marginTop: 5}}>{item.description.introduction}</Text>
+            <Text style={styles.sectionDescription}>
+              {item.description.introduction}
+            </Text>
           )}
         </View>
         <View style={styles.desc}>
@@ -276,7 +272,7 @@ const DrugDetailScreen = observer(props => {
           </View>
           {usesCollapsed &&
             item.description.uses.map(itemData => (
-              <Text key={itemData} style={{marginTop: 5}}>
+              <Text key={itemData} style={styles.sectionDescription}>
                 {`\u2022 ${itemData}`}
               </Text>
             ))}
@@ -300,7 +296,7 @@ const DrugDetailScreen = observer(props => {
           </View>
           {sideEffectsCollapsed &&
             item.description.side_effects.map(itemData => (
-              <Text key={itemData} style={{marginTop: 5}}>
+              <Text key={itemData} style={styles.sectionDescription}>
                 {`\u2022 ${itemData}`}
               </Text>
             ))}
@@ -329,7 +325,8 @@ const DrugDetailScreen = observer(props => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{...styles.salt, fontWeight: 'bold'}}>
+            <Text
+              style={{...styles.salt, ...{fontWeight: 'bold', fontSize: 17}}}>
               How to cope with side effects
             </Text>
             <MaterialIcons
@@ -343,10 +340,14 @@ const DrugDetailScreen = observer(props => {
           {howToSECollpased &&
             item.description.how_to_cope_with_side_effects.map(itemData => (
               <View style={{marginBottom: 20}} key={itemData.question}>
-                <Text style={{marginTop: 5, fontSize: 20}}>
+                <Text
+                  style={{
+                    ...styles.sectionDescription,
+                    ...{fontSize: 15, fontWeight: 'bold'},
+                  }}>
                   {`\u2022 ${itemData.question}`}
                 </Text>
-                <Text style={{marginTop: 5}}> {itemData.answer} </Text>
+                <Text style={styles.sectionDescription}>{itemData.answer}</Text>
               </View>
             ))}
         </View>
@@ -357,7 +358,10 @@ const DrugDetailScreen = observer(props => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{...styles.salt, fontWeight: 'bold'}}>How to Use</Text>
+            <Text
+              style={{...styles.salt, ...{fontWeight: 'bold', fontSize: 17}}}>
+              How to Use
+            </Text>
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
@@ -366,7 +370,9 @@ const DrugDetailScreen = observer(props => {
             />
           </View>
           {howToUseCollapsed && (
-            <Text style={{marginTop: 5}}>{item.description.how_to_use}</Text>
+            <Text style={styles.sectionDescription}>
+              {item.description.how_to_use}
+            </Text>
           )}
         </View>
         <View style={{...styles.desc, marginBottom: 40}}>
@@ -389,10 +395,17 @@ const DrugDetailScreen = observer(props => {
           {safetyAdviceCollapsed &&
             item.description.safety_advice.map(itemData => (
               <View style={{marginBottom: 20}} key={itemData.question}>
-                <Text style={{marginTop: 5, fontSize: 20}}>
+                <Text
+                  style={{
+                    ...styles.sectionDescription,
+                    ...{fontSize: 15, fontWeight: 'bold'},
+                  }}>
                   {`\u2022 ${itemData.question}`}
                 </Text>
-                <Text style={{marginTop: 5}}> {itemData.answer} </Text>
+                <Text style={styles.sectionDescription}>
+                  {' '}
+                  {itemData.answer}{' '}
+                </Text>
               </View>
             ))}
         </View>
@@ -404,7 +417,7 @@ const DrugDetailScreen = observer(props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.PRIMARY,
   },
   content: {
     alignItems: 'center',
@@ -424,9 +437,9 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   salt: {
-    fontSize: 20,
-    fontWeight: '400',
-    color: '#000',
+    fontSize: 15,
+    color: '#FFF',
+    fontWeight: 'normal',
   },
   row: {
     width: '100%',
@@ -449,11 +462,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     marginStart: 10,
+    color: '#fff',
   },
   desc: {
     justifyContent: 'flex-start',
     paddingHorizontal: 25,
-    marginTop: 10,
+    marginVertical: 20,
+    color: '#fff',
+  },
+  sectionDescription: {
+    color: '#fff',
+    marginTop: 5,
   },
 });
 export default DrugDetailScreen;

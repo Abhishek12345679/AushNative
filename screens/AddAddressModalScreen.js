@@ -32,7 +32,7 @@ const AddAddressModalScreen = observer(props => {
             name: '',
             add_line_1: '',
             add_line_2: '',
-            pincode: '',
+            // pincode: '',
             ph_no: '',
           }}
           onSubmit={async values => {
@@ -44,7 +44,7 @@ const AddAddressModalScreen = observer(props => {
               name: values.name,
               add_line_1: values.add_line_1,
               add_line_2: values.add_line_2,
-              pincode: values.pincode,
+              // pincode: values.pincode,
               ph_no: '+91' + values.ph_no,
             });
 
@@ -93,7 +93,7 @@ const AddAddressModalScreen = observer(props => {
                 placeholder={'Mobile'}
                 placeholderTextColor="#a7a8a9"
               />
-              <TextInput
+              {/* <TextInput
                 maxLength={6}
                 keyboardType="number-pad"
                 onChangeText={handleChange('pincode')}
@@ -106,7 +106,7 @@ const AddAddressModalScreen = observer(props => {
                 }}
                 placeholder={'pincode'}
                 placeholderTextColor="#a7a8a9"
-              />
+              /> */}
               <TextInput
                 onChangeText={handleChange('add_line_1')}
                 value={values.add_line_1}
