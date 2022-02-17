@@ -1,8 +1,8 @@
 {
     "expo": {
-        "name": "HelloWorld",
-        "slug": "samplegraphqlapolloclient",
-        "version": "1.0.0",
+        "name": "Aushadhalay",
+        "slug": "Aushadhalay",
+        "version": "0.0.1",
         "orientation": "default",
         "icon": "./assets/adaptive-icon.png",
         "userInterfaceStyle": "automatic",
