@@ -3,11 +3,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
   Dimensions,
-  Pressable,
 } from 'react-native';
 
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -19,9 +17,10 @@ import {Camera} from 'expo-camera';
 import Modal from 'react-native-modal';
 
 import {MaterialIcons, Ionicons, Entypo} from '@expo/vector-icons';
+
 import RoundButton from '../components/RoundButton';
 import ManualSearchBox from '../components/ManualSearchBox';
-import {colors} from '../constants/colors';
+import CaptureButton from '../components/CaptureButton';
 
 const DrugScanner = props => {
   const [cameraRef, setCameraRef] = useState(null);
@@ -43,7 +42,6 @@ const DrugScanner = props => {
     Camera.Constants.FlashMode.off,
   );
 
-  // Screen Ratio and image padding
   const [imagePadding, setImagePadding] = useState(0);
   const [ratio, setRatio] = useState('4:3');
   const {height, width} = Dimensions.get('window');
@@ -60,14 +58,10 @@ const DrugScanner = props => {
         base64: true,
       });
       if (!photo.cancelled) {
-        // props.navigation.pop();
-
         props.navigation.navigate('Confirm', {
           photo: photo,
         });
       }
-
-      // console.log(result);
     } catch (E) {
       console.log(E);
     }
@@ -166,7 +160,6 @@ const DrugScanner = props => {
   }
 
   let lastPress = 0;
-  // onDoublePress
   const onDoublePress = () => {
     const time = new Date().getTime();
     const delta = time - lastPress;
@@ -204,11 +197,9 @@ const DrugScanner = props => {
       if (isCameraReady) {
         const photo = await cameraRef.takePictureAsync({
           base64: true,
-          // quality: 0.5,
         });
 
         props.navigation.navigate('Confirm', {
-          // mode:'camera',
           photo: photo,
         });
       }
@@ -265,24 +256,7 @@ const DrugScanner = props => {
                   marginTop: 15,
                 }}
               />
-              <Pressable
-                android_ripple={{
-                  color: '#121212',
-                  borderless: true,
-                }}
-                style={styles.captureButton}
-                onPress={captureImage}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 65,
-                    width: 65,
-                    borderRadius: 65 / 2.0,
-                    backgroundColor: '#fff',
-                  }}
-                />
-              </Pressable>
+              <CaptureButton captureImage={captureImage} />
             </View>
             <View
               style={{
@@ -291,6 +265,7 @@ const DrugScanner = props => {
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
                 alignItems: 'flex-end',
+                marginTop: 35,
               }}>
               <TouchableOpacity
                 style={{
@@ -445,20 +420,5 @@ const DrugScanner = props => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  captureButton: {
-    marginStart: 30,
-    borderColor: '#fff',
-    borderWidth: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80,
-    width: 80,
-    borderRadius: 40,
-    marginEnd: 10,
-    marginTop: 10,
-  },
-});
 
 export default DrugScanner;
