@@ -1,37 +1,41 @@
-import React, { useState } from "react";
+import React from 'react';
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
-} from "react-native";
+  Pressable,
+} from 'react-native';
 
-import SegmentedControl from "@react-native-community/segmented-control";
+import SegmentedControl from '@react-native-community/segmented-control';
 
-const ManualSearchBox = (props) => {
+const ManualSearchBox = props => {
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 30, fontWeight: "bold" }}>Search</Text>
-      <Text style={{ marginTop: 10 }}>
+      <Text style={{fontSize: 30, fontWeight: 'bold', color: '#fff'}}>
+        Search
+      </Text>
+      <Text style={{marginTop: 10, color: '#fff'}}>
         We Regret the inconvinience but it seems like our State of the art image
         recognition system is experiencing some issues. Please search for the
         Drug (via name or salt) Manually.
       </Text>
-      <View style={{ justifyContent: "space-around", marginTop: 25 }}>
+      <View
+        style={{justifyContent: 'space-around', marginTop: 25, color: '#fff'}}>
         <SegmentedControl
-          values={["Name", "Salt"]}
+          values={['Name', 'Salt']}
           selectedIndex={props.selectedIndex}
           onChange={props.onchange}
-          appearance="light"
+          appearance="dark"
         />
 
-        {/* the text of the value is weird "Bug" on android */}
-
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TextInput
             placeholder={
-              props.selectedIndex === 0 ? "...medicine..." : "...Salt..."
+              props.selectedIndex === 0
+                ? 'Enter the name of the medicine'
+                : 'Enter the name of the salt'
             }
             placeholderTextColor="#aaa"
             value={props.value}
@@ -40,17 +44,19 @@ const ManualSearchBox = (props) => {
           />
         </View>
       </View>
-      <View style={{ width: "100%", alignItems: "center" }}>
-        <TouchableOpacity
+      <View style={{width: '100%', alignItems: 'center'}}>
+        <Pressable
           disabled={!props.value && props.value.length < 4}
           style={styles.searchBtn}
-          activeOpacity={0.75}
-          onPress={props.onpress}
-        >
-          <Text style={{ color: "#fff", fontWeight: "500", fontSize: 15 }}>
+          android_ripple={{
+            color: '#fff',
+            borderless: true,
+          }}
+          onPress={props.onpress}>
+          <Text style={{color: '#000', fontWeight: 'bold', fontSize: 20}}>
             Search
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );
@@ -61,9 +67,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    width: "100%",
-    borderColor: "#9400D3",
-    color: "#000",
+    width: '100%',
+    borderColor: '#9400D3',
+    color: '#000',
     borderWidth: 2,
     marginBottom: 10,
     height: 50,
@@ -73,12 +79,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   searchBtn: {
-    width: "100%",
+    width: '100%',
     height: 60,
-    backgroundColor: "#9400D3",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 10,
+    borderRadius: 15,
   },
 });
 

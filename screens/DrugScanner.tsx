@@ -22,6 +22,8 @@ import CaptureButton from '../components/CaptureButton';
 import ScannerButtonsPane from '../components/ScannerButtonsPane';
 import { CameraType, FlashMode } from 'expo-camera/build/Camera.types';
 
+import { colors } from '../constants/colors'
+
 const DrugScanner = (props: any) => {
 
   const [cameraRef, setCameraRef] = useState(null);
@@ -282,24 +284,8 @@ const DrugScanner = (props: any) => {
               onBackdropPress={() => setIsVisible(false)}>
               <View
                 style={{
-                  width: '100%',
-                  height: 20,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <View
-                  style={{
-                    // backgroundColor: '#ccc',
-                    width: 50,
-                    height: 8,
-                    borderRadius: 5,
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  height: '75%',
-                  backgroundColor: '#FFF',
+                  height: '50%',
+                  backgroundColor: colors.PRIMARY,
                   padding: 22,
                   borderTopEndRadius: 15,
                   borderTopStartRadius: 15,
@@ -315,7 +301,7 @@ const DrugScanner = (props: any) => {
                   }}
                   onchangeText={searchQueryChangeHandler}
                   value={query}
-                  onchange={event => {
+                  onchange={(event: any) => {
                     setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
                   }}
                   selectedIndex={selectedIndex}
