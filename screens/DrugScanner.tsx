@@ -24,24 +24,24 @@ const DrugScanner = (props: any) => {
 
   const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
-  const [mounted, setMounted] = useState(true);
-  const [isCameraReady, setIsCameraReady] = useState(false);
-  const [cameraType, setCameraType] = useState(CameraType.back);
-  const [flashStatus, setFlashStatus] = useState(FlashMode.off);
+  const [mounted, setMounted] = useState<boolean>(true);
+  const [isCameraReady, setIsCameraReady] = useState<boolean>(false);
+  const [cameraType, setCameraType] = useState<CameraType>(CameraType.back);
+  const [flashStatus, setFlashStatus] = useState<FlashMode>(FlashMode.off);
 
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
   const contourRef = useRef(null);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [query, setQuery] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  const [imagePadding, setImagePadding] = useState(0);
-  const [ratio, setRatio] = useState('4:3');
+  const [imagePadding, setImagePadding] = useState<number>(0);
+  const [ratio, setRatio] = useState<string>('4:3');
   const { height, width } = Dimensions.get('window');
   const screenRatio = height / width;
-  const [isRatioSet, setIsRatioSet] = useState(false);
+  const [isRatioSet, setIsRatioSet] = useState<boolean>(false);
 
   const config = {
     velocityThreshold: 0.3,

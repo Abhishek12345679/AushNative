@@ -33,7 +33,6 @@ const ScannerButtonsPane = ({
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
                 alignItems: 'flex-end',
-                marginTop: 35,
             }}>
             <Pressable
                 style={{

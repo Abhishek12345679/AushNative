@@ -11,7 +11,11 @@ import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 import RNBootSplash from 'react-native-bootsplash';
 
 // Deprecation warnings in Expo Modules
-LogBox.ignoreLogs(['EventEmitter.removeListener', 'new NativeEventEmitter()']);
+LogBox.ignoreLogs([
+  'EventEmitter.removeListener',
+  'new NativeEventEmitter()',
+  'Overwriting fontFamily style attribute preprocessor',
+]);
 
 const App = observer(() => {
   useEffect(() => {
