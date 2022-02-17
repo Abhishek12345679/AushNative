@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform} from 'react-native';
+import {Button, Platform} from 'react-native';
 
 import HomeScreen from '../screens/HomeScreen';
 import DrugScanner from '../screens/DrugScanner';
@@ -266,21 +266,20 @@ export const SettingsNavigator = () => {
 
 const BottomNavigationBar = createBottomTabNavigator();
 
-export const TabNavigator = () => {
+export const TabNavigator = ({navigation}) => {
   return (
     <BottomNavigationBar.Navigator
-      initialRouteName="HomeScreen"
-      // tabBar={(props) => <MyTabBar {...props} />}
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colors.PRIMARY,
           borderTopColor: colors.PRIMARY,
-          height: Platform.OS === 'ios' ? 90 : 55,
+          height: Platform.OS === 'ios' ? 90 : 75,
           elevation: 10,
         },
         tabBarShowLabel: false,
         headerShown: false,
-        tabBarInactiveTintColor: '#A2a2a2',
+        tabBarInactiveTintColor: '#a2a2a2',
+        tabBarActiveTintColor: 'cyan',
       }}>
       <BottomNavigationBar.Screen
         name="HomeScreen"
@@ -292,14 +291,21 @@ export const TabNavigator = () => {
           ),
         }}
       />
+
       <BottomNavigationBar.Screen
-        name="ScanScreen"
+        name="Scan"
         component={ScannerNavigator}
         options={{
           tabBarIcon: ({color}) => (
             <Ionicons name="md-scan-circle" color={color} size={50} />
           ),
           unmountOnBlur: true,
+        }}
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('ScanScreen');
+          },
         }}
       />
 
@@ -313,5 +319,29 @@ export const TabNavigator = () => {
         }}
       />
     </BottomNavigationBar.Navigator>
+  );
+};
+
+const MainStackNavigator = createNativeStackNavigator();
+
+export const MainNavigator = () => {
+  return (
+    <MainStackNavigator.Navigator>
+      <MainStackNavigator.Screen
+        name="Home"
+        component={TabNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <MainStackNavigator.Screen
+        name="ScanScreen"
+        component={ScannerNavigator}
+        options={{
+          headerShown: false,
+          unmountOnBlur: true,
+        }}
+      />
+    </MainStackNavigator.Navigator>
   );
 };

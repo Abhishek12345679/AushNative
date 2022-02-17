@@ -38,7 +38,7 @@ const DrugScanner = (props: any) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const [imagePadding, setImagePadding] = useState<number>(0);
-  const [ratio, setRatio] = useState<string>('4:3');
+  const [ratio, setRatio] = useState<string>();
   const { height, width } = Dimensions.get('window');
   const screenRatio = height / width;
   const [isRatioSet, setIsRatioSet] = useState<boolean>(false);
@@ -102,42 +102,44 @@ const DrugScanner = (props: any) => {
     let desiredRatio = '4:3'; // Start with the system default
     // This issue only affects Android
     if (Platform.OS === 'android') {
-      const ratios = await camera.getSupportedRatiosAsync();
-      // console.log(ratios);
+      if (camera) {
+        const ratios = await camera.getSupportedRatiosAsync();
+        console.log(ratios);
 
-      // Calculate the width/height of each of the supported camera ratios
-      // These width/height are measured in landscape mode
-      // find the ratio that is closest to the screen ratio without going over
-      let distances = {};
-      let realRatios = {};
-      let minDistance = null;
-      for (const ratio of ratios) {
-        const parts = ratio.split(':');
-        const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
-        realRatios[ratio] = realRatio;
-        // ratio can't be taller than screen, so we don't want an abs()
-        const distance = screenRatio - realRatio;
-        distances[ratio] = realRatio;
-        if (minDistance == null) {
-          minDistance = ratio;
-        } else {
-          if (distance >= 0 && distance < distances[minDistance]) {
+        // Calculate the width/height of each of the supported camera ratios
+        // These width/height are measured in landscape mode
+        // find the ratio that is closest to the screen ratio without going over
+        let distances = {};
+        let realRatios = {};
+        let minDistance = null;
+        for (const ratio of ratios) {
+          const parts = ratio.split(':');
+          const realRatio = parseInt(parts[0]) / parseInt(parts[1]);
+          realRatios[ratio] = realRatio;
+          // ratio can't be taller than screen, so we don't want an abs()
+          const distance = screenRatio - realRatio;
+          distances[ratio] = realRatio;
+          if (minDistance == null) {
             minDistance = ratio;
+          } else {
+            if (distance >= 0 && distance < distances[minDistance]) {
+              minDistance = ratio;
+            }
           }
         }
+        // set the best match
+        desiredRatio = minDistance;
+        //  calculate the difference between the camera width and the screen height
+        const remainder = Math.floor(
+          (height - realRatios[desiredRatio] * width) / 2,
+        );
+        // set the preview padding and preview ratio
+        setImagePadding(remainder / 2);
+        setRatio(desiredRatio);
+        // Set a flag so we don't do this
+        // calculation each time the screen refreshes
+        setIsRatioSet(true);
       }
-      // set the best match
-      desiredRatio = minDistance;
-      //  calculate the difference between the camera width and the screen height
-      const remainder = Math.floor(
-        (height - realRatios[desiredRatio] * width) / 2,
-      );
-      // set the preview padding and preview ratio
-      setImagePadding(remainder / 2);
-      setRatio(desiredRatio);
-      // Set a flag so we don't do this
-      // calculation each time the screen refreshes
-      setIsRatioSet(true);
     }
   };
 
@@ -202,10 +204,9 @@ const DrugScanner = (props: any) => {
             ratio={ratio}
             style={{
               flex: 1,
-              backgroundColor: '#000',
               flexDirection: 'row',
-              marginTop: imagePadding,
-              marginBottom: imagePadding,
+              // marginTop: imagePadding,
+              // marginBottom: imagePadding,
             }}
             type={cameraType}
             flashMode={flashStatus}
@@ -285,7 +286,7 @@ const DrugScanner = (props: any) => {
                 }}>
                 <View
                   style={{
-                    backgroundColor: '#ccc',
+                    // backgroundColor: '#ccc',
                     width: 50,
                     height: 8,
                     borderRadius: 5,

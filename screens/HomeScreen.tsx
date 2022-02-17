@@ -242,7 +242,7 @@ const HomeScreen = observer((props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.SECONDARY,
+    backgroundColor: colors.PRIMARY,
     flexDirection: 'column',
     flexGrow: 1,
   },

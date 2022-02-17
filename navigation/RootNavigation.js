@@ -7,8 +7,7 @@ import firebaseConfig from '../constants/config';
 
 import {ModalPortal} from 'react-native-modals';
 import {NavigationContainer} from '@react-navigation/native';
-import {TabNavigator} from './AppNavigator';
-import {AuthNavigator} from './AppNavigator';
+import {TabNavigator, MainNavigator, AuthNavigator} from './AppNavigator';
 import SplashScreen from '../screens/SplashScreen';
 import DrugStore from '../store/CartStore';
 
@@ -39,7 +38,7 @@ const AppContainer = observer(() => {
     <NavigationContainer>
       {initializing && <SplashScreen />}
       {!user && !initializing && <AuthNavigator />}
-      {user && <TabNavigator />}
+      {user && <MainNavigator />}
       <ModalPortal />
     </NavigationContainer>
   );

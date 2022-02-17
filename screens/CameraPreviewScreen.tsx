@@ -1,27 +1,34 @@
 //TODO: Checkout Vision Camera: <https://mrousavy.com/react-native-vision-camera/>
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
   StatusBar,
   Dimensions,
   Image,
+  ActivityIndicator,
+  SafeAreaView,
+  Pressable,
 } from "react-native"
-import { Ionicons } from "@expo/vector-icons";
-import CameraPreviewCornerButton from "../components/CameraPreviewCornerButton";
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { extractWords, TextRecognitionResponse } from "../mlkit/TextRecognition";
 import RecognisedWordsOverlay from "../components/RecognisedWordsOverlay";
+import { colors } from "../constants/colors";
+import RoundButton from "../components/RoundButton";
 
 const CameraPreviewScreen = (props: any) => {
 
   const windowWidth = Dimensions.get("window").width;
-  const [image, _] = useState(props.route.params.photo.uri);
+  const windowHeight = Dimensions.get("window").height;
+  const image = props.route.params.photo.uri;
   const [textRecognitionResponse, setTextRecognitonResponse] =
     useState<TextRecognitionResponse | undefined>(undefined);
   const [aspectRatio, setAspectRatio] = useState(1);
 
-  const processImage = async () => {
+  const [loading, setLoading] = useState(false)
+
+  const processImage = async (image: string) => {
     if (image) {
       try {
         const TextRecognitionResponse = await extractWords(image);
@@ -39,39 +46,47 @@ const CameraPreviewScreen = (props: any) => {
     }
   }
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000" />
-      <View style={styles.header_footer}>
-        <View style={styles.buttonContainer}>
-          <CameraPreviewCornerButton
-            onpress={processImage}
-            color="#FFF"
-            text="Confirm"
-          />
+  useEffect(() => {
+    const run = async () => {
+      setLoading(true)
+      await processImage(image)
+      setLoading(false)
+    }
+    run()
+  }, [])
 
-          <Ionicons
-            name="ios-camera"
-            size={30}
-            color="#fff"
-          />
-
-          <CameraPreviewCornerButton
-            onpress={() => {
-              props.navigation.goBack();
-            }}
-            color="#FFF"
-            text="Retake"
-          />
-        </View>
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: 'center',
+          backgroundColor: colors.PRIMARY
+        }}
+      >
+        <ActivityIndicator size="large" color="#FFF" />
       </View>
-      <View style={{ flex: 1 }}>
+    )
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#fff" />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#000",
+
+        }}
+      >
         <Image
           source={{ uri: image }}
           style={{
             position: 'relative',
-            height: windowWidth * aspectRatio,
+            height: (windowWidth * aspectRatio),
             width: windowWidth,
+            marginTop: StatusBar.currentHeight
           }}
           resizeMode="cover"
         />
@@ -83,38 +98,107 @@ const CameraPreviewScreen = (props: any) => {
           />
         )}
       </View>
-
-      <View style={styles.header_footer}>
-        <View style={styles.buttonContainer}>
-          <CameraPreviewCornerButton
-            onpress={() => {
-              props.navigation.goBack();
+      <RoundButton
+        style={{
+          position: "absolute",
+          left: 10,
+          top: StatusBar.currentHeight + 10,
+        }}
+        children={<Ionicons name="chevron-back" color="#fff" size={30} />}
+        onPress={() => {
+          props.navigation.goBack()
+        }}
+        disabled={false}
+      />
+      <View
+        style={{
+          width: '100%',
+          height: windowHeight - (windowWidth * aspectRatio) - StatusBar.currentHeight,
+          backgroundColor: "#000",
+          justifyContent: "center",
+          alignItems: 'center',
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+        }}
+      >
+        <View
+          style={{
+            width: 250,
+            height: 70,
+            backgroundColor: "#fff",
+            borderRadius: 35,
+            flexDirection: 'row',
+            alignItems: "center",
+            paddingHorizontal: 30,
+            elevation: 100
+          }}
+        >
+          <Pressable
+            android_ripple={{
+              color: "#000",
+              borderless: true
             }}
-            color="#FFF"
-            text="cancel"
-          />
+
+            style={{
+              height: 35,
+              width: 35,
+              marginEnd: 35
+            }}
+
+            onPress={() => {
+              props.navigation.goBack()
+            }}
+          >
+            <MaterialCommunityIcons name="camera-retake" size={32} color="#000" />
+          </Pressable>
+          <Pressable
+            android_ripple={{
+              color: "#000",
+              borderless: true
+            }}
+
+            style={{
+              height: 35,
+              width: 35,
+              marginEnd: 35
+
+            }}
+
+            onPress={() => {
+              // do something
+            }}
+          >
+            <MaterialIcons name="done" size={32} color="darkgreen" />
+          </Pressable>
+          <Pressable
+            android_ripple={{
+              color: "#000",
+              borderless: true
+            }}
+
+            style={{
+              height: 35,
+              width: 35,
+              marginEnd: 35
+
+            }}
+
+            onPress={() => {
+              props.navigation.goBack()
+            }}
+          >
+            <MaterialCommunityIcons name="close" size={32} color="red" />
+          </Pressable>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  header_footer: {
-    width: "100%",
-    height: 100,
-    backgroundColor: "#000",
-  },
-  buttonContainer: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    marginTop: 40,
-    marginHorizontal: 10,
-    alignItems: "center",
+    backgroundColor: "#000"
   },
 });
 
