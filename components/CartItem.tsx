@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import { DrugType } from '../store/CartStore'
 import { FontAwesome, FontAwesome5 } from '@expo/vector-icons'
@@ -47,12 +47,23 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                     </Text>
                     <Text style={{ fontSize: 15, width: 200, color: "#fff" }}>{drug.salt}</Text>
                 </View>
-                <FontAwesome
-                    name="trash"
-                    size={24}
-                    color="#fff"
+                <Pressable
+                    android_ripple={{
+                        color: "#fff",
+                        borderless: true
+                    }}
                     onPress={removeFromCart}
-                />
+                    style={{
+                        height: 30,
+                        width: 30
+                    }}
+                >
+                    <FontAwesome
+                        name="trash"
+                        size={24}
+                        color="#fff"
+                    />
+                </Pressable>
             </View>
             <View
                 style={{
