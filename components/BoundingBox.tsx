@@ -38,7 +38,7 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale, navigation }: Bounding
                 })
             }}
         >
-            <Text style={{ color: "red", fontWeight: 'bold' }}>
+            <Text style={{ color: "black", fontWeight: 'bold' }}>
                 {text}
             </Text>
         </TouchableOpacity >

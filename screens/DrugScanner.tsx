@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -191,7 +192,7 @@ const DrugScanner = (props: any) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <GestureRecognizer
         onSwipeUp={onSwipeUp}
         onSwipeDown={onSwipeDown}
@@ -205,7 +206,7 @@ const DrugScanner = (props: any) => {
             style={{
               flex: 1,
               flexDirection: 'row',
-              // marginTop: imagePadding,
+              marginTop: imagePadding - 5,
               // marginBottom: imagePadding,
             }}
             type={cameraType}
@@ -322,7 +323,7 @@ const DrugScanner = (props: any) => {
           </Camera>
         )}
       </GestureRecognizer>
-    </View>
+    </SafeAreaView>
   );
 };
 

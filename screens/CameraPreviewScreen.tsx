@@ -138,13 +138,11 @@ const CameraPreviewScreen = (props: any) => {
               color: "#000",
               borderless: true
             }}
-
             style={{
               height: 35,
               width: 35,
               marginEnd: 35
             }}
-
             onPress={() => {
               props.navigation.goBack()
             }}
@@ -156,14 +154,12 @@ const CameraPreviewScreen = (props: any) => {
               color: "#000",
               borderless: true
             }}
-
             style={{
               height: 35,
               width: 35,
               marginEnd: 35
 
             }}
-
             onPress={() => {
               // do something
             }}
@@ -175,14 +171,11 @@ const CameraPreviewScreen = (props: any) => {
               color: "#000",
               borderless: true
             }}
-
             style={{
               height: 35,
               width: 35,
               marginEnd: 35
-
             }}
-
             onPress={() => {
               props.navigation.goBack()
             }}
