@@ -9,6 +9,7 @@ import {
   ScrollView,
   Platform,
   StatusBar,
+  Dimensions,
 } from 'react-native';
 import {colors} from '../constants/colors';
 import {gql, useLazyQuery} from '@apollo/client';
@@ -86,7 +87,7 @@ const SearchScreen = observer(({navigation}) => {
             }}
           />
         </View>
-        {!!data &&
+        {!!data && !loading ? (
           data.search.drugs.map((med, index) => (
             <ListItem
               keyProp={index}
@@ -106,7 +107,34 @@ const SearchScreen = observer(({navigation}) => {
                 })
               }
             />
-          ))}
+          ))
+        ) : !data && loading ? (
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height:
+                Dimensions.get('window').height - StatusBar.currentHeight - 100,
+            }}>
+            <ActivityIndicator size="large" color="#fff" />
+          </View>
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height:
+                Dimensions.get('window').height - StatusBar.currentHeight - 100,
+            }}>
+            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'normal'}}>
+              No medicines
+            </Text>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
