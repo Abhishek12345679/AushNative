@@ -7,7 +7,6 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  Platform,
   StatusBar,
   Dimensions,
 } from 'react-native';
@@ -75,7 +74,7 @@ const SearchScreen = observer(({navigation}) => {
             }}
             style={{
               width: '100%',
-              height: 65,
+              height: 55,
               fontSize: 16,
               color: '#fff',
               backgroundColor: colors.PRIMARY,

@@ -121,7 +121,15 @@ const ScannerStackNavigator = createNativeStackNavigator();
 
 const ScannerNavigator = () => {
   return (
-    <ScannerStackNavigator.Navigator initialRouteName="Scan">
+    <ScannerStackNavigator.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.PRIMARY,
+          borderTopColor: colors.SECONDARY,
+        },
+        headerLargeTitle: false,
+        headerTintColor: '#fff',
+      }}>
       <ScannerStackNavigator.Screen
         name="Scan"
         component={DrugScanner}
@@ -155,6 +163,9 @@ const ScannerNavigator = () => {
         component={CartScreen}
         options={{
           headerLargeTitle: false,
+          headerStyle: {
+            backgroundColor: colors.SECONDARY,
+          },
         }}
       />
     </ScannerStackNavigator.Navigator>
@@ -189,6 +200,12 @@ export const RootNavigator = () => {
         component={CartScreen}
         options={{
           headerLargeTitle: false,
+          headerStyle: {
+            backgroundColor: colors.PRIMARY,
+            borderBottomColor: colors.SECONDARY,
+          },
+          headerLargeTitle: false,
+          headerTintColor: '#fff',
         }}
       />
 
@@ -212,7 +229,7 @@ export const SettingsNavigator = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.PRIMARY,
-          borderTopColor: colors.SECONDARY,
+          borderBottomColor: colors.SECONDARY,
         },
         headerLargeTitle: false,
         headerTintColor: '#fff',
@@ -272,7 +289,7 @@ export const TabNavigator = ({navigation}) => {
         tabBarStyle: {
           backgroundColor: colors.PRIMARY,
           borderTopColor: colors.SECONDARY,
-          height: Platform.OS === 'ios' ? 90 : 75,
+          height: Platform.OS === 'ios' ? 100 : 75,
           elevation: 10,
         },
         tabBarShowLabel: false,

@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StatusBar,
-  Platform,
   Image,
 } from 'react-native';
 
@@ -15,6 +14,7 @@ import DrugStore from '../store/CartStore';
 import {observer} from 'mobx-react';
 
 import {FontAwesome} from '@expo/vector-icons';
+import {colors} from '../constants/colors';
 
 const CartScreen = observer(props => {
   const {drugs} = DrugStore;
@@ -36,7 +36,7 @@ const CartScreen = observer(props => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
-      {Platform.OS === 'android' && <StatusBar barStyle="dark-content" />}
+      <StatusBar barStyle="light-content" backgroundColor="#000" />
       <View
         style={{
           flexDirection: 'row',
@@ -44,16 +44,16 @@ const CartScreen = observer(props => {
           justifyContent: 'space-between',
           marginVertical: 10,
         }}>
-        <View style={{width: '50%'}}>
-          <Text style={{fontSize: 30, fontWeight: 'bold', color: '#000'}}>
+        {/* <View style={{width: '50%'}}>
+          <Text style={{fontSize: 30, fontWeight: 'bold', color: '#FFF'}}>
             Medicines
           </Text>
         </View>
         <View>
-          <Text style={{fontSize: 20, color: 'green', fontWeight: 'bold'}}>
+          <Text style={{fontSize: 30, color: 'green', fontWeight: 'bold'}}>
             ₹{total_checkout_amt.toFixed(2)}
           </Text>
-        </View>
+        </View> */}
       </View>
       {drugs.length > 0 ? (
         <>
@@ -124,7 +124,9 @@ const CartScreen = observer(props => {
         </>
       ) : (
         <View style={styles.centered}>
-          <Text>No items in the cart</Text>
+          <Text style={{color: '#fff', fontSize: 20}}>
+            No items in the cart
+          </Text>
         </View>
       )}
       {drugs.length > 0 && (
@@ -151,7 +153,7 @@ const CartScreen = observer(props => {
             style={{
               width: '100%',
               height: 70,
-              backgroundColor: '#000',
+              backgroundColor: '#fff',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: 10,
@@ -173,7 +175,7 @@ const CartScreen = observer(props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.PRIMARY,
     paddingHorizontal: 20,
     paddingVertical: 5,
   },
