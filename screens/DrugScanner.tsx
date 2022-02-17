@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -9,18 +9,19 @@ import {
 } from 'react-native';
 
 import GestureRecognizer from 'react-native-swipe-gestures';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import * as ImagePicker from 'expo-image-picker';
-import {Camera} from 'expo-camera';
+import { Camera } from 'expo-camera';
 
 import Modal from 'react-native-modal';
 
-import {MaterialIcons, Ionicons, Entypo} from '@expo/vector-icons';
+import { MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
 
 import RoundButton from '../components/RoundButton';
 import ManualSearchBox from '../components/ManualSearchBox';
 import CaptureButton from '../components/CaptureButton';
+import ScannerButtonsPane from '../components/ScannerButtonsPane';
 
 const DrugScanner = props => {
   const [cameraRef, setCameraRef] = useState(null);
@@ -44,7 +45,7 @@ const DrugScanner = props => {
 
   const [imagePadding, setImagePadding] = useState(0);
   const [ratio, setRatio] = useState('4:3');
-  const {height, width} = Dimensions.get('window');
+  const { height, width } = Dimensions.get('window');
   const screenRatio = height / width;
   const [isRatioSet, setIsRatioSet] = useState(false);
 
@@ -70,8 +71,8 @@ const DrugScanner = props => {
   useEffect(() => {
     (async () => {
       try {
-        const {CameraStatus} = await Camera.requestCameraPermissionsAsync();
-        const {GalleryStatus} =
+        const { CameraStatus } = await Camera.requestCameraPermissionsAsync();
+        const { GalleryStatus } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         setHasPermission(CameraStatus && GalleryStatus === 'granted');
       } catch (e) {
@@ -207,7 +208,7 @@ const DrugScanner = props => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <GestureRecognizer
         onSwipeUp={state => onSwipeUp(state)}
         onSwipeDown={state => onSwipeDown(state)}
@@ -234,7 +235,7 @@ const DrugScanner = props => {
             }}
             onCameraReady={onCameraReady}
             onStartShouldSetResponder={evt => onDoublePress()}
-            useCamera2Api>
+            useCamera2Api={true}>
             <View
               style={{
                 flex: 0.8,
@@ -258,101 +259,28 @@ const DrugScanner = props => {
               />
               <CaptureButton captureImage={captureImage} />
             </View>
-            <View
-              style={{
-                flex: 0.2,
-                backgroundColor: '#ffffff00',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-end',
-                marginTop: 35,
-              }}>
-              <TouchableOpacity
-                style={{
-                  alignSelf: 'flex-end',
-                  alignItems: 'flex-end',
-                  marginTop: 30,
-                  marginEnd: 10,
-                }}>
-                <RoundButton
-                  style={{backgroundColor: 'rgba(0,0,0,0.4)'}}
-                  onPress={() => {
-                    props.navigation.goBack();
-                  }}>
-                  <Entypo name="cross" size={25} color="#fff" />
-                </RoundButton>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  alignSelf: 'flex-end',
-                  alignItems: 'flex-end',
-                  marginTop: 10,
-                  marginEnd: 10,
-                }}>
-                <RoundButton
-                  style={{backgroundColor: 'rgba(0,0,0,0.4)'}}
-                  onPress={() => {
-                    setType(
-                      type === Camera.Constants.Type.front
-                        ? Camera.Constants.Type.back
-                        : Camera.Constants.Type.front,
-                    );
-                  }}>
-                  <MaterialIcons
-                    name={type === 2 ? 'camera-front' : 'camera-rear'}
-                    size={20}
-                    color="#fff"
-                  />
-                </RoundButton>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  alignSelf: 'flex-end',
-                  alignItems: 'flex-end',
-                  marginEnd: 10,
-                  marginTop: 10,
-                }}>
-                <RoundButton
-                  style={{backgroundColor: 'rgba(0,0,0,0.4)'}}
-                  onPress={() => {
-                    setFlashStatus(flashStatus === 0 ? 1 : 0);
-                  }}>
-                  <Ionicons
-                    name={flashStatus === 0 ? 'ios-flash-off' : 'ios-flash'}
-                    size={20}
-                    color="#fff"
-                  />
-                </RoundButton>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  alignSelf: 'flex-end',
-                  alignItems: 'flex-end',
-                  marginEnd: 10,
-                  marginTop: 10,
-                }}>
-                <RoundButton
-                  style={{backgroundColor: 'rgba(0,0,0,0.4)'}}
-                  onPress={() => {
-                    setIsVisible(prev => !prev);
-                  }}>
-                  <Ionicons name="ios-search" size={20} color="#fff" />
-                </RoundButton>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  alignSelf: 'flex-end',
-                  alignItems: 'flex-end',
-                  marginEnd: 10,
-                  marginTop: 10,
-                }}>
-                <RoundButton
-                  onPress={pickImage}
-                  style={{backgroundColor: 'rgba(0,0,0,0.4)'}}>
-                  <MaterialIcons name="photo-library" size={20} color="#fff" />
-                </RoundButton>
-              </TouchableOpacity>
-            </View>
+            <ScannerButtonsPane
+              cameraType={type}
+              flashStatus={flashStatus}
+              navigation={props.navigation}
+              pickImage={pickImage}
+              toggleFlash={() => {
+                setFlashStatus(flashStatus === Camera.Constants.FlashMode.on ?
+                  Camera.Constants.FlashMode.off :
+                  Camera.Constants.FlashMode.on);
+              }}
+              toggleFrontBackCamera={() => {
+                setType(
+                  type === Camera.Constants.Type.front
+                    ? Camera.Constants.Type.back
+                    : Camera.Constants.Type.front,
+                );
+              }}
+              toggleManualSearchBox={() => {
+                setIsVisible(prev => !prev);
+              }}
+
+            />
             <KeyboardAvoidingView>
               <View
                 style={{
