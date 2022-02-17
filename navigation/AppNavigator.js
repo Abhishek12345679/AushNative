@@ -212,9 +212,7 @@ export const SettingsNavigator = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.PRIMARY,
-          // elevation: 0,
-          // shadowOpacity: 0,
-          // borderBottomWidth: 0,
+          borderTopColor: colors.SECONDARY,
         },
         headerLargeTitle: false,
         headerTintColor: '#fff',

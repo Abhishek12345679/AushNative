@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   Platform,
+  StatusBar,
 } from 'react-native';
 import {colors} from '../constants/colors';
 import {gql, useLazyQuery} from '@apollo/client';
@@ -58,6 +59,7 @@ const SearchScreen = observer(({navigation}) => {
         <View
           style={{
             flexDirection: 'row',
+            margin: 10,
           }}>
           <TextInput
             onSubmitEditing={() => {
@@ -65,23 +67,26 @@ const SearchScreen = observer(({navigation}) => {
             }}
             returnKeyType="search"
             placeholder="search here"
-            placeholderTextColor="#ccc"
+            placeholderTextColor="#fff"
             value={searchText}
             onChangeText={text => {
               setSearchText(text);
             }}
             style={{
               width: '100%',
-              height: Platform.OS === 'ios' ? 30 : 100,
+              height: 65,
               fontSize: 16,
               color: '#fff',
-              backgroundColor: '#00000025',
-              // alignItems: 'center',
+              backgroundColor: colors.PRIMARY,
+              padding: 10,
+              marginTop: StatusBar.currentHeight,
+              borderRadius: 20,
+              textAlignVertical: 'center',
+              textAlign: 'center',
             }}
-            textAlign="center"
           />
         </View>
-        {!!data ? (
+        {!!data &&
           data.search.drugs.map((med, index) => (
             <ListItem
               keyProp={index}
@@ -101,24 +106,7 @@ const SearchScreen = observer(({navigation}) => {
                 })
               }
             />
-          ))
-        ) : loading ? (
-          <ActivityIndicator color="#fff" size="large" />
-        ) : (
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: '#fff',
-                fontSize: 20,
-              }}>
-              No medicine
-            </Text>
-          </View>
-        )}
+          ))}
       </ScrollView>
     </SafeAreaView>
   );
