@@ -273,7 +273,7 @@ export const TabNavigator = ({navigation}) => {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colors.PRIMARY,
-          borderTopColor: colors.PRIMARY,
+          borderTopColor: colors.SECONDARY,
           height: Platform.OS === 'ios' ? 90 : 75,
           elevation: 10,
         },
@@ -297,8 +297,8 @@ export const TabNavigator = ({navigation}) => {
         name="Scan"
         component={ScannerNavigator}
         options={{
-          tabBarIcon: ({color}) => (
-            <Ionicons name="md-scan-circle" color={color} size={50} />
+          tabBarIcon: () => (
+            <Ionicons name="md-scan-circle" color="#FFF" size={70} />
           ),
           unmountOnBlur: true,
         }}
