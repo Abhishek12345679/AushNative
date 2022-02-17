@@ -20,7 +20,7 @@ import CaptureButton from '../components/CaptureButton';
 import ScannerButtonsPane from '../components/ScannerButtonsPane';
 import { CameraType, FlashMode } from 'expo-camera/build/Camera.types';
 
-const DrugScanner = props => {
+const DrugScanner = (props: any) => {
 
   const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
@@ -43,6 +43,11 @@ const DrugScanner = props => {
   const screenRatio = height / width;
   const [isRatioSet, setIsRatioSet] = useState(false);
 
+  const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 80,
+  };
+
   const pickImage = async () => {
     try {
       let photo = await ImagePicker.launchImageLibraryAsync({
@@ -62,40 +67,35 @@ const DrugScanner = props => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const cameraStatus = await Camera.requestCameraPermissionsAsync();
-        const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (cameraStatus && galleryStatus) {
-          setHasPermission(true);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, []);
+  const captureImage = async () => {
+    if (cameraRef) {
+      if (isCameraReady) {
+        const photo = await cameraRef.takePictureAsync({
+          base64: true,
+        });
 
-  const onCameraReady = async () => {
-    setIsCameraReady(true);
-    if (!isRatioSet) {
-      await prepareRatio();
+        props.navigation.navigate('Confirm', {
+          photo: photo,
+        });
+      }
     }
   };
 
-  useEffect(() => {
-    onCameraReady();
-  }, []);
+  const onSwipeUp = () => {
+    if (isVisible === false) {
+      setIsVisible(true);
+    }
+  };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setMounted(true);
-      return () => {
-        console.log('unmounted');
-        setMounted(false);
-      };
-    }, []),
-  );
+  const onSwipeDown = () => {
+    if (isVisible === true) {
+      setIsVisible(false);
+    }
+  };
+
+  const searchQueryChangeHandler = (text: string) => {
+    setQuery(text);
+  };
 
   //fixing ratio
   const prepareRatio = async () => {
@@ -141,9 +141,41 @@ const DrugScanner = props => {
     }
   };
 
-  const searchQueryChangeHandler = text => {
-    setQuery(text);
+  useEffect(() => {
+    (async () => {
+      try {
+        const cameraStatus = await Camera.requestCameraPermissionsAsync();
+        const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (cameraStatus && galleryStatus) {
+          setHasPermission(true);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  const onCameraReady = async () => {
+    setIsCameraReady(true);
+    if (!isRatioSet) {
+      await prepareRatio();
+    }
   };
+
+  useEffect(() => {
+    onCameraReady();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setMounted(true);
+      return () => {
+        console.log('unmounted');
+        setMounted(false);
+      };
+    }, []),
+  );
+
 
   if (hasPermission === null) {
     return <View />;
@@ -155,36 +187,6 @@ const DrugScanner = props => {
     );
   }
 
-  const onSwipeUp = () => {
-    if (isVisible === false) {
-      setIsVisible(true);
-    }
-  };
-
-  const onSwipeDown = () => {
-    if (isVisible === true) {
-      setIsVisible(false);
-    }
-  };
-
-  const config = {
-    velocityThreshold: 0.3,
-    directionalOffsetThreshold: 80,
-  };
-
-  const captureImage = async () => {
-    if (cameraRef) {
-      if (isCameraReady) {
-        const photo = await cameraRef.takePictureAsync({
-          base64: true,
-        });
-
-        props.navigation.navigate('Confirm', {
-          photo: photo,
-        });
-      }
-    }
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -194,7 +196,6 @@ const DrugScanner = props => {
         config={config}
         style={{
           flex: 1,
-          backgroundColor: '#14213d',
         }}>
         {mounted && (
           <Camera

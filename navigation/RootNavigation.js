@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
+import React, {useEffect, useState} from 'react';
+import {observer} from 'mobx-react';
 
-import firebase from "@react-native-firebase/app";
-import auth from "@react-native-firebase/auth";
-import firebaseConfig from "../constants/config";
+import firebase from '@react-native-firebase/app';
+import auth from '@react-native-firebase/auth';
+import firebaseConfig from '../constants/config';
 
-import { ModalPortal } from "react-native-modals";
-import { NavigationContainer } from "@react-navigation/native";
-import { TabNavigator } from "./AppNavigator";
-import { AuthNavigator } from "./AppNavigator";
-import SplashScreen from "../screens/SplashScreen";
-import DrugStore from "../store/CartStore";
+import {ModalPortal} from 'react-native-modals';
+import {NavigationContainer} from '@react-navigation/native';
+import {TabNavigator} from './AppNavigator';
+import {AuthNavigator} from './AppNavigator';
+import SplashScreen from '../screens/SplashScreen';
+import DrugStore from '../store/CartStore';
 
 const AppContainer = observer(() => {
   // Set an initializing state whilst Firebase connects
@@ -23,7 +23,7 @@ const AppContainer = observer(() => {
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(async (user) => {
+    const subscriber = auth().onAuthStateChanged(async user => {
       console.log(user);
       const token = await user.getIdToken(true);
       setUser(user);

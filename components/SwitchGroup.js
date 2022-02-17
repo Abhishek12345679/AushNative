@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Text, Switch, StyleSheet } from "react-native";
+import React from 'react';
+import {View, Text, Switch, StyleSheet} from 'react-native';
 
-const SwitchGroup = (props) => {
+const SwitchGroup = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{props.label}</Text>
@@ -12,18 +12,17 @@ const SwitchGroup = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 30,
-    // paddingTop: 15,
     paddingVertical: 10,
-    borderBottomColor: "#ccc",
+    borderBottomColor: '#ccc',
     borderBottomWidth: 0.5,
     height: 75,
   },
   text: {
-    fontWeight: "normal",
+    fontWeight: 'normal',
     fontSize: 18,
   },
 });

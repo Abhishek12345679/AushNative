@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import DrugStore from '../store/CartStore';
 
 import {observer} from 'mobx-react';
@@ -12,19 +11,6 @@ import {connectActionSheet} from '@expo/react-native-action-sheet';
 
 const SettingsScreen = observer(props => {
   const {showActionSheetWithOptions} = props;
-  const [date, setDate] = useState();
-  const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
-
-  const UTCToIST = () => {
-    const offset = new Date().getTimezoneOffset();
-    const newDate = DrugStore.profile.dob;
-    newDate.setMinutes(newDate.getMinutes() - offset);
-    setDate(newDate);
-  };
-
-  useEffect(() => {
-    UTCToIST();
-  }, [UTCToIST]);
 
   const onOpenActionSheet = () => {
     const options = ['Log Out', 'Cancel'];
@@ -42,15 +28,10 @@ const SettingsScreen = observer(props => {
           const logout = async () => {
             try {
               await auth().signOut();
+              DrugStore.initializeUserCredentials('', '', '');
               console.log(
                 `${DrugStore.userCredentials.uid} logged out successfully`,
               );
-              await AsyncStorage.removeItem('login_data');
-              await AsyncStorage.removeItem('auto_login_data');
-              await AsyncStorage.removeItem('user_data');
-              DrugStore.initializeUserCredentials('', '', '');
-              DrugStore.setPFP(' ');
-              DrugStore.clearTimer();
             } catch (e) {
               console.log(e);
             }
@@ -64,14 +45,10 @@ const SettingsScreen = observer(props => {
   return (
     <ScrollView style={styles.container}>
       <ListItem
-        name={
-          DrugStore.profile.name.length < 3
-            ? DrugStore.userCredentials.email.substring(
-                0,
-                DrugStore.userCredentials.email.indexOf('@'),
-              )
-            : DrugStore.profile.name
-        }
+        name={DrugStore.userCredentials.email.substring(
+          0,
+          DrugStore.userCredentials.email.indexOf('@'),
+        )}
         salt_composition={DrugStore.userCredentials.email}
         style={{
           marginBottom: 30,
@@ -81,17 +58,10 @@ const SettingsScreen = observer(props => {
         titleStyle={{fontWeight: 'bold', fontSize: 20}}
         noArrow
         profile
-        age={age}
+        age={19}
         onPress={() => {
           props.navigation.navigate('EditProfile', {
             screen: 'Edit Profile',
-            params: {
-              dob: age,
-              name: DrugStore.userCredentials.email.substring(
-                0,
-                DrugStore.userCredentials.email.indexOf('@'),
-              ),
-            },
           });
         }}
       />
@@ -143,11 +113,11 @@ const SettingsScreen = observer(props => {
         name="Log Out"
         onPress={onOpenActionSheet}
         style={{
-          marginVertical: 30,
-          borderRadius: 5,
+          marginVertical: 25,
+          borderRadius: 10,
           justifyContent: 'center',
           alignItems: 'center',
-          height: 80,
+          height: 60,
         }}
         titleStyle={{fontWeight: 'bold', fontSize: 18, color: 'red'}}
       />

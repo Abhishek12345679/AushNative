@@ -104,7 +104,11 @@ const DrugStore = types
     profile: types.optional(profile, {}),
     addresses: types.optional(types.array(address), []),
     isAuthenticated: types.optional(types.boolean, false),
-    userCredentials: types.optional(userCredentials, {}),
+    userCredentials: types.optional(userCredentials, {
+      email: '',
+      token: '',
+      uid: '',
+    }),
     didTryAutoLogin: types.optional(types.boolean, false),
     timer: types.optional(types.number, 0),
     location: types.optional(location, {}),
@@ -116,7 +120,7 @@ const DrugStore = types
   }))
   // Location
   .actions(self => ({
-    saveLocation(name, lat, long) {
+    saveLocation(name: string, lat: number, long: number) {
       self.location.locationShortName = name;
       self.location.latitude = lat;
       self.location.longitude = long;
@@ -124,10 +128,10 @@ const DrugStore = types
   }))
   // settings action
   .actions(self => ({
-    setName(name) {
+    setName(name: string) {
       self.profile.name = name;
     },
-    setPFP(imageUrl) {
+    setPFP(imageUrl: string) {
       self.profile.display_picture = imageUrl;
     },
     // TODO: add profile data to firebase
@@ -142,7 +146,7 @@ const DrugStore = types
   }))
   // Cart Actions
   .actions(self => ({
-    addDrug(drug) {
+    addDrug(drug: DrugType) {
       let total_count = 0;
       let flag = 0;
 
@@ -179,10 +183,9 @@ const DrugStore = types
 
       self.count = total_count;
     },
-    removeFromCart(id) {
+    removeFromCart(id: string) {
       self.drugs.forEach((drug, index) => {
         if (id === drug.id) {
-          console.log(index);
           self.count = self.count - drug.quantity;
           self.drugs.splice(index, 1);
         }
@@ -205,13 +208,6 @@ const DrugStore = types
       self.addresses = cast(addresses);
     },
   }))
-  // initial State
-  .create({
-    profile: {
-      display_picture: ' ',
-      name: '',
-      dob: new Date(996656400000), // dummy age -> 19
-    },
-  });
+  .create({});
 
 export default DrugStore;

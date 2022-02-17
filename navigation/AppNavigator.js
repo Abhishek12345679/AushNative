@@ -105,10 +105,11 @@ const EditProfileNavigator = () => {
         name="Edit Profile"
         component={EditProfileScreen}
         options={{
-          headerTranslucent: true,
-          headerStyle: {
-            blurEffect: 'light',
-          },
+          headerShown: false,
+          // headerTranslucent: true,
+          // headerStyle: {
+          //   blurEffect: 'light',
+          // },
         }}
       />
     </EditProfileStackNavigator.Navigator>
@@ -250,13 +251,15 @@ export const SettingsNavigator = () => {
       <SettingsStackNavigator.Screen
         name="EditProfile"
         component={EditProfileNavigator}
-        options={{
-          stackPresentation:
-            Platform.OS === 'android' ? 'fullScreenModal' : 'modal',
-          gestureEnabled: true,
-          headerShown: false,
-          stackAnimation: Platform.OS === 'android' ? 'fade' : 'default',
-        }}
+        options={
+          {
+            // stackPresentation:
+            //   Platform.OS === 'android' ? 'fullScreenModal' : 'modal',
+            // gestureEnabled: true,
+            // headerShown: false,
+            // stackAnimation: Platform.OS === 'android' ? 'fade' : 'default',
+          }
+        }
       />
       <SettingsStackNavigator.Screen
         name="Addresses"
