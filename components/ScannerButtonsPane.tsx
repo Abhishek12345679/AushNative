@@ -8,7 +8,7 @@ import { CameraType, FlashMode } from 'expo-camera/build/Camera.types';
 interface ScannerButtonsPaneProps {
     cameraType: CameraType,
     flashStatus: FlashMode,
-    navigation: () => {},
+    navigation: any,
     toggleFrontBackCamera: () => void,
     toggleFlash: () => void,
     toggleManualSearchBox: () => void,
@@ -25,8 +25,6 @@ const ScannerButtonsPane = ({
     pickImage
 }: ScannerButtonsPaneProps
 ) => {
-
-
     return (
         <View
             style={{
@@ -80,7 +78,7 @@ const ScannerButtonsPane = ({
                     style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
                     onPress={toggleFlash}>
                     <Ionicons
-                        name={flashStatus === FlashMode.on ? "ios-flash-on" : "ios-flash-off"}
+                        name={flashStatus === FlashMode.off ? "ios-flash-off" : "ios-flash"}
                         size={20}
                         color="#fff"
                     />

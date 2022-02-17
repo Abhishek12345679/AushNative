@@ -15,10 +15,10 @@ import { Camera } from 'expo-camera';
 
 import Modal from 'react-native-modal';
 
-
 import ManualSearchBox from '../components/ManualSearchBox';
 import CaptureButton from '../components/CaptureButton';
 import ScannerButtonsPane from '../components/ScannerButtonsPane';
+import { CameraType, FlashMode } from 'expo-camera/build/Camera.types';
 
 const DrugScanner = props => {
 
@@ -26,10 +26,8 @@ const DrugScanner = props => {
   const [camera, setCamera] = useState(null);
   const [mounted, setMounted] = useState(true);
   const [isCameraReady, setIsCameraReady] = useState(false);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-  const [flashStatus, setFlashStatus] = useState(
-    Camera.Constants.FlashMode.off,
-  );
+  const [cameraType, setCameraType] = useState(CameraType.back);
+  const [flashStatus, setFlashStatus] = useState(FlashMode.off);
 
   const [hasPermission, setHasPermission] = useState(null);
 
@@ -38,7 +36,6 @@ const DrugScanner = props => {
   const [isVisible, setIsVisible] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-
 
   const [imagePadding, setImagePadding] = useState(0);
   const [ratio, setRatio] = useState('4:3');
@@ -158,22 +155,6 @@ const DrugScanner = props => {
     );
   }
 
-  // let lastPress = 0;
-  // const onDoublePress = () => {
-  //   const time = new Date().getTime();
-  //   const delta = time - lastPress;
-
-  //   const DOUBLE_PRESS_DELAY = 400;
-  //   if (delta < DOUBLE_PRESS_DELAY) {
-  //     setType(
-  //       type === Camera.Constants.Type.back
-  //         ? Camera.Constants.Type.front
-  //         : Camera.Constants.Type.back,
-  //     );
-  //   }
-  //   lastPress = time;
-  // };
-
   const onSwipeUp = () => {
     if (isVisible === false) {
       setIsVisible(true);
@@ -232,8 +213,8 @@ const DrugScanner = props => {
               setCameraRef(ref);
             }}
             onCameraReady={onCameraReady}
-            // onStartShouldSetResponder={evt => onDoublePress()}
-            useCamera2Api={true}>
+            useCamera2Api={true}
+          >
             <View
               style={{
                 flex: 0.8,
@@ -263,16 +244,18 @@ const DrugScanner = props => {
               navigation={props.navigation}
               pickImage={pickImage}
               toggleFlash={() => {
-                const newState = flashStatus === Camera.Constants.FlashMode.on ?
-                  Camera.Constants.FlashMode.off :
-                  Camera.Constants.FlashMode.on;
-                setFlashStatus(newState);
+                setFlashStatus(
+                  flashStatus === FlashMode.on ?
+                    FlashMode.off :
+                    FlashMode.on
+                );
               }}
               toggleFrontBackCamera={() => {
-                const newState = cameraType === Camera.Constants.Type.front
-                  ? Camera.Constants.Type.back
-                  : Camera.Constants.Type.front;
-                setCameraType(newState)
+                setCameraType(
+                  cameraType === CameraType.front
+                    ? CameraType.back
+                    : CameraType.front
+                )
               }}
               toggleManualSearchBox={() => {
                 setIsVisible(prev => !prev);
