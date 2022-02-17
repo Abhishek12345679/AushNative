@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Dimensions,
+  Pressable,
 } from 'react-native';
 
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -264,14 +265,24 @@ const DrugScanner = props => {
                   marginTop: 15,
                 }}
               />
-              <TouchableOpacity
-                activeOpacity={0.75}
+              <Pressable
+                android_ripple={{
+                  color: '#121212',
+                  borderless: true,
+                }}
                 style={styles.captureButton}
                 onPress={captureImage}>
-                <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>
-                  Capture
-                </Text>
-              </TouchableOpacity>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 65,
+                    width: 65,
+                    borderRadius: 65 / 2.0,
+                    backgroundColor: '#fff',
+                  }}
+                />
+              </Pressable>
             </View>
             <View
               style={{
@@ -437,16 +448,16 @@ const DrugScanner = props => {
 
 const styles = StyleSheet.create({
   captureButton: {
-    marginEnd: 10,
-    marginTop: 10,
     marginStart: 30,
-    width: 250,
-    height: 80,
-    backgroundColor: colors.PRIMARY,
-    borderRadius: 50,
-    elevation: 20, //android only
+    borderColor: '#fff',
+    borderWidth: 3,
     justifyContent: 'center',
     alignItems: 'center',
+    height: 80,
+    width: 80,
+    borderRadius: 40,
+    marginEnd: 10,
+    marginTop: 10,
   },
 });
 

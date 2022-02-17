@@ -1,6 +1,9 @@
-import { NativeModules } from "react-native";
+import {NativeModules} from 'react-native';
 
-const { MLKitTextRecognitionModule } = NativeModules;
+/**
+ * Module for text recognition using Google MLKit
+ */
+const {MLKitTextRecognitionModule} = NativeModules;
 
 export type BoundingBoxType = {
   left: number;
@@ -33,7 +36,7 @@ export type TextRecognitionResponse = {
 };
 
 export const extractWords = async (
-  url: string
+  url: string,
 ): Promise<TextRecognitionResponse> => {
   return await MLKitTextRecognitionModule.extractWords(url);
 };
