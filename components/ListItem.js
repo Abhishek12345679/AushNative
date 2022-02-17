@@ -1,13 +1,24 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import {observer} from 'mobx-react';
 import DP from './DP';
+import {colors} from '../constants/colors';
 
 const ListItem = observer(props => {
   return (
-    <TouchableOpacity
+    <Pressable
+      android_ripple={{
+        color: '#fff',
+        borderless: false,
+      }}
       style={{...styles.listItem, ...props.style}}
-      activeOpacity={0.75}
       onPress={props.onPress}
       key={props.keyProp}>
       <View
@@ -30,11 +41,9 @@ const ListItem = observer(props => {
         )}
         {
           <View style={{height: '100%', marginLeft: 15}}>
-            <Text style={{...styles.textBig, ...props.titleStyle}}>
-              {props.name}
-            </Text>
+            <Text style={{...styles.textBig}}>{props.name}</Text>
             {props.salt_composition ? (
-              <Text style={{...styles.textSmall, ...props.saltTextStyle}}>
+              <Text style={{...styles.textSmall}}>
                 {props.salt_composition}
               </Text>
             ) : (
@@ -44,7 +53,7 @@ const ListItem = observer(props => {
         }
         {props.profile && <DP />}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 });
 
@@ -52,24 +61,21 @@ const styles = StyleSheet.create({
   listItem: {
     width: '100%',
     height: 85,
-    backgroundColor: '#fff',
+    backgroundColor: colors.SECONDARY,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomColor: '#ccc',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
+    padding: (10, 10, 10, 10),
   },
   textBig: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: 'normal',
+    color: '#fff',
   },
   textSmall: {
     fontSize: 15,
-    color: 'purple',
-    fontWeight: 'normal',
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

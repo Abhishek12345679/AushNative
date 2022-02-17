@@ -14,7 +14,7 @@ const LocationPicker = props => {
         alignItems: 'center',
         backgroundColor: colors.PRIMARY,
         height: 30,
-        marginTop: Platform.OS === 'ios' ? 90 : 65,
+        // marginTop: Platform.OS === 'ios' ? 90 : 65,
       }}>
       <Text
         style={{

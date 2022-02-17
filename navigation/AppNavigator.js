@@ -47,6 +47,7 @@ import OrderDetailScreen, {
 import OrderConfirmationStatus from '../screens/CheckoutFlow/OrderConfirmationStatus';
 
 import SearchScreen from '../screens/SearchScreen';
+import {colors} from '../constants/colors';
 
 enableScreens();
 const AuthStackNavigator = createNativeStackNavigator();
@@ -163,30 +164,13 @@ const ScannerNavigator = () => {
 const RootStackNavigator = createNativeStackNavigator();
 export const RootNavigator = () => {
   return (
-    <RootStackNavigator.Navigator
-      initialRouteName="Home"
-      screenOptions={
-        Platform.OS === 'android' && {
-          headerHideShadow: true,
-          headerStyle: {
-            backgroundColor: '#14213d',
-            elevation: 0,
-            shadowOpacity: 0,
-            borderBottomWidth: 0,
-          },
-          headerTintColor: '#fff',
-          fontSize: 20,
-        }
-      }>
+    <RootStackNavigator.Navigator initialRouteName="Home">
       <RootStackNavigator.Screen name="SplashScreen" component={SplashScreen} />
 
       <RootStackNavigator.Screen
         name="Home"
         component={HomeScreen}
         headerTitle="Aushadhalay"
-        options={{
-          headerLargeTitle: false,
-        }}
       />
       <RootStackNavigator.Screen
         name="Search"
@@ -227,7 +211,7 @@ export const SettingsNavigator = () => {
     <SettingsStackNavigator.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#14213d',
+          backgroundColor: colors.PRIMARY,
           elevation: 0,
           shadowOpacity: 0,
           borderBottomWidth: 0,
@@ -289,14 +273,14 @@ export const TabNavigator = () => {
       // tabBar={(props) => <MyTabBar {...props} />}
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: '#14213d',
-          borderTopColor: '#14213d',
-          height: Platform.OS === 'ios' ? 75 : 55,
-          // justifyContent: 'center',
+          backgroundColor: colors.PRIMARY,
+          borderTopColor: colors.PRIMARY,
+          height: Platform.OS === 'ios' ? 90 : 55,
           elevation: 10,
         },
         tabBarShowLabel: false,
         headerShown: false,
+        tabBarInactiveTintColor: '#A2a2a2',
       }}>
       <BottomNavigationBar.Screen
         name="HomeScreen"
@@ -304,7 +288,7 @@ export const TabNavigator = () => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <Fontisto name="pills" color={color} size={22} />
+            <Fontisto name="home" color={color} size={22} />
           ),
         }}
       />
@@ -313,7 +297,7 @@ export const TabNavigator = () => {
         component={ScannerNavigator}
         options={{
           tabBarIcon: ({color}) => (
-            <Ionicons name="scan" color={color} size={22} />
+            <Ionicons name="md-scan-circle" color={color} size={50} />
           ),
           unmountOnBlur: true,
         }}

@@ -8,6 +8,7 @@ import auth from '@react-native-firebase/auth';
 import ListItem from '../components/ListItem';
 
 import {connectActionSheet} from '@expo/react-native-action-sheet';
+import {colors} from '../constants/colors';
 
 const SettingsScreen = observer(props => {
   const {showActionSheetWithOptions} = props;
@@ -128,7 +129,7 @@ const SettingsScreen = observer(props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e3e3e8',
+    backgroundColor: colors.PRIMARY,
     padding: 20,
   },
   input: {
@@ -138,7 +139,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     height: 30,
     borderRadius: 10,
-    color: '#9400D3',
     fontSize: 15,
     textAlign: 'left',
     textAlignVertical: 'bottom',
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
   searchBtn: {
     width: '100%',
     height: 60,
-    backgroundColor: '#9400D3',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,

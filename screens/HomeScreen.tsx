@@ -20,6 +20,7 @@ import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google
 import { Ionicons } from '@expo/vector-icons';
 import fetchOrders from '../helpers/fetchOrders';
 import fetchAddresses from '../helpers/fetchAddresses';
+import { colors } from '../constants/colors';
 
 const HomeScreen = observer((props: any) => {
   const { showActionSheetWithOptions } = props;
@@ -105,6 +106,18 @@ const HomeScreen = observer((props: any) => {
 
   useEffect(() => {
     props.navigation.setOptions({
+      headerLeft: () => (
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 20,
+            fontWeight: 'bold',
+            margin: 5
+          }}
+        >
+          Aushadhalay
+        </Text>
+      ),
       headerRight: () => (
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
@@ -118,7 +131,7 @@ const HomeScreen = observer((props: any) => {
             onPress={() => {
               props.navigation.navigate('Search');
             }}>
-            <Ionicons name="md-search" size={24} color="#fff" />
+            <Ionicons name="md-search" size={22} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -131,23 +144,25 @@ const HomeScreen = observer((props: any) => {
             onPress={() => {
               props.navigation.navigate('Cart');
             }}>
-            <Ionicons name="md-cart" size={24} color="#fff" />
+            <Ionicons name="md-cart" size={22} color="#fff" />
           </TouchableOpacity>
-          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>
+          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 15 }}>
             {DrugStore.count}
           </Text>
         </View>
       ),
-      headerTitle: 'Aushadhalay',
+      headerTitle: '',
       headerStyle: {
-        backgroundColor: '#14213d',
+        backgroundColor: colors.PRIMARY,
         elevation: 0,
         shadowOpacity: 0,
         borderBottomWidth: 0,
+        headerHideShadow: true
       },
-      headerLargeTitle: true,
+      headerLargeTitle: false,
       headerTintColor: '#fff',
       fontSize: 20,
+
     });
   }, []);
 
@@ -226,7 +241,7 @@ const HomeScreen = observer((props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1e335f',
+    backgroundColor: colors.SECONDARY,
     flexDirection: 'column',
     flexGrow: 1,
   },

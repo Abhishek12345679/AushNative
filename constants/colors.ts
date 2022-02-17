@@ -1,9 +1,6 @@
 export const colors = {
-  PRIMARY: "#14213d",
-  BUTTONS: "#D2f000",
-  WHITE: "#FFFFFF",
-  BLACK: "#000000",
-  SECONDARY: "#1e335f",
+  PRIMARY: '#121212',
+  SECONDARY: '#1f1f1f',
+  WHITE: '#FFFFFF',
+  BLACK: '#000000',
 };
-
-//TODO: Add Dynamic Color
