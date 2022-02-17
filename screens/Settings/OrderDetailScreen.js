@@ -67,13 +67,7 @@ const OrderDetailScreen = observer(props => {
         Address
       </Text>
       <View style={{paddingHorizontal: 25}}>
-        <Address
-          type={item.address.type}
-          name={item.address.name}
-          ph_no={item.address.ph_no}
-          add_line_1={item.address.add_line_1}
-          add_line_2={item.address.add_line_2}
-        />
+        <Address address={item.address} />
       </View>
     </ScrollView>
   );
@@ -81,7 +75,7 @@ const OrderDetailScreen = observer(props => {
 
 export const screenOptions = navData => {
   return {
-    headerLargeTitle: true,
+    headerLargeTitle: false,
     headerTitle: 'Order',
   };
 };

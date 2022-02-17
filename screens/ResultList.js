@@ -25,6 +25,7 @@ const GET_MEDICINE = gql`
       drugs {
         id
         name
+        image_url
         salt
         price
         habit_forming
@@ -57,6 +58,7 @@ const GET_ALTERNATE_DRUG = gql`
       drugs {
         id
         name
+        image_url
         salt
         price
         habit_forming
@@ -173,7 +175,7 @@ const ResultList = observer(props => {
                 <ListItem
                   name={itemData.item.name}
                   salt_composition={`${itemData.item.salt.substring(0, 20)}...`}
-                  imageUrl={itemData.item.imageUrl}
+                  imageUrl={itemData.item.image_url}
                   onPress={() =>
                     props.navigation.navigate('Drug', {
                       item: itemData.item,

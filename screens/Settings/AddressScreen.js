@@ -34,7 +34,7 @@ export const screenOptions = navData => {
         <Ionicons name="ios-add-circle-outline" size={24} color="blue" />
       </TouchableOpacity>
     ),
-    headerLargeTitle: true,
+    headerLargeTitle: false,
   };
 };
 
