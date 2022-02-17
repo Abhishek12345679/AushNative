@@ -9,32 +9,32 @@ import {
   PermissionsAndroid,
   TouchableOpacity,
   Text,
-  Linking,
   Alert,
 } from 'react-native';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
-import Geolocation, { AuthorizationLevel } from 'react-native-geolocation-service';
+import Geolocation, { AuthorizationLevel, ErrorCallback, GeoOptions, SuccessCallback } from 'react-native-geolocation-service';
 import LocationPicker from '../components/LocationPicker';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Ionicons } from '@expo/vector-icons';
 import fetchOrders from '../helpers/fetchOrders';
 import fetchAddresses from '../helpers/fetchAddresses';
 
-const HomeScreen = observer(props => {
+const HomeScreen = observer((props: any) => {
   const { showActionSheetWithOptions } = props;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [locName, setLocName] = useState('select location');
 
-  const geoOptions = {
+  const geoOptions: GeoOptions = {
     enableHighAccuracy: false,
-    timeOut: 200000,
+    timeout: 10000,
     maximumAge: 60 * 60 * 24,
+    forceRequestLocation: true,
   };
 
-  const geoSuccess = async (position: any) => {
+  const geoSuccess: SuccessCallback = async (position: any) => {
     console.log('Success', position);
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`,
@@ -45,7 +45,7 @@ const HomeScreen = observer(props => {
     setLocName(locName);
   };
 
-  const geoFailure = (error: any) => {
+  const geoFailure: ErrorCallback = (error: any) => {
     console.log('Error: ', error);
   };
 
@@ -164,6 +164,7 @@ const HomeScreen = observer(props => {
         if (buttonIndex === 0) {
           const hasPermissions = await requestPermissions();
           if (hasPermissions) {
+            console.log("has permissions = ", hasPermissions)
             Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
           }
         } else if (buttonIndex === 1) {
@@ -210,7 +211,7 @@ const HomeScreen = observer(props => {
                 setModalVisible(false);
               }}
               query={{
-                key: 'AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I',
+                key: 'AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I', // api key for Google Places API
                 language: 'en',
                 components: 'country:in',
               }}
