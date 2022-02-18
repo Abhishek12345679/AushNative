@@ -40,8 +40,6 @@ const OrderItem = observer(({ status, item, onPress, datetimestamp }: OrderItemP
       <ImageStack item={item} />
       <View
         style={{
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
         }}>
         <Text style={{ fontSize: 17, fontWeight: "bold", color: "#fff" }}>
           {toISTString(datetimestamp)}
