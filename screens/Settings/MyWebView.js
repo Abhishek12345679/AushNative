@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
-import { View } from "react-native";
-import { WebView } from "react-native-webview";
+import React, {useEffect} from 'react';
+import {View} from 'react-native';
+import {WebView} from 'react-native-webview';
 
-const MyWebView = (props) => {
-  const url = props.route.params.url;
-
+const MyWebView = props => {
   useEffect(() => {
     props.navigation.setOptions({
       headerTitle: props.route.params.headerTitle,
@@ -12,8 +10,8 @@ const MyWebView = (props) => {
   }, []);
 
   return (
-    <View style={{ flex: 1, marginTop: -330 }}>
-      <WebView source={{ uri: url }} />
+    <View style={{flex: 1, marginTop: -330}}>
+      <WebView source={{uri: props.route.params.url}} />
     </View>
   );
 };

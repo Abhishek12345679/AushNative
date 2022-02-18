@@ -109,16 +109,16 @@ const EditProfileStackNavigator = createNativeStackNavigator();
 
 const EditProfileNavigator = () => {
   return (
-    <EditProfileStackNavigator.Navigator initialRouteName="Edit Profile">
+    <EditProfileStackNavigator.Navigator
+      initialRouteName="Edit Profile"
+      screenOptions={{
+        headerTitle: 'Edit Profile',
+      }}>
       <EditProfileStackNavigator.Screen
         name="Edit Profile"
         component={EditProfileScreen}
         options={{
           headerShown: false,
-          // headerTranslucent: true,
-          // headerStyle: {
-          //   blurEffect: 'light',
-          // },
         }}
       />
     </EditProfileStackNavigator.Navigator>
@@ -255,15 +255,9 @@ export const SettingsNavigator = () => {
       <SettingsStackNavigator.Screen
         name="EditProfile"
         component={EditProfileNavigator}
-        options={
-          {
-            // stackPresentation:
-            //   Platform.OS === 'android' ? 'fullScreenModal' : 'modal',
-            // gestureEnabled: true,
-            // headerShown: false,
-            // stackAnimation: Platform.OS === 'android' ? 'fade' : 'default',
-          }
-        }
+        options={{
+          headerTitle: 'Edit Profile',
+        }}
       />
       <SettingsStackNavigator.Screen
         name="Addresses"

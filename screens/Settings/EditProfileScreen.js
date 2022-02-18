@@ -10,7 +10,7 @@ const EditProfileScreen = observer(() => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>Maintainance</Text>
+      <Text style={{color: '#fff'}}>Maintainance</Text>
     </SafeAreaView>
   );
 });
