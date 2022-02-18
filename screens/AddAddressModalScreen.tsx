@@ -4,9 +4,6 @@ import {
   ScrollView,
   TextInput,
   StatusBar,
-  ActivityIndicator,
-  Text,
-  Pressable,
   StyleSheet
 } from 'react-native';
 
@@ -16,12 +13,11 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import { showMessage } from 'react-native-flash-message';
 import { observer } from 'mobx-react';
 import addAddresses from '../helpers/addAddress';
-import { colors } from '../constants/colors';
 import BigButton from '../components/BigButton';
 
 const AddAddressModalScreen = observer(props => {
   const [addingAddress, setAddingAddress] = useState(false);
-  const [type, setType] = useState('Home');
+  // const [type, setType] = useState('Home');
 
   // const AddressType = ['Home', 'Work', 'Other'];
 
@@ -31,7 +27,7 @@ const AddAddressModalScreen = observer(props => {
       <KeyboardAvoidingView behavior="position">
         <Formik
           initialValues={{
-            type: '',
+            type: 'home',
             name: '',
             add_line_1: '',
             add_line_2: '',
@@ -42,7 +38,7 @@ const AddAddressModalScreen = observer(props => {
 
             setAddingAddress(true);
             await addAddresses({
-              type: type,
+              type: values.type,
               name: values.name,
               add_line_1: values.add_line_1,
               add_line_2: values.add_line_2,
@@ -60,14 +56,6 @@ const AddAddressModalScreen = observer(props => {
           }}>
           {({ handleChange, handleSubmit, values }) => (
             <ScrollView>
-              {/* <RadioButtonRN
-                initial={1}
-                data={AddressType}
-                selectedBtn={item => {
-                  setType(item);
-                }}
-                circleSize={16}
-              /> */}
               <TextInput
                 onChangeText={handleChange('name')}
                 value={values.name}
@@ -115,7 +103,7 @@ const AddAddressModalScreen = observer(props => {
 const styles = StyleSheet.create({
   inputStyle: {
     height: 75,
-    marginTop: 20,
+    marginVertical: 20,
     borderBottomWidth: 0.5,
     borderColor: '#fff',
     color: "#fff",

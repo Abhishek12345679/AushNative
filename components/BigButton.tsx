@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ActivityIndicator } from 'react-native'
+import { Text, Pressable, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { colors } from '../constants/colors'
 
@@ -13,7 +13,7 @@ const BigButton = ({ text, onPress, loading }: BigButtonProps) => {
         <Pressable
             android_ripple={{
                 color: "#fff",
-                borderless: true
+                borderless: false
             }}
             onPress={onPress}
             style={{
@@ -22,17 +22,17 @@ const BigButton = ({ text, onPress, loading }: BigButtonProps) => {
                 backgroundColor: colors.SECONDARY,
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: 10,
+                marginVertical: 15,
                 borderRadius: 10,
             }}>
             {!loading ? (
-                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+                <Text
+                    style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                >
                     {text}
                 </Text>
             ) : (
-                <View>
-                    <ActivityIndicator size="small" color="#fff" />
-                </View>
+                <ActivityIndicator size="small" color="#fff" />
             )}
         </Pressable>
     )
