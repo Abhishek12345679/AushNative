@@ -1,7 +1,7 @@
 <img style="width: 100px;" alt="jless mascot" src="/assets/icon.png">
 
-# Aushadhalay
 
+# Aushadhalay
 
 Makes Life More Fun
 
@@ -39,7 +39,6 @@ Makes Life More Fun
 - [x] Fix razorpay payments api integration
 - [x] use firestore
 - [x] JS => TS (🔁)
-- [ ] Redesign in Figma (🔁)
 - [ ] Refresh Mongodb (atlas,mongoose), graphql(apollo),...
 - [x] Update Modules to the latest version.
 - [ ] Publish to App Store.
