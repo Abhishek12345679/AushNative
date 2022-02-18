@@ -42,10 +42,14 @@ const OrderDetailScreen = observer((props: any) => {
         }}>
         Items
       </Text>
-      <View style={{
-        paddingHorizontal: 20,
-        paddingVertical: 5,
-      }}>
+      <View
+        style={{
+          borderRadius: 12,
+          width: '100%',
+          overflow: 'hidden',
+          paddingHorizontal: 20,
+          paddingVertical: 5
+        }}>
         {order.items.map((drug: DrugType, index: number) => (
           <CartItem
             key={index}

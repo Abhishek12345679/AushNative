@@ -65,7 +65,13 @@ const CheckoutStackNavigator = createNativeStackNavigator();
 
 const CheckoutNavigator = () => {
   return (
-    <CheckoutStackNavigator.Navigator>
+    <CheckoutStackNavigator.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.PRIMARY,
+        },
+        headerTintColor: '#FFF',
+      }}>
       <CheckoutStackNavigator.Screen
         name="SelectAddress"
         component={SelectAddressScreen}

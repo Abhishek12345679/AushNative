@@ -65,6 +65,9 @@ const CartScreen = observer(props => {
             text="Checkout"
             onPress={submitOrder}
             loading={checkingOut}
+            buttonStyle={{
+              backgroundColor: "skyblue"
+            }}
           />
         </View>
       )}

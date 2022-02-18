@@ -20,7 +20,8 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 backgroundColor: colors.SECONDARY,
                 borderRadius: 10,
                 height: 130,
-                marginVertical: 10
+                marginVertical: 10,
+                paddingVertical: 5
             }}>
             <View
                 style={{
@@ -41,7 +42,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                         borderRadius: 5,
                     }}
                 />
-                <View style={{ marginEnd: 10 }}>
+                <View style={{ marginEnd: 10, width: '60%' }}>
                     <Text style={{ fontSize: 17, fontWeight: 'bold', color: "#fff" }}>
                         {drug.name}
                     </Text>

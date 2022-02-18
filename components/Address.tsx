@@ -8,12 +8,18 @@ interface AddressComponentProps {
   address: AddressType;
   onPress?: () => void;
   style?: {};
+  addressLineTextStyle: {};
+  nameTextStyle: {};
 }
 
-const Address = observer(({ keyProp, address, onPress, style }: AddressComponentProps) => {
+const Address = observer(({ keyProp, address, onPress, style, addressLineTextStyle, nameTextStyle }: AddressComponentProps) => {
   return (
     <Pressable
       key={keyProp}
+      android_ripple={{
+        color: "#fff",
+        borderless: false
+      }}
       onPress={onPress}
       style={{ ...styles.container, ...style }}
     >
@@ -31,12 +37,41 @@ const Address = observer(({ keyProp, address, onPress, style }: AddressComponent
         />
       </View>
       <View style={{ margin: 5 }}>
-        <Text style={{ color: "#FFF", fontSize: 20, fontWeight: "bold" }}>
+        <Text
+          style={
+            {
+              ...{
+                color: "#FFF",
+                fontSize: 20,
+                fontWeight: "bold"
+              },
+              ...nameTextStyle
+            }
+          }
+        >
           {address.name}
         </Text>
         <View style={{ flexDirection: "column", marginTop: 5 }}>
-          <Text style={{ color: "#FFF", fontSize: 15, fontWeight: "normal" }}>{address.add_line_1}</Text>
-          <Text style={{ color: "#FFF", fontSize: 15, fontWeight: "normal" }}>{address.add_line_2}</Text>
+          <Text style={
+            {
+              ...{
+                color: "#FFF",
+                fontSize: 15,
+                fontWeight: "normal"
+              },
+              ...addressLineTextStyle
+            }
+          }>{address.add_line_1}</Text>
+          <Text style={
+            {
+              ...{
+                color: "#FFF",
+                fontSize: 15,
+                fontWeight: "normal"
+              },
+              ...addressLineTextStyle
+            }
+          }>{address.add_line_2}</Text>
         </View>
       </View>
     </Pressable>
