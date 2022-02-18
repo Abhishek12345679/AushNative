@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import DrugStore from '../../store/CartStore';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -12,15 +12,7 @@ const AddressScreen = observer(props => {
   const { navigation } = props;
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    const fetchStuff = async () => {
-      const addresses = await fetchAddresses();
-      DrugStore.addAddresses(addresses);
-    };
-    fetchStuff();
-  }, [navigation]);
-
-  const onRefresh = async () => {
+  const fetchStuff = async () => {
     setIsRefreshing(true);
     const addresses = await fetchAddresses();
     DrugStore.addAddresses(addresses);
@@ -28,13 +20,20 @@ const AddressScreen = observer(props => {
   };
 
   useEffect(() => {
-    onRefresh();
-  },
-    [navigation]
-  );
+    try {
+      fetchStuff();
+    } catch (err) {
+      console.error(err)
+    }
+  }, [navigation]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={fetchStuff} />
+      }
+    >
       {DrugStore.addresses.map((address, index) => (
         <Address
           key={index}
@@ -50,12 +49,12 @@ const AddressScreen = observer(props => {
   );
 });
 
-export const screenOptions = navData => {
+export const screenOptions = (navData: any) => {
   return {
     headerRight: () => (
       <TouchableOpacity
         onPress={() => navData.navigation.navigate('Add New Address')}>
-        <Ionicons name="ios-add-outline" size={24} color="white" />
+        <Ionicons name="ios-add" size={24} color="white" />
       </TouchableOpacity>
     ),
     headerLargeTitle: false,

@@ -48,6 +48,7 @@ const SettingsScreen = observer(props => {
   return (
     <ScrollView style={styles.container}>
       <ListItem
+        keyProp={'d' + 0}
         name={DrugStore.userCredentials.email.substring(
           0,
           DrugStore.userCredentials.email.indexOf('@'),
@@ -108,6 +109,7 @@ const SettingsScreen = observer(props => {
         ))}
       </View>
       <ListItem
+        keyProp={'c' + 0}
         name="Log Out"
         onPress={onOpenActionSheet}
         style={{

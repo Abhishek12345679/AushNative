@@ -4,8 +4,7 @@ import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import Address from '../../components/Address';
 
 const OrderDetailScreen = observer(props => {
-  const item = props.route.params.item_;
-  console.log('ITEM', item);
+  const {order, datetimestamp} = props.route.params;
 
   const toISTString = unixtime => {
     const dateObject = new Date(unixtime);
@@ -18,24 +17,24 @@ const OrderDetailScreen = observer(props => {
       <View style={styles.item}>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order Date</Text>
-          <Text>{toISTString(item.datetimestamp)}</Text>
+          <Text>{toISTString(datetimestamp)}</Text>
         </View>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order #</Text>
 
-          <Text>{item.order_id}</Text>
+          <Text>{order.order_id}</Text>
         </View>
         <View style={styles.textCont}>
           <Text style={styles.BoldText}>Order Total</Text>
           <Text style={{color: 'green', fontWeight: 'bold'}}>
-            ₹{item.total_amt.toFixed(0)}
+            ₹{order.total_amt.toFixed(0)}
           </Text>
         </View>
       </View>
 
       <Text style={{padding: 25, fontSize: 30, fontWeight: 'bold'}}>Items</Text>
       <View style={{padding: 0}}>
-        {item.items.map((item, index) => (
+        {order.items.map((item, index) => (
           <View
             style={{
               ...styles.item,
@@ -67,7 +66,7 @@ const OrderDetailScreen = observer(props => {
         Address
       </Text>
       <View style={{paddingHorizontal: 25}}>
-        <Address address={item.address} />
+        <Address address={order.address} />
       </View>
     </ScrollView>
   );

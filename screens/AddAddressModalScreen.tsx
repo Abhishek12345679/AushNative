@@ -14,6 +14,7 @@ import { showMessage } from 'react-native-flash-message';
 import { observer } from 'mobx-react';
 import addAddresses from '../helpers/addAddress';
 import BigButton from '../components/BigButton';
+import { colors } from '../constants/colors';
 
 const AddAddressModalScreen = observer(props => {
   const [addingAddress, setAddingAddress] = useState(false);
@@ -61,7 +62,7 @@ const AddAddressModalScreen = observer(props => {
                 value={values.name}
                 style={styles.inputStyle}
                 placeholder={'Name'}
-                placeholderTextColor="#fff"
+                placeholderTextColor="#ccc"
               />
 
               <TextInput
@@ -70,27 +71,30 @@ const AddAddressModalScreen = observer(props => {
                 value={values.ph_no}
                 style={styles.inputStyle}
                 placeholder={'Mobile'}
-                placeholderTextColor="#fff"
+                placeholderTextColor="#ccc"
               />
               <TextInput
                 onChangeText={handleChange('add_line_1')}
                 value={values.add_line_1}
                 style={styles.inputStyle}
                 placeholder={'Address Line 1'}
-                placeholderTextColor="#fff"
+                placeholderTextColor="#ccc"
               />
               <TextInput
                 onChangeText={handleChange('add_line_2')}
                 value={values.add_line_2}
                 style={styles.inputStyle}
                 placeholder={'Address Line 2'}
-                placeholderTextColor="#fff"
+                placeholderTextColor="#ccc"
               />
 
               <BigButton
                 text="Submit"
                 loading={addingAddress}
                 onPress={handleSubmit}
+                buttonStyle={{
+                  backgroundColor: "red"
+                }}
               />
             </ScrollView>
           )}
@@ -102,11 +106,14 @@ const AddAddressModalScreen = observer(props => {
 
 const styles = StyleSheet.create({
   inputStyle: {
-    height: 75,
-    marginVertical: 20,
-    borderBottomWidth: 0.5,
+    height: 60,
+    marginVertical: 15,
+    // borderBottomWidth: 0.5,
     borderColor: '#fff',
     color: "#fff",
+    backgroundColor: colors.SECONDARY,
+    borderRadius: 10,
+    paddingHorizontal: 20
   }
 })
 
