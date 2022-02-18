@@ -93,7 +93,7 @@ const AddAddressModalScreen = observer(props => {
                 loading={addingAddress}
                 onPress={handleSubmit}
                 buttonStyle={{
-                  backgroundColor: "red"
+                  backgroundColor: "skyblue",
                 }}
               />
             </ScrollView>

@@ -35,13 +35,6 @@ const CartScreen = observer(props => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginVertical: 10,
-        }}></View>
       {drugs.length > 0 ? (
         <>
           {drugs.map((drug, index) => (

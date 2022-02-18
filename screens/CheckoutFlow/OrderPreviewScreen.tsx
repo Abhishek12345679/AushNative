@@ -15,6 +15,7 @@ import RazorpayCheckout from 'react-native-razorpay';
 
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import addOrder from '../../helpers/addOrder';
+import { toISTString } from '../../helpers/toISTString';
 
 const OrderPreviewScreen = props => {
   const [address, _] = useState(
@@ -30,11 +31,6 @@ const OrderPreviewScreen = props => {
     total_checkout_amt = total_checkout_amt + DrugStore.drugs[i].total_amt;
   }
 
-  const toISTString = unixtime => {
-    const dateObject = new Date(unixtime);
-    const humanDateFormat = dateObject.toString();
-    return humanDateFormat.substring(0, humanDateFormat.indexOf(':') - 3);
-  };
 
   const createOrder = async () => {
     const response = await fetch(
@@ -175,7 +171,7 @@ const OrderPreviewScreen = props => {
       <View style={styles.item}>
         <View style={styles.textContainer}>
           <Text style={styles.boldtext}>Order Date</Text>
-          <Text>{toISTString(new Date())}</Text>
+          <Text>{toISTString(new Date().getTime())}</Text>
         </View>
         <View style={styles.textContainer}></View>
         <View style={styles.textContainer}>

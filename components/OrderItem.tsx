@@ -4,6 +4,7 @@ import { View, Text, Pressable, Image } from 'react-native';
 import { colors } from '../constants/colors';
 import { OrderType } from '../store/CartStore';
 import ImageStack from './ImageStack';
+import { toISTString } from '../helpers/toISTString';
 
 interface OrderItemProps {
   item: OrderType;
@@ -13,12 +14,6 @@ interface OrderItemProps {
 }
 
 const OrderItem = observer(({ status, item, onPress, datetimestamp }: OrderItemProps) => {
-
-  const toISTString = (unixtime: number): string => {
-    const dateObject = new Date(unixtime);
-    const humanDateFormat = dateObject.toString();
-    return humanDateFormat.substring(0, humanDateFormat.indexOf(':') - 3);
-  };
 
   return (
     <Pressable

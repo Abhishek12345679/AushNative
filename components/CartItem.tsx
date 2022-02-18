@@ -7,9 +7,8 @@ import { colors } from '../constants/colors'
 interface CartItemProps {
     keyProp: number | string;
     drug: DrugType;
-    removeFromCart: () => void
+    removeFromCart?: () => void
 }
-
 
 const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
     return (
@@ -20,7 +19,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 flexDirection: 'column',
                 backgroundColor: colors.SECONDARY,
                 borderRadius: 10,
-                height: 130
+                height: 150
             }}>
             <View
                 style={{
@@ -47,7 +46,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                     </Text>
                     <Text style={{ fontSize: 15, width: 200, color: "#fff" }}>{drug.salt}</Text>
                 </View>
-                <Pressable
+                {!!removeFromCart && <Pressable
                     android_ripple={{
                         color: "#fff",
                         borderless: true
@@ -63,13 +62,13 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                         size={24}
                         color="#fff"
                     />
-                </Pressable>
+                </Pressable>}
             </View>
             <View
                 style={{
                     flexDirection: 'row',
                     marginHorizontal: 25,
-                    marginTop: 20
+                    marginTop: 30
                 }}
             >
                 <View style={styles.item}>
@@ -83,10 +82,10 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 <View
                     style={{
                         flexDirection: 'column',
-                        marginTop: -15,
+                        // marginTop: -15,
                         alignItems: 'center',
                     }}>
-                    <Text style={{ color: "#fff", fontWeight: 'bold', marginBottom: -5 }}>Total</Text>
+                    {/* <Text style={{ color: "#fff", fontWeight: 'bold', marginBottom: -5 }}>Total</Text> */}
                     <View style={styles.item}>
                         <FontAwesome5 name="money-bill-wave" color="#fff" size={15} />
                         <Text style={styles.subtext}>₹{drug.total_amt}</Text>
