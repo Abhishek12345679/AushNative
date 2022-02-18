@@ -7,7 +7,7 @@ export type DrugType = {
   salt: string;
   price: number;
   quantity: number;
-  prescription_req: false;
+  prescription_req: boolean;
   total_amt: number;
 };
 

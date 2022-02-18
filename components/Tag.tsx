@@ -22,6 +22,7 @@ const Tag = ({ value, bgc, label, textColor }: TagProps) => {
         width: 120,
         height: 35,
         marginBottom: 10,
+        elevation: 10
       }}>
       {value && (
         <View style={{ width: 25, height: 25, marginEnd: 10 }}>

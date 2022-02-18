@@ -29,7 +29,6 @@
                 "backgroundColor": "#FFFFFF"
             }
         },
-        "backgroundColor": "#121212",
         "entryPoint": "node_modules/expo/AppEntry.js"
     }
 }

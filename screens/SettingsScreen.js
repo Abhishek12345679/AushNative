@@ -78,7 +78,7 @@ const SettingsScreen = observer(props => {
           <ListItem
             style={{height: 70}}
             titleStyle={{fontSize: 18}}
-            keyProp={index}
+            keyProp={'a' + index}
             name={item}
             onPress={() => props.navigation.navigate(item)}
           />
@@ -96,7 +96,7 @@ const SettingsScreen = observer(props => {
           <ListItem
             style={{height: 70}}
             titleStyle={{fontSize: 18}}
-            keyProp={index}
+            keyProp={'b' + index}
             name={item}
             onPress={() => {
               props.navigation.navigate('MyWebView', {

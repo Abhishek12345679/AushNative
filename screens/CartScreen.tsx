@@ -1,22 +1,21 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
   StatusBar,
 } from 'react-native';
 
 import DrugStore from '../store/CartStore';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 
-import {colors} from '../constants/colors';
+import { colors } from '../constants/colors';
 import CartItem from '../components/CartItem';
+import BigButton from '../components/BigButton';
 
 const CartScreen = observer(props => {
-  const {drugs} = DrugStore;
+  const { drugs } = DrugStore;
   let total_checkout_amt = 0;
 
   const [checkingOut, setCheckingOut] = useState(false);
@@ -34,7 +33,7 @@ const CartScreen = observer(props => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{flexGrow: 1}}>
+    <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <View
         style={{
@@ -47,6 +46,7 @@ const CartScreen = observer(props => {
         <>
           {drugs.map((drug, index) => (
             <CartItem
+              key={index}
               drug={drug}
               keyProp={index}
               removeFromCart={() => removeFromCart(drug.id)}
@@ -55,7 +55,7 @@ const CartScreen = observer(props => {
         </>
       ) : (
         <View style={styles.centered}>
-          <Text style={{color: '#fff', fontSize: 20}}>
+          <Text style={{ color: '#fff', fontSize: 20 }}>
             No items in the cart
           </Text>
         </View>
@@ -68,27 +68,11 @@ const CartScreen = observer(props => {
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}>
-          <TouchableOpacity
+          <BigButton
+            text="Checkout"
             onPress={submitOrder}
-            style={{
-              width: '100%',
-              height: 70,
-              backgroundColor: colors.SECONDARY,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 10,
-              borderRadius: 10,
-            }}>
-            {!checkingOut ? (
-              <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>
-                Checkout
-              </Text>
-            ) : (
-              <View>
-                <ActivityIndicator size="small" color="#fff" />
-              </View>
-            )}
-          </TouchableOpacity>
+            loading={checkingOut}
+          />
         </View>
       )}
     </ScrollView>
