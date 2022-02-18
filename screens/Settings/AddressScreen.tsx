@@ -1,15 +1,17 @@
-import React, {useEffect} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import DrugStore from '../../store/CartStore';
 
-import {Ionicons} from '@expo/vector-icons';
-import {observer} from 'mobx-react';
+import { Ionicons } from '@expo/vector-icons';
+import { observer } from 'mobx-react';
 import Address from '../../components/Address';
 import fetchAddresses from '../../helpers/fetchAddresses';
-import {colors} from '../../constants/colors';
+import { colors } from '../../constants/colors';
 
 const AddressScreen = observer(props => {
-  const {navigation} = props;
+  const { navigation } = props;
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   useEffect(() => {
     const fetchStuff = async () => {
       const addresses = await fetchAddresses();
@@ -17,6 +19,19 @@ const AddressScreen = observer(props => {
     };
     fetchStuff();
   }, [navigation]);
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    const addresses = await fetchAddresses();
+    DrugStore.addAddresses(addresses);
+    setIsRefreshing(false);
+  };
+
+  useEffect(() => {
+    onRefresh();
+  },
+    [navigation]
+  );
 
   return (
     <ScrollView style={styles.container}>
@@ -27,6 +42,7 @@ const AddressScreen = observer(props => {
           style={{
             backgroundColor: colors.SECONDARY,
             elevation: 10,
+            marginVertical: 20
           }}
         />
       ))}

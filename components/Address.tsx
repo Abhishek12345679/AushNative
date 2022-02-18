@@ -7,7 +7,7 @@ interface AddressComponentProps {
   keyProp?: number | string;
   address: AddressType;
   onPress?: () => void;
-  style?: StyleSheet;
+  style?: {};
 }
 
 const Address = observer(({ keyProp, address, onPress, style }: AddressComponentProps) => {
