@@ -48,6 +48,7 @@ import SearchScreen from '../screens/SearchScreen';
 import {colors} from '../constants/colors';
 
 enableScreens();
+
 const AuthStackNavigator = createNativeStackNavigator();
 export const AuthNavigator = () => {
   return (

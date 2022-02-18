@@ -4,33 +4,25 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import Address from '../../components/Address';
 import DrugStore from '../../store/CartStore';
-
 import RazorpayCheckout from 'react-native-razorpay';
-
-import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import addOrder from '../../helpers/addOrder';
 import { toISTString } from '../../helpers/toISTString';
+import { colors } from '../../constants/colors';
+import CartItem from '../../components/CartItem';
+import BigButton from '../../components/BigButton';
+import OrderSummary from '../../components/OrderSummary';
 
-const OrderPreviewScreen = props => {
-  const [address, _] = useState(
-    DrugStore.addresses[props.route.params.selectedAddressIndex],
-  );
-
+const OrderPreviewScreen = (props: any) => {
+  const address = DrugStore.addresses[props.route.params.selectedAddressIndex]
   let total_checkout_amt = 0;
-
   const [checkingOut, setCheckingOut] = useState(false);
-
 
   for (let i = 0; i < DrugStore.drugs.length; i++) {
     total_checkout_amt = total_checkout_amt + DrugStore.drugs[i].total_amt;
   }
-
 
   const createOrder = async () => {
     const response = await fetch(
@@ -47,9 +39,7 @@ const OrderPreviewScreen = props => {
         }),
       },
     );
-
     const resData = await response.json();
-
     return resData.id;
   };
 
@@ -117,6 +107,7 @@ const OrderPreviewScreen = props => {
             props.navigation.navigate('OrderConfirmation', {
               status: verificationResponse.status,
             });
+
             // remove cartItems
             if (verificationResponse.status === true) {
               DrugStore.clearCart();
@@ -144,118 +135,65 @@ const OrderPreviewScreen = props => {
   };
 
   return (
-    <ScrollView style={styles.container} stickyHeaderIndices={[0]}>
+    <ScrollView style={styles.container}>
+      <OrderSummary
+        datetimestamp={Date.now()}
+        totalAmt={total_checkout_amt}
+      />
+      <Text
+        style={{
+          marginHorizontal: 30,
+          fontSize: 20,
+          fontWeight: 'bold',
+          color: "#fff",
+          marginVertical: 0
+        }}>
+        Items
+      </Text>
       <View
         style={{
-          flex: 1,
-          backgroundColor: '#fff',
-          shadowColor: '#000',
-          shadowOpacity: 0.69,
+          borderRadius: 12,
+          width: '100%',
+          overflow: 'hidden',
+          paddingHorizontal: 20,
+          paddingVertical: 5
         }}
-        pointerEvents="none">
-        <ProgressSteps activeStep={1} marginBottom={0}>
-          <ProgressStep
-            label="Select Address"
-            previousBtnText=""
-            nextBtnText=""></ProgressStep>
-          <ProgressStep
-            label="OrderPreview"
-            previousBtnText=""
-            nextBtnText=""></ProgressStep>
-          <ProgressStep
-            label="Payment"
-            previousBtnText=""
-            nextBtnText=""></ProgressStep>
-        </ProgressSteps>
-      </View>
-      <View style={styles.item}>
-        <View style={styles.textContainer}>
-          <Text style={styles.boldtext}>Order Date</Text>
-          <Text>{toISTString(new Date().getTime())}</Text>
-        </View>
-        <View style={styles.textContainer}></View>
-        <View style={styles.textContainer}>
-          <Text style={styles.boldtext}>Order Total</Text>
-          <Text style={{ color: 'green', fontWeight: 'bold' }}>
-            ₹{total_checkout_amt}
-          </Text>
-        </View>
-      </View>
-
-      <Text style={{ marginTop: 35, marginLeft: 20, fontSize: 30, fontWeight: 'bold' }}>Items</Text>
-      <View style={{ padding: 0 }}>
+      >
         {DrugStore.drugs.map((item, index) => (
-          <View
-            style={{
-              ...styles.item,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-            key={index}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center'
-              }}
-            >
-              <Image
-                source={{ uri: item.imageUrl }}
-                style={{
-                  width: 75,
-                  height: 75,
-                }}
-              />
-              <View>
-                <Text style={{ ...styles.boldtext, width: 150 }}>
-                  {item.name}
-                </Text>
-                <Text>{item.salt}</Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-around',
-                    marginTop: 10,
-                  }}>
-                  <Text style={{ color: 'green' }}>₹ {item.price}</Text>
-                  <Text> x {item.quantity} = </Text>
-                  <Text style={{ color: 'green', fontWeight: 'bold' }}>
-                    ₹{item.total_amt.toFixed(2)}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <CartItem
+            key={index}
+            drug={item}
+            keyProp={index}
+          />
         ))}
       </View>
       <View style={{ paddingHorizontal: 20 }}>
-        <Text style={{ paddingVertical: 25, fontSize: 30, fontWeight: 'bold' }}>
-          Address
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: "#fff",
+            marginVertical: 10
+          }}>
+          Selected Address
         </Text>
-        <Address address={address} />
+        <Address
+          address={address}
+          style={{
+            backgroundColor: colors.SECONDARY
+          }}
+        />
       </View>
       <View style={{ paddingHorizontal: 20, alignItems: 'center' }}>
-        <TouchableOpacity
-          style={{
-            marginVertical: 20,
-            height: 60,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#000',
-            marginBottom: 40,
-            width: '100%',
+        <BigButton
+          onPress={initiatePayment}
+          text="Pay"
+          buttonStyle={{
+            backgroundColor: 'skyblue',
+            marginVertical: 20
           }}
-          onPress={initiatePayment}>
-          {!checkingOut ? (
-            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
-              Pay
-            </Text>
-          ) : (
-            <ActivityIndicator size="small" color="#FFF" />
-          )}
-        </TouchableOpacity>
+          loading={checkingOut}
+        />
       </View>
     </ScrollView>
   );
@@ -263,25 +201,7 @@ const OrderPreviewScreen = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFF',
-  },
-  item: {
-    marginHorizontal: 25,
-    marginVertical: 10,
-    padding: 5,
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
-  textContainer: {
-    marginVertical: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  boldtext: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    width: 100,
-    marginEnd: 5,
+    flex: 1
   },
 });
 

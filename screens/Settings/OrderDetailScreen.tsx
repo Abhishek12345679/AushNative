@@ -5,9 +5,10 @@ import { observer } from 'mobx-react';
 import Address from '../../components/Address';
 import { toISTString } from '../../helpers/toISTString';
 import { colors } from '../../constants/colors';
-import { DrugType } from '../../store/CartStore';
+import { DrugType, OrderType } from '../../store/CartStore';
 
 import CartItem from '../../components/CartItem'
+import OrderSummary from '../../components/OrderSummary';
 
 const OrderDetailScreen = observer((props: any) => {
 
@@ -15,22 +16,11 @@ const OrderDetailScreen = observer((props: any) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.item}>
-        <View style={styles.textCont}>
-          <Text style={{ color: "#fff" }}>Order Date</Text>
-          <Text style={styles.BoldText}>{toISTString(datetimestamp)}</Text>
-        </View>
-        <View style={styles.textCont}>
-          <Text style={{ color: "#fff" }}>Order Id</Text>
-          <Text style={styles.BoldText}>{order.order_id}</Text>
-        </View>
-        <View style={styles.textCont}>
-          <Text style={{ color: "#fff" }}>Total</Text>
-          <Text style={styles.BoldText}>
-            ₹{order.total_amt.toFixed(2)}
-          </Text>
-        </View>
-      </View>
+      <OrderSummary
+        datetimestamp={datetimestamp}
+        totalAmt={(order as OrderType).total_amt}
+        orderId={order.order_id}
+      />
 
       <Text
         style={{
@@ -91,24 +81,7 @@ export const screenOptions = (navData: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  item: {
-    marginHorizontal: 25,
-    marginVertical: 15,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    backgroundColor: colors.SECONDARY,
-  },
-  textCont: {
-    marginVertical: 10,
-    justifyContent: 'space-between',
-  },
-  BoldText: {
-    fontSize: 16,
-    color: "#FFF",
-    fontWeight: 'bold'
-  },
+  }
 });
 
 export default OrderDetailScreen;
