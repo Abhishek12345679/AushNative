@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Platform} from 'react-native';
+import {Button, Platform, Pressable} from 'react-native';
 
 import HomeScreen from '../screens/HomeScreen';
 import DrugScanner from '../screens/DrugScanner';
@@ -292,16 +292,35 @@ export const TabNavigator = ({navigation}) => {
         },
         tabBarShowLabel: false,
         headerShown: false,
-        tabBarInactiveTintColor: '#a2a2a2',
-        tabBarActiveTintColor: 'cyan',
+        tabBarInactiveTintColor: '#fff',
+        tabBarActiveTintColor: '#fff',
       }}>
       <BottomNavigationBar.Screen
         name="HomeScreen"
         component={RootNavigator}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
-            <Fontisto name="home" color={color} size={22} />
+          tabBarIcon: ({color, focused}) => (
+            <Pressable
+              android_ripple={{
+                color: '#fff',
+                borderless: false,
+              }}
+              style={{
+                width: 30,
+                height: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                navigation.navigate('HomeScreen');
+              }}>
+              <Ionicons
+                name={!focused ? 'home-outline' : 'home'}
+                color={color}
+                size={22}
+              />
+            </Pressable>
           ),
         }}
       />
@@ -310,25 +329,63 @@ export const TabNavigator = ({navigation}) => {
         name="Scan"
         component={ScannerNavigator}
         options={{
-          tabBarIcon: () => (
-            <Ionicons name="md-scan-circle" color="#FFF" size={70} />
+          tabBarIcon: ({_, focused}) => (
+            <Pressable
+              android_ripple={{
+                color: '#fff',
+                borderless: true,
+              }}
+              style={{
+                width: 70,
+                height: 70,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                navigation.navigate('ScanScreen');
+              }}>
+              <Ionicons
+                name={!focused ? 'md-scan-circle' : 'md-scan-circle'}
+                color="#fff"
+                size={60}
+              />
+            </Pressable>
           ),
           unmountOnBlur: true,
         }}
-        listeners={{
-          tabPress: e => {
-            e.preventDefault();
-            navigation.navigate('ScanScreen');
-          },
-        }}
+        // listeners={{
+        //   tabPress: e => {
+        //     e.preventDefault();
+        //     navigation.navigate('ScanScreen');
+        //   },
+        // }}
       />
 
       <BottomNavigationBar.Screen
         name="Settings"
         component={SettingsNavigator}
         options={{
-          tabBarIcon: ({color}) => (
-            <Ionicons name="ios-person" color={color} size={22} />
+          tabBarIcon: ({color, focused}) => (
+            <Pressable
+              android_ripple={{
+                color: '#fff',
+                borderless: true,
+              }}
+              style={{
+                width: 30,
+                height: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                navigation.navigate('Settings');
+              }}>
+              <Ionicons
+                name={!focused ? 'ios-person-outline' : 'ios-person'}
+                color={color}
+                size={22}
+              />
+            </Pressable>
           ),
         }}
       />
