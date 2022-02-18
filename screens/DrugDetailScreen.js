@@ -121,8 +121,8 @@ const DrugDetailScreen = observer(props => {
                 uri: item.image_url,
               }}
               style={{
-                height: 380,
-                width: 380,
+                height: 335,
+                width: 350,
                 backgroundColor: colors.PRIMARY,
                 borderRadius: 20,
               }}
@@ -192,45 +192,6 @@ const DrugDetailScreen = observer(props => {
               quantity={quantity}
             />
           </View>
-          {/* <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 20,
-              paddingVertical: 10,
-            }}>
-            <TextInput
-              placeholder="Enter Pincode"
-              value={pincode}
-              onChangeText={pin => setPincode(pin)}
-              style={{
-                height: 50,
-                width: '70%',
-                borderColor: '#000',
-                borderWidth: 1,
-                padding: 10,
-              }}
-              keyboardType="number-pad"
-              maxLength={6}
-            />
-            <Pressable
-              style={{
-                width: '20%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 50,
-                backgroundColor: '#000',
-              }}
-              android_ripple={{
-                color: '#FFF',
-                borderless: true,
-              }}
-              onPress={fetchPlaceFromPincode}>
-              <Text style={{color: '#fff'}}>Check</Text>
-            </Pressable>
-          </View> */}
         </View>
         <View style={styles.desc}>
           <View

@@ -80,6 +80,9 @@ const CheckoutNavigator = () => {
       <CheckoutStackNavigator.Screen
         name="UploadPrescription"
         component={UploadPrescriptionScreen}
+        options={{
+          headerTitle: 'Prescription',
+        }}
       />
       <CheckoutStackNavigator.Screen
         name="OrderPreview"

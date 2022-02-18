@@ -19,7 +19,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 flexDirection: 'column',
                 backgroundColor: colors.SECONDARY,
                 borderRadius: 10,
-                height: 130,
+                height: 150,
                 marginVertical: 10,
                 paddingVertical: 5
             }}>
@@ -44,9 +44,9 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 />
                 <View style={{ marginEnd: 10, width: '60%' }}>
                     <Text style={{ fontSize: 17, fontWeight: 'bold', color: "#fff" }}>
-                        {drug.name}
+                        {drug.name.length > 10 ? drug.name.substring(0, 20) + "..." : drug.name}
                     </Text>
-                    <Text style={{ fontSize: 13, color: "#fff" }}>{drug.salt}</Text>
+                    <Text style={{ fontSize: 13, color: "#fff" }}>{drug.salt.length > 20 ? drug.salt.substring(0, 40) + "..." : drug.salt}</Text>
                 </View>
                 {!!removeFromCart &&
                     <Pressable

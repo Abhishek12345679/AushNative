@@ -61,12 +61,13 @@ const SearchScreen = observer(({navigation}) => {
           margin: 10,
         }}>
         <TextInput
+          autoFocus
           onSubmitEditing={() => {
             getMedicine({variables: {name: searchText}});
           }}
           returnKeyType="search"
           placeholder="search here"
-          placeholderTextColor="#fff"
+          placeholderTextColor="#ccc"
           value={searchText}
           onChangeText={text => {
             setSearchText(text);
@@ -95,6 +96,7 @@ const SearchScreen = observer(({navigation}) => {
               style={{
                 backgroundColor: colors.PRIMARY,
                 borderBottomWidth: 0,
+                marginHorizontal: 10,
               }}
               titleStyle={{color: '#fff'}}
               name={med.name}
@@ -145,12 +147,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.PRIMARY,
-  },
-  text: {
-    color: '#fff',
-  },
-  centered: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

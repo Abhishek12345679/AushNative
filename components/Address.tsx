@@ -8,8 +8,8 @@ interface AddressComponentProps {
   address: AddressType;
   onPress?: () => void;
   style?: {};
-  addressLineTextStyle: {};
-  nameTextStyle: {};
+  addressLineTextStyle?: {};
+  nameTextStyle?: {};
 }
 
 const Address = observer(({ keyProp, address, onPress, style, addressLineTextStyle, nameTextStyle }: AddressComponentProps) => {

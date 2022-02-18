@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
   },
   textCont: {
     marginVertical: 10,
-    // flexDirection: 'row',
     justifyContent: 'space-between',
   },
   BoldText: {
