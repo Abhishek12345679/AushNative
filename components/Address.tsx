@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { AddressType } from "../store/CartStore";
 import Tag from "./Tag";
 
@@ -9,34 +9,40 @@ interface AddressComponentProps {
   keyProp?: number | string;
   address: AddressType;
   onPress?: () => void;
-  style?: StyleSheet
+  style?: StyleSheet;
 }
-
 
 const Address = observer(({ keyProp, address, onPress, style }: AddressComponentProps) => {
   return (
-    <TouchableOpacity
-      activeOpacity={0.75}
+    <Pressable
       key={keyProp}
       onPress={onPress}
       style={{ ...styles.container, ...style }}
+
     >
       <View>
         <View style={{ flexDirection: "row" }}>
-          <Tag label={address.type} bgc="#000" textColor="#fff" />
-          <Tag label={address.ph_no} bgc="#000" textColor="#fff" />
+          <Tag
+            label={address.type}
+            bgc="#fff"
+            textColor="#000" />
+          <Tag
+            label={address.ph_no}
+            bgc="#fff"
+            textColor="#000"
+          />
         </View>
         <View style={{ padding: 5 }}>
-          <Text style={{ color: "#000", fontSize: 20, fontWeight: "bold" }}>
+          <Text style={{ color: "#FFF", fontSize: 20, fontWeight: "bold" }}>
             {address.name}
           </Text>
           <View style={{ flexDirection: "column", marginTop: 10 }}>
-            <Text>{address.add_line_1}</Text>
-            <Text>{address.add_line_2}</Text>
+            <Text style={{ color: "#FFF", fontSize: 20, fontWeight: "bold" }}>{address.add_line_1}</Text>
+            <Text style={{ color: "#FFF", fontSize: 20, fontWeight: "bold" }}>{address.add_line_2}</Text>
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 });
 
@@ -44,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     width: "100%",
-    height: 150,
+    height: 175,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOpacity: 0.75,

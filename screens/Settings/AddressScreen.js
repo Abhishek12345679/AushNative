@@ -6,6 +6,7 @@ import {Ionicons} from '@expo/vector-icons';
 import {observer} from 'mobx-react';
 import Address from '../../components/Address';
 import fetchAddresses from '../../helpers/fetchAddresses';
+import {colors} from '../../constants/colors';
 
 const AddressScreen = observer(props => {
   const {navigation} = props;
@@ -20,7 +21,14 @@ const AddressScreen = observer(props => {
   return (
     <ScrollView style={styles.container}>
       {DrugStore.addresses.map((address, index) => (
-        <Address key={index} address={address} />
+        <Address
+          key={index}
+          address={address}
+          style={{
+            backgroundColor: colors.SECONDARY,
+            elevation: 10,
+          }}
+        />
       ))}
     </ScrollView>
   );
@@ -31,7 +39,7 @@ export const screenOptions = navData => {
     headerRight: () => (
       <TouchableOpacity
         onPress={() => navData.navigation.navigate('Add New Address')}>
-        <Ionicons name="ios-add-circle-outline" size={24} color="blue" />
+        <Ionicons name="ios-add-outline" size={24} color="white" />
       </TouchableOpacity>
     ),
     headerLargeTitle: false,
@@ -41,7 +49,7 @@ export const screenOptions = navData => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.PRIMARY,
     padding: 20,
   },
 });
