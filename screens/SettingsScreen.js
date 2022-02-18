@@ -12,6 +12,8 @@ import {colors} from '../constants/colors';
 
 const SettingsScreen = observer(props => {
   const {showActionSheetWithOptions} = props;
+  const PRIVACY_PAGE_URL = 'https://aushadhalay.flycricket.io/privacy.html';
+  const TC_PAGE_URL = 'https://aushadhalay.flycricket.io/terms.html';
 
   const onOpenActionSheet = () => {
     const options = ['Log Out', 'Cancel'];
@@ -34,7 +36,7 @@ const SettingsScreen = observer(props => {
                 `${DrugStore.userCredentials.uid} logged out successfully`,
               );
             } catch (e) {
-              console.log(e);
+              console.error(e);
             }
           };
           logout();
@@ -76,7 +78,7 @@ const SettingsScreen = observer(props => {
           <ListItem
             style={{height: 70}}
             titleStyle={{fontSize: 18}}
-            keyProp={Math.random() * 10}
+            keyProp={index}
             name={item}
             onPress={() => props.navigation.navigate(item)}
           />
@@ -94,14 +96,11 @@ const SettingsScreen = observer(props => {
           <ListItem
             style={{height: 70}}
             titleStyle={{fontSize: 18}}
-            keyProp={Math.random() * 10}
+            keyProp={index}
             name={item}
             onPress={() => {
               props.navigation.navigate('MyWebView', {
-                url:
-                  index === 0
-                    ? 'https://aushadhalay.flycricket.io/privacy.html'
-                    : 'https://aushadhalay.flycricket.io/terms.html',
+                url: index === 0 ? PRIVACY_PAGE_URL : TC_PAGE_URL,
                 headerTitle: item,
               });
             }}
@@ -129,25 +128,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.PRIMARY,
     padding: 20,
-  },
-  input: {
-    width: '100%',
-    borderColor: 'black',
-    borderBottomWidth: 2,
-    marginBottom: 10,
-    height: 30,
-    borderRadius: 10,
-    fontSize: 15,
-    textAlign: 'left',
-    textAlignVertical: 'bottom',
-    paddingHorizontal: 10,
-  },
-  searchBtn: {
-    width: '100%',
-    height: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
   },
 });
 

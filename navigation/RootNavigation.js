@@ -10,6 +10,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {TabNavigator, MainNavigator, AuthNavigator} from './AppNavigator';
 import SplashScreen from '../screens/SplashScreen';
 import DrugStore from '../store/CartStore';
+import {colors} from '../constants/colors';
 
 const AppContainer = observer(() => {
   // Set an initializing state whilst Firebase connects
@@ -35,7 +36,12 @@ const AppContainer = observer(() => {
   }, []);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={{
+        colors: {
+          background: colors.PRIMARY,
+        },
+      }}>
       {initializing && <SplashScreen />}
       {!user && !initializing && <AuthNavigator />}
       {user && <MainNavigator />}
