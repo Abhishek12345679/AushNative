@@ -66,8 +66,8 @@ const DrugScanner = (props: any) => {
           photo: photo,
         });
       }
-    } catch (E) {
-      console.log(E);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -108,7 +108,7 @@ const DrugScanner = (props: any) => {
     if (Platform.OS === 'android') {
       if (camera) {
         const ratios = await camera.getSupportedRatiosAsync();
-        console.log(ratios);
+        // console.log(ratios);
 
         // Calculate the width/height of each of the supported camera ratios
         // These width/height are measured in landscape mode
