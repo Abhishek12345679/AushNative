@@ -1,5 +1,3 @@
-//TODO: Checkout Vision Camera: <https://mrousavy.com/react-native-vision-camera/>
-
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -9,13 +7,13 @@ import {
   Image,
   ActivityIndicator,
   SafeAreaView,
-  Pressable,
 } from "react-native"
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { extractWords, TextRecognitionResponse } from "../mlkit/TextRecognition";
 import RecognisedWordsOverlay from "../components/RecognisedWordsOverlay";
 import { colors } from "../constants/colors";
 import RoundButton from "../components/RoundButton";
+import CameraPreviewButtonsPane from "../components/CameraPreviewButtonsPane";
 
 const CameraPreviewScreen = (props: any) => {
 
@@ -92,6 +90,7 @@ const CameraPreviewScreen = (props: any) => {
         />
         {!!textRecognitionResponse && (
           <RecognisedWordsOverlay
+            key={1}
             navigation={props.navigation}
             response={textRecognitionResponse}
             scale={windowWidth / textRecognitionResponse.width}
@@ -110,80 +109,12 @@ const CameraPreviewScreen = (props: any) => {
         }}
         disabled={false}
       />
-      <View
-        style={{
-          width: '100%',
-          height: windowHeight - (windowWidth * aspectRatio) - StatusBar.currentHeight,
-          backgroundColor: "#000",
-          justifyContent: "center",
-          alignItems: 'center',
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-        }}
-      >
-        <View
-          style={{
-            width: 250,
-            height: 70,
-            backgroundColor: "#fff",
-            borderRadius: 35,
-            flexDirection: 'row',
-            alignItems: "center",
-            paddingHorizontal: 30,
-            elevation: 100
-          }}
-        >
-          <Pressable
-            android_ripple={{
-              color: "#000",
-              borderless: true
-            }}
-            style={{
-              height: 35,
-              width: 35,
-              marginEnd: 35
-            }}
-            onPress={() => {
-              props.navigation.goBack()
-            }}
-          >
-            <MaterialCommunityIcons name="camera-retake" size={32} color="#000" />
-          </Pressable>
-          <Pressable
-            android_ripple={{
-              color: "#000",
-              borderless: true
-            }}
-            style={{
-              height: 35,
-              width: 35,
-              marginEnd: 35
-
-            }}
-            onPress={() => {
-              // do something
-            }}
-          >
-            <MaterialIcons name="done" size={32} color="darkgreen" />
-          </Pressable>
-          <Pressable
-            android_ripple={{
-              color: "#000",
-              borderless: true
-            }}
-            style={{
-              height: 35,
-              width: 35,
-              marginEnd: 35
-            }}
-            onPress={() => {
-              props.navigation.goBack()
-            }}
-          >
-            <MaterialCommunityIcons name="close" size={32} color="red" />
-          </Pressable>
-        </View>
-      </View>
+      <CameraPreviewButtonsPane
+        aspectRatio={aspectRatio}
+        navigation={props.navigation}
+        windowHeight={windowHeight}
+        windowWidth={windowWidth}
+      />
     </SafeAreaView>
   );
 };

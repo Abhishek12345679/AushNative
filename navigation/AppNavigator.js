@@ -304,26 +304,11 @@ export const TabNavigator = ({navigation}) => {
         component={RootNavigator}
         options={{
           tabBarIcon: ({color, focused}) => (
-            <Pressable
-              android_ripple={{
-                color: '#fff',
-                borderless: true,
-              }}
-              style={{
-                width: 30,
-                height: 30,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              onPress={() => {
-                navigation.navigate('HomeScreen');
-              }}>
-              <Ionicons
-                name={!focused ? 'home-outline' : 'home'}
-                color={color}
-                size={22}
-              />
-            </Pressable>
+            <Ionicons
+              name={!focused ? 'home-outline' : 'home'}
+              color={color}
+              size={22}
+            />
           ),
         }}
       />
@@ -363,26 +348,11 @@ export const TabNavigator = ({navigation}) => {
         component={SettingsNavigator}
         options={{
           tabBarIcon: ({color, focused}) => (
-            <Pressable
-              android_ripple={{
-                color: '#fff',
-                borderless: true,
-              }}
-              style={{
-                width: 30,
-                height: 30,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              onPress={() => {
-                navigation.navigate('Settings');
-              }}>
-              <Ionicons
-                name={!focused ? 'ios-person-outline' : 'ios-person'}
-                color={color}
-                size={22}
-              />
-            </Pressable>
+            <Ionicons
+              name={!focused ? 'ios-person-outline' : 'ios-person'}
+              color={color}
+              size={22}
+            />
           ),
         }}
       />
