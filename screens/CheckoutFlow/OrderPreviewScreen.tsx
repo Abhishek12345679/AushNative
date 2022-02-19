@@ -9,7 +9,6 @@ import Address from '../../components/Address';
 import DrugStore from '../../store/CartStore';
 import RazorpayCheckout from 'react-native-razorpay';
 import addOrder from '../../helpers/addOrder';
-import { toISTString } from '../../helpers/toISTString';
 import { colors } from '../../constants/colors';
 import CartItem from '../../components/CartItem';
 import BigButton from '../../components/BigButton';
@@ -17,12 +16,11 @@ import OrderSummary from '../../components/OrderSummary';
 
 const OrderPreviewScreen = (props: any) => {
   const address = DrugStore.addresses[props.route.params.selectedAddressIndex]
-  let total_checkout_amt = 0;
   const [checkingOut, setCheckingOut] = useState(false);
 
-  for (let i = 0; i < DrugStore.drugs.length; i++) {
-    total_checkout_amt = total_checkout_amt + DrugStore.drugs[i].total_amt;
-  }
+  const total_checkout_amt = DrugStore.drugs.reduce((acc, drug) => {
+    return acc += drug.total_amt
+  }, 0);
 
   const createOrder = async () => {
     const response = await fetch(
@@ -104,14 +102,17 @@ const OrderPreviewScreen = (props: any) => {
               // prescription: fileUrl,
             });
 
-            props.navigation.navigate('OrderConfirmation', {
-              status: verificationResponse.status,
-            });
-
             // remove cartItems
             if (verificationResponse.status === true) {
               DrugStore.clearCart();
             }
+
+            if (verificationResponse.status) {
+              props.navigation.navigate('OrderSuccessScreen');
+            } else {
+              props.navigation.navigate('OrderFailureScreen');
+            }
+
           } catch (err) {
             console.error(err);
           }

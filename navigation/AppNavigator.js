@@ -42,7 +42,8 @@ import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
 } from '../screens/Settings/OrderDetailScreen';
 
-import OrderConfirmationStatus from '../screens/CheckoutFlow/OrderConfirmationStatus';
+import OrderSuccessScreen from '../screens/CheckoutFlow/OrderSuccessScreen';
+import OrderFailureScreen from '../screens/CheckoutFlow/OrderFailureScreen';
 
 import SearchScreen from '../screens/SearchScreen';
 import {colors} from '../constants/colors';
@@ -94,12 +95,15 @@ const CheckoutNavigator = () => {
       />
 
       <CheckoutStackNavigator.Screen
-        name="OrderConfirmation"
-        component={OrderConfirmationStatus}
+        name="OrderSucessScreen"
+        component={OrderSuccessScreen}
         options={{
-          stackPresentation: 'fullScreenModal',
           headerShown: true,
         }}
+      />
+      <CheckoutStackNavigator.Screen
+        name="OrderFailureScreen"
+        component={OrderFailureScreen}
       />
     </CheckoutStackNavigator.Navigator>
   );

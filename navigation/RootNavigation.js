@@ -11,6 +11,9 @@ import {TabNavigator, MainNavigator, AuthNavigator} from './AppNavigator';
 import SplashScreen from '../screens/SplashScreen';
 import DrugStore from '../store/CartStore';
 import {colors} from '../constants/colors';
+import OrderConfirmationStatus from '../screens/CheckoutFlow/OrderSuccessScreen';
+import OrderFailureScreen from '../screens/CheckoutFlow/OrderFailureScreen';
+import OrderSuccessScreen from '../screens/CheckoutFlow/OrderSuccessScreen';
 
 const AppContainer = observer(() => {
   // Set an initializing state whilst Firebase connects
