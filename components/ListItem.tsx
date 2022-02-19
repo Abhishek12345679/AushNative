@@ -5,14 +5,14 @@ import DP from './DP';
 import { colors } from '../constants/colors';
 
 interface ListItemProps {
-  style: {};
+  style?: {};
   onPress: () => void;
   keyProp: string | number;
-  profile: boolean;
-  imageUrl: string;
-  titleStyle: {};
-  name: string;
-  salt_composition: string;
+  profile?: boolean;
+  imageUrl?: string;
+  titleStyle?: {};
+  title: string;
+  subtitle?: string;
 }
 
 const ListItem = observer(({
@@ -21,8 +21,8 @@ const ListItem = observer(({
   onPress,
   profile,
   style,
-  name,
-  salt_composition,
+  title,
+  subtitle,
   titleStyle
 }: ListItemProps
 ) => {
@@ -56,11 +56,11 @@ const ListItem = observer(({
         {
           <View style={{ height: '100%', marginLeft: 15 }}>
             <Text style={{ ...styles.textBig, ...titleStyle }}>
-              {name}
+              {title}
             </Text>
-            {salt_composition ? (
+            {subtitle ? (
               <Text style={{ ...styles.textSmall }}>
-                {salt_composition}
+                {subtitle}
               </Text>
             ) : (
               <></>

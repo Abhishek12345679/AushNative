@@ -1,17 +1,19 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 
 import DrugStore from '../store/CartStore';
 
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import auth from '@react-native-firebase/auth';
 import ListItem from '../components/ListItem';
 
-import {connectActionSheet} from '@expo/react-native-action-sheet';
-import {colors} from '../constants/colors';
+import { connectActionSheet } from '@expo/react-native-action-sheet';
+import { colors } from '../constants/colors';
 
-const SettingsScreen = observer(props => {
-  const {showActionSheetWithOptions} = props;
+import { useActionSheet } from '@expo/react-native-action-sheet';
+
+const SettingsScreen = observer((props) => {
+  const { showActionSheetWithOptions } = useActionSheet();
   const PRIVACY_PAGE_URL = 'https://aushadhalay.flycricket.io/privacy.html';
   const TC_PAGE_URL = 'https://aushadhalay.flycricket.io/terms.html';
 
@@ -26,7 +28,7 @@ const SettingsScreen = observer(props => {
         cancelButtonIndex,
         destructiveButtonIndex,
       },
-      buttonIndex => {
+      (buttonIndex: number) => {
         if (buttonIndex === 0) {
           const logout = async () => {
             try {
@@ -49,20 +51,18 @@ const SettingsScreen = observer(props => {
     <ScrollView style={styles.container}>
       <ListItem
         keyProp={'d' + 0}
-        name={DrugStore.userCredentials.email.substring(
+        title={DrugStore.userCredentials.email.substring(
           0,
           DrugStore.userCredentials.email.indexOf('@'),
         )}
-        salt_composition={DrugStore.userCredentials.email}
+        subtitle={DrugStore.userCredentials.email}
         style={{
           marginBottom: 30,
           borderRadius: 10,
           height: 100,
         }}
-        titleStyle={{fontWeight: 'bold', fontSize: 20}}
-        noArrow
+        titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
         profile
-        age={19}
         onPress={() => {
           props.navigation.navigate('EditProfile', {
             screen: 'Edit Profile',
@@ -77,10 +77,10 @@ const SettingsScreen = observer(props => {
         }}>
         {['Addresses', 'Orders'].map((item, index) => (
           <ListItem
-            style={{height: 70}}
-            titleStyle={{fontSize: 18}}
+            style={{ height: 70 }}
+            titleStyle={{ fontSize: 18 }}
             keyProp={'a' + index}
-            name={item}
+            title={item}
             onPress={() => props.navigation.navigate(item)}
           />
         ))}
@@ -95,10 +95,10 @@ const SettingsScreen = observer(props => {
         }}>
         {['Privacy Policy', 'Terms and Conditions'].map((item, index) => (
           <ListItem
-            style={{height: 70}}
-            titleStyle={{fontSize: 18}}
+            style={{ height: 70 }}
+            titleStyle={{ fontSize: 18 }}
             keyProp={'b' + index}
-            name={item}
+            title={item}
             onPress={() => {
               props.navigation.navigate('MyWebView', {
                 url: index === 0 ? PRIVACY_PAGE_URL : TC_PAGE_URL,
@@ -110,7 +110,7 @@ const SettingsScreen = observer(props => {
       </View>
       <ListItem
         keyProp={'c' + 0}
-        name="Log Out"
+        title="Log Out"
         onPress={onOpenActionSheet}
         style={{
           marginVertical: 25,
@@ -119,7 +119,7 @@ const SettingsScreen = observer(props => {
           alignItems: 'center',
           height: 60,
         }}
-        titleStyle={{fontWeight: 'bold', fontSize: 18, color: 'red'}}
+        titleStyle={{ fontWeight: 'bold', fontSize: 18, color: 'red' }}
       />
     </ScrollView>
   );
@@ -133,6 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const connectedApp = connectActionSheet(SettingsScreen);
-
-export default connectedApp;
+export default SettingsScreen

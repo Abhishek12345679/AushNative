@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   Text,
@@ -10,12 +10,12 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import {colors} from '../constants/colors';
-import {gql, useLazyQuery} from '@apollo/client';
+import { colors } from '../constants/colors';
+import { gql, useLazyQuery } from '@apollo/client';
 import ListItem from '../components/ListItem';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 
-const SearchScreen = observer(({navigation}) => {
+const SearchScreen = observer(({ navigation }) => {
   const [searchText, setSearchText] = useState('');
 
   const GET_MEDICINE = gql`
@@ -51,7 +51,42 @@ const SearchScreen = observer(({navigation}) => {
     }
   `;
 
-  const [getMedicine, {loading, data, error}] = useLazyQuery(GET_MEDICINE);
+  const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
+
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.PRIMARY,
+        }}>
+        <ActivityIndicator color="#FFF" size="large" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height:
+            Dimensions.get('window').height - StatusBar.currentHeight - 100,
+        }}>
+        <Text
+          style={{
+            color: '#fff',
+          }}>
+          {error.name}
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,7 +98,7 @@ const SearchScreen = observer(({navigation}) => {
         <TextInput
           autoFocus
           onSubmitEditing={() => {
-            getMedicine({variables: {name: searchText}});
+            getMedicine({ variables: { name: searchText } });
           }}
           returnKeyType="search"
           placeholder="search here"
@@ -78,49 +113,35 @@ const SearchScreen = observer(({navigation}) => {
             fontSize: 16,
             color: '#fff',
             backgroundColor: colors.SECONDARY,
-            padding: 10,
+            paddingHorizontal: 20,
             marginTop: StatusBar.currentHeight,
             borderRadius: 20,
-            textAlignVertical: 'center',
-            textAlign: 'center',
           }}
+          blurOnSubmit
         />
       </View>
       <ScrollView>
-        {!!data && !loading ? (
+        {!!data ? (
           data.search.drugs.map((med, index) => (
             <ListItem
               keyProp={index}
               key={index}
-              saltTextStyle={{color: '#ccc'}}
-              style={{
-                backgroundColor: colors.PRIMARY,
-                borderBottomWidth: 0,
-                marginHorizontal: 10,
-              }}
-              titleStyle={{color: '#fff'}}
-              name={med.name}
-              salt_composition={`${med.salt.substring(0, 20)}...`}
+              title={med.name}
+              subtitle={`${med.salt.substring(0, 20)}...`}
               imageUrl={med.image_url}
               onPress={() =>
                 navigation.navigate('Drug', {
                   item: med,
                 })
               }
+              style={{
+                backgroundColor: colors.PRIMARY,
+                borderBottomWidth: 0,
+                marginHorizontal: 10,
+              }}
+              titleStyle={{ color: '#fff' }}
             />
           ))
-        ) : !data && loading ? (
-          <View
-            style={{
-              flex: 1,
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height:
-                Dimensions.get('window').height - StatusBar.currentHeight - 100,
-            }}>
-            <ActivityIndicator size="large" color="#fff" />
-          </View>
         ) : (
           <View
             style={{
@@ -131,7 +152,7 @@ const SearchScreen = observer(({navigation}) => {
               height:
                 Dimensions.get('window').height - StatusBar.currentHeight - 100,
             }}>
-            <Text style={{color: '#fff', fontSize: 20, fontWeight: 'normal'}}>
+            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'normal' }}>
               No medicines
             </Text>
           </View>

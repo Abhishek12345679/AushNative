@@ -49,6 +49,7 @@ const DrugDetailScreen = observer((props: any) => {
     }
   };
 
+  //TODO: use UseReducer ?
   const [cartItem, setCartItem] = useState({
     id: '',
     name: '',
