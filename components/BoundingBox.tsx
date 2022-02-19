@@ -14,7 +14,7 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale, navigation }: Bounding
     const rect = useMemo(() => {
         return {
             left: boundingBox.left * scale,
-            top: boundingBox.top * scale,
+            top: boundingBox.top * scale + 30,
             height: boundingBox.height * scale,
             width: boundingBox.width * scale,
         }

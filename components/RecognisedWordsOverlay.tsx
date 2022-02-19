@@ -61,7 +61,7 @@ const RecognisedWordsOverlay = ({ response, scale, navigation }: RecognisedWords
                         <BoundingBox
                             keyProp={i}
                             boundingBox={word.rect}
-                            text={word.text}
+                            // text={word.text}
                             scale={scale}
                             navigation={navigation}
                         />
