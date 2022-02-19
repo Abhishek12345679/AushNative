@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     View,
     Text,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import ListItem from '../components/ListItem';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { gql, useLazyQuery, useQuery } from '@apollo/client';
 import DrugStore, { DrugType } from '../store/CartStore';
 import { observer } from 'mobx-react';
 
@@ -18,22 +18,46 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { GET_MEDICINE } from './ResultList';
 
+export const GET_MEDICINE_COUNT = gql`
+  query getMedicineCount($name: String!) {
+    search(name: $name) {
+      items
+    }
+  }
+`;
+
 
 const ScannedResultsScreen = observer((props: any) => {
     const words = props.route.params.words as Array<string>
-    console.log(words)
-    const [drugsData, setDrugsData] = useState<DrugType[] | undefined | null>(undefined)
 
+    const [getMedicineCount, _] = useLazyQuery(GET_MEDICINE_COUNT);
     const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
+
     useEffect(() => {
-        words.map((word) => {
-            getMedicine({ variables: { name: word } });
-            if (data) {
-                setDrugsData(data.search.drugs)
-                return;
-            }
-        })
+        words
+            .map((word) => word.toLowerCase())
+            .filter((word) => word.length > 4)
+            .map(async (word) => {
+                console.log("word: ", word)
+                const { data } = await getMedicineCount({
+                    variables: {
+                        name: word
+                    }
+                })
+                if (data) {
+                    console.log(data.search.items)
+                    if (data.search.items > 0) {
+                        await getMedicine({
+                            variables: {
+                                name: word
+                            }
+                        })
+                        // setDrugsData(data.search.drugs)
+                        return;
+                    }
+                }
+            })
     }, [])
 
     useEffect(() => {
@@ -120,16 +144,16 @@ const ScannedResultsScreen = observer((props: any) => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor={colors.SECONDARY} />
-            {!!drugsData ?
+            {!!data ?
                 <FlatList
                     ListHeaderComponent={
                         <View style={{ marginVertical: 10, marginStart: 5 }}>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>
-                                {drugsData.length} Medicines found
+                                {data.search.items.length} Medicines found
                             </Text>
                         </View>
                     }
-                    data={drugsData}
+                    data={data.search.drugs}
                     renderItem={({ item, index }) => {
                         return (
                             <ListItem
