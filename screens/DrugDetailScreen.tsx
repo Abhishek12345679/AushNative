@@ -15,7 +15,7 @@ import { showMessage } from 'react-native-flash-message';
 
 import QuantitySelector from '../components/QuantitySelector';
 import { observer } from 'mobx-react';
-import { MaterialIcons, Entypo } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import DrugStore, { DrugType } from '../store/CartStore';
 import { colors } from '../constants/colors';
 
@@ -71,17 +71,40 @@ const DrugDetailScreen = observer((props: any) => {
     props.navigation.setOptions({
       headerRight: () => (
         <Pressable
-          android_ripple={{
-            color: '#fff',
-            borderless: false,
+          style={{
+            marginStart: 10,
+            height: 40,
+            width: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative'
           }}
-          style={{ flexDirection: 'row' }}
+          android_ripple={{
+            color: "#fff",
+            borderless: true
+          }}
           onPress={() => {
             props.navigation.navigate('Cart');
           }}>
-          <Entypo name="shopping-cart" color="#fff" size={20} />
-
-          <Text style={{ color: '#FFF', fontSize: 15 }}>{DrugStore.count}</Text>
+          <Ionicons name="md-cart" size={24} color="#fff" />
+          {DrugStore.count > 0 &&
+            <View
+              style={{
+                width: 20,
+                height: 20,
+                borderRadius: 10,
+                backgroundColor: "red",
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 15 }}>
+                {DrugStore.count}
+              </Text>
+            </View>
+          }
         </Pressable>
       ),
       headerTitle: item ? item.name : 'Drug',

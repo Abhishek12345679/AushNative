@@ -329,7 +329,7 @@ export const TabNavigator = ({navigation}) => {
       />
 
       <BottomNavigationBar.Screen
-        name="Scan"
+        name="ScanNav"
         component={ScannerNavigator}
         options={{
           tabBarIcon: ({_, focused}) => (

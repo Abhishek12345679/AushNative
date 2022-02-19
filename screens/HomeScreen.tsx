@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Text,
   Alert,
+  Pressable,
 } from 'react-native';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
@@ -123,35 +124,59 @@ const HomeScreen = observer((props: any) => {
       ),
       headerRight: () => (
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity
+          <Pressable
             style={{
               marginStart: 10,
               height: 40,
               width: 40,
               justifyContent: 'center',
               alignItems: 'center',
+            }}
+            android_ripple={{
+              color: "#fff",
+              borderless: true
             }}
             onPress={() => {
               props.navigation.navigate('Search');
             }}>
             <Ionicons name="md-search" size={22} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+          <Pressable
             style={{
               marginStart: 10,
               height: 40,
               width: 40,
               justifyContent: 'center',
               alignItems: 'center',
+              position: 'relative'
+            }}
+            android_ripple={{
+              color: "#fff",
+              borderless: true
             }}
             onPress={() => {
               props.navigation.navigate('Cart');
             }}>
-            <Ionicons name="md-cart" size={22} color="#fff" />
-          </TouchableOpacity>
-          <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 15 }}>
-            {DrugStore.count}
-          </Text>
+            <Ionicons name="md-cart" size={24} color="#fff" />
+            {DrugStore.count > 0 &&
+              <View
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10,
+                  backgroundColor: "red",
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 15 }}>
+                  {DrugStore.count}
+                </Text>
+              </View>
+            }
+          </Pressable>
         </View>
       ),
       headerTitle: Platform.OS === "ios" ? '' : "Aushadhalay",
