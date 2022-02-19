@@ -1,26 +1,11 @@
+import React from "react";
 import { observer } from "mobx-react";
-
-import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import DP from "../../components/DP";
 import Tag from "../../components/Tag";
 import DrugStore from "../../store/CartStore";
 
-const ProfileScreen = observer((props) => {
-  const [date, setDate] = useState();
-  const age = Math.floor((Date.now() - date) / (1000 * 60 * 60 * 24 * 365));
-
-  const UTCToIST = () => {
-    const offset = new Date().getTimezoneOffset();
-    const newDate = DrugStore.profile.dob;
-    newDate.setMinutes(newDate.getMinutes() - offset);
-    setDate(newDate);
-  };
-
-  useEffect(() => {
-    UTCToIST();
-  }, [UTCToIST]);
-
+const ProfileScreen = observer((props: any) => {
   return (
     <View style={styles.container}>
       <View
@@ -30,12 +15,6 @@ const ProfileScreen = observer((props) => {
           justifyContent: "space-between",
           marginHorizontal: 20,
           paddingBottom: 20,
-        }}
-        onPress={() => {
-          props.navigation.navigate("EditProfile", {
-            screen: "Edit Profile",
-            params: { dob: age },
-          });
         }}
       >
         <View style={{ width: "100%" }}>
@@ -70,12 +49,13 @@ const ProfileScreen = observer((props) => {
       <FlatList
         horizontal={true}
         contentContainerStyle={{ paddingHorizontal: 20, marginBottom: 20 }}
-        keyExtractor={(item) => item.value}
+        keyExtractor={(item) => item.value.toString()}
         data={[{ label: "Age", value: 30, bgc: "cyan" }]} // editable from edit profile screen (replace the data with )
         renderItem={(itemData) => (
           <Tag
+            textColor="#fff"
             label={itemData.item.label}
-            value={itemData.item.value}
+            value={itemData.item.value.toString()}
             bgc={itemData.item.bgc}
           />
         )}

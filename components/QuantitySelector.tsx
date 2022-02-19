@@ -1,16 +1,22 @@
 import React from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 
-import {AntDesign} from '@expo/vector-icons';
-import {colors} from '../constants/colors';
+import { AntDesign } from '@expo/vector-icons';
+import { colors } from '../constants/colors';
 
-const QuantitySelector = props => {
+interface QuantitySelectorProps {
+  quantity: string;
+  onIncrease: () => void;
+  onDecrease: () => void;
+}
+
+const QuantitySelector = ({ quantity, onDecrease, onIncrease }: QuantitySelectorProps) => {
   return (
     <View style={styles.container}>
       <View>
         <TextInput
           style={styles.input}
-          value={props.quantity}
+          value={quantity}
           editable={false}
         />
       </View>
@@ -24,13 +30,13 @@ const QuantitySelector = props => {
           name="plus"
           size={20}
           color="#fff"
-          onPress={props.onIncrease}
+          onPress={onIncrease}
         />
         <AntDesign
           name="minus"
           size={20}
           color="#fff"
-          onPress={props.onDecrease}
+          onPress={onDecrease}
         />
       </View>
     </View>
@@ -56,7 +62,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
-    fontSize: 30,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
   },
