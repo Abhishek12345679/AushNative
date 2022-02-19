@@ -1,7 +1,7 @@
 import { Pressable, StatusBar, View } from 'react-native'
 import React from 'react'
 
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, MaterialIcons, Entypo } from '@expo/vector-icons'
 
 interface CameraPreviewButtonsPaneProps {
     windowHeight: number;
@@ -9,9 +9,11 @@ interface CameraPreviewButtonsPaneProps {
     aspectRatio: number;
 
     navigation: any;
+    toggleRecognisedWordsOverlay: () => void;
+    showOverlay: boolean
 }
 
-const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navigation }: CameraPreviewButtonsPaneProps) => {
+const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navigation, toggleRecognisedWordsOverlay, showOverlay }: CameraPreviewButtonsPaneProps) => {
     return (
         <View
             style={{
@@ -26,7 +28,7 @@ const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navi
         >
             <View
                 style={{
-                    width: 250,
+                    width: 300,
                     height: 70,
                     backgroundColor: "#fff",
                     borderRadius: 35,
@@ -84,6 +86,20 @@ const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navi
                     }}
                 >
                     <MaterialCommunityIcons name="close" size={32} color="red" />
+                </Pressable>
+                <Pressable
+                    android_ripple={{
+                        color: "#000",
+                        borderless: true
+                    }}
+                    style={{
+                        height: 35,
+                        width: 35,
+                        marginEnd: 35
+                    }}
+                    onPress={toggleRecognisedWordsOverlay}
+                >
+                    <Entypo name={showOverlay ? "eye" : "eye-with-line"} size={32} color="black" />
                 </Pressable>
             </View>
         </View>

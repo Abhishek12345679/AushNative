@@ -11,13 +11,26 @@ export interface RecognisedWordsOverlayProps {
 
 const RecognisedWordsOverlay = ({ response, scale, navigation }: RecognisedWordsOverlayProps) => {
 
-    const words = response.blocks.flatMap((block, i) => {
-        return block.lines.flatMap((line, i) => {
-            return line.words.flatMap((word, i) => {
-                return word
-            })
-        })
-    })
+    const words = response.blocks.flatMap((block) => {
+        return block.lines.flatMap((line) => {
+            return line.words.flatMap((word) => {
+                return word;
+            });
+        });
+    });
+
+    // const firstBlock = response.blocks[0];
+    // const lastBlock = response.blocks[response.blocks.length - 1];
+
+    // const textArea = {
+    //     left: firstBlock.rect.left < lastBlock.rect.left ? firstBlock.rect.left : lastBlock.rect.left,
+    //     top: firstBlock.rect.top,
+    //     height: lastBlock.rect.top - firstBlock.rect.top + lastBlock.rect.height,
+    //     width: firstBlock.rect.left < lastBlock.rect.left ? lastBlock.rect.left + lastBlock.rect.width : firstBlock.rect.left
+    // }
+
+    // console.log(response.blocks.length)
+
     return (
         <View
             style={{
@@ -27,9 +40,23 @@ const RecognisedWordsOverlay = ({ response, scale, navigation }: RecognisedWords
                 }
             }}
         >
+            {/* {
+                !!words && response.blocks.map((block, i) => {
+                    // console.log("word: ", word);
+
+                    return (
+                        <BoundingBox
+                            keyProp={i}
+                            boundingBox={textArea}
+                            // text={block.text}
+                            scale={scale}
+                            navigation={navigation}
+                        />
+                    )
+                })
+            } */}
             {
                 !!words && words.map((word, i) => {
-                    console.log("word: ", word);
                     return (
                         <BoundingBox
                             keyProp={i}

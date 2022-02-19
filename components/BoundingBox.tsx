@@ -3,9 +3,9 @@ import React, { useMemo } from 'react';
 import { BoundingBoxType } from '../mlkit/TextRecognition';
 
 interface BoundingBoxProps {
-    text: string;
+    text?: string;
     boundingBox: BoundingBoxType;
-    keyProp: number | string;
+    keyProp?: number | string;
     scale: number;
     navigation: any;
 }

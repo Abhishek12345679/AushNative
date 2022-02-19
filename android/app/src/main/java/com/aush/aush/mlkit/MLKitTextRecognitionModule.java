@@ -49,7 +49,6 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
     @SuppressLint("LongLogTag")
     @ReactMethod
     public void extractWords(String url, Promise promise) {
-    //    Log.d("MLKitTextRecognitionModule", "url= "+url);
         InputImage image;
         Uri uri = Uri.parse(url);
         try {
@@ -89,7 +88,6 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
                                             lines.pushMap(lineObject);
 
                                         }
-//                                        Log.d("Response", String.valueOf(lines));
                                         blockObject.putArray("lines",lines);
                                         blocks.pushMap(blockObject);
                                     }

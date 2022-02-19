@@ -26,6 +26,8 @@ const CameraPreviewScreen = (props: any) => {
 
   const [loading, setLoading] = useState(false)
 
+  const [showOverlay, setShowOverlay] = useState(false)
+
   const processImage = async (image: string) => {
     if (image) {
       try {
@@ -88,7 +90,7 @@ const CameraPreviewScreen = (props: any) => {
           }}
           resizeMode="cover"
         />
-        {!!textRecognitionResponse && (
+        {!!textRecognitionResponse && showOverlay && (
           <RecognisedWordsOverlay
             key={1}
             navigation={props.navigation}
@@ -103,13 +105,15 @@ const CameraPreviewScreen = (props: any) => {
           left: 10,
           top: StatusBar.currentHeight + 10,
         }}
-        children={<Ionicons name="chevron-back" color="#fff" size={30} />}
         onPress={() => {
           props.navigation.goBack()
         }}
-        disabled={false}
-      />
+      >
+        <Ionicons name="chevron-back" color="#fff" size={30} />
+      </RoundButton>
       <CameraPreviewButtonsPane
+        showOverlay={showOverlay}
+        toggleRecognisedWordsOverlay={() => setShowOverlay((prev) => !prev)}
         aspectRatio={aspectRatio}
         navigation={props.navigation}
         windowHeight={windowHeight}
