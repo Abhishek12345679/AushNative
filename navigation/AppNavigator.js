@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Platform, Pressable} from 'react-native';
+import {Platform, Pressable} from 'react-native';
 
 import HomeScreen from '../screens/HomeScreen';
 import DrugScanner from '../screens/DrugScanner';
@@ -14,7 +14,7 @@ import CartScreen from '../screens/CartScreen';
 
 import AddAddressModalScreen from '../screens/AddAddressModalScreen';
 
-import SignUpScreen from '../screens/Authentication/SignUpScreen';
+import AuthenticationScreen from '../screens/Authentication/AuthenticationScreen';
 
 import {enableScreens} from 'react-native-screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -36,7 +36,7 @@ import SplashScreen from '../screens/SplashScreen';
 
 import MyWebView from '../screens/Settings/MyWebView';
 
-import {Ionicons, Fontisto} from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 
 import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
@@ -54,8 +54,8 @@ export const AuthNavigator = () => {
   return (
     <AuthStackNavigator.Navigator>
       <AuthStackNavigator.Screen
-        name="Signup"
-        component={SignUpScreen}
+        name="Auth"
+        component={AuthenticationScreen}
         options={{headerLargeTitle: false, headerShown: false}}
       />
     </AuthStackNavigator.Navigator>

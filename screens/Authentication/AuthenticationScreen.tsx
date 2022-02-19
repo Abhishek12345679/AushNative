@@ -17,7 +17,7 @@ import updatePersonalInfo from '../../helpers/updatePersonalInfo'
 import { colors } from '../../constants/colors'
 import BigButton from '../../components/BigButton'
 
-const SignUpScreen = observer(() => {
+const AuthenticationScreen = observer(() => {
   const [loading, setLoading] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
 
@@ -180,4 +180,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default AuthenticationScreen;
