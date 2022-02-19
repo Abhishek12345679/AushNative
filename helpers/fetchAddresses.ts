@@ -1,10 +1,10 @@
-import firestore from "@react-native-firebase/firestore";
-import DrugStore from "../store/CartStore";
+import firestore from '@react-native-firebase/firestore';
+import DrugStore from '../store/CartStore';
 
 const fetchAddresses = async () => {
   try {
     const user = await firestore()
-      .collection("users")
+      .collection('users')
       .doc(DrugStore.userCredentials.uid)
       .get();
 

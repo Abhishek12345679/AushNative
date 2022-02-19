@@ -1,16 +1,14 @@
-import firestore from "@react-native-firebase/firestore";
-import DrugStore, { Address } from "../store/CartStore";
-import fetchAddresses from "./fetchAddresses";
+import firestore from '@react-native-firebase/firestore';
+import DrugStore, {AddressType} from '../store/CartStore';
+import fetchAddresses from './fetchAddresses';
 
-const addAddresses = async (address: Address) => {
+const addAddresses = async (address: AddressType) => {
   try {
     const user = firestore()
-      .collection("users")
+      .collection('users')
       .doc(DrugStore.userCredentials.uid);
 
     const userExists = (await user.get()).exists;
-
-    // console.log("user: ", userExists);
 
     if (userExists) {
       const addresses = await fetchAddresses();
@@ -22,9 +20,9 @@ const addAddresses = async (address: Address) => {
         addresses: address,
       });
     }
-    console.log("Saved Address");
+    console.log('Saved Address');
   } catch (err) {
-    console.error("Error: ", err);
+    console.error('Error: ', err);
   }
 };
 

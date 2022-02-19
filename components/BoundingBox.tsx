@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import React, { useMemo } from 'react';
 import { BoundingBoxType } from '../mlkit/TextRecognition';
 
@@ -41,7 +41,7 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale, navigation }: Bounding
             <Text style={{ color: "black", fontWeight: 'bold' }}>
                 {text}
             </Text>
-        </TouchableOpacity >
+        </TouchableOpacity>
     );
 }
 

@@ -3,15 +3,17 @@ import React from 'react'
 import { colors } from '../constants/colors'
 
 interface BigButtonProps {
+    disabled?: boolean;
     text: string;
     onPress: () => void;
     loading?: boolean;
     buttonStyle?: {};
 }
 
-const BigButton = ({ text, onPress, loading, buttonStyle }: BigButtonProps) => {
+const BigButton = ({ text, onPress, loading, buttonStyle, disabled }: BigButtonProps) => {
     return (
         <Pressable
+            disabled={disabled}
             android_ripple={{
                 color: "#fff",
                 borderless: false
