@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,21 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  TextInput,
   Pressable,
 } from 'react-native';
 
-import {showMessage} from 'react-native-flash-message';
+import { showMessage } from 'react-native-flash-message';
 
 import QuantitySelector from '../components/QuantitySelector';
-import {observer} from 'mobx-react';
-import {MaterialIcons, Entypo} from '@expo/vector-icons';
-import DrugStore from '../store/CartStore';
-import {colors} from '../constants/colors';
+import { observer } from 'mobx-react';
+import { MaterialIcons, Entypo } from '@expo/vector-icons';
+import DrugStore, { DrugType } from '../store/CartStore';
+import { colors } from '../constants/colors';
 
-const DrugDetailScreen = observer(props => {
+const DrugDetailScreen = observer((props: any) => {
+
+  const item = props.route.params.item;
+
   let [quantity, setQuantity] = useState('1');
   let [initialValue, setInitialValue] = useState(1);
 
@@ -48,22 +50,21 @@ const DrugDetailScreen = observer(props => {
   };
 
   const [cartItem, setCartItem] = useState({
+    id: '',
     name: '',
     salt: '',
     price: 0,
     quantity: 0,
     prescription_req: false,
     total_amt: 0,
+    imageUrl: '',
+
   });
 
-  const addToCart = () => {
+  const addToCart = (cartItem: DrugType) => {
     DrugStore.addDrug(cartItem);
     setCartCount(cartCount + 1);
   };
-
-  const item = props.route.params.item;
-
-  console.log(item.imageUrl);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -73,13 +74,13 @@ const DrugDetailScreen = observer(props => {
             color: '#fff',
             borderless: false,
           }}
-          style={{flexDirection: 'row'}}
+          style={{ flexDirection: 'row' }}
           onPress={() => {
             props.navigation.navigate('Cart');
           }}>
           <Entypo name="shopping-cart" color="#fff" size={20} />
 
-          <Text style={{color: '#FFF', fontSize: 15}}>{DrugStore.count}</Text>
+          <Text style={{ color: '#FFF', fontSize: 15 }}>{DrugStore.count}</Text>
         </Pressable>
       ),
       headerTitle: item ? item.name : 'Drug',
@@ -106,13 +107,13 @@ const DrugDetailScreen = observer(props => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <StatusBar barStyle="light-content" backgroundColor={colors.PRIMARY} />
-        <View style={{marginStart: 15, marginTop: 15}}>
-          <Text style={{color: '#FFF', fontSize: 15, fontWeight: 'bold'}}>
+        <View style={{ marginStart: 15, marginTop: 15 }}>
+          <Text style={{ color: '#FFF', fontSize: 15, fontWeight: 'bold' }}>
             Manufacturer
           </Text>
-          <Text style={{color: '#fff'}}>{item.manufacturer_name}</Text>
+          <Text style={{ color: '#fff' }}>{item.manufacturer_name}</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.imageContainer}>
@@ -129,14 +130,14 @@ const DrugDetailScreen = observer(props => {
             />
           </View>
           <View style={styles.row}>
-            <View style={{width: '70%'}}>
-              <Text style={{color: '#FFF', fontWeight: 'bold'}}>Salt</Text>
+            <View style={{ width: '70%' }}>
+              <Text style={{ color: '#FFF', fontWeight: 'bold' }}>Salt</Text>
               <Text style={styles.salt}>{item.salt}</Text>
             </View>
             {item.requires_prescription && (
               <Image
                 source={require('../assets/pharmacy.png')}
-                style={{height: 50, width: 50}}
+                style={{ height: 50, width: 50 }}
               />
             )}
           </View>
@@ -180,7 +181,7 @@ const DrugDetailScreen = observer(props => {
                       ₹{item.price}
                     </Text>
                   </View>
-                  <Text style={{fontSize: 15, color: '#fff'}}>Add to cart</Text>
+                  <Text style={{ fontSize: 15, color: '#fff' }}>Add to cart</Text>
                 </View>
               ) : (
                 <ActivityIndicator size="large" color="#FFF" />
@@ -200,7 +201,7 @@ const DrugDetailScreen = observer(props => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{...styles.salt, fontWeight: 'bold'}}>
+            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
               Introduction
             </Text>
             <MaterialIcons
@@ -223,7 +224,7 @@ const DrugDetailScreen = observer(props => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{...styles.salt, fontWeight: 'bold'}}>Uses</Text>
+            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>Uses</Text>
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
@@ -245,7 +246,7 @@ const DrugDetailScreen = observer(props => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{...styles.salt, fontWeight: 'bold'}}>
+            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
               Side Effects
             </Text>
             <MaterialIcons
@@ -287,7 +288,7 @@ const DrugDetailScreen = observer(props => {
               alignItems: 'center',
             }}>
             <Text
-              style={{...styles.salt, ...{fontWeight: 'bold', fontSize: 17}}}>
+              style={{ ...styles.salt, ...{ fontWeight: 'bold', fontSize: 17 } }}>
               How to cope with side effects
             </Text>
             <MaterialIcons
@@ -300,11 +301,11 @@ const DrugDetailScreen = observer(props => {
 
           {howToSECollpased &&
             item.description.how_to_cope_with_side_effects.map(itemData => (
-              <View style={{marginBottom: 20}} key={itemData.question}>
+              <View style={{ marginBottom: 20 }} key={itemData.question}>
                 <Text
                   style={{
                     ...styles.sectionDescription,
-                    ...{fontSize: 15, fontWeight: 'bold'},
+                    ...{ fontSize: 15, fontWeight: 'bold' },
                   }}>
                   {`\u2022 ${itemData.question}`}
                 </Text>
@@ -320,7 +321,7 @@ const DrugDetailScreen = observer(props => {
               alignItems: 'center',
             }}>
             <Text
-              style={{...styles.salt, ...{fontWeight: 'bold', fontSize: 17}}}>
+              style={{ ...styles.salt, ...{ fontWeight: 'bold', fontSize: 17 } }}>
               How to Use
             </Text>
             <MaterialIcons
@@ -336,14 +337,14 @@ const DrugDetailScreen = observer(props => {
             </Text>
           )}
         </View>
-        <View style={{...styles.desc, marginBottom: 40}}>
+        <View style={{ ...styles.desc, marginBottom: 40 }}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{...styles.salt, fontWeight: 'bold'}}>
+            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
               Safety Advice
             </Text>
             <MaterialIcons
@@ -355,11 +356,11 @@ const DrugDetailScreen = observer(props => {
           </View>
           {safetyAdviceCollapsed &&
             item.description.safety_advice.map(itemData => (
-              <View style={{marginBottom: 20}} key={itemData.question}>
+              <View style={{ marginBottom: 20 }} key={itemData.question}>
                 <Text
                   style={{
                     ...styles.sectionDescription,
-                    ...{fontSize: 15, fontWeight: 'bold'},
+                    ...{ fontSize: 15, fontWeight: 'bold' },
                   }}>
                   {`\u2022 ${itemData.question}`}
                 </Text>

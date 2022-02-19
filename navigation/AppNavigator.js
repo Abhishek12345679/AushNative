@@ -303,12 +303,11 @@ export const TabNavigator = ({navigation}) => {
         name="HomeScreen"
         component={RootNavigator}
         options={{
-          tabBarLabel: 'Home',
           tabBarIcon: ({color, focused}) => (
             <Pressable
               android_ripple={{
                 color: '#fff',
-                borderless: false,
+                borderless: true,
               }}
               style={{
                 width: 30,
@@ -357,12 +356,6 @@ export const TabNavigator = ({navigation}) => {
           ),
           unmountOnBlur: true,
         }}
-        // listeners={{
-        //   tabPress: e => {
-        //     e.preventDefault();
-        //     navigation.navigate('ScanScreen');
-        //   },
-        // }}
       />
 
       <BottomNavigationBar.Screen
