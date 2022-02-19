@@ -17,7 +17,7 @@ import { observer } from 'mobx-react';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 
-const GET_MEDICINE = gql`
+export const GET_MEDICINE = gql`
   query getMedicine($name: String!) {
     search(name: $name) {
       drugs {
@@ -50,7 +50,7 @@ const GET_MEDICINE = gql`
   }
 `;
 
-const GET_ALTERNATE_DRUG = gql`
+export const GET_ALTERNATE_DRUG = gql`
   query getAlternateDrug($salt: String!) {
     findDrugForSameSalt(salt: $salt) {
       drugs {

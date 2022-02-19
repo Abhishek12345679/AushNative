@@ -47,6 +47,7 @@ import OrderFailureScreen from '../screens/CheckoutFlow/OrderFailureScreen';
 
 import SearchScreen from '../screens/SearchScreen';
 import {colors} from '../constants/colors';
+import ScannedResultsScreen from '../screens/ScannedResultsScreen';
 
 enableScreens();
 
@@ -153,6 +154,10 @@ const ScannerNavigator = () => {
         }}
       />
       <ScannerStackNavigator.Screen name="Results" component={ResultList} />
+      <ScannerStackNavigator.Screen
+        name="ScannedResultsScreen"
+        component={ScannedResultsScreen}
+      />
       <ScannerStackNavigator.Screen
         name="Drug"
         component={DrugDetailScreen}

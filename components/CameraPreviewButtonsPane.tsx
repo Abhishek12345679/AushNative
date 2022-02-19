@@ -10,10 +10,11 @@ interface CameraPreviewButtonsPaneProps {
 
     navigation: any;
     toggleRecognisedWordsOverlay: () => void;
-    showOverlay: boolean
+    showOverlay: boolean;
+    goToScannedResultsScreen: () => void
 }
 
-const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navigation, toggleRecognisedWordsOverlay, showOverlay }: CameraPreviewButtonsPaneProps) => {
+const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navigation, toggleRecognisedWordsOverlay, showOverlay, goToScannedResultsScreen }: CameraPreviewButtonsPaneProps) => {
     return (
         <View
             style={{
@@ -66,7 +67,8 @@ const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navi
 
                     }}
                     onPress={() => {
-                        // do something
+                        // run every word through the api
+                        goToScannedResultsScreen()
                     }}
                 >
                     <MaterialIcons name="done" size={32} color="darkgreen" />

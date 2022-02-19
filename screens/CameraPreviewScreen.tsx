@@ -112,6 +112,17 @@ const CameraPreviewScreen = (props: any) => {
         <Ionicons name="chevron-back" color="#fff" size={30} />
       </RoundButton>
       <CameraPreviewButtonsPane
+        goToScannedResultsScreen={() => {
+          props.navigation.navigate("ScannedResultsScreen", {
+            words: textRecognitionResponse.blocks.flatMap((block) => {
+              return block.lines.flatMap((line) => {
+                return line.words.flatMap(({ text }) => {
+                  return text;
+                });
+              });
+            })
+          })
+        }}
         showOverlay={showOverlay}
         toggleRecognisedWordsOverlay={() => setShowOverlay((prev) => !prev)}
         aspectRatio={aspectRatio}
