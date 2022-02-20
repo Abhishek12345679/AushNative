@@ -165,12 +165,12 @@ const DrugDetailScreen = observer((props: any) => {
                 animationType="spring"
                 action="press"
                 caret={true}
-                // strictPosition={true}
-                // position="top"
-                caretPosition="right"
-                // style={{
-                //   marginBottom: 50,
-                // }}
+                strictPosition={true}
+                // position="left"
+                style={{
+                  width: 125,
+                  left: -20
+                }}
                 numberOfLines={2}
                 content={
                   <View
@@ -178,10 +178,12 @@ const DrugDetailScreen = observer((props: any) => {
                       padding: 10,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: '#000',
+                      backgroundColor: '#FFF',
                     }}
                   >
-                    <Text style={{ color: "#FFF", fontWeight: "bold" }}>Prescription needed</Text>
+                    <Text style={{ color: "#000", fontWeight: "bold" }}>
+                      Prescription Needed!!
+                    </Text>
                   </View>
                 }
               >
