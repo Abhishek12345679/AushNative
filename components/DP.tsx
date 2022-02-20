@@ -1,8 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet } from 'react-native';
 import DrugStore from '../store/CartStore';
+import PFPPlaceholder from './PFPPlaceholder';
 
 interface DPProps {
   loading?: boolean
@@ -11,61 +12,38 @@ interface DPProps {
 }
 
 const DP = observer(({ loading, innerStyle, outerStyle }: DPProps) => {
-
   const url: string = DrugStore.profile.display_picture;
-
   const name = DrugStore.userCredentials.email.substring(
     0,
     DrugStore.userCredentials.email.indexOf('@'),
   );
 
-  if (loading) {
-    return (
-      <LinearGradient
-        colors={['red', 'gold', 'red',]}
-        style={{ ...styles.outer, ...outerStyle }}>
-        <ActivityIndicator
-          color="#000"
-          size="small"
-        />
-      </LinearGradient>
-    )
-  }
-
   return (
     <LinearGradient
       colors={['red', 'gold', 'red',]}
-      style={{ ...styles.outer, ...outerStyle }}>
-      {url ?
-        <Image
-          style={{ ...styles.inner, ...innerStyle }}
-          source={{
-            uri: url
-          }}
-        /> :
-        <View
-          style={{
-            ...styles.inner,
-            ...innerStyle,
-          }}
-
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontWeight: 'bold',
-              fontSize: 30
+      style={{ ...DPStyles.outer, ...outerStyle }}>
+      {
+        url ?
+          <Image
+            style={{ ...DPStyles.inner, ...innerStyle }}
+            source={{
+              uri: url
             }}
-          >
-            {name.split(" ").map((name) => name[0].toUpperCase())}
-          </Text>
-        </View>
+          />
+          : loading ?
+            <ActivityIndicator
+              color="#000"
+              size="small"
+            />
+            : <PFPPlaceholder
+              name={name}
+            />
       }
     </LinearGradient>
   );
 });
 
-const styles = StyleSheet.create({
+export const DPStyles = StyleSheet.create({
   outer: {
     width: 85,
     height: 85,
