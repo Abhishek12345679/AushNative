@@ -20,14 +20,16 @@ const DP = observer(({ loading, innerStyle, outerStyle }: DPProps) => {
   );
 
   if (loading) {
-    <LinearGradient
-      colors={['red', 'gold', 'red',]}
-      style={{ ...styles.outer, ...outerStyle }}>
-      <ActivityIndicator
-        color="#000"
-        size="small"
-      />
-    </LinearGradient>
+    return (
+      <LinearGradient
+        colors={['red', 'gold', 'red',]}
+        style={{ ...styles.outer, ...outerStyle }}>
+        <ActivityIndicator
+          color="#000"
+          size="small"
+        />
+      </LinearGradient>
+    )
   }
 
   return (

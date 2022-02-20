@@ -9,6 +9,8 @@ import { colors } from '../constants/colors';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import addProfilePicture from '../helpers/profilePicture/addProfilePicture';
+import { useFocusEffect } from '@react-navigation/native';
+import fetchPersonalInfo from '../helpers/fetchPersonalInfo';
 
 
 const SettingsScreen = observer((props: any) => {
@@ -45,7 +47,6 @@ const SettingsScreen = observer((props: any) => {
     );
   };
 
-
   const launchImageLibrary = async () => {
     try {
       const photo = await ImagePicker.launchImageLibraryAsync({
@@ -64,25 +65,50 @@ const SettingsScreen = observer((props: any) => {
   };
 
   const updateProfilePicture = async (fileUrl: string) => {
-    setUploading(true)
-    const reference = storage().ref(`users/${DrugStore.userCredentials.uid}/pfp/${Date.now()}.png`);
-    const task = reference.putFile(fileUrl);
+    try {
+      setUploading(true)
+      const reference = storage().ref(`users/${DrugStore.userCredentials.uid}/pfp/${Date.now()}.png`);
+      const task = reference.putFile(fileUrl);
 
-    task.on('state_changed', taskSnapshot => {
-      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
-    });
+      task.on('state_changed', taskSnapshot => {
+        console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+      });
 
-    task
-      .then(async () => {
-        const downloadUrl = await reference.getDownloadURL()
-        console.log('Image uploaded to the bucket!: ', downloadUrl);
-        await addProfilePicture(downloadUrl)
-      })
-      .finally(() => {
-        setUploading(true)
-
-      })
+      task
+        .then(async () => {
+          const downloadUrl = await reference.getDownloadURL()
+          console.log('Image uploaded to the bucket!: ', downloadUrl);
+          await addProfilePicture(downloadUrl)
+        })
+        .finally(() => {
+          setUploading(false)
+        })
+    } catch (err) {
+      console.error(err)
+      setUploading(false)
+    }
   }
+
+  const fetchPFP = async () => {
+    const personalInfo = await fetchPersonalInfo();
+
+    if (personalInfo.display_picture) {
+      DrugStore.setPFP(personalInfo.display_picture)
+    }
+  }
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      try {
+        setUploading(true);
+        fetchPFP()
+        setUploading(false);
+      } catch (err) {
+        console.error(err)
+      }
+    }, [uploading])
+  );
 
   return (
     <ScrollView style={styles.container}>
@@ -101,7 +127,7 @@ const SettingsScreen = observer((props: any) => {
           height: 100,
         }}
         titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
-        profile
+        profile={true}
         onPress={launchImageLibrary}
         loading={uploading}
       />

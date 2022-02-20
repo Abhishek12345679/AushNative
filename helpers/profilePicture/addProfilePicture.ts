@@ -17,7 +17,7 @@ const addProfilePicture = async (pfp: string) => {
         personal: pInfo,
       });
     }
-    console.log('Placed Order');
+    console.log('Successfully Added Photo!!');
   } catch (err) {
     console.error('Error: ', err);
   }
