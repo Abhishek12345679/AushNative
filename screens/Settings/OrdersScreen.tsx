@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, RefreshControl, FlatList, View, Text } from 'react-native';
@@ -8,7 +9,8 @@ import DrugStore from '../../store/CartStore';
 const OrdersScreen = observer((props: any) => {
   const { navigation } = props;
   const drugs = DrugStore.orders.slice().reverse() as any[]
-  const hasOrders = DrugStore.orders.length > 0;
+
+  console.log(drugs)
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -17,46 +19,42 @@ const OrdersScreen = observer((props: any) => {
     DrugStore.addOrders(orders);
   };
 
-  useEffect(() => {
-    try {
-      setIsRefreshing(true);
-      onRefresh();
-      setIsRefreshing(false);
-    } catch (err) {
-      console.error(err);
-    }
-  }, [navigation]);
+  useFocusEffect(
+    React.useCallback(() => {
+      try {
+        setIsRefreshing(true);
+        onRefresh();
+        setIsRefreshing(false);
+      } catch (err) {
+        console.error(err)
+      }
+    }, [navigation])
+  );
 
   return (
     <View style={{ flex: 1 }}>
-      {hasOrders ? (
-        <FlatList
-          keyExtractor={(item) => item.datetimestamp}
-          style={styles.container}
-          refreshControl={
-            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-          }
-          data={drugs}
-          renderItem={(order: any, index: number) => (
-            <OrderItem
-              status={order.item.status}
-              key={index}
-              datetimestamp={order.item.datetimestamp}
-              item={order.item}
-              onPress={() => {
-                props.navigation.navigate('OrderDetail', {
-                  order: order.item,
-                  datetimestamp: order.item.datetimestamp
-                });
-              }}
-            />
-          )}
-        />
-      ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>No Orders</Text>
-        </View>
-      )}
+      <FlatList
+        keyExtractor={(item) => item.datetimestamp}
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }
+        data={drugs}
+        renderItem={(order: any, index: number) => (
+          <OrderItem
+            status={order.item.status}
+            key={index}
+            datetimestamp={order.item.datetimestamp}
+            item={order.item}
+            onPress={() => {
+              props.navigation.navigate('OrderDetail', {
+                order: order.item,
+                datetimestamp: order.item.datetimestamp
+              });
+            }}
+          />
+        )}
+      />
     </View>
   );
 });

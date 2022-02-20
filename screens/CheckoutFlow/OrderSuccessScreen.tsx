@@ -25,7 +25,7 @@ const OrderSuccessScreen = (props: any) => {
       <BigButton
         text="Continue Shopping"
         onPress={() => {
-          props.navigation.navigate("HomeScreen")
+          props.navigation.navigate("Home")
         }}
         buttonStyle={{
           backgroundColor: "skyblue",

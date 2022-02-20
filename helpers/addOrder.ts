@@ -10,17 +10,18 @@ const addOrder = async (order: OrderType) => {
 
     const userExists = (await user.get()).exists;
 
-    // console.log('user: ', userExists);
-
     if (userExists) {
       const orders = await fetchOrders();
+      // if (orders.length > 0) {
       await user.update({
         orders: [...orders, order],
       });
-    } else {
-      await user.set({
-        orders: order,
-      });
+      // }
+      //  else {
+      //   await user.update({
+      //     orders: [order],
+      //   });
+      // }
     }
     console.log('Placed Order');
   } catch (err) {

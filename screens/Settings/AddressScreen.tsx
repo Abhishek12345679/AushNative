@@ -7,8 +7,9 @@ import { observer } from 'mobx-react';
 import Address from '../../components/Address';
 import fetchAddresses from '../../helpers/fetchAddresses';
 import { colors } from '../../constants/colors';
+import { useFocusEffect } from '@react-navigation/native'
 
-const AddressScreen = observer(props => {
+const AddressScreen = observer((props: any) => {
   const { navigation } = props;
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -19,13 +20,15 @@ const AddressScreen = observer(props => {
     setIsRefreshing(false);
   };
 
-  useEffect(() => {
-    try {
-      fetchStuff();
-    } catch (err) {
-      console.error(err)
-    }
-  }, [navigation]);
+  useFocusEffect(
+    React.useCallback(() => {
+      try {
+        fetchStuff();
+      } catch (err) {
+        console.error(err)
+      }
+    }, [navigation])
+  );
 
   return (
     <ScrollView
@@ -73,3 +76,4 @@ const styles = StyleSheet.create({
 });
 
 export default AddressScreen;
+

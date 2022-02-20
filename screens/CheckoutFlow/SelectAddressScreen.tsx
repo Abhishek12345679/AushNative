@@ -14,8 +14,10 @@ import fetchAddresses from '../../helpers/fetchAddresses';
 import { colors } from '../../constants/colors';
 import BigButton from '../../components/BigButton';
 import { Ionicons } from '@expo/vector-icons'
+import { useFocusEffect } from '@react-navigation/native';
 
 const SelectAddressScreen = (props: any) => {
+  const { navigation } = props;
 
   // const isPrescriptionRequired = () => {
   //   let flag = false;
@@ -28,14 +30,20 @@ const SelectAddressScreen = (props: any) => {
   // };
 
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
+  const fetchStuff = async () => {
+    const addresses = await fetchAddresses();
+    DrugStore.addAddresses(addresses);
+  };
 
-  useEffect(() => {
-    const fetchStuff = async () => {
-      const addresses = await fetchAddresses();
-      DrugStore.addAddresses(addresses);
-    };
-    fetchStuff();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      try {
+        fetchStuff();
+      } catch (err) {
+        console.error(err)
+      }
+    }, [navigation])
+  );
 
   return (
     <View style={styles.container}>
@@ -54,7 +62,7 @@ const SelectAddressScreen = (props: any) => {
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal={true}
-        keyExtractor={item => item.type}
+        keyExtractor={item => item.ph_no}
         style={{ padding: 20 }}
         data={DrugStore.addresses}
         renderItem={({ item, index }) => (
