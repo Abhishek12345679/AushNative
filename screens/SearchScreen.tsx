@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   View,
-  StyleSheet,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -15,10 +14,11 @@ import { gql, useLazyQuery } from '@apollo/client';
 import ListItem from '../components/ListItem';
 import { observer } from 'mobx-react';
 import { DrugType } from '../store/CartStore';
+import RoundButton from '../components/RoundButton';
+import { Ionicons } from '@expo/vector-icons'
 
 const SearchScreen = observer(({ navigation }) => {
-  const [searchText, setSearchText] = useState('');
-
+  const [searchText, setSearchText] = useState<string>('');
   const GET_MEDICINE = gql`
     query getMedicine($name: String!) {
       search(name: $name) {
@@ -51,7 +51,6 @@ const SearchScreen = observer(({ navigation }) => {
       }
     }
   `;
-
   const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
   if (loading) {
@@ -90,40 +89,66 @@ const SearchScreen = observer(({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colors.PRIMARY,
+      }}
+    >
       <View
         style={{
           flexDirection: 'row',
           margin: 10,
         }}>
-        <TextInput
-          autoFocus
-          onSubmitEditing={() => {
-            getMedicine({ variables: { name: searchText } });
-          }}
-          returnKeyType="search"
-          placeholder="search here"
-          placeholderTextColor="#ccc"
-          value={searchText}
-          onChangeText={text => {
-            setSearchText(text);
-          }}
+
+        <View
           style={{
             width: '100%',
-            height: 55,
-            fontSize: 16,
-            color: '#fff',
-            backgroundColor: colors.SECONDARY,
-            paddingHorizontal: 20,
-            marginTop: StatusBar.currentHeight,
-            borderRadius: 15,
+            height: 65,
+            marginBottom: 30,
+            flexDirection: 'row'
           }}
-          blurOnSubmit
-        />
+        >
+          <RoundButton
+            style={{
+              marginTop: StatusBar.currentHeight,
+              backgroundColor: "transparent"
+            }}
+            onPress={() => {
+              navigation.goBack()
+            }}
+          >
+            <Ionicons name="arrow-back" color="#fff" size={30} />
+          </RoundButton>
+          <TextInput
+            autoFocus
+            onSubmitEditing={() => {
+              getMedicine({ variables: { name: searchText } });
+            }}
+            returnKeyType="search"
+            placeholder="search here"
+            placeholderTextColor="#ccc"
+            value={searchText}
+            onChangeText={text => {
+              setSearchText(text);
+            }}
+            style={{
+              width: '85%',
+              height: '80%',
+              fontSize: 16,
+              color: '#fff',
+              backgroundColor: colors.SECONDARY,
+              marginTop: StatusBar.currentHeight,
+              paddingHorizontal: 20,
+              borderRadius: 15,
+            }}
+            blurOnSubmit
+          />
+        </View>
       </View>
       <ScrollView>
         {!!data ? (
-          data.search.drugs.map((med: DrugType, index) => (
+          data.search.drugs.map((med: DrugType, index: number) => (
             <ListItem
               keyProp={index}
               key={index}
@@ -154,7 +179,7 @@ const SearchScreen = observer(({ navigation }) => {
                 Dimensions.get('window').height - StatusBar.currentHeight - 100,
             }}>
             <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'normal' }}>
-              Try searching for something elSe
+              Try searching for something else!!
             </Text>
           </View>
         )}
@@ -164,10 +189,3 @@ const SearchScreen = observer(({ navigation }) => {
 });
 
 export default SearchScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.PRIMARY,
-  },
-});
