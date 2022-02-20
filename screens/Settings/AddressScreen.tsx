@@ -53,7 +53,10 @@ export const screenOptions = (navData: any) => {
   return {
     headerRight: () => (
       <TouchableOpacity
-        onPress={() => navData.navigation.navigate('Add New Address')}>
+        onPress={() => {
+          navData.navigation.navigate('AddAddressModalScreen')
+        }}
+      >
         <Ionicons name="ios-add" size={24} color="white" />
       </TouchableOpacity>
     ),

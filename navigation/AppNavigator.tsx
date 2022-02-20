@@ -252,7 +252,7 @@ export const SettingsNavigator = () => {
         options={AddressScreenOptions}
       />
       <SettingsStackNavigator.Screen
-        name="Add New Address"
+        name="AddAddressModalScreen"
         component={AddAddressModalScreen}
         options={{
           headerLargeTitle: false,

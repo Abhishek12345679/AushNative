@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
-import DrugStore from '../store/CartStore';
+import DrugStore, {OrderType} from '../store/CartStore';
 
-const fetchOrders = async () => {
+const fetchOrders = async (): Promise<Array<OrderType>> => {
   const orders = await firestore()
     .collection('users')
     .doc(DrugStore.userCredentials.uid)

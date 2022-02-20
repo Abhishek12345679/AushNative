@@ -19,6 +19,10 @@ const updatePersonalInfo = async (personalInfo: personalInfoProps) => {
       await user.update({
         personal: personalInfo,
       });
+    } else {
+      await user.set({
+        personal: personalInfo,
+      });
     }
     console.log('Updated Info');
   } catch (err) {

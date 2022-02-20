@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StatusBar,
   FlatList,
+  Pressable,
 } from 'react-native';
 import Address from '../../components/Address';
 import DrugStore, { AddressType } from '../../store/CartStore';
@@ -12,6 +13,7 @@ import DrugStore, { AddressType } from '../../store/CartStore';
 import fetchAddresses from '../../helpers/fetchAddresses';
 import { colors } from '../../constants/colors';
 import BigButton from '../../components/BigButton';
+import { Ionicons } from '@expo/vector-icons'
 
 const SelectAddressScreen = (props: any) => {
 
@@ -115,13 +117,29 @@ const styles = StyleSheet.create({
   },
 });
 
-export const screenOptions = navData => {
+export const screenOptions = (navData: any) => {
   return {
     headerTitle: 'Addresses',
     headerLargeTitle: false,
     headerShown: true,
     headerRight: () => (
-      <></>
+      <Pressable
+        style={{
+          marginStart: 10,
+          height: 40,
+          width: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        android_ripple={{
+          color: "#fff",
+          borderless: true
+        }}
+        onPress={() => {
+          navData.navigation.navigate('AddAddressModalScreen');
+        }}>
+        <Ionicons name="md-add" size={30} color="#fff" />
+      </Pressable>
     ),
   };
 };

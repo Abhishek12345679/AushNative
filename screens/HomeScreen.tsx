@@ -7,7 +7,6 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   PermissionsAndroid,
-  TouchableOpacity,
   Text,
   Alert,
   Pressable,
@@ -20,6 +19,7 @@ import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google
 import { Ionicons } from '@expo/vector-icons';
 import fetchOrders from '../helpers/fetchOrders';
 import fetchAddresses from '../helpers/fetchAddresses';
+import fetchPersonalInfo from '../helpers/fetchPersonalInfo';
 import { colors } from '../constants/colors';
 
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -94,11 +94,14 @@ const HomeScreen = observer((props: any) => {
 
   useEffect(() => {
     const fetchingStuff = async () => {
+
+      const personalInfo = await fetchPersonalInfo();
+      DrugStore.setName(personalInfo.name)
+
       const orders = await fetchOrders();
       DrugStore.addOrders(orders);
 
       const addresses = await fetchAddresses();
-      // console.log('addresses: ', JSON.stringify(addresses, null, 2));
       DrugStore.addAddresses(addresses);
     };
     fetchingStuff();

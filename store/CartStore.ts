@@ -43,9 +43,9 @@ const address = types.model({
 });
 
 export type ProfileType = {
-  display_picture: string;
-  name: string;
-  dob: Date;
+  display_picture?: string;
+  name?: string;
+  dob?: Date;
 };
 
 // Profile Model

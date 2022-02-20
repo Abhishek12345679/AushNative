@@ -43,10 +43,12 @@ const SettingsScreen = observer((props: any) => {
     <ScrollView style={styles.container}>
       <ListItem
         keyProp={Math.random() * 12}
-        title={DrugStore.userCredentials.email.substring(
-          0,
-          DrugStore.userCredentials.email.indexOf('@'),
-        )}
+        title={
+          DrugStore.profile.name ??
+          DrugStore.userCredentials.email.substring(
+            0,
+            DrugStore.userCredentials.email.indexOf('@'),
+          )}
         subtitle={DrugStore.userCredentials.email}
         style={{
           marginBottom: 30,

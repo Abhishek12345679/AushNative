@@ -21,11 +21,9 @@ const AuthenticationScreen = observer(() => {
   const [loading, setLoading] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
 
-  // create account
   const signUp = async (name: string, email: string, password: string) => {
     try {
       setLoading(true);
-
       if (password.length < 6) {
         Alert.alert('Password invalid');
         return;
@@ -47,7 +45,6 @@ const AuthenticationScreen = observer(() => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-
       if (error.code === 'auth/email-already-in-use') {
         Alert.alert('That email address is already in use!');
       }
@@ -55,11 +52,9 @@ const AuthenticationScreen = observer(() => {
         Alert.alert('That email address is invalid!');
       }
       Alert.alert("[Error]: ", error);
-
     }
   };
 
-  // Log in
   const logIn = async (email: string, password: string) => {
     try {
       setLoading(true);
