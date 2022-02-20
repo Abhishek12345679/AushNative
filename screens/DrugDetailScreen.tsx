@@ -18,6 +18,7 @@ import { observer } from 'mobx-react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import DrugStore, { DrugType } from '../store/CartStore';
 import { colors } from '../constants/colors';
+import { Popable } from 'react-native-popable';
 
 const DrugDetailScreen = observer((props: any) => {
 
@@ -159,10 +160,36 @@ const DrugDetailScreen = observer((props: any) => {
               <Text style={styles.salt}>{item.salt}</Text>
             </View>
             {item.requires_prescription && (
-              <Image
-                source={require('../assets/pharmacy.png')}
-                style={{ height: 50, width: 50 }}
-              />
+              <Popable
+                animated={true}
+                animationType="spring"
+                action="press"
+                caret={true}
+                // strictPosition={true}
+                // position="top"
+                caretPosition="right"
+                // style={{
+                //   marginBottom: 50,
+                // }}
+                numberOfLines={2}
+                content={
+                  <View
+                    style={{
+                      padding: 10,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#000',
+                    }}
+                  >
+                    <Text style={{ color: "#FFF", fontWeight: "bold" }}>Prescription needed</Text>
+                  </View>
+                }
+              >
+                <Image
+                  source={require('../assets/pharmacy.png')}
+                  style={{ height: 50, width: 50 }}
+                />
+              </Popable>
             )}
           </View>
           <View

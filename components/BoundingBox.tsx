@@ -1,5 +1,5 @@
-import { Text, View } from 'react-native';
-import React, { MutableRefObject, useMemo, useRef } from 'react';
+import { Pressable, Text, View } from 'react-native';
+import React, { MutableRefObject, useMemo, useRef, useState } from 'react';
 import { BoundingBoxType } from '../mlkit/TextRecognition';
 
 import { Popable } from 'react-native-popable';
@@ -33,22 +33,25 @@ const BoundingBox = ({
         text
     ]);
 
+    const [visible, setVisible] = useState(false)
+
 
     return (
-
         <View
             key={keyProp}
             style={{
                 position: 'absolute',
                 borderWidth: 1,
                 borderColor: '#FFF',
-                padding: 15,
-                borderRadius: 2,
+                padding: 10,
+                borderRadius: 3,
                 elevation: 1,
+                backgroundColor: "#FFFFFF30",
                 ...rect,
             }}
         >
             <Popable
+                // visible={visible}
                 animated={true}
                 animationType="spring"
                 action="press"
@@ -76,13 +79,12 @@ const BoundingBox = ({
                     style={{
                         width: '100%',
                         height: 20,
+                        backgroundColor: "#FFFFFF00"
                     }}
                 >
-
                 </View>
             </Popable>
         </View>
-
     );
 }
 
