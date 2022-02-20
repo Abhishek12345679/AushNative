@@ -14,6 +14,7 @@ interface ListItemProps {
   title: string;
   subtitle?: string;
   loading?: boolean;
+  pfp?: string
 }
 
 const ListItem = observer(({
@@ -25,7 +26,8 @@ const ListItem = observer(({
   title,
   subtitle,
   titleStyle,
-  loading
+  loading,
+  pfp
 }: ListItemProps
 ) => {
   return (
@@ -69,7 +71,12 @@ const ListItem = observer(({
             )}
           </View>
         }
-        {profile && <DP loading={loading} />}
+        {profile &&
+          <DP
+            loading={loading}
+            pfp={pfp}
+          />
+        }
       </View>
     </Pressable>
   );

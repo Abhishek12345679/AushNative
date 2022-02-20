@@ -6,13 +6,14 @@ import DrugStore from '../store/CartStore';
 import PFPPlaceholder from './PFPPlaceholder';
 
 interface DPProps {
-  loading?: boolean
+  loading?: boolean;
+  pfp?: string;
   outerStyle?: {};
   innerStyle?: {};
 }
 
-const DP = observer(({ loading, innerStyle, outerStyle }: DPProps) => {
-  const url: string = DrugStore.profile.display_picture;
+const DP = observer(({ loading, innerStyle, outerStyle, pfp }: DPProps) => {
+  const url: string = pfp ?? DrugStore.profile.display_picture;
   const name = DrugStore.userCredentials.email.substring(
     0,
     DrugStore.userCredentials.email.indexOf('@'),

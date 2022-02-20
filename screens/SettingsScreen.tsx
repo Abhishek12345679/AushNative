@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
 import auth from '@react-native-firebase/auth';
-import storage from '@react-native-firebase/storage';
+import storage, { FirebaseStorageTypes } from '@react-native-firebase/storage';
 import ListItem from '../components/ListItem';
 import { colors } from '../constants/colors';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import addProfilePicture from '../helpers/profilePicture/addProfilePicture';
-import { useFocusEffect } from '@react-navigation/native';
 import fetchPersonalInfo from '../helpers/fetchPersonalInfo';
 
 
@@ -19,6 +18,7 @@ const SettingsScreen = observer((props: any) => {
   const TC_PAGE_URL = 'https://aushadhalay.flycricket.io/terms.html';
 
   const [uploading, setUploading] = useState(false)
+  const [localPFP, setLocalPFP] = useState<string>("")
 
   const onOpenActionSheet = () => {
     const options = ['Log Out', 'Cancel'];
@@ -70,19 +70,17 @@ const SettingsScreen = observer((props: any) => {
       const reference = storage().ref(`users/${DrugStore.userCredentials.uid}/pfp/${Date.now()}.png`);
       const task = reference.putFile(fileUrl);
 
-      task.on('state_changed', taskSnapshot => {
+      task.on('state_changed', (taskSnapshot: FirebaseStorageTypes.TaskSnapshot) => {
         console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
-      });
+      })
 
       task
         .then(async () => {
           const downloadUrl = await reference.getDownloadURL()
-          console.log('Image uploaded to the bucket!: ', downloadUrl);
           await addProfilePicture(downloadUrl)
+          console.log('Image uploaded to the bucket!: ', downloadUrl);
         })
-        .finally(() => {
-          setUploading(false)
-        })
+      setUploading(false)
     } catch (err) {
       console.error(err)
       setUploading(false)
@@ -94,21 +92,20 @@ const SettingsScreen = observer((props: any) => {
 
     if (personalInfo.display_picture) {
       DrugStore.setPFP(personalInfo.display_picture)
+      setLocalPFP(personalInfo.display_picture)
     }
   }
 
 
-  useFocusEffect(
-    React.useCallback(() => {
-      try {
-        setUploading(true);
-        fetchPFP()
-        setUploading(false);
-      } catch (err) {
-        console.error(err)
-      }
-    }, [uploading])
-  );
+  useEffect(() => {
+    try {
+      setUploading(true);
+      fetchPFP()
+      setUploading(false);
+    } catch (err) {
+      console.error(err)
+    }
+  }, [uploading]);
 
   return (
     <ScrollView style={styles.container}>
@@ -130,6 +127,7 @@ const SettingsScreen = observer((props: any) => {
         profile={true}
         onPress={launchImageLibrary}
         loading={uploading}
+        pfp={localPFP}
       />
       <View
         style={{
