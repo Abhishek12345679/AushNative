@@ -50,7 +50,7 @@ const SettingsScreen = observer((props) => {
   return (
     <ScrollView style={styles.container}>
       <ListItem
-        keyProp={'d' + 0}
+        keyProp={Math.random() * 12}
         title={DrugStore.userCredentials.email.substring(
           0,
           DrugStore.userCredentials.email.indexOf('@'),
@@ -77,9 +77,9 @@ const SettingsScreen = observer((props) => {
         }}>
         {['Addresses', 'Orders'].map((item, index) => (
           <ListItem
+            keyProp={Math.random() * 12 + index}
             style={{ height: 70 }}
             titleStyle={{ fontSize: 18 }}
-            keyProp={'a' + index}
             title={item}
             onPress={() => props.navigation.navigate(item)}
           />
@@ -97,7 +97,7 @@ const SettingsScreen = observer((props) => {
           <ListItem
             style={{ height: 70 }}
             titleStyle={{ fontSize: 18 }}
-            keyProp={'b' + index}
+            keyProp={Math.random() * 12 + index}
             title={item}
             onPress={() => {
               props.navigation.navigate('MyWebView', {
@@ -109,7 +109,7 @@ const SettingsScreen = observer((props) => {
         ))}
       </View>
       <ListItem
-        keyProp={'c' + 0}
+        keyProp={Math.random() * 12 - 1}
         title="Log Out"
         onPress={onOpenActionSheet}
         style={{
@@ -117,7 +117,7 @@ const SettingsScreen = observer((props) => {
           borderRadius: 10,
           justifyContent: 'center',
           alignItems: 'center',
-          height: 60,
+          height: 75,
         }}
         titleStyle={{ fontWeight: 'bold', fontSize: 18, color: 'red' }}
       />

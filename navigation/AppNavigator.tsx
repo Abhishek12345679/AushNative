@@ -81,7 +81,7 @@ const CheckoutNavigator = () => {
       />
 
       <CheckoutStackNavigator.Screen
-        name="OrderSucessScreen"
+        name="OrderSuccessScreen"
         component={OrderSuccessScreen}
         options={{
           headerShown: true,
