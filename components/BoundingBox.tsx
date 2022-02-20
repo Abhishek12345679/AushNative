@@ -1,16 +1,26 @@
-import { Text, TouchableOpacity, View } from 'react-native';
-import React, { useMemo } from 'react';
+import { Text, View } from 'react-native';
+import React, { MutableRefObject, useMemo, useRef } from 'react';
 import { BoundingBoxType } from '../mlkit/TextRecognition';
+
+import { Popable } from 'react-native-popable';
 
 interface BoundingBoxProps {
     text?: string;
     boundingBox: BoundingBoxType;
     keyProp?: number | string;
     scale: number;
-    navigation: any;
+    onPress?: () => void;
+
+    textToolTipVisible?: boolean;
+    parentRef?: MutableRefObject<View>
 }
 
-const BoundingBox = ({ boundingBox, text, keyProp, scale, navigation }: BoundingBoxProps) => {
+const BoundingBox = ({
+    boundingBox,
+    text,
+    keyProp,
+    scale,
+}: BoundingBoxProps) => {
     const rect = useMemo(() => {
         return {
             left: boundingBox.left * scale,
@@ -21,30 +31,58 @@ const BoundingBox = ({ boundingBox, text, keyProp, scale, navigation }: Bounding
     }, [
         scale,
         text
-    ])
+    ]);
+
+
     return (
+
         <View
             key={keyProp}
             style={{
                 position: 'absolute',
-                borderWidth: 0.35,
+                borderWidth: 1,
                 borderColor: '#FFF',
                 padding: 15,
                 borderRadius: 2,
                 elevation: 1,
                 ...rect,
             }}
-        // onPress={() => {
-        //     navigation.navigate("Results", {
-        //         data: text,
-        //         mode: "scan"
-        //     })
-        // }}
         >
-            <Text style={{ color: "black", fontWeight: 'bold' }}>
-                {text}
-            </Text>
+            <Popable
+                animated={true}
+                animationType="spring"
+                action="press"
+                caret={true}
+                strictPosition={true}
+                position="top"
+                caretPosition="center"
+                style={{
+                    marginBottom: 30,
+                }}
+                content={
+                    <View
+                        style={{
+                            padding: 10,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#000',
+                        }}
+                    >
+                        <Text style={{ color: "#FFF", fontWeight: "bold" }}>{text}</Text>
+                    </View>
+                }
+            >
+                <View
+                    style={{
+                        width: '100%',
+                        height: 20,
+                    }}
+                >
+
+                </View>
+            </Popable>
         </View>
+
     );
 }
 

@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 
 import ListItem from '../components/ListItem';
-import { gql, useLazyQuery, useQuery } from '@apollo/client';
-import DrugStore, { DrugType } from '../store/CartStore';
+import { gql, useLazyQuery } from '@apollo/client';
+import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
 
 import { Ionicons } from '@expo/vector-icons';
