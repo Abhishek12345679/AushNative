@@ -8,20 +8,35 @@ import firebaseConfig from '../constants/config';
 import { ModalPortal } from 'react-native-modals';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator, AuthNavigator } from './AppNavigator';
-import SplashScreen from '../screens/SplashScreen';
 import DrugStore from '../store/CartStore';
 import { colors } from '../constants/colors';
+import * as BootSplash from 'react-native-bootsplash';
+import SplashScreen from '../screens/SplashScreen';
+
+
+const fakeApiCallWithoutBadNetwork = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 const AppContainer = observer(() => {
-  const [initializing, setInitializing] = useState<boolean>(false);
+  const [initializing, setInitializing] = useState<boolean>(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User>();
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
 
+  const init = async () => {
+    try {
+      await fakeApiCallWithoutBadNetwork(1000);
+      await BootSplash.hide();
+      setInitializing(false)
+    } catch (err) {
+      console.error(err)
+      setInitializing(false)
+    }
+  };
+
   useEffect(() => {
-    setInitializing(true)
     const subscriber = auth()
       .onAuthStateChanged(async (user: FirebaseAuthTypes.User) => {
         if (user) {
@@ -33,9 +48,12 @@ const AppContainer = observer(() => {
           setUser(null)
         }
       });
-    setInitializing(false)
     return subscriber;
   }, []);
+
+  useEffect(() => {
+    initializing && init()
+  }, [initializing]);
 
   return (
     <NavigationContainer
@@ -45,9 +63,9 @@ const AppContainer = observer(() => {
           // add other theme stuff later?
         },
       }}>
-      {/* {initializing && <SplashScreen />} */}
+      {initializing && <SplashScreen />}
       {!user && !initializing && <AuthNavigator />}
-      {user && <MainNavigator />}
+      {user && !initializing && <MainNavigator />}
       <ModalPortal />
     </NavigationContainer>
   );

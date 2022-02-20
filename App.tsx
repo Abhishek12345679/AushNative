@@ -1,6 +1,6 @@
 (navigator as any).geolocation = require('react-native-geolocation-service');
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, LogBox } from 'react-native';
 import RootNavigation from './navigation/RootNavigation';
 import { client } from './store/store';
@@ -8,7 +8,6 @@ import { ApolloProvider } from '@apollo/client';
 import { observer } from 'mobx-react';
 import FlashMessage from 'react-native-flash-message';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import RNBootSplash from 'react-native-bootsplash';
 
 // Deprecation warnings in Expo Modules
 LogBox.ignoreLogs([
@@ -18,17 +17,6 @@ LogBox.ignoreLogs([
 ]);
 
 const App = observer(() => {
-  useEffect(() => {
-    const init = async () => {
-      await RNBootSplash.show({ fade: true })
-    };
-
-    init().finally(async () => {
-      await RNBootSplash.hide({ fade: true });
-    });
-  }, []);
-
-
   return (
     <ActionSheetProvider>
       <ApolloProvider client={client}>
