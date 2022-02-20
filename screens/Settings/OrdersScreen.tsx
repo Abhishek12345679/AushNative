@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, RefreshControl, FlatList, View, Text } from 'react-native';
 import OrderItem from '../../components/OrderItem';
 import fetchOrders from '../../helpers/fetchOrders';
-import DrugStore, { OrderType } from '../../store/CartStore';
+import DrugStore from '../../store/CartStore';
 
-const OrdersScreen = observer(props => {
+const OrdersScreen = observer((props: any) => {
   const { navigation } = props;
   const hasOrders = DrugStore.orders.length > 0;
 
@@ -30,7 +30,7 @@ const OrdersScreen = observer(props => {
     <View style={{ flex: 1 }}>
       {hasOrders ? (
         <FlatList
-          keyExtractor={item => item.datetimestamp.toString()}
+          keyExtractor={(item) => item.datetimestamp.toString()}
           style={styles.container}
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />

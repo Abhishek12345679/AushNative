@@ -20,20 +20,22 @@ const ImageStack = ({ item }: ImageStackProps) => {
             }}>
             {
                 item.items.slice(0, item.items.length - 1 > 2 ? 2 : item.items.length)
-                    .map((_item, index) => (
-                        <Image
-                            key={index}
-                            source={{ uri: _item.imageUrl }}
-                            style={{
-                                width: 65,
-                                height: 65,
-                                borderRadius: 5,
-                                marginTop: item.items.length < 2 ? 0 : index * 7,
-                                marginLeft: item.items.length < 2 ? 0 : index * 7,
-                                position: 'absolute',
-                            }}
-                        />
-                    ))
+                    .map((_item, index) => {
+                        return (
+                            <Image
+                                key={index}
+                                source={{ uri: _item.imageUrl }}
+                                style={{
+                                    width: 65,
+                                    height: 65,
+                                    borderRadius: 5,
+                                    marginTop: item.items.length < 2 ? 0 : index * 7,
+                                    marginLeft: item.items.length < 2 ? 0 : index * 7,
+                                    position: 'absolute',
+                                }}
+                            />
+                        )
+                    })
             }
         </View>)
 };

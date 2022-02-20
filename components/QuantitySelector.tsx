@@ -20,21 +20,19 @@ const QuantitySelector = ({ quantity, onDecrease, onIncrease }: QuantitySelector
           editable={false}
         />
       </View>
-      <View
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          paddingVertical: 10,
-        }}>
+      <View>
         <AntDesign
           name="plus"
-          size={20}
+          size={25}
           color="#fff"
+          style={{
+            marginBottom: 7,
+          }}
           onPress={onIncrease}
         />
         <AntDesign
           name="minus"
-          size={20}
+          size={25}
           color="#fff"
           onPress={onDecrease}
         />
@@ -49,22 +47,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 70,
-    width: 80,
+    height: 75,
+    width: 90,
     borderRadius: 10,
-    paddingHorizontal: 3,
+    paddingEnd: 5,
   },
   input: {
-    backgroundColor: '#000',
-    height: 65,
+    backgroundColor: '#FFF',
+    height: 75,
     width: 50,
-    marginStart: 0,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 35,
     fontWeight: 'bold',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
-    color: "#fff"
+    color: "#000",
   },
 });
 
