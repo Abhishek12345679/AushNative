@@ -42,7 +42,7 @@ const ListItem = observer(({
           justifyContent: profile ? 'space-between' : 'flex-start',
           width: '100%',
         }}>
-        {imageUrl && !profile && (
+        {imageUrl && (
           <Image
             source={{ uri: imageUrl }}
             style={{

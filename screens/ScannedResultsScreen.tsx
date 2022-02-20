@@ -149,7 +149,7 @@ const ScannedResultsScreen = observer((props: any) => {
                     ListHeaderComponent={
                         <View style={{ marginVertical: 10, marginStart: 5 }}>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>
-                                {data.search.items.length} Medicines found
+                                {data.search.drugs.length} Medicines found
                             </Text>
                         </View>
                     }
@@ -163,7 +163,7 @@ const ScannedResultsScreen = observer((props: any) => {
                                 }}
                                 title={item.name}
                                 subtitle={`${item.salt.substring(0, 20)}...`}
-                                imageUrl={item.imageUrl}
+                                imageUrl={item.image_url}
                                 onPress={() =>
                                     props.navigation.navigate('Drug', {
                                         item: item,
