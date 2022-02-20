@@ -7,8 +7,6 @@ interface ImageStackProps {
 }
 
 const ImageStack = ({ item }: ImageStackProps) => {
-
-    console.log("item: ", item)
     return (
         <View
             style={{

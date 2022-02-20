@@ -24,7 +24,7 @@ const AppContainer = observer(() => {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(async user => {
-      console.log(user);
+      // console.log(user);
       const token = await user.getIdToken(true);
       setUser(user);
 

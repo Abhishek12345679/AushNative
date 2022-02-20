@@ -37,7 +37,7 @@ const HomeScreen = observer((props: any) => {
   };
 
   const geoSuccess: SuccessCallback = async (position: any) => {
-    console.log('Success', position);
+    // console.log('Success', position);
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`,
     )
@@ -98,7 +98,7 @@ const HomeScreen = observer((props: any) => {
       DrugStore.addOrders(orders);
 
       const addresses = await fetchAddresses();
-      console.log('addresses: ', JSON.stringify(addresses, null, 2));
+      // console.log('addresses: ', JSON.stringify(addresses, null, 2));
       DrugStore.addAddresses(addresses);
     };
     fetchingStuff();
@@ -206,7 +206,7 @@ const HomeScreen = observer((props: any) => {
         if (buttonIndex === 0) {
           const hasPermissions = await requestPermissions();
           if (hasPermissions) {
-            console.log("has permissions = ", hasPermissions)
+            // console.log("has permissions = ", hasPermissions)
             Geolocation.getCurrentPosition(geoSuccess, geoFailure, geoOptions);
           }
         } else if (buttonIndex === 1) {

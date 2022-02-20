@@ -151,10 +151,10 @@ const DrugStore = types
       let flag = 0;
 
       self.drugs.forEach(drugItem => {
-        console.log(drug.id === drugItem.id);
+        // console.log(drug.id === drugItem.id);
 
         const index = self.drugs.findIndex(x => x.id === drug.id);
-        console.log(index);
+        // console.log(index);
 
         if (drugItem.id === drug.id) {
           self.drugs[0] = {

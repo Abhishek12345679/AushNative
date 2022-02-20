@@ -103,7 +103,7 @@ const ResultList = observer((props: any) => {
     });
   }
 
-  console.log(data)
+  // console.log(data)
 
   useEffect(() => {
     props.navigation.setOptions({

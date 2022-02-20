@@ -10,7 +10,7 @@ const addOrder = async (order: OrderType) => {
 
     const userExists = (await user.get()).exists;
 
-    console.log('user: ', userExists);
+    // console.log('user: ', userExists);
 
     if (userExists) {
       const orders = await fetchOrders();

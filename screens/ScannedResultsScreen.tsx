@@ -39,14 +39,14 @@ const ScannedResultsScreen = observer((props: any) => {
             .map((word) => word.toLowerCase())
             .filter((word) => word.length > 4)
             .map(async (word) => {
-                console.log("word: ", word)
+                // console.log("word: ", word)
                 const { data } = await getMedicineCount({
                     variables: {
                         name: word
                     }
                 })
                 if (data) {
-                    console.log(data.search.items)
+                    // console.log(data.search.items)
                     if (data.search.items > 0) {
                         await getMedicine({
                             variables: {
