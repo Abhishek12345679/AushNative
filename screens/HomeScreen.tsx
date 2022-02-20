@@ -96,7 +96,13 @@ const HomeScreen = observer((props: any) => {
     const fetchingStuff = async () => {
 
       const personalInfo = await fetchPersonalInfo();
-      DrugStore.setName(personalInfo.name)
+      if (personalInfo.name) {
+        DrugStore.setName(personalInfo.name)
+      }
+
+      if (personalInfo.display_picture) {
+        DrugStore.setPFP(personalInfo.display_picture)
+      }
 
       const orders = await fetchOrders();
       DrugStore.addOrders(orders);

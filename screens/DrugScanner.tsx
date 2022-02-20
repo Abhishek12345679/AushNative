@@ -62,7 +62,7 @@ const DrugScanner = (props: any) => {
         base64: true,
       });
       if (!photo.cancelled) {
-        props.navigation.navigate('Confirm', {
+        props.navigation.navigate('CameraPreviewScreen', {
           photo: photo,
         });
       }
@@ -78,7 +78,7 @@ const DrugScanner = (props: any) => {
           base64: true,
         });
 
-        props.navigation.navigate('Confirm', {
+        props.navigation.navigate('CameraPreviewScreen', {
           photo: photo,
         });
       }

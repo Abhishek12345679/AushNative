@@ -124,11 +124,10 @@ const ScannerNavigator = () => {
         component={DrugDetailScreen}
       />
       <ScannerStackNavigator.Screen
-        name="Confirm"
+        name="CameraPreviewScreen"
         component={CameraPreviewScreen}
         options={{
           headerShown: false,
-          gestureEnabled: false,
         }}
       />
       <ScannerStackNavigator.Screen

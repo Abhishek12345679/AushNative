@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
 import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 import ListItem from '../components/ListItem';
 import { colors } from '../constants/colors';
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import * as ImagePicker from 'expo-image-picker';
+import addProfilePicture from '../helpers/profilePicture/addProfilePicture';
+
 
 const SettingsScreen = observer((props: any) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const PRIVACY_PAGE_URL = 'https://aushadhalay.flycricket.io/privacy.html';
   const TC_PAGE_URL = 'https://aushadhalay.flycricket.io/terms.html';
+
+  const [uploading, setUploading] = useState(false)
 
   const onOpenActionSheet = () => {
     const options = ['Log Out', 'Cancel'];
@@ -39,6 +45,45 @@ const SettingsScreen = observer((props: any) => {
     );
   };
 
+
+  const launchImageLibrary = async () => {
+    try {
+      const photo = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        base64: true,
+      });
+      if (!photo.cancelled) {
+        updateProfilePicture((photo as any).uri)
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateProfilePicture = async (fileUrl: string) => {
+    setUploading(true)
+    const reference = storage().ref(`users/${DrugStore.userCredentials.uid}/pfp/${Date.now()}.png`);
+    const task = reference.putFile(fileUrl);
+
+    task.on('state_changed', taskSnapshot => {
+      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+    });
+
+    task
+      .then(async () => {
+        const downloadUrl = await reference.getDownloadURL()
+        console.log('Image uploaded to the bucket!: ', downloadUrl);
+        await addProfilePicture(downloadUrl)
+      })
+      .finally(() => {
+        setUploading(true)
+
+      })
+  }
+
   return (
     <ScrollView style={styles.container}>
       <ListItem
@@ -57,9 +102,8 @@ const SettingsScreen = observer((props: any) => {
         }}
         titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
         profile
-        onPress={() => {
-          //...
-        }}
+        onPress={launchImageLibrary}
+        loading={uploading}
       />
       <View
         style={{

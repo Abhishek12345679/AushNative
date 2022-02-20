@@ -1,10 +1,16 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native';
 import DrugStore from '../store/CartStore';
 
-const DP = observer(props => {
+interface DPProps {
+  loading?: boolean
+  outerStyle?: {};
+  innerStyle?: {};
+}
+
+const DP = observer(({ loading, innerStyle, outerStyle }: DPProps) => {
 
   const url: string = DrugStore.profile.display_picture;
 
@@ -13,13 +19,24 @@ const DP = observer(props => {
     DrugStore.userCredentials.email.indexOf('@'),
   );
 
+  if (loading) {
+    <LinearGradient
+      colors={['red', 'gold', 'red',]}
+      style={{ ...styles.outer, ...outerStyle }}>
+      <ActivityIndicator
+        color="#000"
+        size="small"
+      />
+    </LinearGradient>
+  }
+
   return (
     <LinearGradient
       colors={['red', 'gold', 'red',]}
-      style={{ ...styles.outer, ...props.outer }}>
-      {!url && url.startsWith("file") ?
+      style={{ ...styles.outer, ...outerStyle }}>
+      {url ?
         <Image
-          style={{ ...styles.inner, ...props.inner }}
+          style={{ ...styles.inner, ...innerStyle }}
           source={{
             uri: url
           }}
@@ -27,7 +44,7 @@ const DP = observer(props => {
         <View
           style={{
             ...styles.inner,
-            ...props.inner,
+            ...innerStyle,
           }}
 
         >
@@ -56,12 +73,13 @@ const styles = StyleSheet.create({
     marginEnd: 15,
   },
   inner: {
-    width: 75,
-    height: 75,
-    borderRadius: 75 / 2.0,
+    width: 80,
+    height: 80,
+    borderRadius: 80 / 2.0,
     backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 20
   },
 });
 
