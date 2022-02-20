@@ -8,6 +8,7 @@ import { ApolloProvider } from '@apollo/client';
 import { observer } from 'mobx-react';
 import FlashMessage from 'react-native-flash-message';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { colors } from './constants/colors';
 
 // Deprecation warnings in Expo Modules
 LogBox.ignoreLogs([
@@ -20,7 +21,7 @@ const App = observer(() => {
   return (
     <ActionSheetProvider>
       <ApolloProvider client={client}>
-        <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+        <View style={{ flex: 1, backgroundColor: colors.PRIMARY }}>
           <RootNavigation />
           <FlashMessage position="bottom" />
         </View>

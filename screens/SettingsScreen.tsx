@@ -58,9 +58,7 @@ const SettingsScreen = observer((props: any) => {
         titleStyle={{ fontWeight: 'bold', fontSize: 20 }}
         profile
         onPress={() => {
-          props.navigation.navigate('EditProfile', {
-            screen: 'Edit Profile',
-          });
+          //...
         }}
       />
       <View

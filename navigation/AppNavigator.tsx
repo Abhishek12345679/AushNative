@@ -21,7 +21,6 @@ import SelectAddressScreen, {
 } from '../screens/CheckoutFlow/SelectAddressScreen';
 import UploadPrescriptionScreen from '../screens/CheckoutFlow/UploadPrescriptionScreen';
 import OrderPreviewScreen from '../screens/CheckoutFlow/OrderPreviewScreen';
-import EditProfileScreen from '../screens/Settings/EditProfileScreen';
 import SplashScreen from '../screens/SplashScreen';
 import MyWebView from '../screens/Settings/MyWebView';
 import { Ionicons } from '@expo/vector-icons';
@@ -95,25 +94,6 @@ const CheckoutNavigator = () => {
   );
 };
 
-const EditProfileStackNavigator = createNativeStackNavigator();
-
-const EditProfileNavigator = () => {
-  return (
-    <EditProfileStackNavigator.Navigator
-      initialRouteName="Edit Profile"
-      screenOptions={{
-        headerTitle: 'Edit Profile',
-      }}>
-      <EditProfileStackNavigator.Screen
-        name="Edit Profile"
-        component={EditProfileScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </EditProfileStackNavigator.Navigator>
-  );
-};
 
 const ScannerStackNavigator = createNativeStackNavigator();
 
@@ -238,13 +218,6 @@ export const SettingsNavigator = () => {
         name="OrderDetail"
         component={OrderDetailScreen}
         options={OrderDetailScreenOptions}
-      />
-      <SettingsStackNavigator.Screen
-        name="EditProfile"
-        component={EditProfileNavigator}
-        options={{
-          headerTitle: 'Edit Profile',
-        }}
       />
       <SettingsStackNavigator.Screen
         name="Addresses"
