@@ -66,7 +66,7 @@ const OrderPreviewScreen = (props: any) => {
       if (address) {
         const RPPaymentOptions = {
           description: `${DrugStore.drugs.length} Medicines you ordered.`, //product description
-          image: DrugStore.drugs[0].imageUrl, // product image
+          image: DrugStore.drugs[0].image_url, // product image
           currency: 'INR',
           key: 'rzp_test_spbocQblrbzEdw',
           amount: total_checkout_amt * 100,

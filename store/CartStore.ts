@@ -2,7 +2,7 @@ import {cast, types} from 'mobx-state-tree';
 
 export type DrugType = {
   id: string;
-  imageUrl: string;
+  image_url: string;
   name: string;
   salt: string;
   price: number;
@@ -14,7 +14,7 @@ export type DrugType = {
 // Drug Model
 const drug = types.model({
   id: types.optional(types.string, ''),
-  imageUrl: types.optional(types.string, ''),
+  image_url: types.optional(types.string, ''),
   name: types.optional(types.string, ''),
   salt: types.optional(types.string, ''),
   price: types.optional(types.number, 0),
@@ -159,7 +159,7 @@ const DrugStore = types
         if (drugItem.id === drug.id) {
           self.drugs[0] = {
             id: drugItem.id,
-            imageUrl: drugItem.imageUrl,
+            image_url: drugItem.image_url,
             name: drugItem.name,
             salt: drugItem.salt,
             price: drugItem.price,

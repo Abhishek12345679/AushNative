@@ -34,7 +34,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                     borderRadius: 20,
                 }}>
                 <Image
-                    source={{ uri: drug.imageUrl }}
+                    source={{ uri: drug.image_url }}
                     style={{
                         width: 50,
                         height: 50,

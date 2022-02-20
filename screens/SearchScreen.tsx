@@ -14,6 +14,7 @@ import { colors } from '../constants/colors';
 import { gql, useLazyQuery } from '@apollo/client';
 import ListItem from '../components/ListItem';
 import { observer } from 'mobx-react';
+import { DrugType } from '../store/CartStore';
 
 const SearchScreen = observer(({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -115,14 +116,14 @@ const SearchScreen = observer(({ navigation }) => {
             backgroundColor: colors.SECONDARY,
             paddingHorizontal: 20,
             marginTop: StatusBar.currentHeight,
-            borderRadius: 20,
+            borderRadius: 15,
           }}
           blurOnSubmit
         />
       </View>
       <ScrollView>
         {!!data ? (
-          data.search.drugs.map((med, index) => (
+          data.search.drugs.map((med: DrugType, index) => (
             <ListItem
               keyProp={index}
               key={index}
@@ -153,7 +154,7 @@ const SearchScreen = observer(({ navigation }) => {
                 Dimensions.get('window').height - StatusBar.currentHeight - 100,
             }}>
             <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'normal' }}>
-              No medicines
+              Try searching for something elSe
             </Text>
           </View>
         )}

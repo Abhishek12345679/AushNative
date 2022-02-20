@@ -37,7 +37,7 @@ const OrderItem = observer(({ status, item, onPress, datetimestamp }: OrderItemP
         borderless: false
       }}
       onPress={onPress}>
-      {item.items[0].imageUrl !== "" && <ImageStack item={item} />}
+      {item.items[0].image_url !== "" && <ImageStack item={item} />}
       <View
         style={{
         }}>
