@@ -9,11 +9,8 @@ const fetchAddresses = async (): Promise<Array<AddressType>> => {
       .get();
 
     const userData = user.data();
-    if (userData) {
-      if (userData.addresses.length > 0) {
-        return userData.addresses;
-      }
-      return [userData.addresses];
+    if (userData.addresses) {
+      return userData.addresses;
     } else {
       return [];
     }

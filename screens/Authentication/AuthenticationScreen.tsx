@@ -106,7 +106,7 @@ const AuthenticationScreen = observer(() => {
               setLoading(false)
             } catch (err) {
               setLoading(false)
-              console.error(err)
+              Alert.alert(err)
             }
           }}
         >
