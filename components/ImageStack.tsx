@@ -22,7 +22,7 @@ const ImageStack = ({ item }: ImageStackProps) => {
                         return (
                             <Image
                                 key={index}
-                                source={{ uri: _item.imageUrl }}
+                                source={{ uri: _item.image_url }}
                                 style={{
                                     width: 65,
                                     height: 65,
