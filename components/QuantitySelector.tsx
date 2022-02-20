@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     height: 65,
     width: 50,
     marginStart: 0,
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
+    color: "#fff"
   },
 });
 

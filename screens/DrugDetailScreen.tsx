@@ -6,8 +6,6 @@ import {
   ScrollView,
   StatusBar,
   Image,
-  TouchableOpacity,
-  ActivityIndicator,
   Pressable,
 } from 'react-native';
 
@@ -19,6 +17,8 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import DrugStore, { DrugType } from '../store/CartStore';
 import { colors } from '../constants/colors';
 import { Popable } from 'react-native-popable';
+
+import BigButton from '../components/BigButton'
 
 const DrugDetailScreen = observer((props: any) => {
 
@@ -148,7 +148,7 @@ const DrugDetailScreen = observer((props: any) => {
               }}
               style={{
                 height: 335,
-                width: 350,
+                width: 365,
                 backgroundColor: colors.PRIMARY,
                 borderRadius: 20,
               }}
@@ -181,7 +181,7 @@ const DrugDetailScreen = observer((props: any) => {
                       backgroundColor: '#FFF',
                     }}
                   >
-                    <Text style={{ color: "#000", fontWeight: "bold" }}>
+                    <Text style={{ color: "#FFF", fontWeight: "bold" }}>
                       Prescription Needed!!
                     </Text>
                   </View>
@@ -204,8 +204,8 @@ const DrugDetailScreen = observer((props: any) => {
               marginTop: 15,
               paddingHorizontal: 15,
             }}>
-            <TouchableOpacity
-              style={styles.buyBtn}
+            <BigButton
+              loading={addingToCart}
               onPress={() => {
                 setAddingToCart(true);
                 setTimeout(() => {
@@ -216,30 +216,19 @@ const DrugDetailScreen = observer((props: any) => {
                   });
                   setAddingToCart(false);
                 }, 1000);
-              }}>
-              {!addingToCart ? (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                  }}>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: 35,
-                        fontWeight: 'bold',
-                        color: '#ffffff',
-                      }}>
-                      ₹{item.price}
-                    </Text>
-                  </View>
-                  <Text style={{ fontSize: 15, color: '#fff' }}>Add to cart</Text>
-                </View>
-              ) : (
-                <ActivityIndicator size="large" color="#FFF" />
-              )}
-            </TouchableOpacity>
+              }}
+              text={`₹${item.price}`}
+              subtitle="Add To Cart"
+              buttonStyle={{
+                width: 250,
+                marginStart: 20,
+                marginVertical: 20
+              }}
+              titleStyle={{
+                fontSize: 25
+              }}
+            />
+
             <QuantitySelector
               onIncrease={onIncrease}
               onDecrease={onDecrease}
@@ -260,7 +249,7 @@ const DrugDetailScreen = observer((props: any) => {
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
-              color="#000"
+              color="#FFF"
               onPress={() => setIntroCollapsed(prev => !prev)}
             />
           </View>
@@ -281,7 +270,7 @@ const DrugDetailScreen = observer((props: any) => {
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
-              color="#000"
+              color="#FFF"
               onPress={() => setUsesCollapsed(prev => !prev)}
             />
           </View>
@@ -305,7 +294,7 @@ const DrugDetailScreen = observer((props: any) => {
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
-              color="#000"
+              color="#FFF"
               onPress={() => setSideEffectsCollapsed(prev => !prev)}
             />
           </View>
@@ -347,7 +336,7 @@ const DrugDetailScreen = observer((props: any) => {
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
-              color="#000"
+              color="#FFF"
               onPress={() => setHowToSECollapsed(prev => !prev)}
             />
           </View>
@@ -380,7 +369,7 @@ const DrugDetailScreen = observer((props: any) => {
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
-              color="#000"
+              color="#FFF"
               onPress={() => setHowToUseCollapsed(prev => !prev)}
             />
           </View>
@@ -403,7 +392,7 @@ const DrugDetailScreen = observer((props: any) => {
             <MaterialIcons
               name="keyboard-arrow-down"
               size={22}
-              color="#000"
+              color="#FFF"
               onPress={() => setSafetyAdviceCollapsed(prev => !prev)}
             />
           </View>

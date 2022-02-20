@@ -15,7 +15,6 @@ import { colors } from "../constants/colors";
 import RoundButton from "../components/RoundButton";
 import CameraPreviewButtonsPane from "../components/CameraPreviewButtonsPane";
 
-import RNTooltips from 'react-native-tooltips';
 
 const CameraPreviewScreen = (props: any) => {
 

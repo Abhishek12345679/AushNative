@@ -1,16 +1,19 @@
-import { Text, Pressable, ActivityIndicator, StyleProp, PressableProps } from 'react-native'
+import { Text, Pressable, ActivityIndicator, View } from 'react-native'
 import React from 'react'
 import { colors } from '../constants/colors'
 
 interface BigButtonProps {
     disabled?: boolean;
-    text: string;
+    text?: string;
+    subtitle?: string;
     onPress: () => void;
     loading?: boolean;
     buttonStyle?: {};
+    titleStyle?: {}
+    subtitleStyle?: {}
 }
 
-const BigButton = ({ text, onPress, loading, buttonStyle, disabled }: BigButtonProps) => {
+const BigButton = ({ text, onPress, loading, buttonStyle, disabled, subtitle, titleStyle, subtitleStyle }: BigButtonProps) => {
     return (
         <Pressable
             disabled={disabled}
@@ -32,11 +35,36 @@ const BigButton = ({ text, onPress, loading, buttonStyle, disabled }: BigButtonP
                 ...buttonStyle
             }}>
             {!loading ? (
-                <Text
-                    style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
-                >
-                    {text}
-                </Text>
+                <View style={{ flexDirection: 'column-reverse' }}>
+                    <Text
+                        style={{
+                            ...{
+                                color: '#fff',
+                                fontSize: 15,
+                                fontWeight: 'bold',
+                                textAlign: 'center'
+
+                            },
+                            ...titleStyle
+                        }
+                        }
+                    >
+                        {text}
+                    </Text>
+                    {subtitle && <Text
+                        style={{
+                            ...{
+                                color: '#fff',
+                                fontSize: 15,
+                                fontWeight: 'bold',
+                                textAlign: 'center'
+                            },
+                            ...subtitleStyle
+                        }}
+                    >
+                        {subtitle}
+                    </Text>}
+                </View>
             ) : (
                 <ActivityIndicator size="small" color="#fff" />
             )}
