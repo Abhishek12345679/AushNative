@@ -19,12 +19,15 @@ LogBox.ignoreLogs([
 
 const App = observer(() => {
   useEffect(() => {
-    const init = async () => { };
+    const init = async () => {
+      await RNBootSplash.show({ fade: true })
+    };
 
     init().finally(async () => {
       await RNBootSplash.hide({ fade: true });
     });
   }, []);
+
 
   return (
     <ActionSheetProvider>

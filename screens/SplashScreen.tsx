@@ -8,10 +8,10 @@ const SplashScreen = observer(() => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {/* <Image
+      <Image
         source={require("../assets/adaptive-icon.png")}
         style={{ height: 100, width: 100 }}
-      /> */}
+      />
       <Text style={{ color: "#fff", fontSize: 30, fontWeight: 'bold' }}>Aushadhalay</Text>
       <Text style={{ color: "#fff", fontSize: 15, }}>Scan awayyy!</Text>
     </View>
