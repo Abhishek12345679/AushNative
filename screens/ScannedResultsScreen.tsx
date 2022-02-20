@@ -30,7 +30,7 @@ export const GET_MEDICINE_COUNT = gql`
 const ScannedResultsScreen = observer((props: any) => {
     const words = props.route.params.words as Array<string>
 
-    const [getMedicineCount, _] = useLazyQuery(GET_MEDICINE_COUNT);
+    const [getMedicineCount, { loading: countLoading }] = useLazyQuery(GET_MEDICINE_COUNT);
     const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
 
@@ -104,7 +104,7 @@ const ScannedResultsScreen = observer((props: any) => {
         });
     }, []);
 
-    if (loading) {
+    if (loading || countLoading) {
         return (
             <View
                 style={{
