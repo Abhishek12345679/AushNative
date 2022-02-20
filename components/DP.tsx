@@ -6,9 +6,7 @@ import DrugStore from '../store/CartStore';
 
 const DP = observer(props => {
 
-  const url: string = props.editMode
-    ? props.profile_picture
-    : DrugStore.profile.display_picture;
+  const url: string = DrugStore.profile.display_picture;
 
   const name = DrugStore.userCredentials.email.substring(
     0,

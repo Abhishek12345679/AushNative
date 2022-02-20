@@ -31,12 +31,12 @@ const AuthenticationScreen = observer(() => {
         return;
       }
 
-      const { user } = await auth().createUserWithEmailAndPassword(email, password);
+      const { user } = await auth().createUserWithEmailAndPassword(email.trim(), password.trim());
       const token = await user.getIdToken();
       DrugStore.initializeUserCredentials(token, user.uid, user.email);
 
       await updatePersonalInfo({
-        name: name,
+        name: name.trim(),
       })
 
       showMessage({
@@ -63,7 +63,7 @@ const AuthenticationScreen = observer(() => {
   const logIn = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const { user } = await auth().signInWithEmailAndPassword(email, password);
+      const { user } = await auth().signInWithEmailAndPassword(email.trim(), password.trim());
       const token = await user.getIdToken();
       DrugStore.initializeUserCredentials(token, user.uid, user.email);
       setLoading(false);

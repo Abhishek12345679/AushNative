@@ -13,25 +13,26 @@ import DrugStore from '../store/CartStore';
 import { colors } from '../constants/colors';
 
 const AppContainer = observer(() => {
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState<boolean>(true);
+  const [initializing, setInitializing] = useState<boolean>(false);
   const [user, setUser] = useState<FirebaseAuthTypes.User>();
 
   if (!firebase.apps.length) {
-    //If a firebase app has not been initialized this will initialize it
     firebase.initializeApp(firebaseConfig);
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(async user => {
-      // console.log(user);
-      const token = await user.getIdToken(true);
-      setUser(user);
-
-      DrugStore.initializeUserCredentials(token, user.uid, user.email);
-    });
-
-    if (initializing) setInitializing(false);
+    setInitializing(true)
+    const subscriber = auth()
+      .onAuthStateChanged(async (user: FirebaseAuthTypes.User) => {
+        if (user) {
+          const token = await user.getIdToken(true);
+          DrugStore.initializeUserCredentials(token, user.uid, user.email);
+          setUser(user);
+        } else {
+          console.log("No User")
+        }
+      });
+    setInitializing(false)
     return subscriber;
   }, []);
 

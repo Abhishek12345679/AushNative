@@ -23,20 +23,17 @@ const SettingsScreen = observer((props: any) => {
         cancelButtonIndex,
         destructiveButtonIndex,
       },
-      (buttonIndex: number) => {
+      async (buttonIndex: number) => {
         if (buttonIndex === 0) {
-          const logout = async () => {
-            try {
-              await auth().signOut();
-              DrugStore.initializeUserCredentials('', '', '');
-              console.log(
-                `${DrugStore.userCredentials.uid} logged out successfully`,
-              );
-            } catch (e) {
-              console.error(e);
-            }
-          };
-          logout();
+          try {
+            await auth().signOut()
+            console.log(
+              `${DrugStore.userCredentials.uid} logged out successfully`,
+            );
+            // DrugStore.initializeUserCredentials('', '', '');
+          } catch (e) {
+            console.error(e);
+          }
         }
       },
     );
