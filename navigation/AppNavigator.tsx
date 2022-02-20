@@ -1,24 +1,17 @@
 import React from 'react';
-import {Platform, Pressable} from 'react-native';
-
+import { Platform, Pressable } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import DrugScanner from '../screens/DrugScanner';
 import ResultList from '../screens/ResultList';
-import DrugDetailScreen, {
-  screenOptions as DrugDetailScreenOptions,
-} from '../screens/DrugDetailScreen';
+import DrugDetailScreen from '../screens/DrugDetailScreen';
 import CameraPreviewScreen from '../screens/CameraPreviewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-
 import CartScreen from '../screens/CartScreen';
-
 import AddAddressModalScreen from '../screens/AddAddressModalScreen';
-
 import AuthenticationScreen from '../screens/Authentication/AuthenticationScreen';
-
-import {enableScreens} from 'react-native-screens';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { enableScreens } from 'react-native-screens';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import OrdersScreen from '../screens/Settings/OrdersScreen';
 import AddressScreen, {
   screenOptions as AddressScreenOptions,
@@ -26,27 +19,19 @@ import AddressScreen, {
 import SelectAddressScreen, {
   screenOptions as SelectAddressScreenOptions,
 } from '../screens/CheckoutFlow/SelectAddressScreen';
-
 import UploadPrescriptionScreen from '../screens/CheckoutFlow/UploadPrescriptionScreen';
-
 import OrderPreviewScreen from '../screens/CheckoutFlow/OrderPreviewScreen';
 import EditProfileScreen from '../screens/Settings/EditProfileScreen';
-
 import SplashScreen from '../screens/SplashScreen';
-
 import MyWebView from '../screens/Settings/MyWebView';
-
-import {Ionicons} from '@expo/vector-icons';
-
+import { Ionicons } from '@expo/vector-icons';
 import OrderDetailScreen, {
   screenOptions as OrderDetailScreenOptions,
 } from '../screens/Settings/OrderDetailScreen';
-
 import OrderSuccessScreen from '../screens/CheckoutFlow/OrderSuccessScreen';
 import OrderFailureScreen from '../screens/CheckoutFlow/OrderFailureScreen';
-
 import SearchScreen from '../screens/SearchScreen';
-import {colors} from '../constants/colors';
+import { colors } from '../constants/colors';
 import ScannedResultsScreen from '../screens/ScannedResultsScreen';
 
 enableScreens();
@@ -58,7 +43,7 @@ export const AuthNavigator = () => {
       <AuthStackNavigator.Screen
         name="Auth"
         component={AuthenticationScreen}
-        options={{headerLargeTitle: false, headerShown: false}}
+        options={{ headerLargeTitle: false, headerShown: false }}
       />
     </AuthStackNavigator.Navigator>
   );
@@ -138,7 +123,6 @@ const ScannerNavigator = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.PRIMARY,
-          borderTopColor: colors.SECONDARY,
         },
         headerLargeTitle: false,
         headerTintColor: '#fff',
@@ -148,7 +132,6 @@ const ScannerNavigator = () => {
         component={DrugScanner}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
         }}
       />
       <ScannerStackNavigator.Screen name="Results" component={ResultList} />
@@ -159,7 +142,6 @@ const ScannerNavigator = () => {
       <ScannerStackNavigator.Screen
         name="Drug"
         component={DrugDetailScreen}
-        options={DrugDetailScreenOptions}
       />
       <ScannerStackNavigator.Screen
         name="Confirm"
@@ -192,7 +174,9 @@ export const RootNavigator = () => {
       <RootStackNavigator.Screen
         name="Home"
         component={HomeScreen}
-        headerTitle="Aushadhalay"
+        options={{
+          headerTitle: "Aushadhalay"
+        }}
       />
       <RootStackNavigator.Screen
         name="Search"
@@ -204,7 +188,6 @@ export const RootNavigator = () => {
       <RootStackNavigator.Screen
         name="Drug"
         component={DrugDetailScreen}
-        options={DrugDetailScreenOptions}
       />
       <RootStackNavigator.Screen
         name="Cart"
@@ -213,9 +196,7 @@ export const RootNavigator = () => {
           headerLargeTitle: false,
           headerStyle: {
             backgroundColor: colors.PRIMARY,
-            borderBottomColor: colors.SECONDARY,
           },
-          headerLargeTitle: false,
           headerTintColor: '#fff',
         }}
       />
@@ -240,7 +221,6 @@ export const SettingsNavigator = () => {
       screenOptions={{
         headerStyle: {
           backgroundColor: colors.PRIMARY,
-          borderBottomColor: colors.SECONDARY,
         },
         headerLargeTitle: false,
         headerTintColor: '#fff',
@@ -276,8 +256,6 @@ export const SettingsNavigator = () => {
         component={AddAddressModalScreen}
         options={{
           headerLargeTitle: false,
-          stackPresentation: 'modal',
-          stackAnimation: 'default',
         }}
       />
       <SettingsStackNavigator.Screen name="MyWebView" component={MyWebView} />
@@ -287,7 +265,7 @@ export const SettingsNavigator = () => {
 
 const BottomNavigationBar = createBottomTabNavigator();
 
-export const TabNavigator = ({navigation}) => {
+export const TabNavigator = ({ navigation }) => {
   return (
     <BottomNavigationBar.Navigator
       screenOptions={{
@@ -306,7 +284,7 @@ export const TabNavigator = ({navigation}) => {
         name="HomeScreen"
         component={RootNavigator}
         options={{
-          tabBarIcon: ({color, focused}) => (
+          tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={!focused ? 'home-outline' : 'home'}
               color={color}
@@ -320,7 +298,7 @@ export const TabNavigator = ({navigation}) => {
         name="ScanNav"
         component={ScannerNavigator}
         options={{
-          tabBarIcon: ({_, focused}) => (
+          tabBarIcon: ({ color, focused }) => (
             <Pressable
               android_ripple={{
                 color: '#fff',
@@ -350,7 +328,7 @@ export const TabNavigator = ({navigation}) => {
         name="Settings"
         component={SettingsNavigator}
         options={{
-          tabBarIcon: ({color, focused}) => (
+          tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={!focused ? 'ios-person-outline' : 'ios-person'}
               color={color}
@@ -380,7 +358,6 @@ export const MainNavigator = () => {
         component={ScannerNavigator}
         options={{
           headerShown: false,
-          unmountOnBlur: true,
         }}
       />
     </MainStackNavigator.Navigator>

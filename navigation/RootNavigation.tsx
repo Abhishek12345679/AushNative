@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 
 import firebase from '@react-native-firebase/app';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firebaseConfig from '../constants/config';
 
-import {ModalPortal} from 'react-native-modals';
-import {NavigationContainer} from '@react-navigation/native';
-import {MainNavigator, AuthNavigator} from './AppNavigator';
+import { ModalPortal } from 'react-native-modals';
+import { NavigationContainer } from '@react-navigation/native';
+import { MainNavigator, AuthNavigator } from './AppNavigator';
 import SplashScreen from '../screens/SplashScreen';
 import DrugStore from '../store/CartStore';
-import {colors} from '../constants/colors';
+import { colors } from '../constants/colors';
 
 const AppContainer = observer(() => {
   // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [initializing, setInitializing] = useState<boolean>(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User>();
 
   if (!firebase.apps.length) {
     //If a firebase app has not been initialized this will initialize it
@@ -40,6 +40,7 @@ const AppContainer = observer(() => {
       theme={{
         colors: {
           background: colors.PRIMARY,
+          // add other theme stuff later?
         },
       }}>
       {initializing && <SplashScreen />}

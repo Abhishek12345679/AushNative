@@ -59,7 +59,7 @@ const DrugDetailScreen = observer((props: any) => {
     quantity: 0,
     prescription_req: false,
     total_amt: 0,
-    imageUrl: '',
+    image_url: '',
 
   });
 
@@ -119,7 +119,7 @@ const DrugDetailScreen = observer((props: any) => {
   useEffect(() => {
     setCartItem({
       id: item.id,
-      imageUrl: item.image_url,
+      image_url: item.image_url,
       name: item.name,
       salt: item.salt,
       price: parseFloat(parseFloat(item.price).toFixed(2)),
