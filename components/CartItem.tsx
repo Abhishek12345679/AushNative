@@ -33,7 +33,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                     marginStart: 20,
                     borderRadius: 20,
                 }}>
-                <Image
+                {drug.image_url !== "" && <Image
                     source={{ uri: drug.image_url }}
                     style={{
                         width: 50,
@@ -41,7 +41,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                         marginEnd: 20,
                         borderRadius: 5,
                     }}
-                />
+                />}
                 <View style={{ marginEnd: 10, width: '60%' }}>
                     <Text style={{ fontSize: 17, fontWeight: 'bold', color: "#fff" }}>
                         {drug.name.length > 10 ? drug.name.substring(0, 20) + "..." : drug.name}

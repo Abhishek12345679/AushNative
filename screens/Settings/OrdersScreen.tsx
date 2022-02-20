@@ -7,6 +7,7 @@ import DrugStore from '../../store/CartStore';
 
 const OrdersScreen = observer((props: any) => {
   const { navigation } = props;
+  const drugs = DrugStore.orders.slice().reverse() as any[]
   const hasOrders = DrugStore.orders.length > 0;
 
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -30,16 +31,13 @@ const OrdersScreen = observer((props: any) => {
     <View style={{ flex: 1 }}>
       {hasOrders ? (
         <FlatList
-          keyExtractor={(item) => item.datetimestamp.toString()}
+          keyExtractor={(item) => item.datetimestamp}
           style={styles.container}
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
-          data={DrugStore.orders.slice().reverse()}
-          renderItem={(
-            order: any,
-            index: number
-          ) => (
+          data={drugs}
+          renderItem={(order: any, index: number) => (
             <OrderItem
               status={order.item.status}
               key={index}
