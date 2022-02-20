@@ -17,7 +17,7 @@ const DP = observer(props => {
 
   return (
     <LinearGradient
-      colors={['purple', 'red']}
+      colors={['red', 'gold', 'red',]}
       style={{ ...styles.outer, ...props.outer }}>
       {!url && url.startsWith("file") ?
         <Image

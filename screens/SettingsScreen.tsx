@@ -1,18 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-
 import DrugStore from '../store/CartStore';
-
 import { observer } from 'mobx-react';
 import auth from '@react-native-firebase/auth';
 import ListItem from '../components/ListItem';
-
-import { connectActionSheet } from '@expo/react-native-action-sheet';
 import { colors } from '../constants/colors';
-
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
-const SettingsScreen = observer((props) => {
+const SettingsScreen = observer((props: any) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const PRIVACY_PAGE_URL = 'https://aushadhalay.flycricket.io/privacy.html';
   const TC_PAGE_URL = 'https://aushadhalay.flycricket.io/terms.html';
@@ -118,8 +113,9 @@ const SettingsScreen = observer((props) => {
           justifyContent: 'center',
           alignItems: 'center',
           height: 75,
+          backgroundColor: "rgba(255,0,0,0.6)"
         }}
-        titleStyle={{ fontWeight: 'bold', fontSize: 18, color: 'red' }}
+        titleStyle={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}
       />
     </ScrollView>
   );
