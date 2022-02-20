@@ -148,8 +148,6 @@ const ScannerNavigator = () => {
         component={DrugScanner}
         options={{
           headerShown: false,
-          stackPresentation: 'modal',
-          gestureEnabled: false,
           unmountOnBlur: true,
         }}
       />
