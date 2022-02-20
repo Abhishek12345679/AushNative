@@ -30,6 +30,7 @@ const AppContainer = observer(() => {
           setUser(user);
         } else {
           console.log("No User")
+          setUser(null)
         }
       });
     setInitializing(false)
