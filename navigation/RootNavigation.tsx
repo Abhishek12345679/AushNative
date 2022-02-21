@@ -60,7 +60,6 @@ const AppContainer = observer(() => {
       theme={{
         colors: {
           background: colors.PRIMARY,
-          // add other theme stuff later?
         },
       }}>
       {/* {initializing && <SplashScreen />} */}

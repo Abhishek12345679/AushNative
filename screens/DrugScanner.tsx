@@ -91,11 +91,6 @@ const DrugScanner = (props: any) => {
     }
   };
 
-  const onSwipeDown = () => {
-    if (isVisible === true) {
-      setIsVisible(false);
-    }
-  };
 
   const searchQueryChangeHandler = (text: string) => {
     setQuery(text);
@@ -199,7 +194,6 @@ const DrugScanner = (props: any) => {
       <StatusBar hidden />
       <GestureRecognizer
         onSwipeUp={onSwipeUp}
-        onSwipeDown={onSwipeDown}
         config={config}
         style={{
           flex: 1,

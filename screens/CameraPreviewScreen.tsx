@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   SafeAreaView,
+  Alert,
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons";
 import { extractWords, TextRecognitionResponse } from "../mlkit/TextRecognition";
@@ -33,13 +34,25 @@ const CameraPreviewScreen = (props: any) => {
     if (image) {
       try {
         const TextRecognitionResponse = await extractWords(image);
+        setAspectRatio(
+          TextRecognitionResponse.height /
+          TextRecognitionResponse.width
+        );
 
         if (TextRecognitionResponse.blocks.length > 0) {
           setTextRecognitonResponse(TextRecognitionResponse);
-          setAspectRatio(
-            TextRecognitionResponse.height /
-            TextRecognitionResponse.width
-          );
+        } else {
+          Alert.alert("Alert", "No Text Found in this image",
+            [
+              {
+                text: "Go Back",
+                onPress: () => {
+                  props.navigation.goBack()
+                },
+                style: "destructive"
+              }
+            ]
+          )
         }
       } catch (err) {
         console.error(err);

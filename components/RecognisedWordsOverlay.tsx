@@ -44,7 +44,7 @@ const RecognisedWordsOverlay = ({ response, scale, navigation }: RecognisedWords
                 !!words && words.map((word, i) => {
                     return (
                         <BoundingBox
-                            keyProp={i}
+                            keyProp={word.text}
                             boundingBox={word.rect}
                             text={word.text}
                             scale={scale}
