@@ -44,9 +44,9 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 />}
                 <View style={{ marginEnd: 10, width: '60%' }}>
                     <Text style={{ fontSize: 17, fontWeight: 'bold', color: "#fff" }}>
-                        {drug.name.length > 10 ? drug.name.substring(0, 20) + "..." : drug.name}
+                        {drug.name.length > 40 ? drug.name.substring(0, 40) + "..." : drug.name}
                     </Text>
-                    <Text style={{ fontSize: 13, color: "#fff" }}>{drug.salt.length > 20 ? drug.salt.substring(0, 40) + "..." : drug.salt}</Text>
+                    <Text style={{ fontSize: 13, color: "#fff" }}>{drug.salt.length > 40 ? drug.salt.substring(0, 40) + "..." : drug.salt}</Text>
                 </View>
                 {!!removeFromCart &&
                     <Pressable
@@ -82,7 +82,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 {/* <View style={styles.item}>
                     <FontAwesome5 name="money-bill-wave" color="#fff" size={15} />
                     <Text style={styles.subtext}>₹{drug.price}</Text>
-                </View>
+                </View> */}
                 <View
                     style={{
                         flexDirection: 'column',
@@ -92,7 +92,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                         <FontAwesome5 name="money-bill-wave" color="#fff" size={15} />
                         <Text style={styles.subtext}>₹{drug.total_amt}</Text>
                     </View>
-                </View> */}
+                </View>
             </View>
         </View >
     )
