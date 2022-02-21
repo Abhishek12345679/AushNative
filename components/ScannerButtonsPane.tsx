@@ -29,6 +29,7 @@ const ScannerButtonsPane = ({
                 marginTop: 10,
                 marginEnd: 10
             }}>
+
             <RoundButton
                 style={styles.buttonStyle}
                 onPress={toggleFlash}>
@@ -38,6 +39,7 @@ const ScannerButtonsPane = ({
                     color="#fff"
                 />
             </RoundButton>
+
             <RoundButton
                 style={styles.buttonStyle}
                 onPress={toggleManualSearchBox}

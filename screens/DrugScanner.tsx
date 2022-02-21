@@ -7,46 +7,36 @@ import {
   Dimensions,
   SafeAreaView,
   StatusBar,
-  Pressable,
 } from 'react-native';
-
 import GestureRecognizer from 'react-native-swipe-gestures';
-import { useFocusEffect } from '@react-navigation/native';
-
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
-
 import Modal from 'react-native-modal';
-
 import ManualSearchBox from '../components/ManualSearchBox';
 import CaptureButton from '../components/CaptureButton';
 import ScannerButtonsPane from '../components/ScannerButtonsPane';
 import { FlashMode } from 'expo-camera/build/Camera.types';
-
 import { colors } from '../constants/colors'
 import RoundButton from '../components/RoundButton';
 import { Ionicons } from '@expo/vector-icons'
+import { useIsFocused } from '@react-navigation/native'
 
 const DrugScanner = (props: any) => {
 
   const [cameraRef, setCameraRef] = useState(null);
   const [camera, setCamera] = useState(null);
-  const [mounted, setMounted] = useState<boolean>(true);
   const [isCameraReady, setIsCameraReady] = useState<boolean>(false);
   const [flashStatus, setFlashStatus] = useState<FlashMode>(FlashMode.off);
-
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-
-
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
   const [imagePadding, setImagePadding] = useState<number>(0);
   const [ratio, setRatio] = useState<string>();
   const { height, width } = Dimensions.get('window');
   const screenRatio = height / width;
   const [isRatioSet, setIsRatioSet] = useState<boolean>(false);
+  const cameraMounted = useIsFocused()
 
   const config = {
     velocityThreshold: 0.3,
@@ -91,7 +81,6 @@ const DrugScanner = (props: any) => {
       setIsVisible(true);
     }
   };
-
 
   const searchQueryChangeHandler = (text: string) => {
     setQuery(text);
@@ -168,17 +157,6 @@ const DrugScanner = (props: any) => {
     onCameraReady();
   }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setMounted(true);
-      return () => {
-        console.log('unmounted');
-        setMounted(false);
-      };
-    }, []),
-  );
-
-
   if (hasPermission === null) {
     return <View />;
   } else if (hasPermission === false) {
@@ -189,7 +167,6 @@ const DrugScanner = (props: any) => {
     );
   }
 
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
       <StatusBar hidden />
@@ -199,7 +176,7 @@ const DrugScanner = (props: any) => {
         style={{
           flex: 1,
         }}>
-        {mounted && (
+        {cameraMounted && (
           <Camera
             ratio={ratio}
             style={{
@@ -237,7 +214,7 @@ const DrugScanner = (props: any) => {
               >
                 <Ionicons
                   name="arrow-back"
-                  size={20}
+                  size={24}
                   color="#fff"
                 />
               </RoundButton>
