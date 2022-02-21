@@ -1,12 +1,11 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import RoundButton from './RoundButton';
-import { Entypo, MaterialIcons, Ionicons } from '@expo/vector-icons'
+import { MaterialIcons, Ionicons } from '@expo/vector-icons'
 import { FlashMode } from 'expo-camera/build/Camera.types';
 
 interface ScannerButtonsPaneProps {
     flashStatus: FlashMode,
-    navigation: any,
     toggleFlash: () => void,
     toggleManualSearchBox: () => void,
     pickImage: () => void
@@ -14,7 +13,6 @@ interface ScannerButtonsPaneProps {
 
 const ScannerButtonsPane = ({
     flashStatus,
-    navigation,
     toggleFlash,
     toggleManualSearchBox,
     pickImage
@@ -28,14 +26,9 @@ const ScannerButtonsPane = ({
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
                 alignItems: 'flex-end',
+                marginTop: 10,
+                marginEnd: 10
             }}>
-            <RoundButton
-                style={styles.buttonStyle}
-                onPress={() => {
-                    navigation.goBack();
-                }}>
-                <Entypo name="cross" size={25} color="#fff" />
-            </RoundButton>
             <RoundButton
                 style={styles.buttonStyle}
                 onPress={toggleFlash}>
@@ -46,13 +39,9 @@ const ScannerButtonsPane = ({
                 />
             </RoundButton>
             <RoundButton
-                style={{
-                    backgroundColor: 'rgba(0,0,0,0.4)',
-                    marginEnd: 10,
-                    marginTop: 10,
-
-                }}
-                onPress={toggleManualSearchBox}>
+                style={styles.buttonStyle}
+                onPress={toggleManualSearchBox}
+            >
                 <Ionicons name="ios-search" size={20} color="#fff" />
             </RoundButton>
 
@@ -67,11 +56,11 @@ const ScannerButtonsPane = ({
 
 const styles = StyleSheet.create({
     buttonStyle: {
-        backgroundColor: 'rgba(0,0,0,0.4)',
+        backgroundColor: '#00000075',
         alignItems: 'center',
-        marginEnd: 10,
-        marginTop: 10,
-        justifyContent: 'center'
+        marginVertical: 10,
+        justifyContent: 'center',
+        elevation: 1
     }
 })
 

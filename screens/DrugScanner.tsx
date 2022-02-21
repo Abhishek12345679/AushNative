@@ -216,26 +216,23 @@ const DrugScanner = (props: any) => {
             onCameraReady={onCameraReady}
             useCamera2Api={true}
           >
-            <RoundButton
+            <View
               style={{
-                backgroundColor: "#000",
                 flex: 0.2,
-                width: 30,
-                elevation: 0,
-                marginTop: 20,
-                marginStart: 10
-              }}
-              onPress={() => {
-                props.navigation.goBack()
+                backgroundColor: '#ffffff00',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-end',
               }}>
-              <View
+              <RoundButton
                 style={{
-                  width: '50%',
-                  height: '80%',
-                  backgroundColor: "#000",
-                  borderRadius: 30,
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  marginRight: 30,
+                  marginTop: 20,
+                  elevation: 0.4,
+                  backgroundColor: "#000000"
+                }}
+                onPress={() => {
+                  props.navigation.goBack()
                 }}
               >
                 <Ionicons
@@ -243,8 +240,9 @@ const DrugScanner = (props: any) => {
                   size={20}
                   color="#fff"
                 />
-              </View>
-            </RoundButton>
+              </RoundButton>
+
+            </View>
             <View
               style={{
                 flex: 0.6,
@@ -252,9 +250,8 @@ const DrugScanner = (props: any) => {
                 flexDirection: 'column',
                 justifyContent: 'space-around',
                 alignItems: 'center',
-                marginStart: 40,
-                marginBottom: -30,
-                marginVertical: 150,
+                marginStart: -20,
+                marginBottom: -100,
               }}>
               <View
                 style={{
@@ -269,7 +266,6 @@ const DrugScanner = (props: any) => {
             </View>
             <ScannerButtonsPane
               flashStatus={flashStatus}
-              navigation={props.navigation}
               pickImage={pickImage}
               toggleFlash={() => {
                 setFlashStatus(
