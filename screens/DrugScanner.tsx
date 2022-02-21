@@ -240,7 +240,7 @@ const DrugScanner = (props: any) => {
               <CaptureButton captureImage={captureImage} />
             </View>
             <ScannerButtonsPane
-              cameraType={cameraType}
+              // cameraType={cameraType}
               flashStatus={flashStatus}
               navigation={props.navigation}
               pickImage={pickImage}
@@ -251,13 +251,13 @@ const DrugScanner = (props: any) => {
                     FlashMode.on
                 );
               }}
-              toggleFrontBackCamera={() => {
-                setCameraType(
-                  cameraType === CameraType.front
-                    ? CameraType.back
-                    : CameraType.front
-                )
-              }}
+              // toggleFrontBackCamera={() => {
+              //   setCameraType(
+              //     cameraType === CameraType.front
+              //       ? CameraType.back
+              //       : CameraType.front
+              //   )
+              // }}
               toggleManualSearchBox={() => {
                 setIsVisible(prev => !prev);
               }}

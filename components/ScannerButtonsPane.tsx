@@ -6,10 +6,10 @@ import { Entypo, MaterialIcons, Ionicons } from '@expo/vector-icons'
 import { CameraType, FlashMode } from 'expo-camera/build/Camera.types';
 
 interface ScannerButtonsPaneProps {
-    cameraType: CameraType,
+    // cameraType: CameraType,
     flashStatus: FlashMode,
     navigation: any,
-    toggleFrontBackCamera: () => void,
+    // toggleFrontBackCamera: () => void,
     toggleFlash: () => void,
     toggleManualSearchBox: () => void,
     pickImage: () => void
@@ -17,9 +17,9 @@ interface ScannerButtonsPaneProps {
 
 const ScannerButtonsPane = ({
     flashStatus,
-    cameraType,
+    // cameraType,
     navigation,
-    toggleFrontBackCamera,
+    // toggleFrontBackCamera,
     toggleFlash,
     toggleManualSearchBox,
     pickImage
@@ -49,7 +49,7 @@ const ScannerButtonsPane = ({
                     <Entypo name="cross" size={25} color="#fff" />
                 </RoundButton>
             </Pressable>
-            <Pressable
+            {/* <Pressable
                 style={{
                     alignSelf: 'flex-end',
                     alignItems: 'flex-end',
@@ -65,7 +65,7 @@ const ScannerButtonsPane = ({
                         color="#fff"
                     />
                 </RoundButton>
-            </Pressable>
+            </Pressable> */}
             <Pressable
                 style={{
                     alignSelf: 'flex-end',
