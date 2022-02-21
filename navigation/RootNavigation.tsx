@@ -63,7 +63,7 @@ const AppContainer = observer(() => {
           // add other theme stuff later?
         },
       }}>
-      {initializing && <SplashScreen />}
+      {/* {initializing && <SplashScreen />} */}
       {!user && !initializing && <AuthNavigator />}
       {user && !initializing && <MainNavigator />}
       <ModalPortal />
