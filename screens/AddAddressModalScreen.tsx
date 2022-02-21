@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 
 import { Formik } from 'formik';
-import RadioButtonRN from 'radio-buttons-react-native';
-
 import { showMessage } from 'react-native-flash-message';
 import { observer } from 'mobx-react';
 import addAddresses from '../helpers/addAddress';
@@ -18,9 +16,6 @@ import { colors } from '../constants/colors';
 
 const AddAddressModalScreen = observer(props => {
   const [addingAddress, setAddingAddress] = useState(false);
-  // const [type, setType] = useState('Home');
-
-  // const AddressType = ['Home', 'Work', 'Other'];
 
   return (
     <ScrollView style={{ paddingHorizontal: 20, paddingVertical: 5 }}>
@@ -53,7 +48,7 @@ const AddAddressModalScreen = observer(props => {
             });
 
             setAddingAddress(true);
-            props.navigation.pop();
+            props.navigation.goBack();
           }}>
           {({ handleChange, handleSubmit, values }) => (
             <ScrollView>
@@ -108,7 +103,6 @@ const styles = StyleSheet.create({
   inputStyle: {
     height: 60,
     marginVertical: 15,
-    // borderBottomWidth: 0.5,
     borderColor: '#fff',
     color: "#fff",
     backgroundColor: colors.SECONDARY,

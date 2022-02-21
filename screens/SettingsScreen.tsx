@@ -117,7 +117,7 @@ const SettingsScreen = observer((props: any) => {
             0,
             DrugStore.userCredentials.email.indexOf('@'),
           )}
-        subtitle={DrugStore.userCredentials.email}
+        subtitle={DrugStore.userCredentials.uid}
         style={{
           marginBottom: 30,
           borderRadius: 10,

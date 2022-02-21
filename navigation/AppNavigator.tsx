@@ -65,6 +65,13 @@ const CheckoutNavigator = () => {
         options={SelectAddressScreenOptions}
       />
       <CheckoutStackNavigator.Screen
+        name="AddAddressModalScreen"
+        component={AddAddressModalScreen}
+        options={{
+          headerLargeTitle: false,
+        }}
+      />
+      <CheckoutStackNavigator.Screen
         name="UploadPrescription"
         component={UploadPrescriptionScreen}
         options={{
@@ -179,7 +186,7 @@ export const RootNavigator = () => {
           headerTintColor: '#fff',
         }}
       />
-
+      {/* 
       <RootStackNavigator.Screen
         name="CheckoutFlow"
         component={CheckoutNavigator}
@@ -187,7 +194,7 @@ export const RootNavigator = () => {
           gestureEnabled: false,
           headerShown: false,
         }}
-      />
+      /> */}
     </RootStackNavigator.Navigator>
   );
 };
@@ -329,6 +336,15 @@ export const MainNavigator = () => {
         name="ScanScreen"
         component={ScannerNavigator}
         options={{
+          headerShown: false,
+        }}
+      />
+
+      <MainStackNavigator.Screen
+        name="CheckoutFlow"
+        component={CheckoutNavigator}
+        options={{
+          gestureEnabled: false,
           headerShown: false,
         }}
       />

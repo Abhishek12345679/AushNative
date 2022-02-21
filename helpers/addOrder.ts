@@ -15,8 +15,13 @@ const addOrder = async (order: OrderType) => {
       await user.update({
         orders: [...orders, order],
       });
+      console.log('Placed Order');
+    } else {
+      await user.set({
+        orders: [order],
+      });
+      console.log('Placed Order');
     }
-    console.log('Placed Order');
   } catch (err) {
     console.error('Error: ', err);
   }

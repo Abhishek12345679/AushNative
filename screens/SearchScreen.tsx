@@ -112,13 +112,14 @@ const SearchScreen = observer(({ navigation }) => {
           <RoundButton
             style={{
               marginTop: StatusBar.currentHeight,
-              backgroundColor: "transparent"
+              backgroundColor: "#ffffff00",
+              elevation: 0
             }}
             onPress={() => {
               navigation.goBack()
             }}
           >
-            <Ionicons name="arrow-back" color="#fff" size={30} />
+            <Ionicons name="arrow-back" color="#fff" size={26} />
           </RoundButton>
           <TextInput
             autoFocus
