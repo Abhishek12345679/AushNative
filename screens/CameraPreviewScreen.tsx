@@ -16,7 +16,6 @@ import { colors } from "../constants/colors";
 import RoundButton from "../components/RoundButton";
 import CameraPreviewButtonsPane from "../components/CameraPreviewButtonsPane";
 
-
 const CameraPreviewScreen = (props: any) => {
 
   const windowWidth = Dimensions.get("window").width;
@@ -58,6 +57,20 @@ const CameraPreviewScreen = (props: any) => {
         console.error(err);
       }
     }
+  }
+
+  const goToScannedResults = () => {
+    props.navigation.navigate("ScannedResultsScreen", {
+      words: textRecognitionResponse.blocks.flatMap((block) => {
+        return block.lines.flatMap((line) => {
+          return line.words.flatMap(({ text }) => {
+            if (text.length >= 10) {
+              return text;
+            }
+          });
+        });
+      })
+    })
   }
 
   useEffect(() => {
@@ -126,23 +139,13 @@ const CameraPreviewScreen = (props: any) => {
         <Ionicons name="chevron-back" color="#fff" size={30} />
       </RoundButton>
       <CameraPreviewButtonsPane
-        goToScannedResultsScreen={() => {
-          props.navigation.navigate("ScannedResultsScreen", {
-            words: textRecognitionResponse.blocks.flatMap((block) => {
-              return block.lines.flatMap((line) => {
-                return line.words.flatMap(({ text }) => {
-                  return text;
-                });
-              });
-            })
-          })
-        }}
         showOverlay={showOverlay}
         toggleRecognisedWordsOverlay={() => setShowOverlay((prev) => !prev)}
         aspectRatio={aspectRatio}
         navigation={props.navigation}
         windowHeight={windowHeight}
         windowWidth={windowWidth}
+        goToScannedResultsScreen={goToScannedResults}
       />
     </SafeAreaView>
   );

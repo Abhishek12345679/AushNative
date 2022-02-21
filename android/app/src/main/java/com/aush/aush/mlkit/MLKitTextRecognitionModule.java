@@ -79,10 +79,12 @@ public class MLKitTextRecognitionModule extends ReactContextBaseJavaModule {
 
                                             WritableArray words = Arguments.createArray();
                                             for (Text.Element word : line.getElements()) {
-                                                WritableMap wordObject = Arguments.createMap();
-                                                wordObject.putString("text",word.getText());
-                                                wordObject.putMap("rect",Rect2Map(word.getBoundingBox()));
-                                                words.pushMap(wordObject);
+                                                if(word.getText().length() > 4){
+                                                    WritableMap wordObject = Arguments.createMap();
+                                                    wordObject.putString("text",word.getText());
+                                                    wordObject.putMap("rect",Rect2Map(word.getBoundingBox()));
+                                                    words.pushMap(wordObject);
+                                                }
                                             }
                                             lineObject.putArray("words",words);
                                             lines.pushMap(lineObject);

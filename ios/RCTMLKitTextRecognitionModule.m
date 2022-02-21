@@ -72,12 +72,14 @@ RCT_EXPORT_METHOD(extractWords:(NSString *)url
         
         NSMutableArray *words = [NSMutableArray array];
         for (MLKTextElement *word in line.elements) {
-          
-          NSMutableDictionary *wordDict = [NSMutableDictionary dictionary];
-          [wordDict setValue:word.text forKey:@"text"];
-          [wordDict setValue:[self getFrameDictionary:word.frame] forKey:@"rect"];
-          
-          [words addObject:wordDict];
+          NSString *text = word.text;
+          if( text.length > 4 ){
+            NSMutableDictionary *wordDict = [NSMutableDictionary dictionary];
+            [wordDict setValue:word.text forKey:@"text"];
+            [wordDict setValue:[self getFrameDictionary:word.frame] forKey:@"rect"];
+            
+            [words addObject:wordDict];
+          }
         }
         [lineDict setValue:words forKey:@"words"];
         [lines addObject:lineDict];

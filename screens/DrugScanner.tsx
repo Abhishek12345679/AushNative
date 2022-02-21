@@ -23,20 +23,21 @@ import { useIsFocused } from '@react-navigation/native'
 
 const DrugScanner = (props: any) => {
 
+  const cameraMounted = useIsFocused();
+
+  const { height, width } = Dimensions.get('window');
+  const screenRatio = height / width;
+  const [query, setQuery] = useState<string>('');
+  const [ratio, setRatio] = useState<string>('');
+  const [isRatioSet, setIsRatioSet] = useState<boolean>(false);
+
   const [cameraRef, setCameraRef] = useState(null);
-  const [camera, setCamera] = useState(null);
   const [isCameraReady, setIsCameraReady] = useState<boolean>(false);
   const [flashStatus, setFlashStatus] = useState<FlashMode>(FlashMode.off);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [imagePadding, setImagePadding] = useState<number>(0);
-  const [ratio, setRatio] = useState<string>();
-  const { height, width } = Dimensions.get('window');
-  const screenRatio = height / width;
-  const [isRatioSet, setIsRatioSet] = useState<boolean>(false);
-  const cameraMounted = useIsFocused()
 
   const config = {
     velocityThreshold: 0.3,
@@ -91,9 +92,8 @@ const DrugScanner = (props: any) => {
     let desiredRatio = '4:3'; // Start with the system default
     // This issue only affects Android
     if (Platform.OS === 'android') {
-      if (camera) {
-        const ratios = await camera.getSupportedRatiosAsync();
-        // console.log(ratios);
+      if (cameraRef) {
+        const ratios = await cameraRef.getSupportedRatiosAsync();
 
         // Calculate the width/height of each of the supported camera ratios
         // These width/height are measured in landscape mode
@@ -178,6 +178,11 @@ const DrugScanner = (props: any) => {
         }}>
         {cameraMounted && (
           <Camera
+            ref={ref => {
+              setCameraRef(ref);
+            }}
+            onCameraReady={onCameraReady}
+            useCamera2Api={true}
             ratio={ratio}
             style={{
               flex: 1,
@@ -186,12 +191,6 @@ const DrugScanner = (props: any) => {
             }}
             type="back"
             flashMode={flashStatus}
-            ref={ref => {
-              setCamera(ref);
-              setCameraRef(ref);
-            }}
-            onCameraReady={onCameraReady}
-            useCamera2Api={true}
           >
             <View
               style={{
