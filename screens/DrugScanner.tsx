@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   SafeAreaView,
   StatusBar,
+  Pressable,
 } from 'react-native';
 
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -20,9 +21,11 @@ import Modal from 'react-native-modal';
 import ManualSearchBox from '../components/ManualSearchBox';
 import CaptureButton from '../components/CaptureButton';
 import ScannerButtonsPane from '../components/ScannerButtonsPane';
-import { CameraType, FlashMode } from 'expo-camera/build/Camera.types';
+import { FlashMode } from 'expo-camera/build/Camera.types';
 
 import { colors } from '../constants/colors'
+import RoundButton from '../components/RoundButton';
+import { Ionicons } from '@expo/vector-icons'
 
 const DrugScanner = (props: any) => {
 
@@ -30,12 +33,10 @@ const DrugScanner = (props: any) => {
   const [camera, setCamera] = useState(null);
   const [mounted, setMounted] = useState<boolean>(true);
   const [isCameraReady, setIsCameraReady] = useState<boolean>(false);
-  const [cameraType, setCameraType] = useState<CameraType>(CameraType.back);
   const [flashStatus, setFlashStatus] = useState<FlashMode>(FlashMode.off);
 
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
-  const contourRef = useRef(null);
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
@@ -204,10 +205,9 @@ const DrugScanner = (props: any) => {
             style={{
               flex: 1,
               flexDirection: 'row',
-              // marginTop: imagePadding,
               marginBottom: imagePadding * 2,
             }}
-            type={cameraType}
+            type="back"
             flashMode={flashStatus}
             ref={ref => {
               setCamera(ref);
@@ -216,9 +216,38 @@ const DrugScanner = (props: any) => {
             onCameraReady={onCameraReady}
             useCamera2Api={true}
           >
+            <RoundButton
+              style={{
+                backgroundColor: "#000",
+                flex: 0.2,
+                width: 30,
+                elevation: 0,
+                marginTop: 20,
+                marginStart: 10
+              }}
+              onPress={() => {
+                props.navigation.goBack()
+              }}>
+              <View
+                style={{
+                  width: '50%',
+                  height: '80%',
+                  backgroundColor: "#000",
+                  borderRadius: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Ionicons
+                  name="arrow-back"
+                  size={20}
+                  color="#fff"
+                />
+              </View>
+            </RoundButton>
             <View
               style={{
-                flex: 0.8,
+                flex: 0.6,
                 backgroundColor: '#ffffff00',
                 flexDirection: 'column',
                 justifyContent: 'space-around',
@@ -228,7 +257,6 @@ const DrugScanner = (props: any) => {
                 marginVertical: 150,
               }}>
               <View
-                ref={contourRef.current}
                 style={{
                   width: '95%',
                   height: 100,
@@ -240,7 +268,6 @@ const DrugScanner = (props: any) => {
               <CaptureButton captureImage={captureImage} />
             </View>
             <ScannerButtonsPane
-              // cameraType={cameraType}
               flashStatus={flashStatus}
               navigation={props.navigation}
               pickImage={pickImage}
@@ -251,20 +278,11 @@ const DrugScanner = (props: any) => {
                     FlashMode.on
                 );
               }}
-              // toggleFrontBackCamera={() => {
-              //   setCameraType(
-              //     cameraType === CameraType.front
-              //       ? CameraType.back
-              //       : CameraType.front
-              //   )
-              // }}
               toggleManualSearchBox={() => {
                 setIsVisible(prev => !prev);
               }}
-
             />
             <KeyboardAvoidingView>
-
             </KeyboardAvoidingView>
             <Modal
               avoidKeyboard={true}
