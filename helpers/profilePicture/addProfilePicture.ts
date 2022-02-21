@@ -16,8 +16,17 @@ const addProfilePicture = async (pfp: string) => {
       await user.update({
         personal: pInfo,
       });
+      console.log('Successfully Added Photo!!');
+    } else {
+      await user.set({
+        personal: [
+          {
+            pfp: pfp,
+          },
+        ],
+      });
+      console.log('Successfully Added Photo!!');
     }
-    console.log('Successfully Added Photo!!');
   } catch (err) {
     console.error('Error: ', err);
   }

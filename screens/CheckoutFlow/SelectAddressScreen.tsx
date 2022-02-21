@@ -6,6 +6,7 @@ import {
   StatusBar,
   FlatList,
   Pressable,
+  RefreshControl,
 } from 'react-native';
 import Address from '../../components/Address';
 import DrugStore, { AddressType } from '../../store/CartStore';
@@ -16,8 +17,9 @@ import { Ionicons } from '@expo/vector-icons'
 import { useIsFocused } from '@react-navigation/native';
 
 const SelectAddressScreen = (props: any) => {
-  const hasFocused = useIsFocused()
+  const hasFocused = useIsFocused();
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
+  const [refreshing, setIsRefreshing] = useState(false);
 
   // const isPrescriptionRequired = () => {
   //   let flag = false;
@@ -35,32 +37,48 @@ const SelectAddressScreen = (props: any) => {
   };
 
   useEffect(() => {
-    hasFocused && fetchStuff()
+    if (hasFocused) {
+      setIsRefreshing(true)
+      fetchStuff()
+      setIsRefreshing(false)
+    }
   }, [hasFocused])
 
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar barStyle="light-content" />
       {DrugStore.addresses.length > 0 ? <>
-        <Text
-          style={{
-            marginHorizontal: 30,
-            fontSize: 17,
-            fontWeight: 'bold',
-            color: "#fff",
-            marginTop: 20,
-            marginBottom: -5
-          }}>
-          Select an address
-        </Text>
         <FlatList
           showsHorizontalScrollIndicator={false}
-          horizontal={true}
+          // horizontal={true}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={fetchStuff}
+            />
+          }
           keyExtractor={item => item.ph_no}
-          style={{ padding: 20 }}
+          contentContainerStyle={{
+            // justifyContent: 'center',
+            // alignItems: 'center'
+          }}
+          style={{ paddingHorizontal: 10 }}
           data={DrugStore.addresses}
+          ListHeaderComponent={() => (
+            <Text
+              style={{
+                marginHorizontal: 10,
+                marginVertical: 20,
+                fontSize: 17,
+                fontWeight: 'bold',
+                color: "#fff",
+              }}>
+              Select an address
+            </Text>
+          )}
           renderItem={({ item, index }) => (
             <Address
+              selected={selectedAddressIndex === index}
               nameTextStyle={{
                 color: "#FFF"
               }}
@@ -74,12 +92,13 @@ const SelectAddressScreen = (props: any) => {
                   height: 5,
                 },
                 shadowRadius: 10,
-                elevation: 10,
+                elevation: 1,
 
                 backgroundColor: colors.SECONDARY,
-                marginHorizontal: 10,
-                width: 300,
-                height: index === selectedAddressIndex ? 185 : 175,
+                marginHorizontal: 5,
+                marginVertical: 10,
+                width: '90%',
+                height: 175,
               }}
               address={item as AddressType}
               addressLineTextStyle={{
@@ -112,16 +131,9 @@ const SelectAddressScreen = (props: any) => {
           <Text>Add an address to cumtinue!s</Text>
         </View>
       }
-    </View>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%'
-  },
-});
 
 export const screenOptions = (navData: any) => {
   return {

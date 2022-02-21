@@ -148,7 +148,7 @@ const UploadPrescriptionScreen = props => {
               // noPrescriptionRequired: true,
             });
           }}
-          text="Upload"
+          text="Next"
           buttonStyle={{
             backgroundColor: colors.SECONDARY
           }}
