@@ -59,17 +59,15 @@ const CameraPreviewScreen = (props: any) => {
     }
   }
 
-  const goToScannedResults = () => {
-    props.navigation.navigate("ScannedResultsScreen", {
-      words: textRecognitionResponse.blocks.flatMap((block) => {
-        return block.lines.flatMap((line) => {
-          return line.words.flatMap(({ text }) => {
-            if (text.length >= 10) {
-              return text;
-            }
-          });
+  const getFilteredWordsArray = (response: TextRecognitionResponse) => {
+    return response.blocks.flatMap((block) => {
+      return block.lines.flatMap((line) => {
+        return line.words.flatMap(({ text }) => {
+          if (text.length > 4) {
+            return text;
+          }
         });
-      })
+      });
     })
   }
 
@@ -145,7 +143,11 @@ const CameraPreviewScreen = (props: any) => {
         navigation={props.navigation}
         windowHeight={windowHeight}
         windowWidth={windowWidth}
-        goToScannedResultsScreen={goToScannedResults}
+        goToScannedResultsScreen={() => {
+          props.navigation.navigate("ScannedResultsScreen", {
+            words: getFilteredWordsArray(textRecognitionResponse)
+          })
+        }}
       />
     </SafeAreaView>
   );
