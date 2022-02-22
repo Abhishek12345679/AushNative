@@ -19,6 +19,13 @@
                 "image": "ubuntu-18.04-jdk-11-ndk-r19c"
             }
         },
+        "preview2": {
+            "distribution": "internal",
+            "android": {
+                "node": "16.13.0",
+                "image": "ubuntu-18.04-jdk-11-ndk-r19c"
+            }
+        },
         "production": {}
     },
     "submit": {

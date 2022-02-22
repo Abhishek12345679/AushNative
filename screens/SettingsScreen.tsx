@@ -17,8 +17,9 @@ const SettingsScreen = observer((props: any) => {
   const PRIVACY_PAGE_URL = 'https://aushadhalay.flycricket.io/privacy.html';
   const TC_PAGE_URL = 'https://aushadhalay.flycricket.io/terms.html';
 
-  const [uploading, setUploading] = useState(false)
-  const [localPFP, setLocalPFP] = useState<string>("")
+  const [uploading, setUploading] = useState(false);
+  const [localPFP, setLocalPFP] = useState<string>("");
+  const [UIDVisible, setUIDVisible] = useState<boolean>(false)
 
   const onOpenActionSheet = () => {
     const options = ['Log Out', 'Cancel'];
@@ -117,7 +118,7 @@ const SettingsScreen = observer((props: any) => {
             0,
             DrugStore.userCredentials.email.indexOf('@'),
           )}
-        subtitle={DrugStore.userCredentials.uid}
+        subtitle={UIDVisible ? DrugStore.userCredentials.uid : DrugStore.userCredentials.email}
         style={{
           marginBottom: 30,
           borderRadius: 10,
@@ -128,6 +129,9 @@ const SettingsScreen = observer((props: any) => {
         onPress={launchImageLibrary}
         loading={uploading}
         pfp={localPFP}
+        toggleEmailUID={() => {
+          setUIDVisible(prev => !prev)
+        }}
       />
       <View
         style={{

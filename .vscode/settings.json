@@ -1,9 +1,5 @@
 {
-    "todo-tree.tree.showBadges": false,
-    "cSpell.words": [
-        "checkout",
-        "creds",
-        "razorpay",
-        "retrieve"
-    ]
+  "todo-tree.tree.showBadges": false,
+  "cSpell.words": ["checkout", "creds", "razorpay", "retrieve"],
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

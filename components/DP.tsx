@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, Pressable, StyleSheet } from 'react-native';
 import DrugStore from '../store/CartStore';
 import PFPPlaceholder from './PFPPlaceholder';
 
@@ -10,9 +10,10 @@ interface DPProps {
   pfp?: string;
   outerStyle?: {};
   innerStyle?: {};
+  onPress?: () => void;
 }
 
-const DP = observer(({ loading, innerStyle, outerStyle, pfp }: DPProps) => {
+const DP = observer(({ loading, innerStyle, outerStyle, pfp, onPress }: DPProps) => {
   const url: string = pfp ?? DrugStore.profile.display_picture;
   const name = DrugStore.userCredentials.email.substring(
     0,
@@ -20,27 +21,37 @@ const DP = observer(({ loading, innerStyle, outerStyle, pfp }: DPProps) => {
   );
 
   return (
-    <LinearGradient
-      colors={['red', 'gold', 'red',]}
-      style={{ ...DPStyles.outer, ...outerStyle }}>
-      {
-        url ?
-          <Image
-            style={{ ...DPStyles.inner, ...innerStyle }}
-            source={{
-              uri: url
-            }}
-          />
-          : loading ?
-            <ActivityIndicator
-              color="#000"
-              size="small"
+    <Pressable
+      android_ripple={{
+        color: "#000000",
+        borderless: true
+      }}
+      style={{ ...DPStyles.outer }}
+      onPress={onPress}
+    >
+      <LinearGradient
+        colors={['red', 'gold', 'red',]}
+        style={{ ...DPStyles.outer, ...outerStyle }}
+      >
+        {
+          url ?
+            <Image
+              style={{ ...DPStyles.inner, ...innerStyle }}
+              source={{
+                uri: url
+              }}
             />
-            : <PFPPlaceholder
-              name={name}
-            />
-      }
-    </LinearGradient>
+            : loading ?
+              <ActivityIndicator
+                color="#000"
+                size="small"
+              />
+              : <PFPPlaceholder
+                name={name}
+              />
+        }
+      </LinearGradient>
+    </Pressable>
   );
 });
 

@@ -14,7 +14,8 @@ interface ListItemProps {
   title: string;
   subtitle?: string;
   loading?: boolean;
-  pfp?: string
+  pfp?: string;
+  toggleEmailUID?: () => void;
 }
 
 const ListItem = observer(({
@@ -27,7 +28,8 @@ const ListItem = observer(({
   subtitle,
   titleStyle,
   loading,
-  pfp
+  pfp,
+  toggleEmailUID,
 }: ListItemProps
 ) => {
   return (
@@ -37,7 +39,7 @@ const ListItem = observer(({
         borderless: false,
       }}
       style={{ ...styles.listItem, ...style }}
-      onPress={onPress}
+      onPress={toggleEmailUID}
       key={keyProp}>
       <View
         style={{
@@ -75,6 +77,7 @@ const ListItem = observer(({
           <DP
             loading={loading}
             pfp={pfp}
+            onPress={onPress}
           />
         }
       </View>
