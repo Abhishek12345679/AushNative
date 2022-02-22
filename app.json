@@ -20,15 +20,6 @@
             "userInterfaceStyle": "automatic",
             "bundleIdentifier": "com.aush.aush"
         },
-        "android": {
-            "useNextNotificationsApi": true,
-            "userInterfaceStyle": "automatic",
-            "package": "com.aush.aush",
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#FFFFFF"
-            }
-        },
         "entryPoint": "node_modules/expo/AppEntry.js"
     }
 }

@@ -84,5 +84,4 @@ web-build/
 
 #android-build
 android/app/build
-constants
 .expo-shared
