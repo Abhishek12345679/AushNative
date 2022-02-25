@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import {
   View,
   Text,
@@ -6,63 +6,80 @@ import {
   ScrollView,
   StatusBar,
   Image,
+  FlatList,
 } from 'react-native';
 
 import { showMessage } from 'react-native-flash-message';
 import QuantitySelector from '../components/QuantitySelector';
 import { observer } from 'mobx-react';
 import { MaterialIcons } from '@expo/vector-icons';
-import DrugStore, { DrugType } from '../store/CartStore';
+import DrugStore from '../store/CartStore';
 import { colors } from '../constants/colors';
 import { Popable } from 'react-native-popable';
 import BigButton from '../components/BigButton'
 import IconWithBadge from '../components/IconWithBadge';
+import DrugDetailsSection from '../components/DrugDetailsSection';
+
+const ACTIONS = {
+  TOGGLE_SECTION: "TOGGLE_SECTION"
+}
+
+const drugDataReducer = (state: any, action: any) => {
+  switch (action.type) {
+    case ACTIONS.TOGGLE_SECTION:
+      console.log(toggleSection(state, action.payload.key))
+      return { ...state, ...toggleSection(state, action.payload.key) }
+    default:
+      return state
+  }
+}
+
+const toggleSection = (state: any, key: string) => {
+  return {
+    [key]: !(state[key])
+  }
+}
 
 const DrugDetailScreen = observer((props: any) => {
-
   const item = props.route.params.item;
-
-  let [quantity, setQuantity] = useState('1');
-  let [initialValue, setInitialValue] = useState(1);
-
-  let [addingToCart, setAddingToCart] = useState(false);
-
-  let [introCollapsed, setIntroCollapsed] = useState(true);
-  let [usesCollapsed, setUsesCollapsed] = useState(true);
-  let [sideEffectsCollapsed, setSideEffectsCollapsed] = useState(true);
-  let [howToSECollpased, setHowToSECollapsed] = useState(true);
-  let [howToUseCollapsed, setHowToUseCollapsed] = useState(true);
-  let [safetyAdviceCollapsed, setSafetyAdviceCollapsed] = useState(true);
-
+  const [addingToCart, setAddingToCart] = useState(false);
   const [cartCount, setCartCount] = useState(DrugStore.count);
 
+  const [drugDataState, drugDataDispatch] = useReducer(drugDataReducer, {
+    introduction: true,
+    uses: true,
+    sideEffects: false,
+    howToSE: false,
+    howToUse: false,
+    safetyAdvice: true
+  });
+
+  // quantity selector
+  const [quantity, setQuantity] = useState(1);
+
   const onIncrease = () => {
-    setQuantity((initialValue + 1).toString());
-    setInitialValue(initialValue + 1);
+    setQuantity((qty) => qty + 1);
   };
 
   const onDecrease = () => {
-    if (initialValue >= 2) {
-      setQuantity((initialValue - 1).toString());
-      setInitialValue(initialValue - 1);
+    if (quantity >= 2) {
+      setQuantity((qty) => qty - 1);
     }
   };
 
-  //TODO: use UseReducer ?
-  const [cartItem, setCartItem] = useState({
-    id: '',
-    name: '',
-    salt: '',
-    price: 0,
-    quantity: 0,
-    prescription_req: false,
-    total_amt: 0,
-    image_url: '',
-  });
-
-  const addToCart = (cartItem: DrugType) => {
-    DrugStore.addDrug(cartItem);
-    setCartCount(cartCount + 1);
+  const addToCart = () => {
+    DrugStore.addDrug({
+      id: item.id,
+      image_url: item.image_url,
+      name: item.name,
+      salt: item.salt,
+      price: parseFloat(parseFloat(item.price).toFixed(2)),
+      quantity: quantity,
+      prescription_req: item.requires_prescription,
+      total_amt:
+        quantity * parseFloat(parseFloat(item.price).toFixed(2)),
+    });
+    setCartCount(cartCount + quantity);
   };
 
   useEffect(() => {
@@ -85,19 +102,6 @@ const DrugDetailScreen = observer((props: any) => {
     });
   }, [cartCount]);
 
-  useEffect(() => {
-    setCartItem({
-      id: item.id,
-      image_url: item.image_url,
-      name: item.name,
-      salt: item.salt,
-      price: parseFloat(parseFloat(item.price).toFixed(2)),
-      quantity: parseInt(quantity),
-      prescription_req: item.requires_prescription,
-      total_amt:
-        parseInt(quantity) * parseFloat(parseFloat(item.price).toFixed(2)),
-    });
-  }, [item, quantity]);
 
   return (
     <ScrollView style={styles.container}>
@@ -177,13 +181,13 @@ const DrugDetailScreen = observer((props: any) => {
               onPress={() => {
                 setAddingToCart(true);
                 setTimeout(() => {
-                  addToCart(cartItem);
+                  addToCart();
                   showMessage({
                     message: `${quantity} ${item.name} added to Cart`,
                     type: 'success',
                   });
                   setAddingToCart(false);
-                }, 1000);
+                }, 200);
               }}
               text={`₹${item.price}`}
               subtitle="Add To Cart"
@@ -200,39 +204,37 @@ const DrugDetailScreen = observer((props: any) => {
             <QuantitySelector
               onIncrease={onIncrease}
               onDecrease={onDecrease}
-              quantity={quantity}
+              quantity={quantity.toString()}
             />
           </View>
         </View>
-        <View style={styles.desc}>
-          <View style={styles.sectionHeaderStyle}>
-            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
-              Introduction
-            </Text>
-            <MaterialIcons
-              name="keyboard-arrow-down"
-              size={22}
-              color="#FFF"
-              onPress={() => setIntroCollapsed(prev => !prev)}
-            />
-          </View>
-          {introCollapsed && (
+
+        <DrugDetailsSection
+          label="Introduction"
+          onPress={() => drugDataDispatch({
+            type: ACTIONS.TOGGLE_SECTION,
+            payload: {
+              key: "introduction"
+            }
+          })}
+        >
+          {drugDataState.introduction && (
             <Text style={styles.sectionDescription}>
               {item.description.introduction}
             </Text>
           )}
-        </View>
-        <View style={styles.desc}>
-          <View style={styles.sectionHeaderStyle}>
-            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>Uses</Text>
-            <MaterialIcons
-              name="keyboard-arrow-down"
-              size={22}
-              color="#FFF"
-              onPress={() => setUsesCollapsed(prev => !prev)}
-            />
-          </View>
-          {usesCollapsed &&
+        </DrugDetailsSection>
+
+        <DrugDetailsSection
+          label="Uses"
+          onPress={() => drugDataDispatch({
+            type: ACTIONS.TOGGLE_SECTION,
+            payload: {
+              key: "uses"
+            }
+          })}
+        >
+          {drugDataState.uses &&
             item
               .description
               .uses
@@ -241,20 +243,18 @@ const DrugDetailScreen = observer((props: any) => {
                   {`\u2022 ${itemData}`}
                 </Text>
               ))}
-        </View>
-        <View style={styles.desc}>
-          <View style={styles.sectionHeaderStyle}>
-            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
-              Side Effects
-            </Text>
-            <MaterialIcons
-              name="keyboard-arrow-down"
-              size={22}
-              color="#FFF"
-              onPress={() => setSideEffectsCollapsed(prev => !prev)}
-            />
-          </View>
-          {sideEffectsCollapsed &&
+        </DrugDetailsSection>
+
+        <DrugDetailsSection
+          label="Side Effects"
+          onPress={() => drugDataDispatch({
+            type: ACTIONS.TOGGLE_SECTION,
+            payload: {
+              key: "sideEffects"
+            }
+          })}
+        >
+          {drugDataState.sideEffects &&
             item
               .description
               .side_effects
@@ -263,39 +263,17 @@ const DrugDetailScreen = observer((props: any) => {
                   {`\u2022 ${itemData}`}
                 </Text>
               ))}
-        </View>
-        {/* <View style={styles.desc}> */}
-        {/* {data && data.findDrugForSameSalt.drugs && (
-                    <View style={{ marginVertical: 15 }}>
-                      <Text style={{ ...styles.salt, fontWeight: "bold", marginStart: 25 }}>
-                        Alternate Brands
-                      </Text>
-                      <FlatList
-                        showsHorizontalScrollIndicator={false}
-                        horizontal={true}
-                        data={data.findDrugForSameSalt.drugs}
-                        renderItem={(itemData) => {
-                          return <Card name={itemData.item.name} />;
-                        }}
-                      />
-                    </View>
-                  )} */}
-        {/* </View> */}
-        <View style={styles.desc}>
-          <View style={styles.sectionHeaderStyle}>
-            <Text
-              style={{ ...styles.salt, ...{ fontWeight: 'bold', fontSize: 17 } }}>
-              How to cope with side effects
-            </Text>
-            <MaterialIcons
-              name="keyboard-arrow-down"
-              size={22}
-              color="#FFF"
-              onPress={() => setHowToSECollapsed(prev => !prev)}
-            />
-          </View>
-
-          {howToSECollpased &&
+        </DrugDetailsSection>
+        <DrugDetailsSection
+          label="How to cope with side effects"
+          onPress={() => drugDataDispatch({
+            type: ACTIONS.TOGGLE_SECTION,
+            payload: {
+              key: "howToSE"
+            }
+          })}
+        >
+          {drugDataState.howToSE &&
             item
               .description
               .how_to_cope_with_side_effects
@@ -311,40 +289,33 @@ const DrugDetailScreen = observer((props: any) => {
                   <Text style={styles.sectionDescription}>{itemData.answer}</Text>
                 </View>
               ))}
-        </View>
-        <View style={styles.desc}>
-          <View style={styles.sectionHeaderStyle}>
-            <Text
-              style={{ ...styles.salt, ...{ fontWeight: 'bold', fontSize: 17 } }}>
-              How to Use
-            </Text>
-            <MaterialIcons
-              name="keyboard-arrow-down"
-              size={22}
-              color="#FFF"
-              onPress={() => setHowToUseCollapsed(prev => !prev)}
-            />
-          </View>
-          {howToUseCollapsed && (
+        </DrugDetailsSection>
+        <DrugDetailsSection
+          label="How to Use"
+          onPress={() => drugDataDispatch({
+            type: ACTIONS.TOGGLE_SECTION,
+            payload: {
+              key: "howToUse"
+            }
+          })}
+        >
+          {drugDataState.howToUse && (
             <Text style={styles.sectionDescription}>
               {item.description.how_to_use}
             </Text>
           )}
-        </View>
-        <View style={{ ...styles.desc, marginBottom: 40 }}>
-          <View style={styles.sectionHeaderStyle}
-          >
-            <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
-              Safety Advice
-            </Text>
-            <MaterialIcons
-              name="keyboard-arrow-down"
-              size={22}
-              color="#FFF"
-              onPress={() => setSafetyAdviceCollapsed(prev => !prev)}
-            />
-          </View>
-          {safetyAdviceCollapsed &&
+        </DrugDetailsSection>
+
+        <DrugDetailsSection
+          label="Safety Advice"
+          onPress={() => drugDataDispatch({
+            type: ACTIONS.TOGGLE_SECTION,
+            payload: {
+              key: "safetyAdvice"
+            }
+          })}
+        >
+          {drugDataState.safetyAdvice &&
             item
               .description
               .safety_advice
@@ -362,7 +333,7 @@ const DrugDetailScreen = observer((props: any) => {
                   </Text>
                 </View>
               ))}
-        </View>
+        </DrugDetailsSection>
       </View>
     </ScrollView>
   );
@@ -385,11 +356,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  bigTitle: {
-    fontSize: 50,
-    fontWeight: '600',
-    color: '#fff',
-  },
   salt: {
     fontSize: 15,
     color: '#FFF',
@@ -404,34 +370,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     marginTop: 10,
   },
-  buyBtn: {
-    width: 250,
-    height: 85,
-    backgroundColor: colors.SECONDARY,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 15,
-    marginStart: 10,
-    color: '#fff',
-  },
-  desc: {
-    justifyContent: 'flex-start',
-    paddingHorizontal: 25,
-    marginVertical: 20,
-    color: '#fff',
-  },
   sectionDescription: {
     color: '#fff',
     marginTop: 5,
   },
-  sectionHeaderStyle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  }
 });
 export default DrugDetailScreen;
