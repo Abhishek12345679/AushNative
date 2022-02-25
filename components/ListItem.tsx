@@ -7,7 +7,7 @@ import { colors } from '../constants/colors';
 interface ListItemProps {
   style?: {};
   onPress: () => void;
-  keyProp: string | number;
+  keyProp?: string | number;
   profile?: boolean;
   imageUrl?: string;
   titleStyle?: {};

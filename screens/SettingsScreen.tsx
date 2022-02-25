@@ -111,7 +111,7 @@ const SettingsScreen = observer((props: any) => {
   return (
     <ScrollView style={styles.container}>
       <ListItem
-        keyProp={Math.random() * 12}
+        // keyProp={Math.random() * 12}
         title={
           DrugStore.profile.name ??
           DrugStore.userCredentials.email.substring(
@@ -141,7 +141,7 @@ const SettingsScreen = observer((props: any) => {
         }}>
         {['Addresses', 'Orders'].map((item, index) => (
           <ListItem
-            keyProp={Math.random() * 12 + index}
+            keyProp={item}
             style={{ height: 70 }}
             titleStyle={{ fontSize: 18 }}
             title={item}
@@ -161,7 +161,7 @@ const SettingsScreen = observer((props: any) => {
           <ListItem
             style={{ height: 70 }}
             titleStyle={{ fontSize: 18 }}
-            keyProp={Math.random() * 12 + index}
+            keyProp={item}
             title={item}
             onPress={() => {
               props.navigation.navigate('MyWebView', {
@@ -173,7 +173,7 @@ const SettingsScreen = observer((props: any) => {
         ))}
       </View>
       <ListItem
-        keyProp={Math.random() * 12 - 1}
+        // keyProp={Math.random() * 12 - 1}
         title="Log Out"
         onPress={onOpenActionSheet}
         style={{
