@@ -205,12 +205,7 @@ const DrugDetailScreen = observer((props: any) => {
           </View>
         </View>
         <View style={styles.desc}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.sectionHeaderStyle}>
             <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
               Introduction
             </Text>
@@ -228,12 +223,7 @@ const DrugDetailScreen = observer((props: any) => {
           )}
         </View>
         <View style={styles.desc}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.sectionHeaderStyle}>
             <Text style={{ ...styles.salt, fontWeight: 'bold' }}>Uses</Text>
             <MaterialIcons
               name="keyboard-arrow-down"
@@ -243,19 +233,17 @@ const DrugDetailScreen = observer((props: any) => {
             />
           </View>
           {usesCollapsed &&
-            item.description.uses.map(itemData => (
-              <Text key={itemData} style={styles.sectionDescription}>
-                {`\u2022 ${itemData}`}
-              </Text>
-            ))}
+            item
+              .description
+              .uses
+              .map((itemData: any, _index: number) => (
+                <Text key={itemData} style={styles.sectionDescription}>
+                  {`\u2022 ${itemData}`}
+                </Text>
+              ))}
         </View>
         <View style={styles.desc}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.sectionHeaderStyle}>
             <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
               Side Effects
             </Text>
@@ -267,11 +255,14 @@ const DrugDetailScreen = observer((props: any) => {
             />
           </View>
           {sideEffectsCollapsed &&
-            item.description.side_effects.map(itemData => (
-              <Text key={itemData} style={styles.sectionDescription}>
-                {`\u2022 ${itemData}`}
-              </Text>
-            ))}
+            item
+              .description
+              .side_effects
+              .map((itemData: any, _index: number) => (
+                <Text key={itemData} style={styles.sectionDescription}>
+                  {`\u2022 ${itemData}`}
+                </Text>
+              ))}
         </View>
         {/* <View style={styles.desc}> */}
         {/* {data && data.findDrugForSameSalt.drugs && (
@@ -291,12 +282,7 @@ const DrugDetailScreen = observer((props: any) => {
                   )} */}
         {/* </View> */}
         <View style={styles.desc}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.sectionHeaderStyle}>
             <Text
               style={{ ...styles.salt, ...{ fontWeight: 'bold', fontSize: 17 } }}>
               How to cope with side effects
@@ -310,26 +296,24 @@ const DrugDetailScreen = observer((props: any) => {
           </View>
 
           {howToSECollpased &&
-            item.description.how_to_cope_with_side_effects.map(itemData => (
-              <View style={{ marginBottom: 20 }} key={itemData.question}>
-                <Text
-                  style={{
-                    ...styles.sectionDescription,
-                    ...{ fontSize: 15, fontWeight: 'bold' },
-                  }}>
-                  {`\u2022 ${itemData.question}`}
-                </Text>
-                <Text style={styles.sectionDescription}>{itemData.answer}</Text>
-              </View>
-            ))}
+            item
+              .description
+              .how_to_cope_with_side_effects
+              .map((itemData: any, _index: number) => (
+                <View style={{ marginBottom: 20 }} key={itemData.question}>
+                  <Text
+                    style={{
+                      ...styles.sectionDescription,
+                      ...{ fontSize: 15, fontWeight: 'bold' },
+                    }}>
+                    {`\u2022 ${itemData.question}`}
+                  </Text>
+                  <Text style={styles.sectionDescription}>{itemData.answer}</Text>
+                </View>
+              ))}
         </View>
         <View style={styles.desc}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.sectionHeaderStyle}>
             <Text
               style={{ ...styles.salt, ...{ fontWeight: 'bold', fontSize: 17 } }}>
               How to Use
@@ -348,12 +332,8 @@ const DrugDetailScreen = observer((props: any) => {
           )}
         </View>
         <View style={{ ...styles.desc, marginBottom: 40 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.sectionHeaderStyle}
+          >
             <Text style={{ ...styles.salt, fontWeight: 'bold' }}>
               Safety Advice
             </Text>
@@ -365,21 +345,23 @@ const DrugDetailScreen = observer((props: any) => {
             />
           </View>
           {safetyAdviceCollapsed &&
-            item.description.safety_advice.map(itemData => (
-              <View style={{ marginBottom: 20 }} key={itemData.question}>
-                <Text
-                  style={{
-                    ...styles.sectionDescription,
-                    ...{ fontSize: 15, fontWeight: 'bold' },
-                  }}>
-                  {`\u2022 ${itemData.question}`}
-                </Text>
-                <Text style={styles.sectionDescription}>
-                  {' '}
-                  {itemData.answer}{' '}
-                </Text>
-              </View>
-            ))}
+            item
+              .description
+              .safety_advice
+              .map((itemData: any, _index: number) => (
+                <View style={{ marginBottom: 20 }} key={itemData.question}>
+                  <Text
+                    style={{
+                      ...styles.sectionDescription,
+                      ...{ fontSize: 15, fontWeight: 'bold' },
+                    }}>
+                    {`\u2022 ${itemData.question}`}
+                  </Text>
+                  <Text style={styles.sectionDescription}>
+                    {itemData.answer}
+                  </Text>
+                </View>
+              ))}
         </View>
       </View>
     </ScrollView>
@@ -446,5 +428,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginTop: 5,
   },
+  sectionHeaderStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
 });
 export default DrugDetailScreen;
