@@ -73,7 +73,7 @@ const DrugDetailScreen = observer((props: any) => {
           iconColor='#FFF'
           iconName='cart'
           iconSize={24}
-          value={DrugStore.count}
+          value={cartCount}
           badgeColor="red"
           onPress={() => props.navigation.navigate("Cart")}
         />

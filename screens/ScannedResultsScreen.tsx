@@ -6,15 +6,12 @@ import {
     StatusBar,
     StyleSheet,
     ActivityIndicator,
-    Pressable,
 } from 'react-native';
 
 import ListItem from '../components/ListItem';
 import { gql, useLazyQuery } from '@apollo/client';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
-
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { GET_MEDICINE } from './ResultList';
 import IconWithBadge from '../components/IconWithBadge';
@@ -26,7 +23,6 @@ export const GET_MEDICINE_COUNT = gql`
     }
   }
 `;
-
 
 const ScannedResultsScreen = observer((props: any) => {
     const words = props.route.params.words as Array<string>
@@ -40,21 +36,18 @@ const ScannedResultsScreen = observer((props: any) => {
             .map((word) => word.toLowerCase())
             .filter((word) => word.length > 4)
             .map(async (word) => {
-                // console.log("word: ", word)
                 const { data } = await getMedicineCount({
                     variables: {
                         name: word
                     }
                 })
                 if (data) {
-                    // console.log(data.search.items)
                     if (data.search.items > 0) {
                         await getMedicine({
                             variables: {
                                 name: word
                             }
                         })
-                        // setDrugsData(data.search.drugs)
                         return;
                     }
                 }

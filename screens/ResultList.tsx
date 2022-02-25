@@ -6,15 +6,12 @@ import {
   StatusBar,
   StyleSheet,
   ActivityIndicator,
-  Pressable,
 } from 'react-native';
 
 import ListItem from '../components/ListItem';
 import { gql, useQuery } from '@apollo/client';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
-
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import IconWithBadge from '../components/IconWithBadge';
 
@@ -103,8 +100,6 @@ const ResultList = observer((props: any) => {
       variables: { salt: ocr_data.toLowerCase() },
     });
   }
-
-  // console.log(data)
 
   useEffect(() => {
     props.navigation.setOptions({
