@@ -58,7 +58,6 @@ const DrugDetailScreen = observer((props: any) => {
     prescription_req: false,
     total_amt: 0,
     image_url: '',
-
   });
 
   const addToCart = (cartItem: DrugType) => {
