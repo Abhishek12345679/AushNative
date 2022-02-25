@@ -137,6 +137,7 @@ const DrugScanner = (props: any) => {
       try {
         const cameraStatus = await Camera.requestCameraPermissionsAsync();
         const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
         if (cameraStatus && galleryStatus) {
           setHasPermission(true);
         }

@@ -5,14 +5,10 @@ import { BoundingBoxType } from '../mlkit/TextRecognition';
 import { Popable } from 'react-native-popable';
 
 interface BoundingBoxProps {
-    text?: string;
     boundingBox: BoundingBoxType;
+    text?: string;
     keyProp?: number | string;
     scale: number;
-    onPress?: () => void;
-
-    textToolTipVisible?: boolean;
-    parentRef?: MutableRefObject<View>
 }
 
 const BoundingBox = ({
@@ -33,7 +29,6 @@ const BoundingBox = ({
         text
     ]);
 
-    const [visible, setVisible] = useState(false)
 
 
     return (

@@ -21,7 +21,7 @@ const CaptureButton = ({ captureImage }: CaptureButtonProps) => {
                     height: 65,
                     width: 65,
                     borderRadius: 65 / 2.0,
-                    backgroundColor: '#fff',
+                    // backgroundColor: '#fff',
                 }}
             />
         </Pressable>
@@ -30,7 +30,7 @@ const CaptureButton = ({ captureImage }: CaptureButtonProps) => {
 
 const styles = StyleSheet.create({
     captureButton: {
-        marginStart: 30,
+        marginStart: 45,
         borderColor: '#fff',
         borderWidth: 3,
         justifyContent: 'center',
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         borderRadius: 40,
         marginEnd: 10,
         marginTop: 10,
+        elevation: 10
     },
 });
 

@@ -15,6 +15,7 @@ const addAddresses = async (address: AddressType) => {
       await user.update({
         addresses: [...addresses, address],
       });
+
       console.log('Saved Address');
     } else {
       await user.set({
