@@ -17,6 +17,7 @@ import { observer } from 'mobx-react';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { GET_MEDICINE } from './ResultList';
+import IconWithBadge from '../components/IconWithBadge';
 
 export const GET_MEDICINE_COUNT = gql`
   query getMedicineCount($name: String!) {
@@ -63,42 +64,14 @@ const ScannedResultsScreen = observer((props: any) => {
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => (
-                <Pressable
-                    style={{
-                        marginStart: 10,
-                        height: 40,
-                        width: 40,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        position: 'relative'
-                    }}
-                    android_ripple={{
-                        color: "#fff",
-                        borderless: true
-                    }}
-                    onPress={() => {
-                        props.navigation.navigate('Cart');
-                    }}>
-                    <Ionicons name="md-cart" size={24} color="#fff" />
-                    {DrugStore.count > 0 &&
-                        <View
-                            style={{
-                                width: 20,
-                                height: 20,
-                                borderRadius: 10,
-                                backgroundColor: "red",
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-                            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 15 }}>
-                                {DrugStore.count}
-                            </Text>
-                        </View>
-                    }
-                </Pressable>
+                <IconWithBadge
+                    iconColor='#FFF'
+                    iconName='cart'
+                    iconSize={24}
+                    value={DrugStore.count}
+                    badgeColor="red"
+                    onPress={() => props.navigation.navigate("Cart")}
+                />
             ),
             headerLargeTitle: false,
         });
