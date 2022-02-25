@@ -46,7 +46,7 @@ const DrugScanner = (props: any) => {
 
   const pickImage = async () => {
     try {
-      let photo = await ImagePicker.launchImageLibraryAsync({
+      const photo = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
@@ -98,8 +98,8 @@ const DrugScanner = (props: any) => {
         // Calculate the width/height of each of the supported camera ratios
         // These width/height are measured in landscape mode
         // find the ratio that is closest to the screen ratio without going over
-        let distances = {};
-        let realRatios = {};
+        const distances = {};
+        const realRatios = {};
         let minDistance = null;
         for (const ratio of ratios) {
           const parts = ratio.split(':');

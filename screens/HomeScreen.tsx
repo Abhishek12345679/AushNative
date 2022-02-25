@@ -43,7 +43,7 @@ const HomeScreen = observer((props: any) => {
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`,
     )
     const responseData = await response.json()
-    let locName = responseData.results[0].formatted_address.substring(
+    const locName = responseData.results[0].formatted_address.substring(
       responseData.results[0].formatted_address.indexOf(",") + 1);
     setLocName(locName);
   };
