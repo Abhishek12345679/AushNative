@@ -1,9 +1,10 @@
 {
-    "expo": {
-        "name": "Aushadhalay",
-        "slug": "Aushadhalay",
-        "version": "0.0.1",
-        "orientation": "default",
-        "entryPoint": "node_modules/expo/AppEntry.js"
+    "name": "Aushadhalay",
+    "displayName": "Aushadhalay",
+    "android": {
+        "package": "com.aush.aush"
+    },
+    "ios": {
+        "bundleIdentifier": "com.aush.aushj"
     }
 }
