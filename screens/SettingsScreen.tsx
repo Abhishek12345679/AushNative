@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Modal, Text } from 'react-native';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
 import auth from '@react-native-firebase/auth';
@@ -20,6 +20,7 @@ const SettingsScreen = observer((props: any) => {
   const [uploading, setUploading] = useState(false);
   const [localPFP, setLocalPFP] = useState<string>("");
   const [UIDVisible, setUIDVisible] = useState<boolean>(false)
+  const [modalVisible, setModalVisible] = useState<boolean>(true)
 
   const onOpenActionSheet = () => {
     const options = ['Log Out', 'Cancel'];
@@ -109,9 +110,11 @@ const SettingsScreen = observer((props: any) => {
   }, [uploading]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
       <ListItem
-        // keyProp={Math.random() * 12}
         title={
           DrugStore.profile.name ??
           DrugStore.userCredentials.email.substring(
@@ -173,7 +176,6 @@ const SettingsScreen = observer((props: any) => {
         ))}
       </View>
       <ListItem
-        // keyProp={Math.random() * 12 - 1}
         title="Log Out"
         onPress={onOpenActionSheet}
         style={{

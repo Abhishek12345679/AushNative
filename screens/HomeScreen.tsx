@@ -9,14 +9,12 @@ import {
   PermissionsAndroid,
   Text,
   Alert,
-  Pressable,
 } from 'react-native';
 import DrugStore from '../store/CartStore';
 import { observer } from 'mobx-react';
 import Geolocation, { AuthorizationLevel, ErrorCallback, GeoOptions, SuccessCallback } from 'react-native-geolocation-service';
 import LocationPicker from '../components/LocationPicker';
 import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Ionicons } from '@expo/vector-icons';
 import fetchOrders from '../helpers/fetchOrders';
 import fetchAddresses from '../helpers/fetchAddresses';
 import fetchPersonalInfo from '../helpers/fetchPersonalInfo';
@@ -38,7 +36,6 @@ const HomeScreen = observer((props: any) => {
   };
 
   const geoSuccess: SuccessCallback = async (position: any) => {
-    // console.log('Success', position);
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyCjU7w1itUVJwRQKOctj6HYzySmKgUkX8I`,
     )
@@ -214,7 +211,6 @@ const HomeScreen = observer((props: any) => {
           onPressOut={() => {
             setModalVisible(false);
           }}
-
         >
           <View style={{ flex: 1 }}>
             <GooglePlacesAutocomplete

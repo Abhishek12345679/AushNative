@@ -24,9 +24,7 @@ const CameraPreviewScreen = (props: any) => {
   const [textRecognitionResponse, setTextRecognitonResponse] =
     useState<TextRecognitionResponse | undefined>(undefined);
   const [aspectRatio, setAspectRatio] = useState(1);
-
   const [loading, setLoading] = useState(false)
-
   const [showOverlay, setShowOverlay] = useState(false)
 
   const processImage = async (image: string) => {
