@@ -1,4 +1,4 @@
-<img style="width: 100px;" alt="jless mascot" src="/assets/icon.png">
+<img style="width: 100px;" alt="icon" src="/assets/icon.png">
 
 
 # Aushadhalay
@@ -51,7 +51,15 @@ Why Aushadhalay instead of other apps:
 - Intuitive 🐝
 - One Scan away from your meds 🕵🏼‍♀️ 🕵🏼‍♂️
 
-   <!-- ![Scanned](/mockups/mockups.png?raw=true) -->
+<br/>
+   <img style="width: 300px;" alt="Home" src="/mockups/homescreen.png">
+   <img style="width: 300px;" alt="scanner" src="/mockups/scanner.png">
+   <img style="width: 300px;" alt="search results screen" src="/mockups/searchresultsscreen.png">
+   <img style="width: 300px;" alt="orders screen" src="/mockups/ordersscreen.png">
+   <img style="width: 300px;" alt="order details screen" src="/mockups/orderdetailscreen.png">
+   <img style="width: 300px;" alt="order details screen 2" src="/mockups/orderdetailscreen_2.png">
+   <img style="width: 300px;" alt="search screen" src="/mockups/searchscreen.png">
+   <img style="width: 300px;" alt="settings screen" src="/mockups/settingscreen.png">
 
 
 ## MOTIVATION TO BUILD IT
