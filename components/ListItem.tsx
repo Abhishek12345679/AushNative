@@ -39,7 +39,7 @@ const ListItem = observer(({
         borderless: false,
       }}
       style={{ ...styles.listItem, ...style }}
-      onPress={toggleEmailUID}
+      onPress={toggleEmailUID ?? onPress}
       key={keyProp}>
       <View
         style={{

@@ -125,6 +125,9 @@ const ScannerNavigator = () => {
       <ScannerStackNavigator.Screen
         name="ScannedResultsScreen"
         component={ScannedResultsScreen}
+        options={{
+          headerTitle: "Search Results"
+        }}
       />
       <ScannerStackNavigator.Screen
         name="Drug"
