@@ -9,9 +9,9 @@ const hosted_link = new HttpLink({
 
 export const client = new ApolloClient({
   // uri or link (any one will do) -
-  uri: 'http://' + wifiIP + ':4001/graphql', // local
-  // uri: 'https://med-db-v1.herokuapp.com/graphql',
-  // link: hosted_link,
-  link: link,
+  // uri: 'http://' + wifiIP + ':4001/graphql', // local
+  uri: 'https://med-db-v1.herokuapp.com/graphql',
+  link: hosted_link,
+  // link: link,
   cache: new InMemoryCache(),
 });
