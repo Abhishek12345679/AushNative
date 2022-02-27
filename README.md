@@ -5,7 +5,7 @@
 Makes Life More Fun
 
 
-<img style="margin-bottom:0px;" alt="Home" src="/mockups/mockup_2.png">
+<img style="margin-bottom:0px;" alt="Home" src="/mockups/mockup_1.png">
 
 ## Tech Stack
 
