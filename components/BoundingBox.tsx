@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { BoundingBoxType } from '../mlkit/TextRecognition';
 import { Popable } from 'react-native-popable';
 
@@ -20,7 +20,7 @@ const BoundingBox = ({
     const rect = useMemo(() => {
         return {
             left: boundingBox.left * scale,
-            top: boundingBox.top * scale,
+            top: Platform.OS == "android" ? boundingBox.top * scale + 30 : boundingBox.top * scale,
             height: boundingBox.height * scale,
             width: boundingBox.width * scale,
         }
