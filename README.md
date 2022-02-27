@@ -1,5 +1,4 @@
-<img style="width: 100px;" alt="icon" src="/assets/icon.png">
-
+<img style="width: 200px;" alt="icon" src="assets/icon-512-maskable.png">
 
 # Aushadhalay
 
