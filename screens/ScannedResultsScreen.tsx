@@ -19,7 +19,7 @@ import IconWithBadge from '../components/IconWithBadge';
 export const GET_MEDICINE_COUNT = gql`
   query getMedicineCount($name: String!) {
     search(name: $name) {
-      items
+      totalItems
     }
   }
 `;
@@ -42,13 +42,14 @@ const ScannedResultsScreen = observer((props: any) => {
                     }
                 })
                 if (data) {
-                    if (data.search.items > 0) {
-                        return await getMedicine({
+                    if (data.search.totalItems > 0) {
+                        await getMedicine({
                             variables: {
-                                name: word
+                                name: word,
+                                pageSize: 10
                             }
                         })
-
+                        return
                     }
                 }
             })
@@ -101,7 +102,7 @@ const ScannedResultsScreen = observer((props: any) => {
                         color: "#fff"
                     }}
                 >
-                    {error.name}
+                    {error.message}
                 </Text>
             </View>
         );
@@ -115,7 +116,10 @@ const ScannedResultsScreen = observer((props: any) => {
                     ListHeaderComponent={
                         <View style={{ marginVertical: 10, marginStart: 5 }}>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>
-                                {data.search.drugs.length} Medicines found
+                                {data.search.totalItems} Medicines found
+                            </Text>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>
+                                Page {Math.trunc(data.search.totalItems / data.search.items)} - ( {data.search.items} Items )
                             </Text>
                         </View>
                     }

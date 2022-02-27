@@ -4,6 +4,7 @@ import {
   Text,
   View,
   FlatList,
+  SafeAreaView,
 } from 'react-native';
 import { colors } from '../constants/colors';
 import { gql, useLazyQuery } from '@apollo/client';
@@ -52,53 +53,53 @@ const SearchScreen = observer(({ navigation }) => {
 
   if (loading) {
     return (
-      <>
+      <SafeAreaView style={{ flex: 1 }}>
         <SearchBar
           navigation={navigation}
-          onChangeText={setSearchText}
+          onChangeText={(text) => setSearchText(text)}
           onSubmitEditing={() => {
-            getMedicine({ variables: { name: searchText } });
+            getMedicine({ variables: { name: searchText, pageSize: 10 } });
           }}
           searchText={searchText}
         />
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ height: "90%", justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator color="#FFF" size="large" />
         </View>
-      </>
+      </SafeAreaView>
     );
   }
 
   if (error) {
     return (
-      <>
+      <SafeAreaView style={{ flex: 1 }}>
         <SearchBar
           navigation={navigation}
-          onChangeText={setSearchText}
+          onChangeText={(text) => setSearchText(text)}
           onSubmitEditing={() => {
-            getMedicine({ variables: { name: searchText } });
+            getMedicine({ variables: { name: searchText, pageSize: 10 } });
           }}
           searchText={searchText}
         />
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ height: "90%", justifyContent: 'center', alignItems: 'center' }}>
           <Text>{error.name}</Text>
           <Text>{error.message}</Text>
         </View>
-      </>
+      </SafeAreaView>
     );
   }
 
   return (
-    <>
-      {data ?
+    <SafeAreaView style={{ flex: 1 }}>
+      {!!data ?
         <FlatList
           keyExtractor={item => item.id}
           data={data ? data.search.drugs : []}
-          ListHeaderComponent={() =>
+          ListHeaderComponent={
             <SearchBar
               navigation={navigation}
-              onChangeText={setSearchText}
+              onChangeText={(text) => setSearchText(text)}
               onSubmitEditing={() => {
-                getMedicine({ variables: { name: searchText } });
+                getMedicine({ variables: { name: searchText, pageSize: 10 } });
               }}
               searchText={searchText}
             />
@@ -117,27 +118,29 @@ const SearchScreen = observer(({ navigation }) => {
               style={{
                 backgroundColor: colors.PRIMARY,
                 borderBottomWidth: 0,
-                marginHorizontal: 10,
+                marginHorizontal: 20,
+                marginBottom: 10,
+                width: '95%',
               }}
               titleStyle={{ color: '#fff' }}
             />
           )}
         /> :
-        <>
+        <SafeAreaView style={{ flex: 1 }}>
           <SearchBar
             navigation={navigation}
-            onChangeText={setSearchText}
+            onChangeText={(text) => setSearchText(text)}
             onSubmitEditing={() => {
-              getMedicine({ variables: { name: searchText } });
+              getMedicine({ variables: { name: searchText, pageSize: 10 } });
             }}
             searchText={searchText}
           />
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ height: '90%', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ color: '#fff', fontSize: 15, fontWeight: '500' }}>Try Searching for another medicine!</Text>
           </View>
-        </>
+        </SafeAreaView>
       }
-    </>
+    </SafeAreaView>
   );
 });
 

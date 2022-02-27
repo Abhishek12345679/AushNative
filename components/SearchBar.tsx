@@ -17,13 +17,13 @@ const SearchBar = ({ navigation, onChangeText, searchText, onSubmitEditing }: Se
         <View
             style={{
                 flexDirection: 'row',
-                marginTop: StatusBar.currentHeight + 50,
+                marginTop: 20,
             }}>
             <View
                 style={{
                     width: '100%',
                     height: 60,
-                    marginBottom: 10,
+                    marginBottom: 40,
                     flexDirection: 'row',
                 }}
             >
@@ -57,7 +57,7 @@ const SearchBar = ({ navigation, onChangeText, searchText, onSubmitEditing }: Se
                         paddingHorizontal: 20,
                         borderRadius: 15,
                     }}
-                    blurOnSubmit
+                // blurOnSubmit
                 />
             </View>
         </View>

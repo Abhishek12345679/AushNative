@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, LogBox } from 'react-native';
 import RootNavigation from './navigation/RootNavigation';
-import { client } from './store/store';
+import { client } from './store';
 import { ApolloProvider } from '@apollo/client';
 import { observer } from 'mobx-react';
 import FlashMessage from 'react-native-flash-message';

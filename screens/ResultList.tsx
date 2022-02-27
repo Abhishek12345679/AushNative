@@ -16,36 +16,38 @@ import { colors } from '../constants/colors';
 import IconWithBadge from '../components/IconWithBadge';
 
 export const GET_MEDICINE = gql`
-  query getMedicine($name: String!) {
-    search(name: $name) {
-      drugs {
-        id
-        name
-        image_url
-        salt
-        price
-        habit_forming
-        requires_prescription
-        manufacturer_name
-        description {
-          introduction
-          uses
-          side_effects
-          how_to_cope_with_side_effects {
-            question
-            answer
-          }
-          how_to_use
-          how_does_it_work
-          safety_advice {
-            question
-            answer
+  query getMedicine($name: String!, $pageSize: Int!) {
+      search(name: $name, pageSize: $pageSize) {
+        drugs {
+          id
+          name
+          image_url
+          salt
+          price
+          habit_forming
+          requires_prescription
+          manufacturer_name
+          description {
+            introduction
+            uses
+            side_effects
+            how_to_cope_with_side_effects {
+              question
+              answer
+            }
+            how_to_use
+            how_does_it_work
+            safety_advice {
+              question
+              answer
+            }
           }
         }
+        items
+        totalItems
+        hasMore
       }
-      items
     }
-  }
 `;
 
 export const GET_ALTERNATE_DRUG = gql`
@@ -160,7 +162,7 @@ const ResultList = observer((props: any) => {
             <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#fff' }}>
               {mode === 'name' || mode === 'scan'
                 ? data.search.items
-                : data.findDrugForSameSalt.items}{' '}
+                : data.findDrugForSameSalt.items}
               Meds found
             </Text>
           </View>
