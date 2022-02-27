@@ -20,7 +20,7 @@ const BoundingBox = ({
     const rect = useMemo(() => {
         return {
             left: boundingBox.left * scale,
-            top: boundingBox.top * scale + 30,
+            top: boundingBox.top * scale,
             height: boundingBox.height * scale,
             width: boundingBox.width * scale,
         }

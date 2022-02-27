@@ -43,12 +43,12 @@ const ScannedResultsScreen = observer((props: any) => {
                 })
                 if (data) {
                     if (data.search.items > 0) {
-                        await getMedicine({
+                        return await getMedicine({
                             variables: {
                                 name: word
                             }
                         })
-                        return;
+
                     }
                 }
             })
