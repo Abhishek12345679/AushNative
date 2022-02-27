@@ -52,8 +52,8 @@ const ListItem = observer(({
           <Image
             source={{ uri: imageUrl }}
             style={{
-              height: 70,
-              width: 70,
+              height: 50,
+              width: 50,
               margin: 10,
               borderRadius: 5,
             }}
@@ -88,7 +88,7 @@ const ListItem = observer(({
 const styles = StyleSheet.create({
   listItem: {
     width: '100%',
-    height: 85,
+    height: 95,
     backgroundColor: colors.SECONDARY,
     flexDirection: 'row',
     alignItems: 'center',

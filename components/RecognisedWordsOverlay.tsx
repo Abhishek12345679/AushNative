@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { TextRecognitionResponse } from '../mlkit/TextRecognition';
 import BoundingBox from './BoundingBox';
 
@@ -38,23 +38,20 @@ const RecognisedWordsOverlay = ({ response, scale, navigation }: RecognisedWords
                 ...{
                     backgroundColor: "#00000050"
                 }
-            }}
-        >
-            {
-                !!words && words.map((word, i) => {
-                    return (
-                        <BoundingBox
-                            keyProp={i}
-                            boundingBox={word.rect}
-                            text={word.text}
-                            scale={scale}
-                        />
+            }}>
+            {!!words && words.map((word, i) => {
+                return (
+                    <BoundingBox
+                        keyProp={i}
+                        boundingBox={word.rect}
+                        text={word.text}
+                        scale={scale}
+                    />
 
-                    )
-                })
-            }
-        </View >
-    );
+                )
+            })}
+        </View>
+    )
 }
 
 export default RecognisedWordsOverlay;

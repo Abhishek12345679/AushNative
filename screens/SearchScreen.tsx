@@ -2,20 +2,14 @@ import React, { useState } from 'react';
 import {
   ActivityIndicator,
   Text,
-  TextInput,
   View,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Dimensions,
+  FlatList,
 } from 'react-native';
 import { colors } from '../constants/colors';
 import { gql, useLazyQuery } from '@apollo/client';
 import ListItem from '../components/ListItem';
 import { observer } from 'mobx-react';
-import { DrugType } from '../store/CartStore';
-import RoundButton from '../components/RoundButton';
-import { Ionicons } from '@expo/vector-icons'
+import SearchBar from '../components/SearchBar';
 
 const SearchScreen = observer(({ navigation }) => {
   const [searchText, setSearchText] = useState<string>('');
@@ -53,112 +47,72 @@ const SearchScreen = observer(({ navigation }) => {
   `;
   const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
+  if (data) {
+    console.log(data)
+  }
+
   if (loading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: colors.PRIMARY,
-        }}>
-        <ActivityIndicator color="#FFF" size="large" />
-      </View>
+      <>
+        <SearchBar
+          navigation={navigation}
+          onChangeText={setSearchText}
+          onSubmitEditing={() => {
+            getMedicine({ variables: { name: searchText } });
+          }}
+          searchText={searchText}
+        />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator color="#FFF" size="large" />
+        </View>
+      </>
     );
   }
 
   if (error) {
     return (
-      <View
-        style={{
-          flex: 1,
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height:
-            Dimensions.get('window').height - StatusBar.currentHeight - 100,
-        }}>
-        <Text
-          style={{
-            color: '#fff',
-          }}>
-          {error.name}
-        </Text>
-      </View>
+      <>
+        <SearchBar
+          navigation={navigation}
+          onChangeText={setSearchText}
+          onSubmitEditing={() => {
+            getMedicine({ variables: { name: searchText } });
+          }}
+          searchText={searchText}
+        />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>{error.name}</Text>
+          <Text>{error.message}</Text>
+        </View>
+      </>
     );
   }
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.PRIMARY,
-      }}
-    >
-      <View
-        style={{
-          flexDirection: 'row',
-          margin: 10,
-        }}>
-
-        <View
-          style={{
-            width: '100%',
-            height: 65,
-            marginBottom: 30,
-            flexDirection: 'row'
-          }}
-        >
-          <RoundButton
-            style={{
-              marginTop: StatusBar.currentHeight,
-              backgroundColor: "#ffffff00",
-              elevation: 0
-            }}
-            onPress={() => {
-              navigation.goBack()
-            }}
-          >
-            <Ionicons name="arrow-back" color="#fff" size={26} />
-          </RoundButton>
-          <TextInput
-            autoFocus
-            onSubmitEditing={() => {
-              getMedicine({ variables: { name: searchText } });
-            }}
-            returnKeyType="search"
-            placeholder="search here"
-            placeholderTextColor="#ccc"
-            value={searchText}
-            onChangeText={text => {
-              setSearchText(text);
-            }}
-            style={{
-              width: '85%',
-              height: '80%',
-              fontSize: 16,
-              color: '#fff',
-              backgroundColor: colors.SECONDARY,
-              marginTop: StatusBar.currentHeight,
-              paddingHorizontal: 20,
-              borderRadius: 15,
-            }}
-            blurOnSubmit
-          />
-        </View>
-      </View>
-      <ScrollView>
-        {!!data ? (
-          data.search.drugs.map((med: DrugType, index: number) => (
+    <>
+      {data ?
+        <FlatList
+          keyExtractor={item => item.id}
+          data={data ? data.search.drugs : []}
+          ListHeaderComponent={() =>
+            <SearchBar
+              navigation={navigation}
+              onChangeText={setSearchText}
+              onSubmitEditing={() => {
+                getMedicine({ variables: { name: searchText } });
+              }}
+              searchText={searchText}
+            />
+          }
+          renderItem={({ item, index }) => (
             <ListItem
               keyProp={index}
-              key={index}
-              title={med.name}
-              subtitle={`${med.salt.substring(0, 20)}...`}
-              imageUrl={med.image_url}
+              title={item.name}
+              subtitle={`${item.salt.length >= 20 ? item.salt.substring(0, 20) + "..." : item.salt}`}
+              imageUrl={item.image_url}
               onPress={() =>
                 navigation.navigate('Drug', {
-                  item: med,
+                  item: item,
                 })
               }
               style={{
@@ -168,24 +122,23 @@ const SearchScreen = observer(({ navigation }) => {
               }}
               titleStyle={{ color: '#fff' }}
             />
-          ))
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height:
-                Dimensions.get('window').height - StatusBar.currentHeight - 100,
-            }}>
-            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'normal' }}>
-              Try searching for something else!!
-            </Text>
+          )}
+        /> :
+        <>
+          <SearchBar
+            navigation={navigation}
+            onChangeText={setSearchText}
+            onSubmitEditing={() => {
+              getMedicine({ variables: { name: searchText } });
+            }}
+            searchText={searchText}
+          />
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ color: '#fff', fontSize: 15, fontWeight: '500' }}>Try Searching for another medicine!</Text>
           </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+        </>
+      }
+    </>
   );
 });
 
