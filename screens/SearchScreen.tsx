@@ -14,8 +14,8 @@ import SearchBar from '../components/SearchBar';
 const SearchScreen = observer(({ navigation }) => {
   const [searchText, setSearchText] = useState<string>('');
   const GET_MEDICINE = gql`
-    query getMedicine($name: String!) {
-      search(name: $name) {
+    query getMedicine($name: String!, $pageSize: Int!) {
+      search(name: $name, pageSize: $pageSize) {
         drugs {
           id
           name
@@ -42,6 +42,8 @@ const SearchScreen = observer(({ navigation }) => {
           }
         }
         items
+        totalItems
+        hasMore
       }
     }
   `;
