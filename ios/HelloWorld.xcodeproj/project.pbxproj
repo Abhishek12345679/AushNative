@@ -14,10 +14,9 @@
 		4626E64227BBED9B0040C4CA /* RCTMLKitTextRecognitionModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626E64127BBED9B0040C4CA /* RCTMLKitTextRecognitionModule.m */; };
 		46D6FAA125EE3E8500EF3A3E /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46D6FAA025EE3E8500EF3A3E /* BootSplash.storyboard */; };
 		6248527627AB7734BA154F65 /* libPods-HelloWorld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 952019565A2171DCEB52AE81 /* libPods-HelloWorld.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		837F04F54A17998A6CA70206 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097AEA884D6A655F81F0BA96 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		F8508B0327B03BAB00D04EAB /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		F8508B0327B03BAB00D04EAB /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		4626E64127BBED9B0040C4CA /* RCTMLKitTextRecognitionModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTMLKitTextRecognitionModule.m; sourceTree = "<group>"; };
 		46D6FAA025EE3E8500EF3A3E /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = HelloWorld/BootSplash.storyboard; sourceTree = "<group>"; };
 		782408C9EB2FAD988458E4E3 /* Pods-HelloWorld.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloWorld.debug.xcconfig"; path = "Target Support Files/Pods-HelloWorld/Pods-HelloWorld.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = HelloWorld/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		952019565A2171DCEB52AE81 /* libPods-HelloWorld.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HelloWorld.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		BB5FFB1856898A37286ADA73 /* Pods-HelloWorld.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelloWorld.release.xcconfig"; path = "Target Support Files/Pods-HelloWorld/Pods-HelloWorld.release.xcconfig"; sourceTree = "<group>"; };
@@ -61,7 +59,6 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = HelloWorld;
@@ -216,9 +213,8 @@
 				46D6FAA125EE3E8500EF3A3E /* BootSplash.storyboard in Resources */,
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				F8508B0327B03BAB00D04EAB /* BuildFile in Resources */,
+				F8508B0327B03BAB00D04EAB /* (null) in Resources */,
 				4617A87D25CB0B030021136A /* GoogleService-Info.plist in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
