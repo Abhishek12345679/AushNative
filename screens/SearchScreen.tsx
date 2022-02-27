@@ -47,9 +47,6 @@ const SearchScreen = observer(({ navigation }) => {
   `;
   const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
-  if (data) {
-    console.log(data)
-  }
 
   if (loading) {
     return (
