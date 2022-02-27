@@ -22,7 +22,7 @@ const CameraPreviewScreen = (props: any) => {
   const windowHeight = Dimensions.get("window").height;
   const image = props.route.params.photo.uri;
   const [textRecognitionResponse, setTextRecognitonResponse] =
-    useState<TextRecognitionResponse | undefined>(undefined);
+    useState<TextRecognitionResponse>();
   const [aspectRatio, setAspectRatio] = useState(1);
   const [loading, setLoading] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
@@ -35,7 +35,8 @@ const CameraPreviewScreen = (props: any) => {
           TextRecognitionResponse.height /
           TextRecognitionResponse.width
         );
-
+        console.log(TextRecognitionResponse.height /
+          TextRecognitionResponse.width)
         if (TextRecognitionResponse.blocks.length > 0) {
           setTextRecognitonResponse(TextRecognitionResponse);
         } else {
@@ -109,9 +110,9 @@ const CameraPreviewScreen = (props: any) => {
             position: 'relative',
             height: (windowWidth * aspectRatio),
             width: windowWidth,
-            marginTop: StatusBar.currentHeight
+            marginTop: StatusBar.currentHeight,
+            resizeMode: "cover"
           }}
-          resizeMode="cover"
         />
         {!!textRecognitionResponse && showOverlay && (
           <RecognisedWordsOverlay
@@ -126,7 +127,7 @@ const CameraPreviewScreen = (props: any) => {
         style={{
           position: "absolute",
           left: 10,
-          top: StatusBar.currentHeight + 10,
+          top: StatusBar.currentHeight + 50,
         }}
         onPress={() => {
           props.navigation.goBack()

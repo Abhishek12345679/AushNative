@@ -20,23 +20,24 @@ const CameraPreviewButtonsPane = ({ windowHeight, windowWidth, aspectRatio, navi
             style={{
                 width: '100%',
                 height: windowHeight - (windowWidth * aspectRatio) - StatusBar.currentHeight,
-                backgroundColor: "#000",
-                justifyContent: "center",
+                backgroundColor: "#000000",
+                justifyContent: "flex-start",
                 alignItems: 'center',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
+                borderTopLeftRadius: 5,
+                borderTopRightRadius: 5,
             }}
         >
             <View
                 style={{
                     width: 300,
                     height: 70,
-                    backgroundColor: "#fff",
+                    backgroundColor: "#ffffff",
                     borderRadius: 35,
                     flexDirection: 'row',
                     alignItems: "center",
                     paddingHorizontal: 30,
-                    elevation: 100
+                    elevation: 100,
+                    marginTop: 20,
                 }}
             >
                 <Pressable

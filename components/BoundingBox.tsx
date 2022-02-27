@@ -1,7 +1,6 @@
-import { Pressable, Text, View } from 'react-native';
-import React, { MutableRefObject, useMemo, useRef, useState } from 'react';
+import React, { useMemo } from 'react';
+import { Text, View } from 'react-native';
 import { BoundingBoxType } from '../mlkit/TextRecognition';
-
 import { Popable } from 'react-native-popable';
 
 interface BoundingBoxProps {
@@ -17,6 +16,7 @@ const BoundingBox = ({
     keyProp,
     scale,
 }: BoundingBoxProps) => {
+
     const rect = useMemo(() => {
         return {
             left: boundingBox.left * scale,
@@ -29,8 +29,6 @@ const BoundingBox = ({
         text
     ]);
 
-
-
     return (
         <View
             key={keyProp}
@@ -38,7 +36,7 @@ const BoundingBox = ({
                 position: 'absolute',
                 borderWidth: 1,
                 borderColor: '#FFF',
-                padding: 10,
+                // padding: 10,
                 borderRadius: 3,
                 elevation: 1,
                 backgroundColor: "#FFFFFF30",
@@ -46,7 +44,6 @@ const BoundingBox = ({
             }}
         >
             <Popable
-                // visible={visible}
                 animated={true}
                 animationType="spring"
                 action="press"
@@ -55,7 +52,14 @@ const BoundingBox = ({
                 position="top"
                 caretPosition="center"
                 style={{
+                    /**
+                     * the style for the popable
+                     */
                     marginBottom: 30,
+                }}
+                wrapperStyle={{
+                    backgroundColor: 'transparent',
+                    flex: 1
                 }}
                 content={
                     <View
@@ -63,7 +67,6 @@ const BoundingBox = ({
                             padding: 10,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: '#000',
                         }}
                     >
                         <Text style={{ color: "#FFF", fontWeight: "bold" }}>{text}</Text>
@@ -73,8 +76,8 @@ const BoundingBox = ({
                 <View
                     style={{
                         width: '100%',
-                        height: 20,
-                        backgroundColor: "#FFFFFF00"
+                        height: 50,
+                        backgroundColor: "transparent"
                     }}
                 >
                 </View>
