@@ -81,7 +81,6 @@ const OrderPreviewScreen = (props: any) => {
         };
 
         const paymentResponse = await RazorpayCheckout.open(RPPaymentOptions);
-        setCheckingOut(false);
 
         const verificationResponse = await verifySignature(
           order_id,
@@ -90,7 +89,6 @@ const OrderPreviewScreen = (props: any) => {
         );
 
         if (verificationResponse) {
-          console.log('Success:', verificationResponse);
           try {
             await addOrder({
               items: DrugStore.drugs,
@@ -102,12 +100,10 @@ const OrderPreviewScreen = (props: any) => {
               // prescription: fileUrl,
             });
 
-            // remove cartItems
-            if (verificationResponse.status === true) {
-              DrugStore.clearCart();
-            }
+            setCheckingOut(false);
 
             if (verificationResponse.status) {
+              DrugStore.clearCart();
               props.navigation.navigate('OrderSuccessScreen');
             } else {
               props.navigation.navigate('OrderFailureScreen');

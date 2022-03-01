@@ -6,7 +6,6 @@ import {
   ScrollView,
   StatusBar,
   Image,
-  FlatList,
 } from 'react-native';
 
 import { showMessage } from 'react-native-flash-message';
@@ -159,9 +158,10 @@ const DrugDetailScreen = observer((props: any) => {
                   </View>
                 }
               >
-                <Image
-                  source={require('../assets/pharmacy.png')}
-                  style={{ height: 50, width: 50 }}
+                <MaterialIcons
+                  name="local-pharmacy"
+                  size={50}
+                  color="#000"
                 />
               </Popable>
             )}
