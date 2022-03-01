@@ -104,9 +104,9 @@ const OrderPreviewScreen = (props: any) => {
 
             if (verificationResponse.status) {
               DrugStore.clearCart();
-              props.navigation.navigate('OrderSuccessScreen');
+              props.navigation.replace('OrderSuccessScreen');
             } else {
-              props.navigation.navigate('OrderFailureScreen');
+              props.navigation.replace('OrderFailureScreen');
             }
 
           } catch (err) {

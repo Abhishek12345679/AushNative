@@ -149,7 +149,7 @@ const DrugDetailScreen = observer((props: any) => {
                       padding: 10,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: '#FFF',
+                      backgroundColor: colors.SECONDARY,
                     }}
                   >
                     <Text style={{ color: "#FFF", fontWeight: "bold" }}>
@@ -160,8 +160,8 @@ const DrugDetailScreen = observer((props: any) => {
               >
                 <MaterialIcons
                   name="local-pharmacy"
-                  size={50}
-                  color="#000"
+                  size={40}
+                  color="#fff"
                 />
               </Popable>
             )}

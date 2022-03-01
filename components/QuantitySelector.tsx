@@ -13,17 +13,15 @@ interface QuantitySelectorProps {
 const QuantitySelector = ({ quantity, onDecrease, onIncrease }: QuantitySelectorProps) => {
   return (
     <View style={styles.container}>
-      <View>
-        <TextInput
-          style={styles.input}
-          value={quantity}
-          editable={false}
-        />
-      </View>
+      <TextInput
+        style={styles.input}
+        value={quantity}
+        editable={false}
+      />
       <View>
         <AntDesign
           name="plus"
-          size={25}
+          size={20}
           color="#fff"
           style={{
             marginBottom: 7,
@@ -32,7 +30,7 @@ const QuantitySelector = ({ quantity, onDecrease, onIncrease }: QuantitySelector
         />
         <AntDesign
           name="minus"
-          size={25}
+          size={20}
           color="#fff"
           onPress={onDecrease}
         />
@@ -43,19 +41,19 @@ const QuantitySelector = ({ quantity, onDecrease, onIncrease }: QuantitySelector
 
 const styles = StyleSheet.create({
   container: {
+    height: 60,
+    width: 70,
     backgroundColor: colors.SECONDARY,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 75,
-    width: 90,
     borderRadius: 10,
     paddingEnd: 5,
   },
   input: {
     backgroundColor: '#FFF',
-    height: 75,
-    width: 50,
+    height: 60,
+    width: 40,
     textAlign: 'center',
     fontSize: 35,
     fontWeight: 'bold',
