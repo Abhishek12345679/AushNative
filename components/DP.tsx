@@ -57,17 +57,17 @@ const DP = observer(({ loading, innerStyle, outerStyle, pfp, onPress }: DPProps)
 
 export const DPStyles = StyleSheet.create({
   outer: {
-    width: 85,
-    height: 85,
-    borderRadius: 85 / 2.0,
+    width: 75,
+    height: 75,
+    borderRadius: 75 / 2.0,
     justifyContent: 'center',
     alignItems: 'center',
     marginEnd: 15,
   },
   inner: {
-    width: 80,
-    height: 80,
-    borderRadius: 80 / 2.0,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
