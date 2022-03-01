@@ -5,13 +5,12 @@ import firebase from '@react-native-firebase/app';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firebaseConfig from '../constants/config';
 
-import { ModalPortal } from 'react-native-modals';
+// import { ModalPortal } from 'react-native-modals';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator, AuthNavigator } from './AppNavigator';
 import DrugStore from '../store/CartStore';
 import { colors } from '../constants/colors';
 import * as BootSplash from 'react-native-bootsplash';
-import SplashScreen from '../screens/SplashScreen';
 
 
 const fakeApiCallWithoutBadNetwork = (ms: number) =>
@@ -60,12 +59,11 @@ const AppContainer = observer(() => {
       theme={{
         colors: {
           background: colors.PRIMARY,
-        },
+        }
       }}>
-      {/* {initializing && <SplashScreen />} */}
       {!user && !initializing && <AuthNavigator />}
       {user && !initializing && <MainNavigator />}
-      <ModalPortal />
+      {/* <ModalPortal /> */}
     </NavigationContainer>
   );
 });

@@ -53,12 +53,17 @@ const CheckoutStackNavigator = createNativeStackNavigator();
 const CheckoutNavigator = () => {
   return (
     <CheckoutStackNavigator.Navigator
+      initialRouteName="SelectAddress"
       screenOptions={{
+        headerShown: true,
         headerStyle: {
           backgroundColor: colors.PRIMARY,
         },
         headerTintColor: '#FFF',
-      }}>
+        headerLargeTitle: false,
+        headerBackTitle: ""
+      }}
+    >
       <CheckoutStackNavigator.Screen
         name="SelectAddress"
         component={SelectAddressScreen}
@@ -67,9 +72,6 @@ const CheckoutNavigator = () => {
       <CheckoutStackNavigator.Screen
         name="AddAddressModalScreen"
         component={AddAddressModalScreen}
-        options={{
-          headerLargeTitle: false,
-        }}
       />
       <CheckoutStackNavigator.Screen
         name="UploadPrescription"
@@ -90,12 +92,15 @@ const CheckoutNavigator = () => {
         name="OrderSuccessScreen"
         component={OrderSuccessScreen}
         options={{
-          headerShown: true,
+          headerShown: false,
         }}
       />
       <CheckoutStackNavigator.Screen
         name="OrderFailureScreen"
         component={OrderFailureScreen}
+        options={{
+          headerShown: false,
+        }}
       />
     </CheckoutStackNavigator.Navigator>
   );
@@ -189,15 +194,6 @@ export const RootNavigator = () => {
           headerTintColor: '#fff',
         }}
       />
-      {/* 
-      <RootStackNavigator.Screen
-        name="CheckoutFlow"
-        component={CheckoutNavigator}
-        options={{
-          gestureEnabled: false,
-          headerShown: false,
-        }}
-      /> */}
     </RootStackNavigator.Navigator>
   );
 };
@@ -347,8 +343,7 @@ export const MainNavigator = () => {
         name="CheckoutFlow"
         component={CheckoutNavigator}
         options={{
-          gestureEnabled: false,
-          headerShown: false,
+          headerShown: false
         }}
       />
     </MainStackNavigator.Navigator>

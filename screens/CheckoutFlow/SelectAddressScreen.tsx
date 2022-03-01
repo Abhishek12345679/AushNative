@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   StatusBar,
   FlatList,
   Pressable,
   RefreshControl,
+  Platform,
 } from 'react-native';
 import Address from '../../components/Address';
 import DrugStore, { AddressType } from '../../store/CartStore';
 import fetchAddresses from '../../helpers/fetchAddresses';
 import { colors } from '../../constants/colors';
 import BigButton from '../../components/BigButton';
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useIsFocused } from '@react-navigation/native';
 
 const SelectAddressScreen = (props: any) => {
@@ -57,7 +57,6 @@ const SelectAddressScreen = (props: any) => {
               onRefresh={fetchStuff}
             />
           }
-          keyExtractor={item => item.ph_no}
           contentContainerStyle={{
             // justifyContent: 'center',
             // alignItems: 'center'
@@ -139,7 +138,6 @@ export const screenOptions = (navData: any) => {
   return {
     headerTitle: 'Addresses',
     headerLargeTitle: false,
-    headerShown: true,
     headerRight: () => (
       <Pressable
         style={{
@@ -157,6 +155,25 @@ export const screenOptions = (navData: any) => {
           navData.navigation.navigate('AddAddressModalScreen');
         }}>
         <Ionicons name="md-add" size={30} color="#fff" />
+      </Pressable>
+    ),
+    headerLeft: () => (
+      <Pressable
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        android_ripple={{
+          color: "#fff",
+          borderless: true
+        }}
+        onPress={() => {
+          navData.navigation.goBack();
+        }}>
+        {Platform.OS === "ios" ?
+          <MaterialIcons name="keyboard-arrow-left" size={40} color="#fff" /> :
+          <Ionicons name="arrow-back" size={40} color="#fff" />
+        }
       </Pressable>
     ),
   };
