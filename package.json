@@ -6,7 +6,9 @@
         "start": "npx react-native start",
         "android": "npx react-native run-android",
         "ios": "npx react-native run-ios",
-        "test": "jest --coverage"
+        "test": "jest --coverage",
+        "dev-build-android": "eas build -p android --profile development",
+        "prod-build-android": "eas build -p android --profile production"
     },
     "dependencies": {
         "@apollo/client": "^3.5.8",
