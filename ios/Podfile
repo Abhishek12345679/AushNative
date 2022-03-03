@@ -8,7 +8,9 @@ platform :ios, '12.0'
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
-target 'HelloWorld' do
+
+abstract_target 'common' do
+# put common target configuration here
   use_expo_modules!
   config = use_native_modules!
 
@@ -20,9 +22,8 @@ target 'HelloWorld' do
   
   pod 'GoogleMLKit/TextRecognition','2.2.0'
 
-   # Uncomment to opt-in to using Flipper
+  # Uncomment to opt-in to using Flipper
   use_flipper!()
-
 
   post_install do |installer|
     react_native_post_install(installer)
@@ -41,5 +42,8 @@ target 'HelloWorld' do
     end
   end
 
+  target 'HelloWorld-prod' do
+  end
+  target 'HelloWorld' do
+  end
 end
-

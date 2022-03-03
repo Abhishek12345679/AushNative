@@ -11,17 +11,11 @@
                 "image": "ubuntu-18.04-jdk-11-ndk-r19c"
             },
             "ios": {
-                "buildConfiguration": "Debug"
+                "buildConfiguration": "Debug",
+                "scheme": "HelloWorld"
             }
         },
         "preview": {
-            "distribution": "internal",
-            "android": {
-                "buildType": "apk",
-                "image": "ubuntu-18.04-jdk-11-ndk-r19c"
-            }
-        },
-        "preview2": {
             "distribution": "internal",
             "android": {
                 "node": "16.13.0",
@@ -30,7 +24,11 @@
         },
         "production": {
             "android": {
-                "gradleCommand": ":app:bundleProductionRelease"
+                "gradleCommand": ":app:bundleProductionRelease",
+                "ios": {
+                    "buildConfiguration": "Release",
+                    "scheme": "HelloWorld-prod"
+                }
             }
         }
     },
