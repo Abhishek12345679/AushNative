@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import DrugStore from '../../store/CartStore';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { showMessage } from 'react-native-flash-message';
 import updatePersonalInfo from '../../helpers/updatePersonalInfo'
 import { colors } from '../../constants/colors'
@@ -20,6 +20,7 @@ import BigButton from '../../components/BigButton'
 const AuthenticationScreen = observer(() => {
   const [loading, setLoading] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
+
 
   const signUp = async (name: string, email: string, password: string) => {
     try {
@@ -45,13 +46,14 @@ const AuthenticationScreen = observer(() => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+
       if (error.code === 'auth/email-already-in-use') {
         Alert.alert('That email address is already in use!');
+      } else if (error.code === 'auth/invalid-email') {
+        Alert.alert("Auth Error", 'That email address is invalid!');
+      } else {
+        Alert.alert("Error", error.message);
       }
-      if (error.code === 'auth/invalid-email') {
-        Alert.alert('That email address is invalid!');
-      }
-      Alert.alert("[Error]: ", error);
     }
   };
 
@@ -68,11 +70,13 @@ const AuthenticationScreen = observer(() => {
 
       if (error.code === 'auth/email-already-in-use') {
         Alert.alert('That email address is already in use!');
+      } else if (error.code === 'auth/invalid-email') {
+        Alert.alert("Auth Error", 'That email address is invalid!');
+      } else if (error.code === 'auth/user-not-found') {
+        Alert.alert("Auth Error", 'No user associated with these credentials');
+      } else {
+        Alert.alert("Error", error.message);
       }
-      if (error.code === 'auth/invalid-email') {
-        Alert.alert('That email address is invalid!');
-      }
-      Alert.alert("[Error]: ", error);
     }
   };
 
@@ -85,8 +89,11 @@ const AuthenticationScreen = observer(() => {
           marginTop: 20,
           paddingVertical: 20,
           paddingHorizontal: 15
-        }}>
-        <Text style={{ color: '#fff', fontSize: 50, fontWeight: 'bold' }}>
+        }}
+      >
+        <Text
+          style={{ color: '#fff', fontSize: 50, fontWeight: 'bold' }}
+        >
           {!isNewUser ? "Hello! 🥳" : "Welcome\nBack 🥳"}
         </Text>
         <Formik
