@@ -88,7 +88,7 @@ const ListItem = observer(({
 const styles = StyleSheet.create({
   listItem: {
     width: '100%',
-    height: 95,
+    height: 80,
     backgroundColor: colors.SECONDARY,
     flexDirection: 'row',
     alignItems: 'center',

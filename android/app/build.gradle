@@ -190,20 +190,6 @@ android {
         }
     }
 
-    variantFilter { variant ->
-        def validVariants = [
-                ["production", "release"],
-                ["development", "debug"],
-        ]
-        def buildTypeName = variant.buildType*.name
-        def flavorName = variant.flavors*.name
-
-        def isValid = validVariants.any { flavorName.contains(it[0]) && buildTypeName.contains(it[1]) }
-        if (!isValid) {
-            setIgnore(true)
-        }
-    }
-
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->

@@ -6,7 +6,9 @@
         "development": {
             "distribution": "internal",
             "android": {
-                "gradleCommand": ":app:assembleDevelopmentDebug"
+                "gradleCommand": ":app:assembleDevelopmentDebug",
+                "node": "16.13.0",
+                "image": "ubuntu-18.04-jdk-11-ndk-r19c"
             },
             "ios": {
                 "buildConfiguration": "Debug"
