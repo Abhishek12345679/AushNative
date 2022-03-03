@@ -6,7 +6,7 @@
         "development": {
             "distribution": "internal",
             "android": {
-                "gradleCommand": ":app:assembleDebug"
+                "gradleCommand": ":app:assembleDevelopmentDebug"
             },
             "ios": {
                 "buildConfiguration": "Debug"
@@ -26,7 +26,11 @@
                 "image": "ubuntu-18.04-jdk-11-ndk-r19c"
             }
         },
-        "production": {}
+        "production": {
+            "android": {
+                "gradleCommand": ":app:bundleProductionRelease"
+            }
+        }
     },
     "submit": {
         "production": {}

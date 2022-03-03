@@ -77,6 +77,7 @@ import com.android.build.OutputFile
  * ]
  */
 
+
 project.ext.react = [
     enableHermes: (findProperty('expo.jsEngine') ?: "jsc") == "hermes",
     // cliPath: new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/cli.js",
@@ -173,6 +174,33 @@ android {
             // minifyEnabled enableProguardInReleaseBuilds
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    // app variants
+    flavorDimensions "env"
+    productFlavors {
+        production {
+            dimension "env"
+            applicationId 'com.aush.aush.prod'
+        }
+        development {
+            dimension "env"
+            applicationId 'com.aush.aush'
+        }
+    }
+
+    variantFilter { variant ->
+        def validVariants = [
+                ["production", "release"],
+                ["development", "debug"],
+        ]
+        def buildTypeName = variant.buildType*.name
+        def flavorName = variant.flavors*.name
+
+        def isValid = validVariants.any { flavorName.contains(it[0]) && buildTypeName.contains(it[1]) }
+        if (!isValid) {
+            setIgnore(true)
         }
     }
 
