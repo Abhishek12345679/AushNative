@@ -21,7 +21,6 @@ import SelectAddressScreen, {
 } from '../screens/CheckoutFlow/SelectAddressScreen';
 import UploadPrescriptionScreen from '../screens/CheckoutFlow/UploadPrescriptionScreen';
 import OrderPreviewScreen from '../screens/CheckoutFlow/OrderPreviewScreen';
-import SplashScreen from '../screens/SplashScreen';
 import MyWebView from '../screens/Settings/MyWebView';
 import { Ionicons } from '@expo/vector-icons';
 import OrderDetailScreen, {
@@ -163,8 +162,6 @@ const RootStackNavigator = createNativeStackNavigator();
 export const RootNavigator = () => {
   return (
     <RootStackNavigator.Navigator initialRouteName="Home">
-      <RootStackNavigator.Screen name="SplashScreen" component={SplashScreen} />
-
       <RootStackNavigator.Screen
         name="Home"
         component={HomeScreen}

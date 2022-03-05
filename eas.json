@@ -24,7 +24,9 @@
     },
     "production": {
       "android": {
-        "gradleCommand": ":app:bundleProductionRelease"
+        "gradleCommand": ":app:bundleProductionRelease",
+        "node": "16.13.0",
+        "image": "ubuntu-18.04-jdk-11-ndk-r19c"
       },
       "ios": {
         "buildConfiguration": "Release",
