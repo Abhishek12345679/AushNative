@@ -22,25 +22,25 @@ const SearchScreen = observer(({ navigation }) => {
           name
           image_url
           salt
-          price
-          habit_forming
-          requires_prescription
-          manufacturer_name
-          description {
-            introduction
-            uses
-            side_effects
-            how_to_cope_with_side_effects {
-              question
-              answer
-            }
-            how_to_use
-            how_does_it_work
-            safety_advice {
-              question
-              answer
-            }
-          }
+          # price
+          # habit_forming
+          # requires_prescription
+          # manufacturer_name
+          # description {
+          #   introduction
+          #   uses
+          #   side_effects
+          #   how_to_cope_with_side_effects {
+          #     question
+          #     answer
+          #   }
+          #   how_to_use
+          #   how_does_it_work
+          #   safety_advice {
+          #     question
+          #     answer
+          #   }
+          # }
         }
         items
         totalItems
@@ -88,6 +88,8 @@ const SearchScreen = observer(({ navigation }) => {
     );
   }
 
+  if (data) console.log(data)
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {!!data ?
@@ -112,7 +114,7 @@ const SearchScreen = observer(({ navigation }) => {
               imageUrl={item.image_url}
               onPress={() =>
                 navigation.navigate('Drug', {
-                  item: item,
+                  drugId: item.id,
                 })
               }
               style={{

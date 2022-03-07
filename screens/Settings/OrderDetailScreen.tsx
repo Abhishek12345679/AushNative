@@ -45,6 +45,11 @@ const OrderDetailScreen = observer((props: any) => {
             key={index}
             drug={drug}
             keyProp={index}
+            onPress={() =>
+              props.navigation.navigate('Drug', {
+                drugId: drug.id,
+              })
+            }
           />
         ))}
       </View>

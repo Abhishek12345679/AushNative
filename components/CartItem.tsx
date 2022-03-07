@@ -8,11 +8,16 @@ interface CartItemProps {
     keyProp: number | string;
     drug: DrugType;
     removeFromCart?: () => void
+    onPress?: () => void
 }
 
-const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
+const CartItem = ({ keyProp, drug, removeFromCart, onPress }: CartItemProps) => {
     return (
-        <View
+        <Pressable
+            android_ripple={{
+                color: '#fff',
+                borderless: false
+            }}
             key={keyProp}
             style={{
                 width: '100%',
@@ -22,7 +27,9 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                 height: 150,
                 marginVertical: 10,
                 paddingVertical: 5
-            }}>
+            }}
+            onPress={onPress}
+        >
             <View
                 style={{
                     flexDirection: 'row',
@@ -94,7 +101,7 @@ const CartItem = ({ keyProp, drug, removeFromCart }: CartItemProps) => {
                     </View>
                 </View>
             </View>
-        </View >
+        </Pressable>
     )
 }
 
