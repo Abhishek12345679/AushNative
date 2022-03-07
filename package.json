@@ -7,8 +7,12 @@
         "android": "npx react-native run-android",
         "ios": "npx react-native run-ios",
         "test": "jest --coverage",
-        "dev-build-android": "eas build -p android --profile development",
-        "prod-build-android": "eas build -p android --profile production"
+        "dev-build-android-remote": "eas build -p=android --profile=development",
+        "prod-build-android": "eas build -p=android --profile=production",
+        "dev-build-android-debug-local": "expo run:android --variant=developmentDebug",
+        "dev-build-android-release-local": "expo run:android --variant=developmentRelease",
+        "prod-build-android-debug-remote": "eas build -p=android --profile=production",
+        "prod-build-android-release-remote": "eas build -p=android --profile=production"
     },
     "dependencies": {
         "@apollo/client": "^3.5.8",

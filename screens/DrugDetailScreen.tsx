@@ -102,7 +102,7 @@ const DrugDetailScreen = observer((props: any) => {
           onPress={() => props.navigation.navigate("Cart")}
         />
       ),
-      headerTitle: data ? data.name : 'Drug',
+      headerTitle: data ? data.getDrug.name : 'Drug',
       headerStyle: {
         backgroundColor: colors.PRIMARY,
       },
