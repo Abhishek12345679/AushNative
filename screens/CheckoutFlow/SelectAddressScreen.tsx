@@ -172,7 +172,7 @@ export const screenOptions = (navData: any) => {
         }}>
         {Platform.OS === "ios" ?
           <MaterialIcons name="keyboard-arrow-left" size={40} color="#fff" /> :
-          <Ionicons name="arrow-back" size={40} color="#fff" />
+          <Ionicons name="arrow-back" size={25} color="#fff" />
         }
       </Pressable>
     ),
