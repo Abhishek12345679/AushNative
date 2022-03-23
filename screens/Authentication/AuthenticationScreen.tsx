@@ -17,7 +17,7 @@ import updatePersonalInfo from '../../helpers/updatePersonalInfo'
 import { colors } from '../../constants/colors'
 import BigButton from '../../components/BigButton'
 import * as Yup from 'yup';
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import FormFieldError from '../../components/FormFieldError';
 
 const AuthenticationScreen = observer(() => {
   const [loading, setLoading] = useState(false);
@@ -145,7 +145,7 @@ const AuthenticationScreen = observer(() => {
               {isNewUser &&
                 errors.name &&
                 touched.name &&
-                <Text style={styles.errorText}>{errors.name}</Text>
+                <FormFieldError errorText={errors.name} />
               }
               <TextInput
                 placeholder="joe@joe.com"
@@ -156,7 +156,7 @@ const AuthenticationScreen = observer(() => {
               />
               {errors.email &&
                 touched.email &&
-                <Text style={styles.errorText}>{errors.email}</Text>
+                <FormFieldError errorText={errors.email} />
               }
               <TextInput
                 placeholderTextColor="#ccc"
@@ -168,10 +168,7 @@ const AuthenticationScreen = observer(() => {
               />
               {errors.password &&
                 touched.password &&
-                <View style={styles.errorContainer}>
-                  <MaterialCommunityIcons name="close-circle" size={18} color="#FF3232" />
-                  <Text style={styles.errorText}>{errors.password}</Text>
-                </View>
+                <FormFieldError errorText={errors.password} />
               }
               <BigButton
                 buttonStyle={{
@@ -209,20 +206,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     color: '#fff',
     fontSize: 17,
-    borderRadius: 5
-  },
-  errorText: {
-    color: "#FF3232",
-    fontWeight: 'normal',
-    marginStart: 10,
-    fontSize: 15
-  },
-  errorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.SECONDARY,
-    width: 175,
-    padding: 5,
     borderRadius: 5
   }
 });
