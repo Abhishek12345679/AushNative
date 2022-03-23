@@ -66,7 +66,7 @@ const BigButton = ({ text, onPress, loading, buttonStyle, disabled, subtitle, ti
                     </Text>}
                 </View>
             ) : (
-                <ActivityIndicator size="small" color="#fff" />
+                <ActivityIndicator size="small" color={titleStyle.color ? titleStyle.color : "#fff"} />
             )}
         </Pressable>
     )
