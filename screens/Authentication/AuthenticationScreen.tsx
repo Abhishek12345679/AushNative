@@ -11,15 +11,28 @@ import {
 } from 'react-native';
 
 import DrugStore from '../../store/CartStore';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import { showMessage } from 'react-native-flash-message';
 import updatePersonalInfo from '../../helpers/updatePersonalInfo'
 import { colors } from '../../constants/colors'
 import BigButton from '../../components/BigButton'
+import * as Yup from 'yup';
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const AuthenticationScreen = observer(() => {
   const [loading, setLoading] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
+
+  const signupSchema = Yup.object().shape({
+    name: Yup.string().required('Enter Name'),
+    email: Yup.string().email('Invalid email').required('Email Required'),
+    password: Yup.string().min(8, "Password should be >= 8 characters.").required('Password Required')
+  });
+
+  const loginSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email').required('Email Required'),
+    password: Yup.string().min(8, "Password should be >= 8 characters.").required('Password Required')
+  });
 
 
   const signUp = async (name: string, email: string, password: string) => {
@@ -81,12 +94,12 @@ const AuthenticationScreen = observer(() => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <StatusBar barStyle="light-content" />
       <View
         style={{
           width: '100%',
-          marginTop: 20,
+          marginTop: 50,
           paddingVertical: 20,
           paddingHorizontal: 15
         }}
@@ -97,6 +110,7 @@ const AuthenticationScreen = observer(() => {
           {!isNewUser ? "Hello! 🥳" : "Welcome\nBack 🥳"}
         </Text>
         <Formik
+          validationSchema={isNewUser ? signupSchema : loginSchema}
           initialValues={{
             name: '',
             email: '',
@@ -117,7 +131,7 @@ const AuthenticationScreen = observer(() => {
             }
           }}
         >
-          {({ handleChange, handleSubmit }) => (
+          {({ handleChange, handleSubmit, errors, touched }) => (
             <View style={{ marginTop: 50 }}>
               {isNewUser && (
                 <TextInput
@@ -128,6 +142,11 @@ const AuthenticationScreen = observer(() => {
                   autoCapitalize="none"
                 />
               )}
+              {isNewUser &&
+                errors.name &&
+                touched.name &&
+                <Text style={styles.errorText}>{errors.name}</Text>
+              }
               <TextInput
                 placeholder="joe@joe.com"
                 placeholderTextColor="#ccc"
@@ -135,6 +154,10 @@ const AuthenticationScreen = observer(() => {
                 onChangeText={handleChange('email')}
                 autoCapitalize="none"
               />
+              {errors.email &&
+                touched.email &&
+                <Text style={styles.errorText}>{errors.email}</Text>
+              }
               <TextInput
                 placeholderTextColor="#ccc"
                 secureTextEntry
@@ -143,12 +166,22 @@ const AuthenticationScreen = observer(() => {
                 onChangeText={handleChange('password')}
                 autoCapitalize="none"
               />
+              {errors.password &&
+                touched.password &&
+                <View style={styles.errorContainer}>
+                  <MaterialCommunityIcons name="close-circle" size={18} color="#FF3232" />
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                </View>
+              }
               <BigButton
-                // disabled={}
                 buttonStyle={{
-                  backgroundColor: "skyblue",
-                  marginTop: 20,
-                  marginBottom: 5
+                  backgroundColor: "#fff",
+                  marginTop: 30,
+                  marginBottom: 20,
+                }}
+                titleStyle={{
+                  color: '#000',
+                  fontSize: 18
                 }}
                 text={isNewUser ? "Join Us" : "Login"}
                 onPress={handleSubmit}
@@ -169,8 +202,6 @@ const AuthenticationScreen = observer(() => {
 });
 
 const styles = StyleSheet.create({
-  container: {
-  },
   input: {
     height: 60,
     backgroundColor: colors.SECONDARY,
@@ -180,6 +211,20 @@ const styles = StyleSheet.create({
     fontSize: 17,
     borderRadius: 5
   },
+  errorText: {
+    color: "#FF3232",
+    fontWeight: 'normal',
+    marginStart: 10,
+    fontSize: 15
+  },
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.SECONDARY,
+    width: 175,
+    padding: 5,
+    borderRadius: 5
+  }
 });
 
 export default AuthenticationScreen;
