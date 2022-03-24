@@ -21,7 +21,7 @@ const SearchBar = ({ navigation, onChangeText, searchText, onSubmitEditing }: Se
             }}>
             <View
                 style={{
-                    width: '100%',
+                    width: '95%',
                     height: 60,
                     marginBottom: 40,
                     flexDirection: 'row',
