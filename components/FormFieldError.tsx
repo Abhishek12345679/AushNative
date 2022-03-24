@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { colors } from '../constants/colors';
 
 interface FormFieldErrorTypes {
     errorText: string

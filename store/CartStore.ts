@@ -112,6 +112,7 @@ const DrugStore = types
     didTryAutoLogin: types.optional(types.boolean, false),
     timer: types.optional(types.number, 0),
     location: types.optional(location, {}),
+    prevSearches: types.array(types.string),
   })
   .views(self => ({
     get getCount() {
@@ -201,6 +202,13 @@ const DrugStore = types
     },
     addAddresses(addresses: Array<AddressType>) {
       self.addresses = cast(addresses);
+    },
+  }))
+  .actions(self => ({
+    addToPrevSearches(searchQuery: string) {
+      if (searchQuery) {
+        self.prevSearches.push(searchQuery);
+      }
     },
   }))
   .create({});

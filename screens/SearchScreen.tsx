@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Text,
   View,
   FlatList,
   SafeAreaView,
+  Pressable,
 } from 'react-native';
+
 import { colors } from '../constants/colors';
 import { gql, useLazyQuery } from '@apollo/client';
 import ListItem from '../components/ListItem';
 import { observer } from 'mobx-react';
 import SearchBar from '../components/SearchBar';
+import DrugStore from '../store/CartStore';
+import { AntDesign } from '@expo/vector-icons'
 
 const SearchScreen = observer(({ navigation }) => {
   const [searchText, setSearchText] = useState<string>('');
@@ -22,25 +26,6 @@ const SearchScreen = observer(({ navigation }) => {
           name
           image_url
           salt
-          # price
-          # habit_forming
-          # requires_prescription
-          # manufacturer_name
-          # description {
-          #   introduction
-          #   uses
-          #   side_effects
-          #   how_to_cope_with_side_effects {
-          #     question
-          #     answer
-          #   }
-          #   how_to_use
-          #   how_does_it_work
-          #   safety_advice {
-          #     question
-          #     answer
-          #   }
-          # }
         }
         items
         totalItems
@@ -48,8 +33,8 @@ const SearchScreen = observer(({ navigation }) => {
       }
     }
   `;
-  const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
+  const [getMedicine, { loading, data, error }] = useLazyQuery(GET_MEDICINE);
 
   if (loading) {
     return (
@@ -75,8 +60,8 @@ const SearchScreen = observer(({ navigation }) => {
         <SearchBar
           navigation={navigation}
           onChangeText={(text) => setSearchText(text)}
-          onSubmitEditing={() => {
-            getMedicine({ variables: { name: searchText, pageSize: 10 } });
+          onSubmitEditing={async () => {
+            await getMedicine({ variables: { name: searchText, pageSize: 10 } });
           }}
           searchText={searchText}
         />
@@ -88,7 +73,12 @@ const SearchScreen = observer(({ navigation }) => {
     );
   }
 
-  if (data) console.log(data)
+  if (data) {
+    if (data.search.drugs.length > 0) {
+      DrugStore.addToPrevSearches(searchText)
+    }
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -100,8 +90,8 @@ const SearchScreen = observer(({ navigation }) => {
             <SearchBar
               navigation={navigation}
               onChangeText={(text) => setSearchText(text)}
-              onSubmitEditing={() => {
-                getMedicine({ variables: { name: searchText, pageSize: 10 } });
+              onSubmitEditing={async () => {
+                await getMedicine({ variables: { name: searchText, pageSize: 10 } });
               }}
               searchText={searchText}
             />
@@ -132,13 +122,52 @@ const SearchScreen = observer(({ navigation }) => {
           <SearchBar
             navigation={navigation}
             onChangeText={(text) => setSearchText(text)}
-            onSubmitEditing={() => {
-              getMedicine({ variables: { name: searchText, pageSize: 10 } });
+            onSubmitEditing={async () => {
+              await getMedicine({ variables: { name: searchText, pageSize: 10 } });
             }}
             searchText={searchText}
           />
-          <View style={{ height: '90%', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: '#fff', fontSize: 15, fontWeight: '500' }}>Try Searching for another medicine!</Text>
+          <View
+            style={{
+              marginHorizontal: 20,
+            }}
+          >
+            <Text style={{ color: "#fff", fontSize: 15, fontWeight: 'bold', marginBottom: 10 }}>
+              Previous Searches
+            </Text>
+            {
+              DrugStore.prevSearches.map((searchQ, index) => (
+                <Pressable
+                  key={index}
+                  android_ripple={{
+                    color: "#fff",
+                    borderless: false
+                  }}
+                  style={{
+                    height: 40,
+                    justifyContent: 'space-between',
+                    marginStart: 5,
+                    alignItems: 'center',
+                    flexDirection: 'row'
+                  }}
+                  onPress={async () => {
+                    await getMedicine({ variables: { name: searchQ, pageSize: 10 } });
+                  }}
+                >
+                  <Text style={{ color: '#fff' }}>{searchQ}</Text>
+                  <AntDesign
+                    style={{
+                      transform: [{
+                        rotate: '45deg'
+                      }]
+                    }}
+                    name="arrowup"
+                    color="#fff"
+                    size={15}
+                  />
+                </Pressable>
+              ))
+            }
           </View>
         </SafeAreaView>
       }
