@@ -127,48 +127,60 @@ const SearchScreen = observer(({ navigation }) => {
             }}
             searchText={searchText}
           />
-          <View
-            style={{
-              marginHorizontal: 20,
-            }}
-          >
-            <Text style={{ color: "#fff", fontSize: 15, fontWeight: 'bold', marginBottom: 10 }}>
-              Previous Searches
-            </Text>
-            {
-              DrugStore.prevSearches.map((searchQ, index) => (
-                <Pressable
-                  key={index}
-                  android_ripple={{
-                    color: "#fff",
-                    borderless: false
-                  }}
-                  style={{
-                    height: 40,
-                    justifyContent: 'space-between',
-                    marginStart: 5,
-                    alignItems: 'center',
-                    flexDirection: 'row'
-                  }}
-                  onPress={async () => {
-                    await getMedicine({ variables: { name: searchQ, pageSize: 10 } });
-                  }}
-                >
-                  <Text style={{ color: '#fff' }}>{searchQ}</Text>
-                  <AntDesign
-                    style={{
-                      transform: [{
-                        rotate: '45deg'
-                      }]
+          {DrugStore.prevSearches.length > 0 ?
+            <View
+              style={{
+                marginHorizontal: 20,
+              }}
+            >
+              <Text style={{ color: "#fff", fontSize: 15, fontWeight: 'bold', marginBottom: 10 }}>
+                Previous Searches
+              </Text>
+              {
+                DrugStore.prevSearches.map((searchQ, index) => (
+                  <Pressable
+                    key={index}
+                    android_ripple={{
+                      color: "#fff",
+                      borderless: false
                     }}
-                    name="arrowup"
-                    color="#fff"
-                    size={15}
-                  />
-                </Pressable>
-              ))
-            }
-          </View>
+                    style={{
+                      height: 40,
+                      justifyContent: 'space-between',
+                      marginStart: 5,
+                      alignItems: 'center',
+                      flexDirection: 'row'
+                    }}
+                    onPress={async () => {
+                      await getMedicine({ variables: { name: searchQ, pageSize: 10 } });
+                    }}
+                  >
+                    <Text style={{ color: '#fff' }}>{searchQ}</Text>
+                    <AntDesign
+                      style={{
+                        transform: [{
+                          rotate: '45deg'
+                        }]
+                      }}
+                      name="arrowup"
+                      color="#fff"
+                      size={15}
+                    />
+                  </Pressable>
+                ))
+              }
+            </View> :
+            <View
+              style={{
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Text style={{ color: "#fff" }}>Type something to search...</Text>
+            </View>
+
+          }
         </SafeAreaView>
       }
     </SafeAreaView>
