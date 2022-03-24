@@ -4,7 +4,7 @@ import { colors } from '../constants/colors'
 
 interface BigButtonProps {
     disabled?: boolean;
-    text?: string;
+    text: string;
     subtitle?: string;
     onPress: () => void;
     loading?: boolean;
