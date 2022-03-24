@@ -80,6 +80,7 @@ const SearchScreen = observer(({ navigation }) => {
   }
 
 
+  // TODO: Add Previous Searches to the AsyncStorage
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {!!data ?
