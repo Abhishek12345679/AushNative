@@ -153,6 +153,7 @@ const AuthenticationScreen = observer(() => {
                 style={styles.input}
                 onChangeText={handleChange('email')}
                 autoCapitalize="none"
+                textContentType="oneTimeCode"
               />
               {errors.email &&
                 touched.email &&
